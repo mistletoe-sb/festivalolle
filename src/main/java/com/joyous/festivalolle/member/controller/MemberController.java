@@ -1,4 +1,4 @@
-package com.joyous.festivalolle.controller;
+package com.joyous.festivalolle.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
