@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class OrganizationVO {
 	
-	private int organization_code;
-	private String organization_name;
+	private int organizationCode;
+	private String organizationName;
 	private String address;
 }
