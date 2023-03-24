@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
-	<body>
-		<div>
-			★로그인 성공★
-		</div>
-	</body>
-</html>
+ <%@ include file="../admintop.jsp" %>
+
+	<div class="container-fluid">
+		★축제 관리 페이지★
+	</div>
+
+
+
+
+
+
+
+
+
+
+<%@ include file="../adminfooter.jsp" %>

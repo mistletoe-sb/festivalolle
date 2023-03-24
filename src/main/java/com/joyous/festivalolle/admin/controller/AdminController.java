@@ -23,21 +23,28 @@ public class AdminController {
 	@Autowired
 	IAdminService adminService;
 	
+	/*
+	 * @GetMapping(value="/adminindex") public String adminindex(Model model,
+	 * HttpSession session) { return "adminindex"; }
+	 */
 	
+	/*
+	 * @GetMapping(value="/login") public String adminlogin(Model model, HttpSession
+	 * session) { return "admin/login"; }
+	 */
 	
 	//관리자 로그인화면으로 이동
 	//@RequestMapping(value="/admin", method=RequestMethod.GET)
 	
 	@GetMapping(value="/admin")
 	public String login(Model model, HttpSession session) {
-		return "admin/adminlogin";
+		return "admin/login";
 	}//관리자 로그인화면으로 이동
 	
 	//관리자 로그인
 	//@RequestMapping(value="/admin", method=RequestMethod.POST)
 	
 	@PostMapping(value="/admin")
-	@ResponseBody
 	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();
 		adminVO = adminService.adminLogin(id, password);
@@ -45,15 +52,25 @@ public class AdminController {
 		if(adminVO != null) {
 			int adminType = adminVO.getStatus();
 			if(adminType == 0) {
-				return "redirect:/systemhome";			
+				return "admin/systemhome";			
 			} else if(adminType == 2) {
-				return "redirect:/adminhome";
-			}		
+				
+				session.setAttribute("loginUser", adminVO);		//세션에 VO 담아줌
+				
+				return "adminindex";
+			}
 		} else {
 			System.out.println("로그인 실패");				
 		}
 		return null;
 	}
+	
+	@GetMapping(value="/admin/festivallist")
+	public String festivalList(Model model, HttpSession session) {
+		return "admin/adminhome";
+	}
+	
+	//@GetMapping(value="")
 	
 
 }

@@ -14,11 +14,13 @@
 	 -->
 <!-- ====================================================================================================================== -->
 	
-	<select id="adminLogin" resultType="int">
+	<select id="adminLogin" resultType="com.joyous.festivalolle.admin.model.AdminVO">
 		<![CDATA[
-			SELECT STATUS FROM FESTIVALOLLE.ADMIN WHERE id = #{id} AND password = #{password}
+			SELECT * FROM FESTIVALOLLE.v_admin WHERE id = #{id} AND password = #{password}
 		]]>
 	</select>
+	
+	
 
 
 
@@ -27,4 +29,3 @@
 
 
 
-<!-- 작성자 : 정재웅 -->
