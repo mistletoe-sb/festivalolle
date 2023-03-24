@@ -9,16 +9,17 @@
 
 <!-- ================================================ 축제 리스트 =================================================== -->	
 
-	<select id="selectFestivalList" resultType="com.joyous.festivalolle.festival.model.festivalVO">
+	<select id="selectFestivalList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
 			FROM FESTIVAL
+			WHERE organization_code = #{organizationCode}
 		]]>
 	</select>
 	
 <!-- ================================================ 축제 상세정보 =================================================== -->	
 
-	<select id="selectFestivaInfo" resultType="com.joyous.festivalolle.festival.model.festivalVO">
+	<select id="selectFestivalInfo" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
 			FROM v_festival
@@ -28,31 +29,30 @@
 	
 <!-- ================================================ 축제 추가 =================================================== -->	
 
-	<insert id="selectFestivaInfo" parameterType="com.joyous.festivalolle.festival.model.festivalVO">
+	<insert id="insertFestival" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<selectKey keyProperty="festivalCode" resultType="int" order="BEFORE">
+			<![CDATA[SELECT festival_code_seq.NEXTVAL FROM DUAL]]>
+		</selectKey>
 		<![CDATA[
 			INSERT INTO FESTIVAL(
-				festival_code
-				title
-				state_name
-				city_name
-				address
-				start_date
-				end_date
-				fee
-				url
-				organization_code
-				telephone
-				admin_name
-				detail
-				tags
-				register_date
+				festival_code,
+				title,
+				state_name,
+				city_name,
+				address,
+				start_date,
+				end_date,
+				fee,
+				url,
+				organization_code,
+				telephone,
+				admin_name,
+				detail,
+				tags,
+				register_date,
 				status
-				festival_image_code
-				file_name
-				image
-				thumbnail
 			)VALUES(
-				festival_code_seq.NEXTVAL,  
+				#{festivalCode},  
 				#{title}, 
 				#{stateName}, 
 				#{cityName},
@@ -66,18 +66,31 @@
 				#{adminName},
 				#{detail},
 				#{tags},
-				SYSDATE,
-				#{status}
-				festival_image_code_seq, 
-				#{fileName}
-				#{image}
+				TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+				#{status})
+				
+		]]>
+	</insert>
+	
+	<insert id="insertFestivalImage" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			INSERT INTO FESTIVAL(
+				festival_image_code,
+				festival_code,
+				file_name,
+				image,
+				thumbnail
+			)VALUES(	
+				#{festivalCode}, 
+				#{fileName},
+				#{image},
 				#{thumbnail})
 		]]>
 	</insert>
 	
 <!-- ================================================ 축제 수정(삭제) =================================================== -->	
 
-	<update id="updateFestival" parameterType="com.joyous.festivalolle.festival.model.festivalVO">
+	<update id="updateFestival" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			UPDATE
 				FESTIVAL

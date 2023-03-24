@@ -9,6 +9,6 @@
 </head>
 <body>
 <span>굿굿</span>
-<button onclick="location.href='<c:url value='/index'/>'">버튼</button>
+<button onclick="location.href='<c:url value='/admin/festivallist'/>'">버튼</button>
 </body>
 </html>
