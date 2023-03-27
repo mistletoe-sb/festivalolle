@@ -4,7 +4,6 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
 
     <meta charset="utf-8">
@@ -23,7 +22,6 @@
 
     <!-- Custom styles for this template-->
     <link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body class="bg-gradient-primary">

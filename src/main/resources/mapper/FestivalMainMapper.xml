@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.festival.repository.IFestivalMainRepository">
+
+	<select id="selectFestivalMainList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.v_festival_main WHERE status = 1
+			ORDER BY end_date ASC, start_date ASC, rating DESC
+		]]>
+	</select>
+	
+</mapper>
