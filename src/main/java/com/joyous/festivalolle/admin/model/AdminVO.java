@@ -12,7 +12,7 @@ public class AdminVO {
 	private String name;
 	private String telephone;
 	private String email;
-	private String requesTime;
+	private String requestTime;
 	private String approveTime;
 	private int status;
 	

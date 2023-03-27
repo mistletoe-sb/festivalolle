@@ -3,7 +3,7 @@
  <%@ include file="../admintop.jsp" %>
 
 	<div class="container-fluid">
-		★축제 관리 페이지★
+		★내용삽입★
 	</div>
 
 

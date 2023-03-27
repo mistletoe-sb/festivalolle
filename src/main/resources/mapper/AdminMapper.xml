@@ -14,15 +14,72 @@
 	 -->
 <!-- ====================================================================================================================== -->
 	
+	<!-- 로그인 -->
 	<select id="adminLogin" resultType="com.joyous.festivalolle.admin.model.AdminVO">
 		<![CDATA[
 			SELECT * FROM FESTIVALOLLE.v_admin WHERE id = #{id} AND password = #{password}
 		]]>
 	</select>
 	
+	<!-- 로그인 동적 sql-->
+	<!-- <select id="adminLogin" resultType="com.joyous.festivalolle.admin.model.AdminVO">		
+		<![CDATA[ SELECT * FROM FESTIVALOLLE.v_admin ]]>
+		<where>
+			id = #{id}
+			<if test="password != null"></if>
+		</where>	
+	</select> -->
 	
-
-
+	<!-- <select id="overlapChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		<where>
+			<if test="email != null">
+				EMAIL = #{email}
+			</if>
+			<if test="nickname != null">
+				AND NICKNAME = #{nickname}
+			</if>
+			<if test="phoneNumber != null">
+				AND PHONE_NUMBER = #{phoneNumber}
+			</if>		
+		</where>
+	</select> -->
+	
+	<!-- 관리자 등록 -->
+	<insert id="registerAdmin" parameterType="com.joyous.festivalolle.admin.model.AdminVO">
+		<![CDATA[
+		INSERT INTO festivalolle.admin
+			(admin_code, id, password, organization_code, name, 
+			telephone, email)
+		VALUES
+			(admin_code_seq.NEXTVAL, #{id}, #{password}, #{organizationCode}, 
+			#{name}, #{telephone}, #{email})
+		]]>
+	</insert>
+	
+	<!-- 관리자 등록 페이지: 기관명으로 기관 코드 가져오기 -->
+	<select id="organizationCode" resultType="int">
+		<![CDATA[
+		SELECT organization_code FROM festivalolle.organization WHERE organization_name = #{organizationName}
+		]]>
+	</select>
+	
+	<!-- <select id="getAdminList" resultType="com.joyous.festivalolle.admin.model.AdminVO">
+		
+		SELECT id, organization_name, address, name, telephone, email, request_time, approve_time, status FROM festivalolle.v_admin WHERE status != 0
+	
+	</select> -->
+	
+	<select id="getAdminList" resultType="com.joyous.festivalolle.admin.model.AdminVO" parameterType="String">
+		SELECT id, organization_name, address, name, telephone, email, request_time, approve_time, status FROM festivalolle.v_admin
+		<where>
+			status != 0
+			<if test="id != null">
+				id = #{id}
+			</if>
+						
+		</where>
+	</select>
 
 
 </mapper>

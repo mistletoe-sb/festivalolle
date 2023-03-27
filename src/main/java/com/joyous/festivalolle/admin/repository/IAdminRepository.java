@@ -1,11 +1,29 @@
 package com.joyous.festivalolle.admin.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
 
 
 public interface IAdminRepository {
+	//작성자 이기쁨
+	//로그인
 	AdminVO adminLogin(@Param("id") String id, @Param("password") String password);
-
+	
+	//관리자 등록
+	int registerAdmin(AdminVO adminVO);
+	
+	//관리자 등록: 기관 코드 가져오기
+	int organizationCode(@Param("organizationName") String organizationName);
+	
+	//시스템 관리자: 가입 승인 관리/리스트 출력
+	List<AdminVO> getAdminList();
+	
+	//시스템 관리자: 기관 상세보기
+	AdminVO getAdminList(@Param("id") String id);
+	
+	
+	
 }

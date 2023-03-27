@@ -78,7 +78,7 @@
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="<c:url value='/admin/register'/>">관리자 등록</a>
                                     </div>
                                 </div>
                             </div>
