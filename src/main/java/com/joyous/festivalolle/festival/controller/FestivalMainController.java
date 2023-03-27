@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.joyous.festivalolle.festival.service.IFestivalMainService;
 
@@ -22,19 +21,8 @@ public class FestivalMainController {
 	// 홈화면에 표시할 축제 리스트 정보 조회하여 데이터 전달
 	@GetMapping(value="/home")
 	public String selectFestivalMainList(Model model) {
-		int recommend = 7;
-		model.addAttribute("recommendList", festivalMainService.selectFestivalRecommendList(recommend));	// 추천 목록
-		model.addAttribute("defaultList", festivalMainService.selectFestivalMainList());					// 기본 목록
-		model.addAttribute("recommend", recommend);															// 추천 개수
+		model.addAttribute("defaultList", festivalMainService.selectFestivalMainList());
 		
 		return "homepage";
 	}
-	
-	// 축제 상세 정보 조회하여 데이터 전달
-	@GetMapping(value="/festival/info/{festivalCode}")
-	public String selectFestivalInfo(Model model, @PathVariable int festivalCode) {
-		model.addAttribute("fesInfo", festivalMainService.selectFestialInfo(festivalCode));	// 상세 정보
-		return "festival/festivalinfo";
-	}
-	
 }

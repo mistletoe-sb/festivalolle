@@ -14,6 +14,5 @@ public class FestivalMainVO {
 	private String fileName;	// 이미지 파일명
 	private byte[] image;		// 이미지 원본
 	private byte[] thumbnail;	// 썸네일
-	private float rating;		// 평균 평점
-	private int visitors;		// 이용객 수
+	private float rating;		// 평균 평점	
 }
