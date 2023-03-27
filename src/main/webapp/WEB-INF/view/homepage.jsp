@@ -107,8 +107,6 @@
 				align-items: center;
 			}
 			.swipe_layout p {display:none}
-			.swiper-slide {
-			}
 		</style>
 	</head>
 	<body>
