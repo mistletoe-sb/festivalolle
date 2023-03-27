@@ -1,0 +1,80 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'nanum';
+    src: url('../font/NanumSquareRoundR.ttf') format('truetype');
+}
+/* 공통 적용 */
+body {
+	position: relative;
+	background: rgb(255, 255, 255);
+	font-size: 16px;
+	font-family: 'nanum';
+}
+/* 추천 축제 목록 레이아웃 */
+.recommend_list_layout {
+	width: 100%;
+	height: 60vmax;
+	padding-top: 3vmax;
+	padding-bottom: 6vmax;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	display: flex;
+}
+/* 기본 축제 목록 레이아웃 */
+.default_list_layout {
+	width: 100%;
+	padding: 0vmin 8.3vmin;
+}
+/* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
+.dailystory_card_container {
+	display: inline-block;
+	width: 83vmin;
+	cursor: pointer;
+	margin-bottom: 8.3vmin;
+}
+.card {
+	border: 0.1rem solid rgb(242, 242, 242);
+	border-radius: 1rem;
+}
+.card-body {
+	padding-top: 8px;
+}
+.ratio {
+	--bs-aspect-ratio: 120%;
+}
+/* 아이콘 + 텍스트가 배치되는 레이아웃*/
+.icon_layout {
+	display: inline-block;
+}
+/* 문단 형태의 텍스트 */
+.multi_line_text {
+	white-space: pre-line;
+}
+/* 모바일 하단 메뉴바 */
+.bottom_menu {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 8vh;
+	z-index: 100;
+	border-top: 1px solid black;
+	background-color: white
+}
+.bottom_menu > div {
+	float: left;
+	width: 25%;
+	height: 100%;
+	text-align: center;
+	padding-top: 1vh;
+}
+.bottom_menu > div > img {
+	object-fit: contain;
+	width: 50%;
+	height: 50%;
+}
+.bottom_menu > div > p {
+	margin: 0px;
+	font-size: 12px;
+}
