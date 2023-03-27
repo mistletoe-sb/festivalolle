@@ -11,4 +11,20 @@
 		]]>
 	</select>
 	
+	<select id="selectFestivalRecommendList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT * FROM 
+			(SELECT * FROM festivalolle.v_festival_main 
+			WHERE status = 1
+			ORDER BY (NVL(rating,0) * 0.5) + (visitors * 0.5) DESC)
+			WHERE ROWNUM <= #{recommend}
+		]]>
+	</select>
+	
+	<select id="selectFestialInfo" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.v_festival
+			WHERE festival_code = #{festivalCode}
+		]]>
+	</select>
 </mapper>
