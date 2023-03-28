@@ -7,7 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.festivalReview.service.FestivalReviewService;
 
@@ -52,11 +55,22 @@ public class FestivalReviewController {
 				return "adminreview/test";
 			}//리뷰 리스트 출력
 			
+			@GetMapping("/test1")
+			@ResponseBody
+			public List<V_ReviewListVO> getTest1(V_ReviewListVO reviewVO, Model model) {
+				List<V_ReviewListVO> test = festivalReviewService.festivalReviewList(reviewVO);
+				model.addAttribute("test", test);
+				return test;
+			}//리뷰 리스트 출력
+			
+			
+			
 			@GetMapping("/test3")
-			public String getTest3(V_ReviewListVO reviewVO, Model model) {
+			@ResponseBody
+			public List<V_ReviewListVO> getTest3(V_ReviewListVO reviewVO, Model model) {
 				List<V_ReviewListVO> test = festivalReviewService.selectReport(reviewVO);
 				model.addAttribute("test", test);
-				return "adminreview/test";
+				return test;
 			}//신고 리스트 출력
 
 	        @GetMapping("/test2/{festivalReviewCode}")
