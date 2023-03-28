@@ -30,21 +30,23 @@ public class SystemController {
 	
 	//시스템 관리자: 관리자 상세보기
 	
-	/*
-	 * @GetMapping(value="/system/admindetail")
-	 * 
-	 * @ResponseBody public String adminDetail(@RequestBody String id, Model model,
-	 * HttpSession session) {
-	 * 
-	 * AdminVO adminDetail = new AdminVO(); adminDetail =
-	 * adminService.getAdminList(id); //model.addAttribute("adminDetail",
-	 * adminDetail); System.out.println("됨");
-	 * 
-	 * //return (adminService.getAdminList(id) == 1)? "ok":"fail"; return
-	 * "system/admindetail";
-	 * 
-	 * }
-	 */
+	
+	  @GetMapping(value="/system/admindetail")
+	  
+	  @ResponseBody public AdminVO adminDetail(@RequestBody String id, Model model, HttpSession session) {
+	  
+	  AdminVO adminDetail = new AdminVO(); 
+	  adminDetail = adminService.getAdminList(id); 
+	  //model.addAttribute("adminDetail", adminDetail); 
+	  System.out.println("됨");
+	  
+	  //return (adminService.getAdminList(id) == 1)? "ok":"fail"; 
+	  
+	  
+	  return adminDetail;
+	  
+	  }
+	 
 	 
  
 

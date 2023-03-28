@@ -198,8 +198,8 @@
         </div>
     </div>
     
- <script>    
-	     /* $('#adminDetail').blur(function(){
+ 	<script>    
+ 		$('#adminDetail').click(function(){
 			var adminId = $('#adminId').text();
 			
 			//아이디 클릭해서 상세정보 불러오기
@@ -208,15 +208,24 @@
 				type: "post",
 				data: {adminId: adminId},
 				success: function(data){
-					$('#organization_code').val(data);							
+					//$('#organization_code').val(data);	
+					console.log("됐다!")
+					
+					
 				},//end success
 				error:function(){
-					alert("기관 코드 없음");
+					alert("안가져옴");
 				}//end error														
 			})//end 기관코드ajax		
-		})  */
+		})  
     
     </script>   
+    <!-- Bootstrap core JavaScript-->
+    <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
+    <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="<c:url value='/resources/vendor/jquery-easing/jquery.easing.min.js'/>"></script>
 
 
 
