@@ -67,7 +67,7 @@
                 <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
          
                 <!-- "<c:url value='/admin/festivallist'/>" -->
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-table" id="festialList"></i>
                     <span>축제 관리</span></a>
             </li>
 

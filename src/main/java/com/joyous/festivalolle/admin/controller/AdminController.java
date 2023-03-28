@@ -24,7 +24,7 @@ import com.joyous.festivalolle.admin.service.IAdminService;
 @Controller
 public class AdminController {
 	
-	//private final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@Autowired
 	IAdminService adminService;
@@ -59,7 +59,7 @@ public class AdminController {
 	//로그아웃
 	@GetMapping(value="/admin/logout")
 	public String logout(HttpSession session, Model model, Locale locale) {
-		//logger.info("세션 파기 전", locale);
+		logger.info("세션 파기 전", locale);
 		session.invalidate();
 		//logger.info("세션 파기 후", locale);
 		return "redirect:/admin";

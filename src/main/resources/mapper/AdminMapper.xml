@@ -71,15 +71,44 @@
 	</select> -->
 	
 	<select id="getAdminList" resultType="com.joyous.festivalolle.admin.model.AdminVO" parameterType="String">
-		SELECT id, organization_name, address, name, telephone, email, request_time, approve_time, status FROM festivalolle.v_admin
-		<where>
-			status != 0
+		SELECT id, organization_name, address, name, telephone, email, 
+				request_time, approve_time, status 
+		FROM festivalolle.v_admin
+		WHERE status != 0
+		
 			<if test="id != null">
-				id = #{id}
+				AND id = #{id}
 			</if>
-						
-		</where>
+								
 	</select>
+	
+	<update id="adminApproval" parameterType="String">
+		UPDATE admin
+		SET status = 2, approve_time = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')
+		WHERE id= #{id}
+	</update> 
+	
+	<!-- 관리자 계정 검색 -->
+	<select id="adminSearch" resultType="com.joyous.festivalolle.admin.model.AdminVO" parameterType="String">
+		SELECT * FROM v_admin
+		WHERE id LIKE  '%'|| #{keyword} || '%'
+	</select>
+	
+	<!-- <select id="overlapChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		<where>
+			<if test="email != null">
+				EMAIL = #{email}
+			</if>
+			<if test="nickname != null">
+				AND NICKNAME = #{nickname}
+			</if>
+			<if test="phoneNumber != null">
+				AND PHONE_NUMBER = #{phoneNumber}
+			</if>		
+		</where>
+	</select> -->
+	
 
 
 </mapper>

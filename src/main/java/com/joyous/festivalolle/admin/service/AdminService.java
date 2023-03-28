@@ -1,6 +1,7 @@
 package com.joyous.festivalolle.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,5 +48,24 @@ public class AdminService implements IAdminService {
 	public AdminVO getAdminList(String id) {
 		return adminRepository.getAdminList(id);
 	}
+	
+	//시스템 관리자: 관리자 가입 승인
+	@Override
+	public int adminApproval(String id) {
+		return adminRepository.adminApproval(id);
+	}
+	
+	//시스템 관리자: 관리자 검색
+	//@Override
+	//public List<Map<String, Object>> adminSearch(Map<String, Object> paramMap) throws Exception{
+	//	return adminRepository.adminSearch(paramMap);
+	//}
+	
+	//시스템 관리자: 관리자 검색
+	@Override
+	public List<AdminVO> adminSearch(String keyword) {
+		return adminRepository.adminSearch(keyword);
+	}
+		
 
 }
