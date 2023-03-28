@@ -198,7 +198,7 @@
         </div>
     </div>
     
-    <script>    
+ <script>    
 	     /* $('#adminDetail').blur(function(){
 			var adminId = $('#adminId').text();
 			
@@ -216,7 +216,7 @@
 			})//end 기관코드ajax		
 		})  */
     
-    </script>
+    </script>   
 
 
 

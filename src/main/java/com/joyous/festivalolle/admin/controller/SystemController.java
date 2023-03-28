@@ -29,6 +29,7 @@ public class SystemController {
 	}
 	
 	//시스템 관리자: 관리자 상세보기
+	
 	/*
 	 * @GetMapping(value="/system/admindetail")
 	 * 
@@ -44,6 +45,7 @@ public class SystemController {
 	 * 
 	 * }
 	 */
+	 
  
 
 	

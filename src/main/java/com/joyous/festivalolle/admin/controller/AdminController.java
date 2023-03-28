@@ -87,10 +87,10 @@ public class AdminController {
 	}
 
 	//각 항목으로 이동
-	@GetMapping(value="/admin/festivallist")
-	public String festivalList(Model model, HttpSession session) {
-		return "admin/adminhome";
-	}
+	/*
+	 * @GetMapping(value="/admin/festivallist") public String festivalList(Model
+	 * model, HttpSession session) { return "admin/adminhome"; }
+	 */
 
 	
 
