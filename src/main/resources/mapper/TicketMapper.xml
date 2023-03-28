@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.ticket.repository.ITicketRepository">
+
+<!-- 작성자: 이혜성 -->
+
+	<!-- 구매자 전체 리스트 출력 -->
+	<select id="ticketBuyerList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+		select * from V_TICKET_BUYER_LIST
+	</select>
+	
+	<!-- 구매자 리스트 전체 수  -->
+	<select id="totalBuyerCount" resultType="int"> 
+		select*count from v_ticket_buyer_list
+	</select>
+</mapper>
+	
