@@ -17,14 +17,12 @@
     <!-- Custom fonts for this template-->
     <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
     <!-- "<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" -->
-    
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet">
-	
 </head>
 
 <body class="bg-gradient-primary">
@@ -42,7 +40,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             
-                             <%-- action="<c:url value='admin/register'/>" method="post"  --%>
+                            <%-- action="<c:url value='admin/register'/>" method="post"  --%>
                             <form class="user">                                                             
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="register_id"

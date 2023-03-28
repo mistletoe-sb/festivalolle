@@ -20,6 +20,4 @@ public class AdminVO {
 	private String organizationName;
 	private String address;
 		
-	
-	
 }

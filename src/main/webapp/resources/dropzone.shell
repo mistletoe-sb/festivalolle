@@ -1,0 +1,3 @@
+$ npm install dropzone # 노드
+
+$ yarn add dropzone
