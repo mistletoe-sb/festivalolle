@@ -14,13 +14,14 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
-				<th scope="col"><input type="button" class="form-control" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-				<input type="text" class="form-control" id="sample6_address" placeholder="주소">
-				<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호">
-				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소">
+				
+				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+				<input type="text" class="form-control" id="sample6_address" placeholder="주소" required>
+				<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
+				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required>
 				<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목"></th>
 				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도">
-				<input type="hidden" class="form-control" id="cityName" id="sample6_sigooAddress" placeholder="시구">
+				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구">
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">시작일자</label></th>
@@ -58,73 +59,7 @@
 		
 			<fieldset>
 
-			<div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">축제명</label>
-		        <input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-				<label for="exampleFormControlInput1" class="form-label">주소</label>
-			</div>
-			<div class="mb-3"style="display: inline-block">
-				<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호">
-			</div>
-			<div class="mb-3"style="display: inline-block">
-				<input type="button" class="form-control" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-			</div>
 
-		    <div class="mb-3">
-				
-		        <input type="text" class="form-control" id="stateName" name="stateName" placeholder="시/도를 입력하세요" required>
-		        <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소">
-				<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
-				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도">
-				<input type="hidden" class="form-control" id="cityName" id="sample6_sigooAddress" placeholder="시구">
-		    </div>
-		    <div class="mb-3" style="display: inline-block">
-		        <label for="exampleFormControlInput1" class="form-label">시/도</label>
-		        <input type="text" class="form-control" id="stateName" name="stateName" placeholder="시/도를 입력하세요" required>
-		    </div>
-		    <div class="mb-3" style="display: inline-block">
-		        <label for="exampleFormControlInput1" class="form-label">시/군/구</label>
-		        <input type="text" class="form-control" id="cityName" name="cityName" placeholder="시/군/구를 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">상세주소</label>
-		        <input type="text" class="form-control" id="cityName" name="cityName" placeholder="상세주소를 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">시작일자</label>
-		        <input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">종료일자</label>
-		        <input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">입장료</label>
-		        <input type="number" class="form-control" id="fee" name="fee" placeholder="금액을 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">홈페이지 URL</label>
-		        <input type="text" class="form-control" id="url" name="url" placeholder="url을 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">기관전화번호</label>
-		        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="전화번호를 입력하세요" required>
-		    </div>
-		    <div class="mb-3">
-		            <label for="exampleFormControlTextarea1" class="form-label">상세설명</label>
-		            <textarea class="form-control" id="detail" name="detail" rows="6" placeholder="상세설명을 입력하세요" required></textarea>
-		    </div>
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">태그</label>
-		        <input type="text" class="form-control" id="tags" name="tags" placeholder="태그를 입력하세요" required>
-		    </div>
-		    
-		    <div class="mb-3">
-		        <label for="exampleFormControlInput1" class="form-label">이미지</label>
-		        <input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
-		    </div>
 		    <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
 		            <input type="submit" class="btn btn-primary" value='등록하기'>
 		        </div>
@@ -137,13 +72,13 @@
 		</form>
 		
 		
-		<input type="text" id="sample6_postcode" placeholder="우편번호">
+		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">
 		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 		<input type="text" id="sample6_address" placeholder="주소"><br>
 		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
 		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 		<input type="text" id="sample6_doAddress" placeholder="도">
-		<input type="text" id="sample6_sigooAddress" placeholder="시구">
+		<input type="text" id="sample6_sigooAddress" placeholder="시구"> -->
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

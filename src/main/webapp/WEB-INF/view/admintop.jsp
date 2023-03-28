@@ -13,6 +13,7 @@
     <meta name="author" content="">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+
     <title>관리자</title>
 
     <!-- Custom fonts for this template-->
@@ -144,7 +145,6 @@
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginUser.organizationName}&nbsp &nbsp |&nbsp &nbsp ${loginUser.name}</span>
                                 <!-- <img class="img-profile rounded-circle"
                                     src="resources/img/undraw_profile.svg"> -->
-                                    
                                 <img class="img-profile rounded-circle"
                                     src="<c:url value='/resources/img/undraw_profile.svg'/>"> 
                                   
