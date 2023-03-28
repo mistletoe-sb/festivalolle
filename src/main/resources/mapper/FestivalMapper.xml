@@ -73,17 +73,21 @@
 	</insert>
 	
 	<insert id="insertFestivalImage" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<selectKey keyProperty="festivalImageCode" resultType="int" order="BEFORE">
+			<![CDATA[SELECT festival_image_code_seq.NEXTVAL FROM DUAL]]>
+		</selectKey>
 		<![CDATA[
-			INSERT INTO FESTIVAL(
+			INSERT INTO FESTIVAL_IMAGE(
 				festival_image_code,
 				festival_code,
 				file_name,
 				image,
 				thumbnail
-			)VALUES(	
+			)VALUES(
+				#{festivalImageCode}
 				#{festivalCode}, 
 				#{fileName},
-				#{image},
+				#{festivalCode} || #{festivalImageCode} || #{fileName},
 				#{thumbnail})
 		]]>
 	</insert>
