@@ -1,0 +1,223 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'nanum';
+    src: url('../font/NanumSquareRoundR.ttf') format('truetype');
+}
+
+/* 공통 적용 */
+body {
+	position: relative;
+	background: rgb(255, 255, 255);
+	font-size: 16px;
+	font-family: 'nanum';
+}
+
+/* 추천 축제 목록 레이아웃 */
+.recommend_list_layout {
+	width: 100vmin;
+	height: 60vmax;
+	padding-top: 3vmax;
+	padding-bottom: 6vmax;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	display: flex;
+}
+
+/* 기본 축제 목록 레이아웃 */
+.default_list_layout {
+	width: 100%;
+	padding: 0vmin 8.3vmin;
+}
+
+/* 축제 상세 페이지 레이아웃 */
+.festival_info_layout {
+	font-weight: 800;
+	padding: 0vw 5vw;
+}
+.festival_info_layout h3 {
+	font-weight: bold !important;
+	display: inline-block;
+	margin-right: 8.5vw;
+}
+.d-day_info {
+	display: inline-block;
+}
+/* 이미지 */
+.info_swiper {
+	padding: 0vw 3.5vw;
+}
+.festival_info_img {
+	width: 83vmin;
+	text-align: center;
+}
+.img_layout {
+	width: 100%;
+	object-fit: contain;
+}
+/* 상세 정보 메뉴(북마크, 입장권 구매, 리뷰)*/
+.festival_info_menu_container {
+	padding: 0vw 3.5vw;
+}
+.festival_info_menu {
+	width: 83vw;
+	height: 8vh;
+	border: 1px solid rgb(233, 233, 233);
+	border-radius: 0.8rem;
+	background-color: rgb(242, 242, 242);
+	font-size: 10px;
+}
+.festival_info_menu_empty {
+	float: left;
+	width: 5%;
+	height: 100%;
+}
+.ori_vertical {
+	float: left;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	justify-content: center;
+	padding-top: 1.5vh;
+}
+.ori_vertical p {
+	margin: 0px;
+}
+.festival_info_menu .icon_layout img {
+	object-fit: contain;
+	width: 50%;
+	height: 50%;
+}
+
+/* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
+.festival_card_container {
+	display: inline-block;
+	width: 83vmin;
+	cursor: pointer;
+	margin-bottom: 8.3vmin;
+	font-size: 14px;
+	font-weight: 800;
+}
+.festival_card_container .card {
+	border: 0.1rem solid rgb(242, 242, 242);
+	border-radius: 1rem;
+}
+.festival_card_container .card-body {
+	padding-top: 8px;
+}
+.festival_card_container .ratio {
+	--bs-aspect-ratio: 120%;
+}
+.festival_card_container .card-img-top {
+	object-fit: cover;
+	width: 100%;
+}
+.festival_card_container .festival_location {
+	display: inline-block;
+	width: 80%;
+}
+
+/* 아이콘 + 텍스트가 배치되는 레이아웃*/
+.icon_layout {
+	display: inline-block;
+}
+.icon_layout img {
+	object-fit: contain;
+}
+/* 평점 아이콘 + 텍스트 */
+.rating_img {
+	width: 5vw;
+	height: 2.7vh;
+	text-align: right;
+}
+.rating_img img {
+	width: 80%;
+	height: 80%;
+	vertical-align: top;
+}
+.rating_txt {
+	width: 7.5vw;
+	height: 2.7vh;
+	letter-spacing: 1px;
+	text-align: left;
+	font-weight: 800;
+}
+
+/* 문단 형태의 텍스트 */
+.multi_line_text {
+	white-space: pre-line;
+}
+
+/* 모바일 하단 메뉴바 */
+.bottom_menu {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 8vh;
+	z-index: 100;
+	/*border-top: 1px solid black;*/
+	background-color: white;
+	box-shadow: 0px -2px 4px 0px rgba(0,0,0,0.1);
+}
+.bottom_menu > div {
+	float: left;
+	width: 25%;
+	height: 100%;
+	text-align: center;
+	padding-top: 1vh;
+}
+.bottom_menu img {
+	object-fit: contain;
+	width: 50%;
+	height: 50%;
+}
+.bottom_menu > div > p {
+	margin: 0px;
+	font-size: 10px;
+	font-weight: 800;
+	color: rgb(25,25,25);
+}
+.bottom_empty {
+	height: 9vh;
+	width: 100%;
+}
+
+/* 모바일 상단 메뉴바 */
+.top_empty {
+	width: 100%;
+	height: 8.5vh;
+}
+.top_menu {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 8vh;
+	z-index: 100;
+	background-color: white;
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
+}
+.top_menu > div {
+	padding-top: 2.5vh;
+}
+.top_menu > div > div {
+	float: left;
+	height: 5vh;
+	width: 16%;
+	text-align: center;
+}
+.top_menu img {
+	object-fit: contain;
+	height: 80%;
+	width: 60%;
+}
+.page_title {
+	width: 68% !important;
+}
+.page_title > p {
+	font-size: 20px;
+	font-weight: 800;
+	color: rgb(25,25,25);
+	margin: 0px;
+}

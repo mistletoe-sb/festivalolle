@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Joyous</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="<c:url value='/resources/css/homepage-mobile.css'/>" />
+		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>" />
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 		<style type="text/css">
@@ -26,33 +26,35 @@
 		</style>
 	</head>
 	<body>
+		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<%-- 축제 상세정보 출력할 레이아웃 --%>
 		<div class="festival_info_layout">
 			<div>
 				<h3>${fesInfo[0].title}</h3>
-				<button></button>
+				<button class="btn btn-secondary d-day_info">D-DAY</button>
 			</div>
 			<div>
-				<div class="icon_layout">
-					<img src="<c:url value='/resources/img/rating_icon.jpg'/>" alt="평점">
+				<div class="icon_layout rating_img">
+					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
 				</div>
-				<div class="icon_layout">							
+				<div class="icon_layout rating_txt">							
 					<p>${fesInfo[0].rating}</p>
 				</div>
 			</div>
 			<div>
-				<div class="icon_layout">
-					<img src="<c:url value='/resources/img/place_icon.jpg'/>" alt="장소">
+				<div class="icon_layout place_img">
+					<img src="<c:url value='/resources/img/icon/place_icon.jpg'/>" alt="장소">
 				</div>
-				<div class="icon_layout">							
+				<div class="icon_layout place_txt">							
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
 				</div>
 			</div>
 			<div class="swiper-container info_swiper">
 			    <div class="swiper-wrapper">
 					<c:forEach var="fes" items="${fesInfo}" varStatus="stat">
-				        <div class="swiper-slide">
-							<img src="${fes.image}" class="img_layout" alt="image">
+				        <div class="swiper-slide festival_info_img">
+							<%-- <img src="${fes.image}" class="img_layout" alt="image"> --%>
+							<img src="<c:url value='/resources/img/festest3.jpg'/>" class="img_layout" alt="image">
 						</div>
 					</c:forEach>
 			    </div>
@@ -60,23 +62,25 @@
 				<div class="swiper-button-prev"></div>
 			    <div class="swiper-pagination"></div>
 			</div>
-			<div>
-				<div><%-- 아이콘 div --%>
-					<div class="icon_layout">
-						<img src="<c:url value='/resources/img/bookmark_icon.jpg'/>" alt="북마크">
+			<div class="festival_info_menu_container">
+				<div class="festival_info_menu"><%-- 아이콘 div --%>
+					<div class="festival_info_menu_empty"></div>
+					<div class="icon_layout ori_vertical">
+						<img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
 						<br>
 						<p>북마크</p>
 					</div>
-					<div class="icon_layout">
-						<img src="<c:url value='/resources/img/ticket_icon.jpg'/>" alt="구매">
+					<div class="icon_layout ori_vertical">
+						<img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="구매">
 						<br>
 						<p>구매</p>
 					</div>
-					<div class="icon_layout">
-						<img src="<c:url value='/resources/img/review_icon.jpg'/>" alt="리뷰">
+					<div class="icon_layout ori_vertical">
+						<img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
 						<br>
 						<p>리뷰</p>
 					</div>
+					<div class="festival_info_menu_empty"></div>
 				</div>
 			</div>
 			<div>
@@ -137,10 +141,10 @@
 				<div class="icon_layout">							
 					<p>전체 평점</p>
 				</div>
-				<div class="icon_layout">
-					<img src="<c:url value='/resources/img/rating_icon.jpg'/>" alt="평점">
+				<div class="icon_layout rating_img">
+					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
 				</div>
-				<div class="icon_layout">							
+				<div class="icon_layout rating_txt">							
 					<p>${fesInfo[0].rating}</p>
 				</div>
 			</div>
@@ -150,6 +154,6 @@
 				</c:forEach>
 			</div>
 		</div>
-		<%@ include file="../mobilebottom.jsp"%>
+		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

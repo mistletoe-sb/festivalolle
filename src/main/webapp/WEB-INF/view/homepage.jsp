@@ -7,17 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Joyous</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-		<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-		<%--
-		<link rel="stylesheet" href="<c:url value='/resources/css/swiper.min.css'/>" />
-		<script src="<c:url value='/resources/js/swiper.esm.browser.bundle.min.js'/>"></script>
-		--%>
-		
-		<link rel="stylesheet" href="<c:url value='/resources/css/homepage-mobile.css'/>"/>
-		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
+		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
+		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<%-- <script src="https://code.jquery.com/jquery-latest.min.js"></script> --%>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 		<script>
 			var recommendSwiper = new Swiper('.main_swiper', {
@@ -31,11 +24,6 @@
 					el : '.swiper-pagination',
 					clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
 				},
-				navigation : { // 네비게이션 설정
-					nextEl : '.swiper-button-next',
-					prevEl : '.swiper-button-prev',
-				},
-				enabled: false
 			});
 			var defaultSwiper = new Swiper('.vertical_swiper', {
 				direction: 'vertical',		// 수직방향
@@ -53,11 +41,20 @@
 				justify-content: center;
 				align-items: center;
 			}
-			.swiper-slide {
+			/* .swiper-slide {
 			}
+			.main_swiper {
+				width: 100vmin;
+				height: 51vmax;
+			}
+			.swiper-wrapper {
+				width: 100vmin;
+				height: 51vmax;
+			} */
 		</style>
 	</head>
 	<body>
+		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>
 		<div class="recommend_list_layout">
 			<div class="swiper-container main_swiper">
@@ -83,7 +80,7 @@
 			    <div class="swiper-wrapper">
 			        <div class="swiper-slide">
 						<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-							<div class="dailystory_card_container" style="display: inline-block;"
+							<div class="festival_card_container"
 								 onclick="location.href='<c:url value="/festival/info/${fes.festivalCode}"/>'">
 								<div class="card">
 									<div class="ratio">
@@ -92,20 +89,21 @@
 												<img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image">				  	
 											</c:when>
 											<c:otherwise>
-												<img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
+												<%-- <img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일"> --%>				  	
+												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
 											</c:otherwise>
 										</c:choose>
 									</div>
 									<div class="card-body">
-										<div style="display: inline-block; width: 85%">							
+										<div class="festival_location">							
 											<p class="card-text">
 												${fes.stateName} ${fes.cityName}
 											</p>
 										</div>
-									    <div class="icon_layout">
-											<img src="<c:url value='/resources/img/rating_icon.jpg'/>" alt="평점">
+									    <div class="icon_layout rating_img">
+											<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
 										</div>
-										<div class="icon_layout">							
+										<div class="icon_layout rating_txt">							
 											<p class="card-text">
 												${fes.rating}
 											</p>
@@ -118,6 +116,6 @@
 			    </div>
 			</div>
 		</div>
-		<%@ include file="mobilebottom.jsp"%>
+		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

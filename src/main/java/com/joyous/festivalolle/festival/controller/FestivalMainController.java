@@ -37,4 +37,8 @@ public class FestivalMainController {
 		return "festival/festivalinfo";
 	}
 	
+	@GetMapping(value="/fmtest")
+	public String test() {
+		return "festival/swipetest";
+	}
 }
