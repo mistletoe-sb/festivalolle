@@ -16,5 +16,20 @@
 	<select id="totalFestivalReviewCount" resultType="int"> 
 		select*count from V_REVIEW_LIST
 	</select>
+
+	<!-- 특정 1개의 축제 리뷰 - review_code 기준 -->
+	<select id="selectReview" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+		select * from V_REVIEW_LIST where FESTIVAL_REVIEW_CODE = #{festivalReviewCode}
+	</select>
+	
+	<!-- 축제 리뷰 출력- 신고된 리뷰 상태 기준 -->
+	<select id="selectReport" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+		select * from V_REVIEW_LIST where status = 1
+	</select>
+	
+	<!-- 신고된 리뷰 블라인드 처리 -->
+	<select id="setBlind" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+		UPDATE V_REVIEW_LIST SET status = 2 WHERE festival_review_code = #{festivalReviewCode}
+	</select>
 </mapper>
 	

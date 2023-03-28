@@ -22,12 +22,7 @@ public class TicketController {
 	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model){
 		List<V_ticketBuyerListVO> list = ticketService.ticketBuyerList(buyerListVO);
 		model.addAttribute("buyerList", list);
-        return "ticket/buyer";
-	}
-	
-//	@PostMapping("/list")
-//	public String postReviewList(V_ticketBuyerListVO buyerListVO, RedirectAttributes redirectAttributes){
-//		buyerList.
-//		 return "buyer/list";
-//	}
+		System.out.println("ticketList");
+        return "adminticket/ticket";
+	}//구매자 리스트 출력
 }

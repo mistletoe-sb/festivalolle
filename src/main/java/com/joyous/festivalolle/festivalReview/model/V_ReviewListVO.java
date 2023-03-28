@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class V_ReviewListVO {
 	
+	private int festivalReviewCode;	//축제리뷰코드
 	private int status;				//리뷰 상태
 	private String id;				//회원 id
 	private String content;			//리뷰 내용
