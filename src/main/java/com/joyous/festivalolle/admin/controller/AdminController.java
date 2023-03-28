@@ -81,7 +81,6 @@ public class AdminController {
 	@PostMapping(value="/admin/organizationcode")
 	@ResponseBody
 	public int phoneNumberChk(String organizationName, Locale locale) {
-		System.out.println("시작한다");
 		//기관명 받아서 기관 코드 return					
 		return adminService.organizationCode(organizationName);
 	}

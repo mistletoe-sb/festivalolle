@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.admin.service.IAdminService;
@@ -28,15 +30,21 @@ public class SystemController {
 	
 	//시스템 관리자: 관리자 상세보기
 	/*
-	 * @GetMapping(value="/system/admindetail") public String adminDetail(String id,
-	 * Model model, HttpSession session) {
+	 * @GetMapping(value="/system/admindetail")
+	 * 
+	 * @ResponseBody public String adminDetail(@RequestBody String id, Model model,
+	 * HttpSession session) {
 	 * 
 	 * AdminVO adminDetail = new AdminVO(); adminDetail =
-	 * adminService.getAdminList(id); model.addAttribute("adminDetail",
-	 * adminDetail); System.out.println("됨"); return "system/admindetail";
+	 * adminService.getAdminList(id); //model.addAttribute("adminDetail",
+	 * adminDetail); System.out.println("됨");
+	 * 
+	 * //return (adminService.getAdminList(id) == 1)? "ok":"fail"; return
+	 * "system/admindetail";
 	 * 
 	 * }
 	 */
+ 
 
 	
 
