@@ -37,7 +37,7 @@
 	</div>
 <script type="text/javascript">
 $(document).ready(function(){	
-  function getReportedList(){
+  function selectReport(){
     $.ajax({
       type : 'get',				// 타입 (get, post, put 등등)
       url : '/test3',			// 요청할 서버url 
@@ -67,8 +67,8 @@ $(document).ready(function(){
     $('input[name="sort"]').each(function() {
       var value = $(this).val();
       var checked = $(this).prop('checked'); 
-      if($("#reportedReview").is(":checked")){ 	//신고된 리뷰 checked 시, getReportedList 실행
-        getReportedList();
+      if($("#reportedReview").is(":checked")){ 	//신고된 리뷰 checked 시, selectReport 실행
+    	  selectReport();
       }
     });
   });
