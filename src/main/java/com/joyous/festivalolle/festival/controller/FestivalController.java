@@ -40,21 +40,38 @@ public class FestivalController {
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
 	
 	@GetMapping("/festivallist")
+
 	public String festivalList(Model model, HttpSession session) throws Exception {
 //		ManagerVO vo = (ManagerVO)session.getAttribute("loginManager");
 //		int managerLevel = vo.getManagerLevel();
 		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
-		model.addAttribute("selectFestivalList", festivalService.selectFestivalList(1));
+		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(1);
+		model.addAttribute("selectFestivalList", selectFestivalList);
 		/*
 		List<String> areaList = festivalService.getAreaList();
 		
 		for(String area : areaList){
 		    System.out.println(area);
 		}*/
-		
 
-	
 		return view_pos + "adminfestivallist";
+	}
+	
+	@GetMapping("/statusfestivallist")
+	@ResponseBody
+	public List<FestivalVO> idCheck(Model model, HttpSession session) {				
+		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
+		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(1);
+		return selectFestivalList;		
+	}
+	
+	@GetMapping("/adminfestivalinfo") 
+	public String adminfestivalinfo(FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+		int organizationCode = 1;
+		vo.setOrganizationCode(organizationCode);
+		vo.setFestivalCode(festivalCode);
+		model.addAttribute("adminfestivalinfo", festivalService.selectFestivalInfo(vo));
+		return view_pos + "adminfestivalinfo";
 	}
 	
 	@GetMapping("/festivalinsertform") 
@@ -92,25 +109,25 @@ public class FestivalController {
 			  System.out.println("date가 today보다 큽니다.(date > today)");
 			}else if(startCompare < 0) {
 				if (endCompare<0) {
-					vo.setOrganizationCode(3);
+					vo.setStatus(3);
 				}
 				else {
-					vo.setOrganizationCode(1);
+					vo.setStatus(1);
 				}
 				
 			  System.out.println("today가 date보다 큽니다.(date < today)");
 			}else {
-				vo.setOrganizationCode(1);
+				vo.setStatus(1);
 			  System.out.println("today와 date가 같습니다.(date = today)");
 			}
 
 			
 			byte[] fileBytes = file.getBytes();
 			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
+			vo.setOrganizationCode(1);
 			vo.setImage(fileBytes);
 			vo.setThumbnail(fileBytes);
 			vo.setAdminName("담당자1");
-			vo.setStatus(1);
 			festivalService.insertFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");

@@ -26,11 +26,17 @@ public class FestivalService implements IFestivalService {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11"+organizationCode);
 		return festivalRepository.selectFestivalList(organizationCode);
 	}
+	
+	@Override
+	public List<FestivalVO> selectStatusFestivalList(int organizationCode, int status) {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11"+organizationCode);
+		return festivalRepository.selectStatusFestivalList(organizationCode, status);
+	}
 
 	@Override
-	public FestivalVO selectFestivalInfo(int festivalCode) {
+	public FestivalVO selectFestivalInfo(FestivalVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return festivalRepository.selectFestivalInfo(vo);
 	}
 
 	@Override

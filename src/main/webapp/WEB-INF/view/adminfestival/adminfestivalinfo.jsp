@@ -10,66 +10,76 @@
 		<table class="table">
 			<tr>
 				<td scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></td>
-				<td scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" ></td>
+				<td scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" required value="${adminfestivalinfo.title}" disabled></td>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
-				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-				<input type="text" class="form-control" id="sample6_address" placeholder="주소" required >
-				<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
-				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required >
-				<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
-				<input type="text" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" >
-				<input type="text" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
-				<input type="text" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
+				<th scope="col">
+				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required value="${adminfestivalinfo.address}" disabled>
+				<input type="text" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" value="${adminfestivalinfo.stateName}" disabled>
+				<input type="text" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" value="${adminfestivalinfo.cityName}" disabled>
 				</th>
 				
 				
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">시작일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" ></th>
+				<th scope="col"><input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required required value="${adminfestivalinfo.startDate}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">종료일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required ></th>
+				<th scope="col"><input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">입장료</label></th>
-				<th scope="col"><input type="number" class="form-control" id="fee" name="fee" placeholder="금액을 입력하세요" required ></th>
+				<th scope="col"><input type="number" class="form-control" id="fee" name="fee" placeholder="금액을 입력하세요" required value="${adminfestivalinfo.fee}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">홈페이지 URL</label></th>
-				<th scope="col"><input type="text" class="form-control" id="url" name="url" placeholder="url을 입력하세요" required ></th>
+				<th scope="col"><input type="text" class="form-control" id="url" name="url" placeholder="url을 입력하세요" required value="${adminfestivalinfo.url}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">기관전화번호</label></th>
-				<th scope="col"><input type="text" class="form-control" id="telephone" name="telephone" placeholder="전화번호를 입력하세요" required ></th>
+				<th scope="col"><input type="text" class="form-control" id="telephone" name="telephone" placeholder="전화번호를 입력하세요" required value="${adminfestivalinfo.telephone}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlTextarea1" class="form-label">상세설명</label></th>
-				<th scope="col"> <textarea class="form-control" id="detail" name="detail" rows="6" placeholder="상세설명을 입력하세요" required ></textarea></th>
+				<th scope="col"> <textarea class="form-control" id="detail" name="detail" rows="6" placeholder="상세설명을 입력하세요" required disabled>${adminfestivalinfo.detail}</textarea ></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">태그</label></th>
-				<th scope="col"><input type="text" class="form-control" id="tags" name="tags" placeholder="태그를 입력하세요" required ></th>
+				<th scope="col"><input type="text" class="form-control" id="tags" name="tags" placeholder="태그를 입력하세요" required value="${adminfestivalinfo.tags}" disabled></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required value="${adminfestivalinfo.file}"></th>
+				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required disabled></th>
 			</tr>
+			
+			<c:set var="len" value="${fn:length${adminfestivalinfo.image}"/>
+			<c:set var="filetype">
+				value="${fn:toUpperCase(fn:substring(adminfestivalinfo.image, len-4, len))}"/>
+				<c:if test="${(filetype eq '.JPG') or (filetype eq 'JPEG') or (filetype eq 'PNG') or (filetype eq 'GIF')}">
+					<c:url val="imageName" value="/adminfestivalinfo/${adminfestivalinfo.image}"/>
+					<img src="${imageName}">
+				</c:if>
+			</c:set>
 		</table>
 		
 			<fieldset>
-
-
-		    <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
-		            <input type="submit" class="btn btn-primary" value='등록하기'>
+			
+			<div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
+		            <input type="submit" class="btn btn-primary" value='미리보기'>
 		        </div>
 		        <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
-		            <input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
+		            <input type="submit" class="btn btn-primary" value='수정하기'>
 		        </div>
+		        <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
+		            <input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
+		        </div>
+
+
+		    
 		        
 		    </fieldset>
 			

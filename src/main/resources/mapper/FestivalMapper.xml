@@ -14,16 +14,29 @@
 			SELECT * 
 			FROM FESTIVAL
 			WHERE organization_code = #{organizationCode}
+			ORDER BY register_date DESC
+		]]>
+	</select>
+	
+	
+<!-- ================================================ 축제 진행상황별 리스트 =================================================== -->	
+
+	<select id="selectStatusFestivalList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM FESTIVAL
+			WHERE organization_code = #{organizationCode} and status = #{status}
+			ORDER BY register_date DESC
 		]]>
 	</select>
 	
 <!-- ================================================ 축제 상세정보 =================================================== -->	
 
-	<select id="selectFestivalInfo" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+	<select id="selectFestivalInfo" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
 			FROM v_festival
-			WHERE FESTIVAL_CODE = #{festivalCode}
+			WHERE FESTIVAL_CODE = #{festivalCode} and organization_code = #{organizationCode}
 		]]>
 	</select>
 	
@@ -84,10 +97,10 @@
 				image,
 				thumbnail
 			)VALUES(
-				#{festivalImageCode}
+				#{festivalImageCode},
 				#{festivalCode}, 
-				#{fileName},
-				#{festivalCode} || #{festivalImageCode} || #{fileName},
+				#{festivalCode} || #{festivalImageCode},
+				#{image},
 				#{thumbnail})
 		]]>
 	</insert>
