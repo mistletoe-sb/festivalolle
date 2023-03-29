@@ -24,7 +24,7 @@
 body {
 	position: relative;
 	background: #FFFFFF;
-	font-family: 'nanum';
+	font-family: 'nanum' !important;
 	font-size: 16px;
 	color: #191919;
 }
@@ -72,19 +72,25 @@ body {
 	font-weight: 800;
 	padding: 0vw 5vw;
 }
-.festival_info_layout h3 {
+.festival_info_sub_title {
+	margin-bottom: 10px;
+}
+.festival_info_sub_title h3 {
 	font-weight: bold !important;
 	display: inline-block;
 	margin-right: 8.5vw;
+	margin-bottom: 0px;
 }
 .d-day_info {
 	display: inline-block;
+	font-weight: bold !important;
+	padding: 2px 12px !important;
 }
 /* 이미지 */
-.info_swiper {
+.festival_info_layout .carousel {
 	padding: 0vw 3.5vw;
 }
-.festival_info_img {
+.festival_info_layout .carousel-item {
 	width: 83vmin;
 	text-align: center;
 }
@@ -253,10 +259,11 @@ body {
 .page_title {
 	width: 68% !important;
 	text-align: left !important;
+	margin-left: 8.5vmin;
 }
 .page_title > p {
 	font-size: 20px;
-	font-weight: 800;
+	font-weight: bold;
 	color: #FFFFFF;
 	margin: 0px;
 }

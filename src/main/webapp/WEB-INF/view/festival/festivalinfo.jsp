@@ -5,33 +5,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Joyous</title>
+		<title>상세정보</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>" />
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<style type="text/css">
-			.swipe_layout {
-				position: relative;
-				width: 83vmin;
-				height: 40vmax;
-				border: 10px solid #000;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
-			.swiper-slide {
-			}
-		</style>
+		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<%-- 축제 상세정보 출력할 레이아웃 --%>
 		<div class="festival_info_layout">
-			<div>
+			<div class="festival_info_sub_title">
 				<h3>${fesInfo[0].title}</h3>
-				<button class="btn btn-secondary d-day_info">D-DAY</button>
+				<c:choose>
+					<c:when test="${fesInfo[0].status == 1}">
+						<button class="btn btn-danger d-day_info">진행 중</button>
+					</c:when>
+					<c:when test="${fesInfo[0].status == 2}">
+						<button class="btn btn-secondary d-day_info">D-${dday}</button>
+					</c:when>
+					<c:when test="${fesInfo[0].status == 3}">
+						<button class="btn btn-secondary d-day_info">종료</button>
+					</c:when>
+				</c:choose>
 			</div>
 			<div>
 				<div class="icon_layout rating_img">
@@ -49,18 +46,25 @@
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
 				</div>
 			</div>
-			<div class="swiper-container info_swiper">
-			    <div class="swiper-wrapper">
+			<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
 					<c:forEach var="fes" items="${fesInfo}" varStatus="stat">
-				        <div class="swiper-slide festival_info_img">
-							<%-- <img src="${fes.image}" class="img_layout" alt="image"> --%>
-							<img src="<c:url value='/resources/img/festest3.jpg'/>" class="img_layout" alt="image">
-						</div>
+				        <c:choose>
+							<c:when test='${stat.index == 0}'>
+								<div class="carousel-item active" data-bs-interval="8000">
+									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
+									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="carousel-item" data-bs-interval="8000">
+									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
+									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+								</div>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
-			    </div>
-			    <div class="swiper-button-next"></div>
-				<div class="swiper-button-prev"></div>
-			    <div class="swiper-pagination"></div>
+				</div>
 			</div>
 			<div class="festival_info_menu_container">
 				<div class="festival_info_menu"><%-- 아이콘 div --%>
@@ -127,14 +131,14 @@
 				</div>
 			</div>
 			
-			<div>
+			<div class="festival_info_sub_title">
 				<h3>주변 음식점</h3>
 			</div>
 			<div>
 				<%-- 지도 API 사용 --%>
 			</div>
 			
-			<div>
+			<div class="festival_info_sub_title">
 				<h3>리뷰 N개</h3>
 			</div>
 			<div>

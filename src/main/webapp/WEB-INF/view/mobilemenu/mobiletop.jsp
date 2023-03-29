@@ -3,10 +3,8 @@
 <div class="top_empty"></div>
 <div class="top_menu">
 	<div class="normal_top">
-		<div>
-		</div>
 		<div class="page_title">
-			<p>제목</p>
+			<p></p>
 		</div>
 		<div>
 			<img src="<c:url value='/resources/img/icon/search_icon.png'/>" alt="search">
