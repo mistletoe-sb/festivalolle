@@ -12,109 +12,85 @@
 		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script>
-			var recommendSwiper = new Swiper('.main_swiper', {
-				direction: 'horizontal',	// 수평방향
-				loop: true,					// 루프 기능(반복 사용)
-				autoplay: {					// 자동 스크롤링
-					delay: 2500,			// 2.5초
-					disableOnInteraction: false,
-				},
-				pagination : { // 페이징 설정
-					el : '.swiper-pagination',
-					clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-				},
-			});
-			var defaultSwiper = new Swiper('.vertical_swiper', {
-				direction: 'vertical',		// 수직방향
-				enabled: false,
-			});
-		</script>
-		<style type="text/css">
-			.swipe_layout {
-				position: relative;
-				width: 83vmin;
-				height: 40vmax;
-				border: 10px solid #000;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
-			/* .swiper-slide {
-			}
-			.main_swiper {
-				width: 100vmin;
-				height: 51vmax;
-			}
-			.swiper-wrapper {
-				width: 100vmin;
-				height: 51vmax;
-			} */
-		</style>
 	</head>
 	<body>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>
 		<div class="recommend_list_layout">
-			<div class="swiper-container main_swiper">
-			    <div class="swiper-wrapper">
-			        <div class="swiper-slide">Slide 1<br>내용1이 들어갑니다.</div>
-			        <div class="swiper-slide">Slide 2<br>내용2가 들어갑니다.</div>
-			        <div class="swiper-slide">Slide 3<br>내용3이 들어갑니다.</div>
-			    </div>
-			    <div class="swiper-button-next"></div>
-				<div class="swiper-button-prev"></div>
-			    <div class="swiper-pagination"></div>
+			<div id="recommend_carousel" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-indicators">
+					<c:forEach var="item" items="${recommendList}" varStatus="page">
+						<c:choose>
+							<c:when test='${page.index == 0}'>
+								<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}" class="active" aria-current="true"></button>
+							</c:when>
+							<c:otherwise>
+								<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}"></button>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</div>
+				<div class="carousel-inner">
+					<c:forEach var="fes" items="${recommendList}" varStatus="stat">
+						<c:choose>
+							<c:when test='${stat.index == 0}'>
+								<div class="carousel-item active" data-bs-interval="8000">
+									<div class="d-block w-100">
+										<%@ include file="festival/festivalcard.jsp"%>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="carousel-item" data-bs-interval="8000">
+									<div class="d-block w-100">
+										<%@ include file="festival/festivalcard.jsp"%>
+									</div>
+								</div>							
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</div>
 			</div>
-			<%--
-			<div class="swipe_layout">
-				<p class="ptoRight">오른쪽에서 왼쪽으로</p>
-				<p class="ptoLeft">왼쪽에서 오른쪽으로</p>
-			</div>
-			--%>
 		</div>
 		<%-- 기본목록(진행 중인 축제) 출력할 레이아웃 --%>
 		<div class="default_list_layout">
-			<div class="swiper-container vertical_swiper">
-			    <div class="swiper-wrapper">
-			        <div class="swiper-slide">
-						<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-							<div class="festival_card_container"
-								 onclick="location.href='<c:url value="/festival/info/${fes.festivalCode}"/>'">
-								<div class="card">
-									<div class="ratio">
-										<c:choose>
-											<c:when test='${(fes.fileName != null) && (fes.fileName != "")}'>
-												<img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image">				  	
-											</c:when>
-											<c:otherwise>
-												<%-- <img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일"> --%>				  	
-												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="card-body">
-										<div class="festival_location">							
-											<p class="card-text">
-												${fes.stateName} ${fes.cityName}
-											</p>
-										</div>
-									    <div class="icon_layout rating_img">
-											<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-										</div>
-										<div class="icon_layout rating_txt">							
-											<p class="card-text">
-												${fes.rating}
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-			    </div>
+			<div>
+				<h3>진행 중인 축제</h3>
 			</div>
+			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
+				<%@ include file="festival/festivalcard.jsp"%>
+				<%-- <div class="festival_card_container"
+					 onclick="location.href='<c:url value="/festival/info/${fes.festivalCode}"/>'">
+					<div class="card">
+						<div class="ratio">
+							<c:choose>
+								<c:when test='${(fes.fileName != null) && (fes.fileName != "")}'>
+									<img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image">				  	
+								</c:when>
+								<c:otherwise>
+									<img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
+									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="card-body">
+							<div class="festival_location">							
+								<p class="card-text">
+									${fes.stateName} ${fes.cityName}
+								</p>
+							</div>
+						    <div class="icon_layout rating_img">
+								<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
+							</div>
+							<div class="icon_layout rating_txt">							
+								<p class="card-text">
+									${fes.rating}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div> --%>
+			</c:forEach>
 		</div>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>

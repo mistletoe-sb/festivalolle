@@ -8,7 +8,10 @@
 		<title>Joyous</title>
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<style type="text/css">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+		
+		<!-- <style type="text/css">
 		.box{position:relative; width:380px; height:440px; border:10px solid #000; display: flex; flex-direction: column; justify-content: center;  align-items: center;}
 		.box p {display:none}
 		</style>
@@ -71,16 +74,29 @@
 		      $(".box p.toRight, .box p.toLeft").fadeOut(300);
 		     }
 		});
-		</script>
+		</script> -->
 	</head>
 	<body>
-		<div class="box">
+		<!-- <div class="box">
   
 		  <p class="p1 toRight">오른쪽에서 왼쪽으로</p>
 		  <p class="p1 toLeft">왼쪽에서 오른쪽으로</p>
 		   <p class="p2 toTop">위에서 아래로</p>
 		  <p class="p2 toBottom">아래서 위로</p>
 		  
+		</div> -->
+		<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+		  <div class="carousel-inner">
+		    <div class="carousel-item active">
+		      <img src="..." class="d-block w-100" alt="...">
+		    </div>
+		    <div class="carousel-item">
+		      <img src="..." class="d-block w-100" alt="...">
+		    </div>
+		    <div class="carousel-item">
+		      <img src="..." class="d-block w-100" alt="...">
+		    </div>
+		  </div>
 		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>

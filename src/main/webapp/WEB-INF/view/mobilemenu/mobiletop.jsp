@@ -2,9 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="top_empty"></div>
 <div class="top_menu">
-	<div>
+	<div class="normal_top">
 		<div>
-			<img src="<c:url value='/resources/img/icon/back.png'/>" alt="back">
 		</div>
 		<div class="page_title">
 			<p>제목</p>
@@ -12,5 +11,13 @@
 		<div>
 			<img src="<c:url value='/resources/img/icon/search_icon.png'/>" alt="search">
 		</div>	
+	</div>
+	<div class="search_top" hidden="true">
+		<div class="search_box">
+			<form action="#" method="get">
+				<input type="search" name="search" class="search_input" placeholder="검색어를 입력하세요">
+				<input type="image" class="search_btn" src="<c:url value='/resources/img/icon/search_icon.png'/>" alt="검색">
+			</form>
+		</div>
 	</div>
 </div>
