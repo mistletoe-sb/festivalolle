@@ -32,7 +32,7 @@ public class FestivalMainController {
 		model.addAttribute("recommendList", festivalMainService.selectFestivalRecommendList(recommend));	// 추천 목록
 		model.addAttribute("defaultList", festivalMainService.selectFestivalMainList());					// 기본 목록
 		model.addAttribute("recommend", recommend);															// 추천 개수
-		return "homepage";
+		return "mobilehome";
 	}
 	
 	// 축제 상세 정보 조회하여 데이터 전달
