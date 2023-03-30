@@ -185,6 +185,18 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.13.1</version>
 		</dependency>
+		
+		<!-- 메일보내기 -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
+
+
+		
 	</dependencies>
 	
   <build>

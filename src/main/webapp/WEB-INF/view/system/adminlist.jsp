@@ -12,6 +12,9 @@
                 
                 
 
+		
+		<a class="btn btn-primary" id = "button1">숨기기</a>
+		
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -19,24 +22,36 @@
             </div>
             <div class="card-body">
             
-            
+            	
             	<!-- Topbar Search -->
-                <form
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" id="autoComplete" placeholder="Search for..."
-                            aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="adminSearch">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+	            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+	                  <div class="input-group">
+	                        <input type="text" class="form-control bg-light border-0 small" id="searchKeyword" placeholder="Search for..."
+	                            aria-label="Search" aria-describedby="basic-addon2">
+	                        <div class="input-group-append">
+	                            <button class="btn btn-primary" type="button" id="adminSearch">
+	                                <i class="fas fa-search fa-sm"></i>
+	                            </button>
+	                        </div>
+	                    </div>
+	              </form>              
+	              
+	              
+               <!--  <div class="row">
+                <div class="col-sm-12 col-md-6">
+	                <div id="dataTable_filter" class="dataTables_filter">
+	                	<label>
+	                		<div class="row">
+	                		Search:<input type="search" class="form-control form-control-sm" placeholder="아이디, 이름, 기관명, 전화번호" aria-controls="dataTable">
+	                		</div>
+	                	</label>
+	                </div>
+                </div>
+                </div> -->
             
-            
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            	
+                <div class="table-responsive" id="firstResult">               	
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">  
                         <thead>
                             <tr>
                                 <th>승인 상태</th>
@@ -89,10 +104,19 @@
 							</c:forEach>                           
                         </tbody>
                     </table>
+           
+                
                 </div>
+                 
+                <div id = "boardList"><!-- <table id = "boardList" border = "1"> --></table></div>
+                </div>
+             
             </div>
         </div>
-	</div>
+        
+        
+        
+	
 	<!-- adminDetail Modal-->
     <div class="modal fade" id="adminDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -165,7 +189,47 @@
         </div>
     </div>
     
- 	<script>    
+    
+ 	<script>   
+	    $(document).on('click', '.adminDetail', function(){
+	    	var id = $(this).text();
+			console.log(id);
+			
+			//아이디 클릭해서 상세정보 불러오기
+			$.ajax({
+				url: "<c:url value='/system/admindetail'/>",
+				type: "post",
+				data: {id: id},
+				success: function(data){
+					//$('#organization_code').val(data);	
+					console.log("됐다!")
+					
+					$('#adminId').text(id);
+					
+					if (data.status == 2) {
+						$('#adminStatus').text('승인 완료');
+					} else if (data.status == 1) {
+						$('#adminStatus').text('승인 대기');
+					}
+
+					$('#adminName').text(data.name);
+					$('#adminTelephone').text(data.telephone);
+					$('#adminEmail').text(data.email);
+					$('#adminOrgName').text(data.organizationName);
+					$('#adminAddress').text(data.address);
+					
+					console.log(data.email);
+					
+				},//end success
+				error:function(){
+					alert("안가져옴");
+				}//end error														
+			})//end 기관코드ajax	
+	    })
+    
+    
+    
+    /* 
  		$('.adminDetail').on('click', function(){
 			var id = $(this).text();
 			console.log(id);
@@ -200,7 +264,7 @@
 					alert("안가져옴");
 				}//end error														
 			})//end 기관코드ajax		
-		})  
+		})  */ 
     
 		
 		$('#adminApproval').on('click', function(){
@@ -212,7 +276,7 @@
 				data: {id: id},
 				success: function(data){
 					//$('#organization_code').val(data);	
-					//console.log("됐다!")
+
 					if(data == 'ok'){
 						alert(id + "계정 승인 완료");
 						window.location.replace("<c:url value='/system/adminlist'/>");
@@ -227,41 +291,64 @@
 			})			
 		})
 		
+		$('#button1').on('click', function(){
+			$('#firstShown').hide();
+		})
+		
 		$('#adminSearch').on('click', function(){
-			var keyword = $('#autoComplete').val();
-			
+			var keyword = $('#searchKeyword').val();
+
 			$.ajax({
 				url: "<c:url value='/system/search'/>",
 				type: "post",
 				data: {keyword: keyword},
-				success: function(data){
-					//$('#organization_code').val(data);	
-					//console.log("됐다!")
-					var results = data.adminList;
-					var str = null;
-					$.each(results, function(i){
-						str +=''
-					})
+				success: function(data){	
+					console.log("가져옴!");
+
+					//var results = data;
+					var html = '<div class="table-responsive" id="searchResult">';
+						html += '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">';
+						html += '<thead><tr><th>승인 상태</th><th>아이디</th><th>기관</th><th>담당자</th>';
+						html += '<th>연락처</th><th>요청 일자</th><th>승인 일자</th></tr></thead><tfoot><tr>';
+						html += '<th>승인 상태</th><th>아이디</th><th>기관</th><th>담당자</th>';
+						html += '<th>연락처</th><th>요청 일자</th><th>승인 일자</th></tr></tfoot><tbody>';
+
+					$(data).each(function(){
+						console.log(this.id + " " + this.name);
+						
+						html += '<tr><td>';
+						
+						if (this.status == 1){
+							html += '<a href="#" class="btn btn-warning btn-icon-split">';
+							html += '<span class="text">승인 대기</span></a>';
+						} else if(this.status == 2){
+							html += '<a href="#" class="btn btn-success btn-icon-split">';
+							html += '<span class="text">승인 완료</span></a>';
+						}					
+						
+						html += '</td><td><a class="dropdown-item adminDetail" href="#" data-toggle="modal" data-target="#adminDetailModal" id="adminDetail">'
+						html += this.id;
+						html += '</a></td><td>' + this.organizationName;
+						html += '</td><td>' + this.name;
+						html += '</td><td>' + this.telephone;
+						html += '</td><td>' + this.requestTime;
+						html += '</td><td>' + this.approveTime;
+						html += '</td></tr>';
+
+					}); 
 					
+					html += '</tbody></table></div>';
 					
-					
-					
-					
-					
+					$('#firstResult').hide();
+					$('#boardList').empty();
+					$('#boardList').append(html);					 	
 					
 				},//end success
 				error:function(){
-					alert("안가져옴");
+					alert("안됨");
 				}//end error	
-			})	
-			
-			
-			
-			
-			
+			})			
 		})
-		
-		
 		
 		/* $('#autoComplete').autocomplete({
 			console.log("시작");
@@ -299,6 +386,8 @@
 					console.log(ui.item.idx);							
 			}			
 		}) */
+		
+		
 		
 				
     </script>   

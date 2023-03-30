@@ -65,6 +65,23 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 	
+	//아이디 찾기 페이지로 이동
+	@GetMapping(value="/admin/findid")
+	public String findId(Locale locale) {
+		return "admin/findid";
+	}
+	
+	//비밀번호 변경 페이지로 이동
+	@GetMapping(value="/admin/forgotpassword")
+	public String password(Locale locale) {
+		return "admin/forgotpassword";
+	}
+	
+	
+	
+	
+	
+	
 	//관리자 회원가입 페이지로 이동
 	@GetMapping(value="/admin/register")
 	public String register(Model model, HttpSession session) {
@@ -85,6 +102,8 @@ public class AdminController {
 		//기관명 받아서 기관 코드 return					
 		return adminService.organizationCode(organizationName);
 	}
+	
+
 
 	//각 항목으로 이동
 	/*

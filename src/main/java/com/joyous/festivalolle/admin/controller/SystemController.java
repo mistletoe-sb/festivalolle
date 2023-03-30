@@ -27,7 +27,7 @@ public class SystemController {
 	@Autowired
 	IAdminService adminService;
 	
-	List<AdminVO> adminList = adminService.getAdminList();
+	//List<AdminVO> adminList = adminService.getAdminList();
 	
 	//시스템 관리자 페이지로 이동: 관리자 목록 출력
 	@GetMapping(value="/system/adminlist")
@@ -58,7 +58,7 @@ public class SystemController {
 		adminService.adminApproval(id);
 		
 		return (adminService.adminApproval(id) == 1)? "ok":"fail";
-		//return "system/adminlist";
+		
 	}
 	
 	/*
@@ -71,14 +71,16 @@ public class SystemController {
 	 * return paramMap; }
 	 */
 	
-	@PostMapping(value="/system/search")
-	@ResponseBody
-	public List<AdminVO> adminSearch(String keyword, Locale locale) {
-		
-		adminList = adminService.adminSearch(keyword);
-		
-		return adminList;
-	}
+	
+	  @PostMapping(value="/system/search")	  
+	  @ResponseBody 
+	  public List<AdminVO> adminSearch(String keyword, Locale locale) {
+		  List<AdminVO> adminList = adminService.getAdminList();
+		  adminList = adminService.adminSearch(keyword);
+	  
+		  return adminList; 
+	  }
+	 
 
  
 
