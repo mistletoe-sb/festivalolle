@@ -67,7 +67,7 @@
                 <!-- <a class="nav-link" href="charts.html"> -->
                 
                 <!-- <a class="nav-link" href="/admin/adminhome.jsp"> -->
-                <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
+                <a class="nav-link">
          
                 <!-- "<c:url value='/admin/festivallist'/>" -->
                     <i class="fas fa-fw fa-table"></i>
