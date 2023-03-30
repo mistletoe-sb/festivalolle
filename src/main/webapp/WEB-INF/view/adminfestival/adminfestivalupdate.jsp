@@ -6,73 +6,70 @@
 	<div class="container-fluid">
 		<!-- ★내용삽입★ -->
 			<div>
-		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
+		<form  action = "<c:url value='/admin/adminfestivalupdate?festivalCode=${adminfestivalinfo.festivalCode}'/>" method="post" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
-				<td scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></td>
-				<td scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" required value="${adminfestivalinfo.title}" disabled></td>
+				<th scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></th>
+				<th scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" value="${adminfestivalinfo.title}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
-				<th scope="col">
-				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required value="${adminfestivalinfo.address}" disabled>
-				<input type="text" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" value="${adminfestivalinfo.stateName}" disabled>
-				<input type="text" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" value="${adminfestivalinfo.cityName}" disabled>
+				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+				<input type="text" class="form-control" id="sample6_address" placeholder="주소"  >
+				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소"  >
+				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" >
+				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+				<input type="text" class="form-control" id="realAddress2" disabled value="${adminfestivalinfo.address}">
+				<input type="hidden" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" value="${adminfestivalinfo.address}">
+				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" value="${adminfestivalinfo.stateName}">
+				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" value="${adminfestivalinfo.cityName}">
 				</th>
 				
 				
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">시작일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required required value="${adminfestivalinfo.startDate}" disabled></th>
+				<th scope="col"><input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" value="${adminfestivalinfo.startDate}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">종료일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}" disabled></th>
+				<th scope="col"><input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">입장료</label></th>
-				<th scope="col"><input type="number" class="form-control" id="fee" name="fee" placeholder="금액을 입력하세요" required value="${adminfestivalinfo.fee}" disabled></th>
+				<th scope="col"><input type="number" class="form-control" id="fee" name="fee" placeholder="금액을 입력하세요" required value="${adminfestivalinfo.fee}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">홈페이지 URL</label></th>
-				<th scope="col"><input type="text" class="form-control" id="url" name="url" placeholder="url을 입력하세요" required value="${adminfestivalinfo.url}" disabled></th>
+				<th scope="col"><input type="text" class="form-control" id="url" name="url" placeholder="url을 입력하세요" required value="${adminfestivalinfo.url}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">기관전화번호</label></th>
-				<th scope="col"><input type="text" class="form-control" id="telephone" name="telephone" placeholder="전화번호를 입력하세요" required value="${adminfestivalinfo.telephone}" disabled></th>
+				<th scope="col"><input type="text" class="form-control" id="telephone" name="telephone" placeholder="전화번호를 입력하세요" required value="${adminfestivalinfo.telephone}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlTextarea1" class="form-label">상세설명</label></th>
-				<th scope="col"> <textarea class="form-control" id="detail" name="detail" rows="6" placeholder="상세설명을 입력하세요" required disabled>${adminfestivalinfo.detail}</textarea ></th>
+				<th scope="col"> <textarea class="form-control" id="detail" name="detail" rows="6" placeholder="상세설명을 입력하세요" required >${adminfestivalinfo.detail}</textarea></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">태그</label></th>
-				<th scope="col"><input type="text" class="form-control" id="tags" name="tags" placeholder="태그를 입력하세요" required value="${adminfestivalinfo.tags}" disabled></th>
+				<th scope="col"><input type="text" class="form-control" id="tags" name="tags"  size="100" placeholder="스페이스를 사용하여 태그를 작성 하세요." onkeydown="splitTag(event)" required value="${adminfestivalinfo.tags}"></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required disabled></th>
+				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required value="${adminfestivalinfo.image}"></th>
 			</tr>
-			
-			<%-- <c:set var="len" value="${fn:length${adminfestivalinfo.image}"/>
-			<c:set var="filetype">
-				value="${fn:toUpperCase(fn:substring(adminfestivalinfo.image, len-4, len))}"/>
-				<c:if test="${(filetype eq '.JPG') or (filetype eq 'JPEG') or (filetype eq 'PNG') or (filetype eq 'GIF')}">
-					<c:url val="imageName" value="/adminfestivalinfo/${adminfestivalinfo.image}"/>
-					<img src="${imageName}">
-				</c:if>
-			</c:set> --%>
 		</table>
-
+		
 			<fieldset>
+			
 			<div class="d-grid gap-2 col-6 mx-auto">
-				<input type="submit" class="btn btn-primary" value='미리보기'>
-				<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
-				<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
+				<input type="submit" class="btn btn-primary" value='수정하기'>
+				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='돌아가기'>
 			</div>
-    
+
+		        
 		    </fieldset>
 			
 		</form>
@@ -88,6 +85,26 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+
+//태그 입력 폼
+function splitTag(event){
+	// 스페이스 바 누를 시 동작
+	if(event.keyCode == 32){
+		var tagList = $('#tags').val().split(' ');	// 현재 입력한 태그 내용들을 ' ' 기준으로 split
+		var tags = '';
+		// split한 각 태그들을 검증해서 가공
+		for(x of tagList){
+			if((x.indexOf('#') != 0) && (x.length > 0)){		// 1글자 이상이고, 맨 첫글자가 #이 아니면,
+				tags += ('#' + x + ' ');						// #을 붙여서 추가
+			} else if(x.indexOf('#') == 0 && (x.length > 1)){	// 2글자 이상이고, 맨 첫글자가 #이면,
+				tags += (x + ' ');								// 그대로 추가
+			}
+		}
+		$('#tags').val(tags);	// 새로 가공된 내용을 출력
+	}
+}
+
 
 	
 var addr = ''; // 주소 변수
@@ -140,7 +157,7 @@ var detailAddress = ''
                 document.getElementById("sample6_address").value = addr;
                 
 
-                document.getElementById("sample6_doAddress").value = data.sido+"도";
+                document.getElementById("sample6_doAddress").value = data.sido;
                 document.getElementById("sample6_sigooAddress").value = data.sigungu;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("sample6_detailAddress").focus();
@@ -150,12 +167,13 @@ var detailAddress = ''
         }).open();
     }
     
-
+$("#sample6_detailAddress").blur(function() {
+	 detailAddress = $("#sample6_detailAddress").val();
+	 $("#realAddress").val(addr + " " + detailAddress);
+	 $("#realAddress2").val(addr + " " + detailAddress);
+});
 	
-	$("#sample6_detailAddress").blur = function() {
-		 detailAddress = document.getElementById("sample6_detailAddress").value;
-		 document.getElementById("realAddress").value = addr + " " + detailAddress;
-	}
+	
 </script>
 <!-- <script type="text/javascript">
 

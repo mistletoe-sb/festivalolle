@@ -9,20 +9,21 @@
 		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
-				<td scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></td>
-				<td scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" ></td>
+				<th scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></th>
+				<th scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" ></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
 				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 				<input type="text" class="form-control" id="sample6_address" placeholder="주소" required >
-				<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
 				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required >
-				<input type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
-				<input type="text" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" >
-				<input type="text" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
-				<input type="text" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
+				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
+				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+				<input type="text" class="form-control" id="realAddress2" disabled>
+				<input type="hidden" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" >
+				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
+				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
 				</th>
 				
 				
@@ -53,23 +54,21 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">태그</label></th>
-				<th scope="col"><input type="text" class="form-control" id="tags" name="tags" placeholder="태그를 입력하세요" required ></th>
+				<th scope="col"><input type="text" class="form-control" id="tags" name="tags"  size="100" placeholder="스페이스를 사용하여 태그를 작성 하세요." onkeydown="splitTag(event)" required></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required value="${adminfestivalinfo.file}"></th>
+				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required ></th>
 			</tr>
 		</table>
 		
 			<fieldset>
+			
+			<div class="d-grid gap-2 col-6 mx-auto">
+				<input type="submit" class="btn btn-primary" value='등록하기'>
+				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
+			</div>
 
-
-		    <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
-		            <input type="submit" class="btn btn-primary" value='등록하기'>
-		        </div>
-		        <div class="d-grid gap-2 col-1 mx-auto" style="display: inline-block">
-		            <input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
-		        </div>
 		        
 		    </fieldset>
 			
@@ -86,6 +85,26 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+
+//태그 입력 폼
+function splitTag(event){
+	// 스페이스 바 누를 시 동작
+	if(event.keyCode == 32){
+		var tagList = $('#tags').val().split(' ');	// 현재 입력한 태그 내용들을 ' ' 기준으로 split
+		var tags = '';
+		// split한 각 태그들을 검증해서 가공
+		for(x of tagList){
+			if((x.indexOf('#') != 0) && (x.length > 0)){		// 1글자 이상이고, 맨 첫글자가 #이 아니면,
+				tags += ('#' + x + ' ');						// #을 붙여서 추가
+			} else if(x.indexOf('#') == 0 && (x.length > 1)){	// 2글자 이상이고, 맨 첫글자가 #이면,
+				tags += (x + ' ');								// 그대로 추가
+			}
+		}
+		$('#tags').val(tags);	// 새로 가공된 내용을 출력
+	}
+}
+
 
 	
 var addr = ''; // 주소 변수
@@ -138,7 +157,7 @@ var detailAddress = ''
                 document.getElementById("sample6_address").value = addr;
                 
 
-                document.getElementById("sample6_doAddress").value = data.sido+"도";
+                document.getElementById("sample6_doAddress").value = data.sido;
                 document.getElementById("sample6_sigooAddress").value = data.sigungu;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("sample6_detailAddress").focus();
@@ -148,12 +167,13 @@ var detailAddress = ''
         }).open();
     }
     
-
+$("#sample6_detailAddress").blur(function() {
+	 detailAddress = $("#sample6_detailAddress").val();
+	 $("#realAddress").val(addr + " " + detailAddress);
+	 $("#realAddress2").val(addr + " " + detailAddress);
+});
 	
-	$("#sample6_detailAddress").blur = function() {
-		 detailAddress = document.getElementById("sample6_detailAddress").value;
-		 document.getElementById("realAddress").value = addr + " " + detailAddress;
-	}
+	
 </script>
 <!-- <script type="text/javascript">
 

@@ -7,7 +7,8 @@
 <html lang="en">
 
 <head>
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,7 +70,7 @@
                 <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
          
                 <!-- "<c:url value='/admin/festivallist'/>" -->
-                    <i class="fas fa-fw fa-table" id="festialList"></i>
+                    <i class="fas fa-fw fa-table"></i>
                     <span>축제 관리</span></a>
             </li>
 
