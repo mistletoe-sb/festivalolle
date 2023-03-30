@@ -68,5 +68,10 @@ public class FestivalService implements IFestivalService {
 		return festivalRepository.selectYearFestival(vo);
 	}
 
+	@Override
+	public List<FestivalVO> selectFestivalSearch(int organizationCode,String festivalKeyword, String tableBox) {
+		return festivalRepository.selectFestivalSearch(organizationCode,festivalKeyword, tableBox);
+	}
+
 
 }

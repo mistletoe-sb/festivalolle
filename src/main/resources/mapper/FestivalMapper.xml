@@ -59,6 +59,28 @@
 			WHERE festival_code = #{festivalCode}
 		]]>
 	</select>	
+
+<!-- ================================================ 검색 =================================================== -->	
+
+	<select id="selectFestivalSearch" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM festival
+			where organization_code = #{organizationCode}
+		]]>
+			<choose>
+				<when test="tableBox == 'title'">
+					<![CDATA[and title LIKE '%'|| #{festivalKeyword} || '%']]>
+				</when>
+				<when test="tableBox == 'admin_name'">
+					<![CDATA[and admin_name LIKE '%'|| #{festivalKeyword} || '%']]>
+				</when>
+				<otherwise>
+					<![CDATA[and admin_name LIKE ' ']]>
+				</otherwise>
+			</choose>
+		<![CDATA[ORDER BY register_date DESC]]>
+	</select>	
 	
 <!-- ================================================ 축제 추가 =================================================== -->	
 

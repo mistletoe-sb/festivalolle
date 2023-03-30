@@ -262,6 +262,14 @@ public class FestivalController {
 			List<FestivalVO> selectYearTitleList = festivalService.selectYearFestival(vo);
 			return selectYearTitleList;	
 	}
+	
+	@GetMapping("/festivalSearch")
+	@ResponseBody
+	public List<FestivalVO> festivalSearch(Model model, HttpSession session, @RequestParam("festivalKeyword") String festivalKeyword, @RequestParam("tableBox") String tableBox)  {				
+		int organizationCode = 1;
+		List<FestivalVO> festivalSearch = festivalService.selectFestivalSearch(organizationCode,festivalKeyword,tableBox);
+		return festivalSearch;	
+	}
 		
 	
 

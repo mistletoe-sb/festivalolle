@@ -1,13 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
+   
+ <style>
+input[type=file]::file-selector-button {
+
+  width: 100px auto;
+  height: 35px;
+  background: #4e73df;
+  border: 1px solid #4e73df;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family : #fff
+  &:hover {
+    background: #4e73df;
+    color: #4e73df;
+  }
+ }
+ </style>  
  <%@ include file="../admintop.jsp" %>
 
 	<div class="container-fluid">
 		<!-- ★내용삽입★ -->
-			<div>
+	<div class="card shadow mb-4">
+	<div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">축제 등록</h6>
+            </div>
 		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
-		<table class="table">
+		<div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></th>
 				<th scope="col"><input type="text" class="form-control" id="title" name="title" placeholder="축제명을 입력하세요" ></th>
@@ -58,21 +80,22 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required ></th>
+				<th scope="col"><input style="display: block; padding: 0px" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required></th>
 			</tr>
 		</table>
-		
 			<fieldset>
-			
-			<div class="d-grid gap-2 col-6 mx-auto">
-				<input type="submit" class="btn btn-primary" value='등록하기'>
-				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
+			<div class="d-grid gap-2 col-6 mx-auto" style="margin:auto ">
+				<input type="submit" class="btn btn-primary" value='등록하기' style="width: 50%; margin : .5rem!important;">
+				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기' style="width: 50%; margin : .5rem!important;">
+			</div>
 			</div>
 
 		        
 		    </fieldset>
 			
 		</form>
+		</div>
+		</div>
 		
 		
 		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">
