@@ -27,4 +27,15 @@
 			WHERE festival_code = #{festivalCode}
 		]]>
 	</select>
+	
+	<select id="selectFestivalCalendarList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.v_festival_main 
+			WHERE (start_date LIKE #{month} || '-__'
+            OR end_date LIKE #{month} || '-__')
+		]]>
+		<if test="location != null">
+            <![CDATA[AND state_name = #{location}]]>
+		</if>
+	</select>
 </mapper>

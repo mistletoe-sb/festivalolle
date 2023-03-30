@@ -6,7 +6,7 @@
 		<div class="page_title">
 			<p></p>
 		</div>
-		<div>
+		<div id="search_btn">
 			<img src="<c:url value='/resources/img/icon/search_icon.png'/>" alt="search">
 		</div>	
 	</div>
@@ -16,6 +16,9 @@
 				<input type="search" name="search" class="search_input" placeholder="검색어를 입력하세요">
 				<input type="image" class="search_btn" src="<c:url value='/resources/img/icon/search_icon.png'/>" alt="검색">
 			</form>
+		</div>
+		<div class="search_close">
+			<img src="<c:url value='/resources/img/icon/back.png'/>" alt="close">
 		</div>
 	</div>
 </div>
