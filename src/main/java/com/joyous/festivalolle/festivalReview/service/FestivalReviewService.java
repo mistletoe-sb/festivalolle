@@ -23,7 +23,7 @@ public class FestivalReviewService implements IFestivalReviewService {
 
 
 	@Override
-	public List<V_ReviewListVO> selectReview(int festivalReviewCode) {
+	public V_ReviewListVO selectReview(int festivalReviewCode) {
 
 		return reviewRepository.selectReview(festivalReviewCode);
 	}
@@ -35,12 +35,17 @@ public class FestivalReviewService implements IFestivalReviewService {
 	}
 	
 	@Override
-	public void setBlind(int status) {
+	public void setBlind(int festivalReviewCode) {
 		
-		reviewRepository.setBlind(status);
+		reviewRepository.setBlind(festivalReviewCode);
 	}
 
 
+	public void setNormal(int festivalReviewCode) {
+		
+		reviewRepository.setNormal(festivalReviewCode);
+		
+	}
 
 //	@Override
 //	public int totalFestivalReviewCount() {

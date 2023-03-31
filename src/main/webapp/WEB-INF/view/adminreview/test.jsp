@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>reviewList TEST의 test</title>
 </head>
-<body>
+<body>	
 	<div class="container-fluid">
-	<input type="radio" name="sort" value="all" id="allReview" checked="checked" onclick="getAllList();"><label>전체</label>
-	<input type="radio" name="sort" value="reported" id="reportedReview" onclick="getReportedList();"><label>신고된 리뷰</label>
+	<input type="radio" name="sort" value="all" id="allReview" checked="checked">전체
+	<input type="radio" name="sort" value="reported" id="reportedReview">신고된 리뷰
 	<table class="table">
 			<thead>
 			<tr id="sector">
@@ -21,78 +22,81 @@
 				<th scope="col">축제명</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="contents">
 		<c:forEach items="${test}" var="test">
-		<tr id="tr1">
-			<td id="context1">${test.status}</td>
-			<td id =context2>${test.id}</td>
-			<td id="context3">${test.content}</td>
-			<td id="context4">${test.writeDate}</td>
-			<td id="context5">${test.title}</td>
-		</tr id="tr1">
+		<tr>
+				<c:set var = "status" value = "${test.status}"/>		
+					<c:choose>
+						<c:when test="${status > 0 && status < 2}" >
+							<td><div class="icon"><i class="bi bi-exclamation-circle-fill"></i></div></td>
+						</c:when>
+						<c:otherwise>
+							<td><div class="icon" style="display:none;"><i class="bi bi-exclamation-circle-fill"></i></div></td>
+						</c:otherwise>
+					</c:choose>
+					<td>${test.id}</td>
+					<td><a href="./test2?festivalReviewCode=${test.festivalReviewCode}">${test.content}</a></td>
+					<td>${test.writeDate}</td>
+					<td>${test.title}</td>
+		</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#reportedReview").click(function getReportedList() {
-		$.ajax({
-			url : "./test3", // 어디로 갈거니? // 갈 때 데이터
-			type : "get", // 타입은 뭘 쓸거니?
-			datatype : "json",
-			success : function(data) { // 갔다온 다음 결과값
-			//	alert('seccuss');	// 나오면 파일을 찾았다는 것
-			//	alert(data);  // [object Object],[object Object],[object Object]
-				
-			// 데이터를 확인하고 싶을 때.
-			//	let str = JSON.stringify(data); // <> parse()
-			//		alert(str); 
-
-				$.each(data, function(index,test) { // 데이터 =test
-
-					$("#context1").append("<td>"+test.status + "</td>");
-					$("#context2").append("<td>"+test.id +"</td>");
-					$("#context3").append("<td>"+test.content+"</td>");
-					$("#context4").append("<td>"+test.writeDate+"</td>");
-					$("#context5").append("<td>"+test.title + "</td>");
-
-				});
-			},
-		});
-	});
-			error : function getReportedList() {
-				alert('error');			
-			};
-	$("#allReview").click(function getAllList() {
-		$.ajax({
-			url : "./test1", // 어디로 갈거니? // 갈 때 데이터
-			type : "get", // 타입은 뭘 쓸거니?
-			datatype : "json",
-			success : function(data) { // 갔다온 다음 결과값
-			//	alert('seccuss');	// 나오면 파일을 찾았다는 것
-			//	alert(data);  // [object Object],[object Object],[object Object]
-				
-			// 데이터를 확인하고 싶을 때.
-			//	let str = JSON.stringify(data); // <> parse()
-			//	alert(str); 
-
-				$.each(data, function(index,test) { // 데이터 =test
-
-					$("#context1").append("<td>"+test.status + "</td>");
-					$("#context2").append("<td>"+test.id +"</td>");
-					$("#context3").append("<td>"+test.content+"</td>");
-					$("#context4").append("<td>"+test.writeDate+"</td>");
-					$("#context5").append("<td>"+test.title + "</td>");
-
-				});
-			},
-			error : function getAllList() {
-				alert('error');			
-			}
-		});
-		});
-	});
+  $("#reportedReview").on('click',function getReportedList() {
+    $("#contents").empty();
+    $.ajax({
+      url : "./test3",
+      type : "get",
+      datatype : "json",
+      success : function(data) {
+        $.each(data, function(index,test) {
+          var row = $('<tr></tr>');
+          var status = test.status;
+          var iconClass = (status > 0 && status < 2) ? "bi-exclamation-circle-fill" : "";
+          var icon = $('<div class="icon"></div>').append($('<i class="bi"></i>').addClass(iconClass));
+          row.append($('<td></td>').append(icon));
+          row.append($('<td></td>').text(test.id));
+          row.append($('<td></td>').append($('<a></a>').attr('href', './test2?festivalReviewCode=' + test.festivalReviewCode).text(test.content)));
+          row.append($('<td></td>').text(test.writeDate));
+          row.append($('<td></td>').text(test.title));
+          $("#contents").append(row);
+        });
+      },
+      error : function() {
+        alert('error');      
+      }
+	    });
+	  });
+	$("#allReview").on('click',function getAllList() {
+		 $("#contents").empty();
+		    $.ajax({
+		      url : "./test1",
+		      type : "get",
+		      datatype : "json",
+		      success : function(data) {
+		        $.each(data, function(index,test) {
+		          var row = $('<tr></tr>');
+		          var status = test.status;
+		          var iconClass = (status > 0 && status < 2) ? "bi-exclamation-circle-fill" : "";
+		          var icon = $('<div class="icon"></div>').append($('<i class="bi"></i>').addClass(iconClass));
+		          row.append($('<td></td>').append(icon));
+		          row.append($('<td></td>').text(test.id));
+		          row.append($('<td></td>').append($('<a></a>').attr('href', './test2?festivalReviewCode=' + test.festivalReviewCode).text(test.content)));
+		          row.append($('<td></td>').text(test.writeDate));
+		          row.append($('<td></td>').text(test.title));
+		          $("#contents").append(row);
+		        });
+		      },
+		      error : function() {
+		        alert('error');
+		      }
+		    });
+		  });
+	    });
 </script>	
 </body>
 </html>

@@ -25,4 +25,10 @@ public class TicketService implements ITicketService {
 		return ticketRepository.totalBuyerCount(); //구매자 목록의 행 수;
 	}
 
+	@Override
+	public List<V_ticketBuyerListVO> searchBuyer(V_ticketBuyerListVO buyerList) {
+	
+		return  ticketRepository.searchBuyer(buyerList);
+	}
+
 }

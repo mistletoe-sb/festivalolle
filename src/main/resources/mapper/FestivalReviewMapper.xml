@@ -18,18 +18,57 @@
 	</select>
 
 	<!-- 특정 1개의 축제 리뷰 - review_code 기준 -->
-	<select id="selectReview" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
-		select * from V_REVIEW_LIST where FESTIVAL_REVIEW_CODE = #{festivalReviewCode}
+	<select id="selectReview" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+	    select * from V_REVIEW_LIST where festival_review_code = #{festivalReviewCode}
 	</select>
 	
 	<!-- 축제 리뷰 출력- 신고된 리뷰 상태 기준 -->
-	<select id="selectReport" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+	<select id="selectReport" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
 		select * from V_REVIEW_LIST where status = 1
 	</select>
-	
+		
 	<!-- 신고된 리뷰 블라인드 처리 -->
-	<select id="setBlind" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
-		UPDATE V_REVIEW_LIST SET status = 2 WHERE festival_review_code = #{festivalReviewCode}
+	<select id="setBlind" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+	    UPDATE V_REVIEW_LIST SET status = 2 WHERE festival_review_code = #{festivalReviewCode}
 	</select>
+	
+	<!-- 신고된 리뷰 신고철회 처리 -->
+	<select id="setNormal" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
+	    UPDATE V_REVIEW_LIST SET status = 0 WHERE festival_review_code = #{festivalReviewCode}
+	</select>
+	
+	<select id="findInAllDailystoryList" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
+      <![CDATA[
+         SELECT DISTINCT dailystory_code, member_nickname, dailystory_uploaddate,
+         dailystory_title, dailystory_content, dailystory_image
+         FROM LOGUS.V_DAILYSTORY_SEARCH
+      ]]>
+      <where>
+         <choose>
+         <when test="option == 1">
+            <![CDATA[AND tag_name LIKE #{search}]]>
+         </when>
+         <when test="option == 2">
+            <![CDATA[AND dailystory_title LIKE #{search}]]>
+         </when>
+         <when test="option == 3">
+            <![CDATA[AND dailystory_content LIKE #{search}]]>
+         </when>
+         <when test="option == 4">
+            <![CDATA[AND member_nickname LIKE #{search}]]>
+         </when>
+         <otherwise>
+            <![CDATA[
+               AND
+               (tag_name LIKE #{search}
+               OR dailystory_title LIKE #{search}
+               OR dailystory_content LIKE #{search}
+               OR member_nickname LIKE #{search})
+            ]]>
+         </otherwise>
+         </choose>
+      </where>
+      <![CDATA[ORDER BY dailystory_code DESC]]>
+   </select>
 </mapper>
 	
