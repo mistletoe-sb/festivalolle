@@ -57,27 +57,33 @@ public class FestivalMainController {
 	// 축제 일정 조회 페이지로 이동
 	@GetMapping(value="/festival/calendar")
 	public String selectFestivalCalendarList(Model model) {
+		int month = LocalDate.now().getMonthValue();
 		// 기본 페이지에 로드할 데이터 조회(현재 월, 전체 지역)
 		List<FestivalMainVO> festivalMainVOList = festivalMainService
-				.selectFestivalCalendarList(getMonth(0), null);
+				.selectFestivalCalendarList(getMonth(month), null);
 		// model 설정
 		model.addAttribute("locationList", getStateList(festivalMainVOList));	// 지역 목록
 		model.addAttribute("festivalList", festivalMainVOList);					// 표시할 축제 목록
+		model.addAttribute("nowMonth", month);									// 현재 월
 		return "festival/festivalcalendar";
 	}
 	
 	// 선택된 월별, 지역별 축제 일정 조회하여 데이터 전달
-	@GetMapping(value="/festival/calendar/select")
+	@GetMapping(value="/festival/calendar/selectmonth")
+	@ResponseBody
+	public String selectFestivalCalendarList(Model model, @RequestParam(value="month") int month) {
+		List<FestivalMainVO> festivalMainVOList = null;
+		festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month));
+		return "festival/festivalcalendar";
+	}
+	
+	// 선택된 월별, 지역별 축제 일정 조회하여 데이터 전달
+	@GetMapping(value="/festival/calendar/selectlocation")
 	@ResponseBody
 	public String selectFestivalCalendarList(Model model, @RequestParam(value="month") int month,
-				@RequestParam(value="location", required = false, defaultValue = "전체") String location) {
+			@RequestParam(value="location", required = false, defaultValue = "전체") String location) {
 		List<FestivalMainVO> festivalMainVOList = null;
-		// 월만 선택된 경우(지역="전체")
-		if(location.equals(SelectFilter.ALL_LOCATION)) {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month));
-		} else {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
-		}
+		festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
 		return "festival/festivalcalendar";
 	}
 	
