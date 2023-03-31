@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.festivalReview.repository.IUserReviewRepository">
+
+	<insert id="insertFestivalReview" parameterType="com.joyous.festivalolle.festivalReview.model.FestivalReviewVO">
+		<![CDATA[
+			INSERT INTO festivalolle.festival_review
+			(festival_review_code, member_code, festival_code,
+			write_date, content, rating, status)
+			VALUES
+			(festival_review_code_seq.NEXTVAL, #{memberCode}, #{festivalCode},
+			TO_CHAR(SYSDATE, 'YYYY-MM-DD'), #{content}, #{rating}, 0)
+		]]>
+	</insert>
+	
+	<update id="updateFestivalReview">
+		<![CDATA[
+			UPDATE festivalolle.festival_review
+			SET status = #{status}
+			WHERE festival_review_code = #{festivalReviewCode}
+		]]>
+	</update>
+	
+	<delete id="deleteFestivalReview" parameterType="int">
+		<![CDATA[
+			DELETE festivalolle.festival_review
+			WHERE festival_review_code = #{festivalReviewCode}
+		]]>
+	</delete>
+</mapper>

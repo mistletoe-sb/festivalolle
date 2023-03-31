@@ -1,0 +1,349 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'nanum';
+    font-weight: 300;
+    src: url('../font/NanumSquareRoundL.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: normal;
+    src: url('../font/NanumSquareRoundR.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: bold;
+    src: url('../font/NanumSquareRoundB.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: 800;
+    src: url('../font/NanumSquareRoundEB.ttf') format('truetype');
+}
+
+/* 공통 적용 */
+body {
+	position: relative;
+	background: #FFFFFF;
+	font-family: 'nanum' !important;
+	font-size: 16px;
+	color: #191919;
+}
+
+/* 추천 축제 목록 레이아웃 */
+.recommend_list_layout {
+	width: 100vmin;
+	height: 60vmax;
+	padding-top: 3vmax;
+	padding-bottom: 6vmax;
+	margin: 20px 0vw;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	display: flex;
+	box-shadow: 0vw 2.5px 2px 0vw #0000001A;
+}
+.carousel-indicators {
+	margin: 0.5rem 0px 0px 0px;
+}
+.carousel-indicators > button {
+	width: 4vw !important;
+	height: 4vw !important;
+	background: #F15600 !important;
+	border: 1px solid #F15600 !important;
+	border-radius: 50% !important;
+	margin-left: 4px !important;
+	margin-right: 4px !important;
+}
+
+/* 기본 축제 목록 레이아웃 */
+.default_list_layout {
+	width: 100%;
+	padding: 0vmin 8.3vmin;
+	margin: 30px 0px 10px 0px;
+}
+.default_list_layout h3 {
+	margin-bottom: 30px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+/* 축제 상세 페이지 레이아웃 */
+.festival_info_layout {
+	font-weight: 800;
+	padding: 0vw 5vw;
+}
+.festival_info_sub_title {
+	margin-bottom: 10px;
+}
+.festival_info_sub_title h3 {
+	font-weight: bold !important;
+	display: inline-block;
+	margin-right: 8.5vw;
+	margin-bottom: 0px;
+}
+.d-day_info {
+	display: inline-block;
+	font-weight: bold !important;
+	padding: 2px 12px !important;
+}
+/* 이미지 */
+.festival_info_layout .carousel {
+	padding: 0vw 3.5vw;
+}
+.festival_info_layout .carousel-item {
+	width: 83vmin;
+	text-align: center;
+}
+.img_layout {
+	width: 100%;
+	object-fit: contain;
+}
+/* 상세 정보 메뉴(북마크, 입장권 구매, 리뷰)*/
+.festival_info_menu_container {
+	padding: 0vw 3.5vw;
+}
+.festival_info_menu {
+	width: 83vw;
+	height: 8vh;
+	border: 1px solid rgb(233, 233, 233);
+	border-radius: 0.8rem;
+	background-color: rgb(242, 242, 242);
+	font-size: 10px;
+}
+.festival_info_menu_empty {
+	float: left;
+	width: 5%;
+	height: 100%;
+}
+.ori_vertical {
+	float: left;
+	width: 30%;
+	height: 100%;
+	text-align: center;
+	justify-content: center;
+	padding-top: 1.5vh;
+}
+.ori_vertical p {
+	margin: 0px;
+}
+.festival_info_menu .icon_layout img {
+	object-fit: contain;
+	width: 50%;
+	height: 50%;
+}
+
+/* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
+.festival_card_container {
+	display: inline-block;
+	width: 83vmin;
+	cursor: pointer;
+	margin-bottom: 8.3vmin;
+	font-size: 14px;
+	font-weight: 800;
+}
+.festival_card_container .card {
+	border: 0.1rem solid #F2F2F2;
+	border-radius: 1rem;
+}
+.festival_card_container .card-body {
+	padding-top: 8px;
+}
+.festival_card_container .ratio {
+	--bs-aspect-ratio: 120%;
+}
+.festival_card_container .card-img-top {
+	object-fit: cover;
+	width: 100%;
+}
+.festival_card_container .festival_location {
+	display: inline-block;
+	width: 80%;
+	text-align: left;
+}
+
+/* 아이콘 + 텍스트가 배치되는 레이아웃*/
+.icon_layout {
+	display: inline-block;
+}
+.icon_layout img {
+	object-fit: contain;
+}
+/* 평점 아이콘 + 텍스트 */
+.rating_img {
+	width: 5vw;
+	height: 2.7vh;
+	text-align: right;
+}
+.rating_img img {
+	width: 80%;
+	height: 80%;
+	vertical-align: top;
+}
+.rating_txt {
+	width: 7.5vw;
+	height: 2.7vh;
+	letter-spacing: 1px;
+	text-align: left;
+	font-weight: 800;
+}
+
+/* 문단 형태의 텍스트 */
+.multi_line_text {
+	white-space: pre-line;
+}
+
+/* 모바일 하단 메뉴바 */
+.bottom_menu {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 8vh;
+	z-index: 100;
+	background-color: white;
+	box-shadow: 0px -2px 4px 0px #0000001A;
+}
+.bottom_menu > div {
+	float: left;
+	width: 25%;
+	height: 100%;
+	text-align: center;
+	padding-top: 1vh;
+}
+.bottom_menu img {
+	object-fit: contain;
+	width: 50%;
+	height: 50%;
+}
+.bottom_menu > div > p {
+	margin: 0px;
+	font-size: 10px;
+	font-weight: 800;
+	color: #191919;
+}
+.bottom_empty {
+	height: 9vh;
+	width: 100%;
+}
+
+/* 모바일 상단 메뉴바 */
+.top_empty {
+	width: 100%;
+	height: 8.5vh;
+}
+.top_menu {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 8vh;
+	z-index: 100;
+	background-color: #F15600;
+	box-shadow: 0px 2px 4px 0px #0000001A;
+}
+.top_menu > div {
+	padding-top: 2vh;
+}
+/* 일반 상태 */
+.normal_top > div {
+	float: left;
+	height: 5vh;
+	width: 16%;
+	text-align: center;
+}
+.normal_top img {
+	object-fit: contain;
+	height: 80%;
+	width: 60%;
+}
+.page_title {
+	width: 68% !important;
+	text-align: left !important;
+	margin-left: 10vmin;
+}
+.page_title > p {
+	font-size: 20px;
+	font-weight: bold;
+	color: #FFFFFF;
+	margin: 0px;
+}
+/* 검색 활성 상태 */
+.search_top {
+	padding-left: 5.5vw;
+	padding-right: 5.5vw;
+	text-align: left;
+}
+.search_box {
+	width: 95%;
+	height: 4.5vh;
+	border-radius: 100px;
+	background-color: #FFFFFFB3;
+	padding-left: 5px;
+	float: right;
+}
+.search_input {
+	width: 90%;
+	height: 4.5vh;
+	border: none;
+	background-color: #FFFFFF00;
+	font-style: italic;
+    font-size: 14px;
+}
+.search_btn {
+	float: left;
+	width: 10%;
+	height: 4.5vh;
+	object-fit: contain;
+	font-size: 14px;
+	padding: 4px;
+}
+.search_close {
+	width: 5%;
+	height: 4.5vh;
+	float: left;
+}
+.search_close > img {
+	width: 100%;
+	height: 100%;
+	object-fit: fill;
+	transform: rotate(180deg);
+}
+
+/* 축제 일정 조회 화면 */
+.empty_space {
+	width: 100%;
+	height: 6.4vh;
+}
+.select_space {
+	position: fixed;
+	top: 8vh;
+	left: 0px;
+	width: 100%;
+	height: 6.4vh;
+	z-index: 1;
+	background-color: #F5F5F5;
+}
+.select_btn_space {
+	margin-left: 8.3vw;
+	height: 100%;
+	padding: 2vw 0vw;
+	font-weight: normal;
+}
+.select_calendar_btn {
+	margin-right: 2vw;
+	padding-left: 1vw;
+	height: 100%;
+	border: none;
+	border-radius: 0.5rem;
+	background-color: #FFFFFF;
+	box-shadow: 0.012rem 0.12rem 0.24rem 0rem #0000001A
+}
+#select_month {
+	width: 18vw;
+}
+#select_location {
+	width: 25vw;
+}
+.form-check-label {
+	width: 65vw;
+}
