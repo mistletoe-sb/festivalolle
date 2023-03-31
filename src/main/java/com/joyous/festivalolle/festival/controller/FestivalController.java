@@ -3,22 +3,31 @@ package com.joyous.festivalolle.festival.controller;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.omg.CORBA.portable.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +40,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festival.service.IFestivalService;
 
@@ -43,37 +53,35 @@ public class FestivalController {
 	private IFestivalService festivalService;
 
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
-	
+
+/* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
 
 	public String festivalList(Model model, HttpSession session) throws Exception {
-//		ManagerVO vo = (ManagerVO)session.getAttribute("loginManager");
-//		int managerLevel = vo.getManagerLevel();
-		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
-		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(1);
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
+		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
 		model.addAttribute("selectFestivalList", selectFestivalList);
-		/*
-		List<String> areaList = festivalService.getAreaList();
-		
-		for(String area : areaList){
-		    System.out.println(area);
-		}*/
 
 		return view_pos + "adminfestivallist";
 	}
-	
+
+/* =====================================================statusfestivallist====================================================== */		
 	@GetMapping("/statusfestivallist")
 	@ResponseBody
 	public List<FestivalVO> selectFestivalList(Model model, HttpSession session) {				
-		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
-		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(1);
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
+		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
 		return selectFestivalList;		
 	}
-	
+
+/* =====================================================festivastatusllist====================================================== */		
 	@GetMapping("/festivastatusllist")
 	@ResponseBody
 	public List<FestivalVO> festivastatusllist(FestivalVO vo,Model model, HttpSession session, @RequestParam("status") int status) {				
-		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
 		if(status == 5) {
 			List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
 			return selectFestivalList;	
@@ -85,10 +93,29 @@ public class FestivalController {
 		}
 		
 	}
-	
+
+/* =====================================================adminfestivalinfo====================================================== */		
 	@GetMapping("/adminfestivalinfo") 
 	public String adminfestivalinfo(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
-		int organizationCode = 1;
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
+		vo.setOrganizationCode(organizationCode);
+		vo.setFestivalCode(festivalCode);
+		FestivalVO selectFestivalInfo = festivalService.selectFestivalInfo(vo);
+		
+		String img;
+		
+		img = Base64.getEncoder().encodeToString(selectFestivalInfo.getImage());
+		model.addAttribute("img", img);
+		model.addAttribute("adminfestivalinfo", selectFestivalInfo);
+		
+		return view_pos + "adminfestivalinfo";
+	}
+	
+	/*@GetMapping("/adminfestivalinfo") 
+	public String adminfestivalinfo(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
 		FestivalVO selectFestivalInfo = festivalService.selectFestivalInfo(vo);
@@ -96,21 +123,22 @@ public class FestivalController {
 		
 		model.addAttribute("adminfestivalinfo", selectFestivalInfo);
 		return view_pos + "adminfestivalinfo";
-	}
+	}*/
 	
+	/* =====================================================festivastatusllist====================================================== */	
 	@GetMapping("/festivalinsertform") 
 	public String festivalInsertform(Model model, HttpSession session) {
 		return view_pos + "adminfestivalinsert";
 	}
 
+	/* =====================================================festivastatusllist====================================================== */	
 	@PostMapping("/festivalinsert")
-	public String festivalInsert(FestivalVO vo, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file) {
+	public String festivalInsert(FestivalVO vo, HttpSession session, Model model, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file) {
 		try {
-			/*
-			 * if(profile.getSize() != 0) { String profileURL = PATH + "\\" +
-			 * profile.getBytes(); profile.transferTo(new File(profileURL));
-			 * vo.setImage(profile.getBytes());//setMemberProfile(); }
-			 */
+
+			
+			
+			
 			
 			//오늘날짜 yyyy-MM-dd로 생성
 			String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
@@ -145,13 +173,16 @@ public class FestivalController {
 			  System.out.println("today와 date가 같습니다.(date = today)");
 			}
 
-			
+
 			byte[] fileBytes = file.getBytes();
 			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
-			vo.setOrganizationCode(1);
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			int organizationCode = adminVO.getOrganizationCode();
+			String adminName = adminVO.getName();
+			vo.setOrganizationCode(organizationCode);
 			vo.setImage(fileBytes);
 			vo.setThumbnail(fileBytes);
-			vo.setAdminName("담당자1");
+			vo.setAdminName(adminName);
 			festivalService.insertFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
@@ -166,9 +197,11 @@ public class FestivalController {
 		return view_pos + "adminfestivallist";
 	}
 	
+	/* =====================================================adminfestivalupdateform====================================================== */	
 	@GetMapping("/adminfestivalupdateform") 
 	public String adminfestivalupdateform(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
-		int organizationCode = 1;
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
 		FestivalVO selectFestivalInfo = festivalService.selectFestivalInfo(vo);
@@ -178,9 +211,9 @@ public class FestivalController {
 		return view_pos + "adminfestivalupdate";
 	}
 	
-
+	/* =====================================================adminfestivalupdate====================================================== */	
 	@PostMapping("/adminfestivalupdate")
-	public String adminfestivalupdate(FestivalVO vo, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+	public String adminfestivalupdate(FestivalVO vo, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("file") MultipartFile file, @RequestParam(value="festivalCode", required=true) int festivalCode) {
 		try {
 			/*
 			 * if(profile.getSize() != 0) { String profileURL = PATH + "\\" +
@@ -224,10 +257,13 @@ public class FestivalController {
 			
 			byte[] fileBytes = file.getBytes();
 			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
-			vo.setOrganizationCode(1);
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			int organizationCode = adminVO.getOrganizationCode();
+			String adminName = adminVO.getName();
+			vo.setOrganizationCode(organizationCode);
 			vo.setImage(fileBytes);
 			vo.setThumbnail(fileBytes);
-			vo.setAdminName("담당자1");
+			vo.setAdminName(adminName);
 			festivalService.updateFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
@@ -242,18 +278,21 @@ public class FestivalController {
 		return "redirect:/admin/adminfestivalinfo?festivalCode="+festivalCode;
 	}
 	
+	/* =====================================================selectYearTitleList====================================================== */	
 	@GetMapping("/selectYearTitleList")
 	@ResponseBody
 	public List<FestivalVO> selectYearTitleList(FestivalVO vo,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
-		int organizationCode = 1;//(String)session.getAttribute("organizationCode");
 		String titleyear2 = titleyear + "%";
 		System.out.println(titleyear2);
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
 			vo.setOrganizationCode(organizationCode);
 			vo.setStartDate(titleyear2);
 			List<FestivalVO> selectYearTitleList = festivalService.selectYearTitleList(vo);
 			return selectYearTitleList;	
 	}
 	
+	/* =====================================================selectYearFestival====================================================== */	
 	@GetMapping("/selectYearFestival")
 	@ResponseBody
 	public List<FestivalVO> selectYearFestival(FestivalVO vo,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
@@ -262,15 +301,55 @@ public class FestivalController {
 			List<FestivalVO> selectYearTitleList = festivalService.selectYearFestival(vo);
 			return selectYearTitleList;	
 	}
-	
+	/* =====================================================festivalSearch====================================================== */	
 	@GetMapping("/festivalSearch")
 	@ResponseBody
 	public List<FestivalVO> festivalSearch(Model model, HttpSession session, @RequestParam("festivalKeyword") String festivalKeyword, @RequestParam("tableBox") String tableBox)  {				
-		int organizationCode = 1;
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
 		List<FestivalVO> festivalSearch = festivalService.selectFestivalSearch(organizationCode,festivalKeyword,tableBox);
 		return festivalSearch;	
 	}
+/*	
+	@RequestMapping("/getByteImage")
+	public ResponseEntity<byte[]> getBinaryFile(FestivalVO vo,@PathVariable long fileid, HttpServletRequest req, HttpServletResponse res, Model model){
+		final HttpHeaders headers = new HttpHeaders();
 		
+		java.io.InputStream is = null;
+		
+		try {
+			byte[] imgFile = (byte[]) vo.getImage();
+			is = new ByteArrayInputStream(imgFile);
+			PrintWriter os = res.getWriter();
+			int binaryRead;
+			while ((binaryRead = is.read()) != -1) {
+				os.write(binaryRead);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null)
+				try {is.close();}
+			catch(IOException ex) {}
+		}
+		
+		return new ResponseEntity<byte[]>(headers, HttpStatus.OK);
+	}
+*/
 	
+	/* =====================================================getFestivalImage====================================================== */	
+	@RequestMapping("/image/{id}")
+	public ResponseEntity<byte[]> getFestivalImage(FestivalVO vo,@PathVariable int id, HttpSession session) {
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		int organizationCode = adminVO.getOrganizationCode();
+		vo.setOrganizationCode(organizationCode);
+		vo.setFestivalCode(id);
+	    FestivalVO festival = festivalService.selectFestivalInfo(vo);
+	    byte[] imgFile = festival.getImage();
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_JPEG);
+	    headers.setContentLength(imgFile.length);
+	    return new ResponseEntity<byte[]>(imgFile, headers, HttpStatus.OK);
+	}
 
 }

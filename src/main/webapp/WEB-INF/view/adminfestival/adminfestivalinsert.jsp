@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-   
+  <style>
+img{
+width: 500px;
+}
+</style> 
 
  <%@ include file="../admintop.jsp" %>
 
@@ -65,8 +69,12 @@
 				<th scope="col"><input type="text" class="form-control" id="tags" name="tags"  size="100" placeholder="스페이스를 사용하여 태그를 작성 하세요." onkeydown="splitTag(event)" required></th>
 			</tr>
 			<tr>
-				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input  type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required></th>
+				<th scope="col"><label for="exampleFormControlInput1" class="form-label" >이미지</label></th>
+				<th scope="col">
+					<div id="image_container" style="width: 500px;"></div>
+					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+				</th>
+			
 			</tr>
 		</table>
 			<fieldset>
@@ -95,6 +103,18 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+function setThumbnail(event) {
+    var reader = new FileReader();
+	
+    reader.onload = function(event) {
+    	$("#image_container").empty();
+      var img = document.createElement("img");
+      img.setAttribute("src", event.target.result);
+      document.querySelector("div#image_container").appendChild(img);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
 
 /*  //태그 입력 폼
 function splitTag(event){
@@ -120,72 +140,137 @@ function splitTag(event){
 
 
 /* ===================================================================== */
-// 태그 입력 폼
+/* // 태그 입력 폼
 function splitTag(event) {
   // 스페이스 바 누를 시 동작
   if (event.keyCode == 32) {
+	var tagListOrigin = $('#tags').val()
     var tagList = $('#tags').val().split(' '); // 현재 입력한 태그 내용들을 ' ' 기준으로 split
     var tags = '';
     // split한 각 태그들을 검증해서 가공
-    for (x of tagList) {
-      if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,
-        var tag = x;
-        if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag) && checkTagCount(tagList)) {
-          // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하면,
-          tags += ('#' + tag + ' '); // #을 붙여서 추가
-        }
-      } 
+    if(checkTagCount(tagList)){
+	    for (x of tagList) {
+	      if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,
+	        var tag = '#' + x;
+	        if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag)) {
+	          // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하면,
+	          tags += (tag + ' '); // #을 붙여서 추가
+	        }
+	      } else if (x.indexOf('#') == 0 && (x.length > 1)) { // 2글자 이상이고, 맨 첫글자가 #이면,
+	        var tag = x;
+	        if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag)) {
+	          // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하면,
+	          tags += (tag + ' '); // 그대로 추가
+	        }
+	      }
+	    }  
     }
     $('#tags').val(tags); // 새로 가공된 내용을 출력
 
-    /* 태그 제약 조건 */
+
 
   }
-}
+} */
+function splitTag(event) {
+	  // 스페이스 바 누를 시 동작
+	  if (event.keyCode == 32) {
+	    var tagListOrigin = $('#tags').val();
+	    var tagList = tagListOrigin.split(' '); // 현재 입력한 태그 내용들을 ' ' 기준으로 split
+//	    var tagList = $('#tags').val().split(' '); // 현재 입력한 태그 내용들을 ' ' 기준으로 split
+	    var tags = '';
+	    var usedTags = []; // 이미 사용된 태그를 담는 배열
 
-// 태그 길이 제한
+	    // split한 각 태그들을 검증해서 가공
+	    if (checkTagCount(tagList)) {
+	      for (x of tagList) {
+	        if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,
+	          var tag = '#' + x;
+	          if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag) && !usedTags.includes(tag.toLowerCase())) {
+	            // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하고, 사용된 태그가 아니면,
+	            tags += (tag + ' '); // #을 붙여서 추가
+	            usedTags.push(tag.toLowerCase()); // 사용된 태그를 배열에 추가
+	          }
+	        } else if (x.indexOf('#') == 0 && (x.length > 1)) { // 2글자 이상이고, 맨 첫글자가 #이면,
+	          var tag = x;
+	          if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag) && !usedTags.includes(tag.toLowerCase())) {
+	            // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하고, 사용된 태그가 아니면,
+	            tags += (tag + ' '); // 그대로 추가
+	            usedTags.push(tag.toLowerCase()); // 사용된 태그를 배열에 추가
+	          }
+	        }
+	      }
+	    }
+	    
+	//    $('#tags').val(tags); // 새로 가공된 내용을 출력
+	 	$('#tags').val(tags.trim());
+
+	    /* 태그 제약 조건 */
+
+	  }
+	}
+//태그 길이 제한
 const MAX_TAG_LENGTH = 10;
 
 function checkTagLength(tag) {
-  if (tag.length > MAX_TAG_LENGTH) {
-    alert("태그는 "+MAX_TAG_LENGTH+"자 이하여야 합니다.");
-    return false;
-  }
-  return true;
+if (tag.length >= MAX_TAG_LENGTH) {
+  alert("태그는 " + MAX_TAG_LENGTH+ "자 이하여야 합니다.");
+  return false;
+}
+return true;
 }
 
-// 문자 제한
+//문자 제한
 function checkTagCharacters(tag) {
-  const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/;
-  if (!regex.test(tag)) {
-    alert("태그는 알파벳, 숫자, 한글만 입력할 수 있습니다.");
-    return false;
-  }
-  return true;
+const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣#]+$/;
+if (!regex.test(tag)) {
+  alert("태그는 알파벳, 숫자, 한글만 입력할 수 있습니다.");
+  return false;
+}
+return true;
 }
 
-// 예약어 제한
+//예약어 제한
 const RESERVED_TAGS = ["javascript", "html", "css"];
 
 function checkReservedTags(tag) {
-  if (RESERVED_TAGS.includes(tag.toLowerCase())) {
-    alert("javascript, html, css은 사용할 수 없는 예약어입니다.");
-    return false;
-  }
-  return true;
+if (RESERVED_TAGS.includes(tag.toLowerCase())) {
+  alert("javascript, html, css은 사용할 수 없는 예약어입니다.");
+  return false;
+}
+return true;
 }
 
-// 태그 수 제한
+//태그 수 제한
 const MAX_TAG_COUNT = 10;
 
 function checkTagCount(tagList) {
-  if (tagList.length >= MAX_TAG_COUNT) {
-    alert("태그는 최대" + MAX_TAG_COUNT +"개까지 사용할 수 있습니다.");
-    return false;
-  }
-  return true;
+if (tagList.length > MAX_TAG_COUNT) {
+  alert("태그는 최대 "+ MAX_TAG_COUNT +"개까지 사용할 수 있습니다.");
+  return false;
+}
+return true;
 }
 
+var tagArray = []; // 태그 배열을 전역 변수로 선언
+
+function addTag(tag) {
+if (tagArray.includes(tag)) { // 태그 배열에 이미 존재하는 경우
+  alert("이미 입력된 태그입니다.");
+  return;
+}
+tagArray.push(tag); // 태그 배열에 추가
+// 태그 출력 및 제약조건 체크 등 추가 구현
+}
+
+function deleteLastTag() {
+var lastTag = tagArray.pop(); // 배열에서 마지막 태그를 제거하고 반환
+// 마지막 태그 출력 등 추가 구현
+}
+
+function clearTags() {
+tagArray = []; // 태그 배열 초기화
+// 입력된 태그 모두 제거 등 추가 구현
+}
 
 	
 var addr = ''; // 주소 변수

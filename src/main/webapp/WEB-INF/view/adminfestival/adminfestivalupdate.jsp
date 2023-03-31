@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+   
    
  <%@ include file="../admintop.jsp" %>
 
 	<div class="container-fluid">
 		<!-- ★내용삽입★ -->
-			<div>
+	<div class="card shadow mb-4">
+	<div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">축제 수정</h6>
+            </div>
 		<form  action = "<c:url value='/admin/adminfestivalupdate?festivalCode=${adminfestivalinfo.festivalCode}'/>" method="post" enctype="multipart/form-data">
+				<div class="card-body">
+                <div class="table-responsive">
 		<table class="table">
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">축제명</label></th>
@@ -61,7 +69,8 @@
 				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required value="${adminfestivalinfo.image}"></th>
 			</tr>
 		</table>
-		
+		</div>
+		</div>
 			<fieldset>
 			
 			<div class="d-grid gap-2 col-6 mx-auto">
@@ -73,6 +82,8 @@
 		    </fieldset>
 			
 		</form>
+		</div>
+		</div>
 		
 		
 		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">

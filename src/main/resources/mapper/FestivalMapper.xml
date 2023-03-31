@@ -12,7 +12,7 @@
 	<select id="selectFestivalList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM FESTIVAL
+			FROM v_FESTIVAL
 			WHERE organization_code = #{organizationCode}
 			ORDER BY register_date DESC
 		]]>
@@ -24,7 +24,7 @@
 	<select id="selectStatusFestivalList" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM FESTIVAL
+			FROM v_FESTIVAL
 			WHERE organization_code = #{organizationCode} and status = #{status}
 			ORDER BY register_date DESC
 		]]>
@@ -35,7 +35,7 @@
 	<select id="selectFestivalInfo" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM festival
+			FROM v_festival
 			WHERE FESTIVAL_CODE = #{festivalCode} and organization_code = #{organizationCode}
 		]]>
 	</select>
@@ -45,7 +45,7 @@
 	<select id="selectYearTitleList" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM festival
+			FROM v_festival
 			WHERE start_date like  #{startDate} or end_date like  #{startDate} and organization_code = #{organizationCode}
 		]]>
 	</select>	
@@ -55,7 +55,7 @@
 	<select id="selectYearFestival" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM festival
+			FROM v_festival
 			WHERE festival_code = #{festivalCode}
 		]]>
 	</select>	
@@ -65,7 +65,7 @@
 	<select id="selectFestivalSearch" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM festival
+			FROM v_festival
 			where organization_code = #{organizationCode}
 		]]>
 			<choose>

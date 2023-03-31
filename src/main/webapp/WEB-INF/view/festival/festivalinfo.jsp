@@ -58,6 +58,7 @@
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
+									<img alt="" src="/getByteImage" />
 									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
 									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
 								</div>
