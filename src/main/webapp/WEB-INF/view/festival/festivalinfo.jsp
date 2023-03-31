@@ -139,7 +139,7 @@
 			</div>
 			
 			<div class="festival_info_sub_title">
-				<h3>리뷰 N개</h3>
+				<h3>축제 리뷰 N개</h3>
 			</div>
 			<div>
 				<div class="icon_layout">							
@@ -152,11 +152,27 @@
 					<p>${fesInfo[0].rating}</p>
 				</div>
 			</div>
-			<div>
+			<%-- <div>
+				<div class="review_card my_review">
+					<form action="<c:url value='/review/insert'/>" method="post">
+						<textarea name="content" rows="10" cols="20"></textarea>
+						<input type="number" name="rating">
+						<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
+						<input type="submit" value="등록">
+					</form>
+					<form action="<c:url value='/review/report'/>" method="post">
+						<input type="hidden" name="festivalReviewCode" value="9">
+						<input type="submit" value="신고">
+					</form>
+					<form action="<c:url value='/review/delete'/>" method="post">
+						<input type="hidden" name="festivalReviewCode" value="9">
+						<input type="submit" value="삭제">
+					</form>
+				</div>
 				<c:forEach var="review" items="${reviewList}" varStatus="stat">
 					
 				</c:forEach>
-			</div>
+			</div> --%>
 		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>

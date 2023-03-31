@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.festivalReview.model.FestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.service.IUserReviewService;
@@ -23,38 +24,44 @@ public class UserReviewController {
 	
 	// 리뷰 작성
 	@PostMapping("/insert")
+	@ResponseBody
 	public String insertFestivalReview(FestivalReviewVO festivalReviewVO, HttpSession session) {
-		festivalReviewVO.setMemberCode(Integer.parseInt(session.getAttribute("").toString()));	// 세션에서 회원 코드 참조
+		//festivalReviewVO.setMemberCode(Integer.parseInt(session.getAttribute("").toString()));	// 세션에서 회원 코드 참조
+		festivalReviewVO.setMemberCode(10);	// 세션에서 회원 코드 참조
 		try {
 			userReviewService.insertFestivalReview(festivalReviewVO);	// insert 실행
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return "ok";
 	}
 	
-	// 리뷰 신고 및 신고 해제
-	@PostMapping("/update")
-	public String updateFestivalReview(int festivalReviewCode, int status) {
+	// 리뷰 신고
+	@PostMapping("/report")
+	@ResponseBody
+	public String updateFestivalReview(int festivalReviewCode) {
 		try {
-			userReviewService.updateFestivalReview(festivalReviewCode, status);		// update 실행(신고, 신고 해제 처리)
+			//userReviewService.updateFestivalReview(festivalReviewCode, 1);		// update 실행(신고, 신고 해제 처리)
+			userReviewService.updateFestivalReview(9, 1);		// update 실행(신고, 신고 해제 처리)
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return "ok";
 	}
 	
 	// 리뷰 삭제
 	@PostMapping("/delete")
+	@ResponseBody
 	public String deleteFestivalReview(int festivalReviewCode) {
 		try {
-			userReviewService.deleteFestivalReview(festivalReviewCode);		// delete 실행(리뷰 삭제 처리)
+			//userReviewService.deleteFestivalReview(festivalReviewCode);		// delete 실행(리뷰 삭제 처리)
+			userReviewService.deleteFestivalReview(9);		// delete 실행(리뷰 삭제 처리)
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return "ok";
 	}
 }

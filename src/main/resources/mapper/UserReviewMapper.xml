@@ -4,29 +4,29 @@
 <!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
 <mapper namespace="com.joyous.festivalolle.festivalReview.repository.IUserReviewRepository">
 
-	<select id="insertFestivalReview" parameterType="com.joyous.festivalolle.festivalReview.model.FestivalReviewVO">
+	<insert id="insertFestivalReview" parameterType="com.joyous.festivalolle.festivalReview.model.FestivalReviewVO">
 		<![CDATA[
 			INSERT INTO festivalolle.festival_review
 			(festival_review_code, member_code, festival_code,
-			writeDate, content, rating, status)
+			write_date, content, rating, status)
 			VALUES
-			(festival_review_code_seq.NEXTVAL, #{member_code}, #{festival_code},
+			(festival_review_code_seq.NEXTVAL, #{memberCode}, #{festivalCode},
 			TO_CHAR(SYSDATE, 'YYYY-MM-DD'), #{content}, #{rating}, 0)
 		]]>
-	</select>
+	</insert>
 	
-	<select id="updateFestivalReview">
+	<update id="updateFestivalReview">
 		<![CDATA[
 			UPDATE festivalolle.festival_review
 			SET status = #{status}
 			WHERE festival_review_code = #{festivalReviewCode}
 		]]>
-	</select>
+	</update>
 	
-	<select id="deleteFestivalReview" parameterType="int">
+	<delete id="deleteFestivalReview" parameterType="int">
 		<![CDATA[
 			DELETE festivalolle.festival_review
 			WHERE festival_review_code = #{festivalReviewCode}
 		]]>
-	</select>
+	</delete>
 </mapper>

@@ -81,7 +81,7 @@ public class FestivalMainController {
 		return "festival/festivalcalendar";
 	}
 	
-	// D-Day 계산 메서드
+	// D-Day 계산 메서드(util로 옮기는 것 고려)
 	public String getDday(String startDate) {
 		LocalDate fromDate = LocalDate.now();										// 현재 날짜
 		LocalDate toDate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);	// 축제 시작일자
@@ -100,7 +100,7 @@ public class FestivalMainController {
 		return stateNameSet.toArray(new String[0]);
 	}
 	
-	// 선택한 달을 DB에서 검색할 수 있도록 포맷 변환
+	// 선택한 달을 DB에서 검색할 수 있도록 포맷 변환(util로 옮기는 것 고려)
 	public String getMonth(int month) {
 		LocalDate today = LocalDate.now();	// 현재 날짜
 		// 1~9월의 경우

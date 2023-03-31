@@ -17,8 +17,8 @@
 		<div class="empty_space"></div>
 		<div class="select_space">
 			<div>
-				<button type="button" id="select_month" value="월" data-bs-toggle="modal" data-bs-target="#monthModal"></button>
-				<button type="button" id="select_location" value="전체" data-bs-toggle="modal" data-bs-target="#locationModal"></button>
+				<button type="button" class="btn btn-primary" id="select_month" value="월" data-bs-toggle="modal" data-bs-target="#monthModal"></button>
+				<button type="button" class="btn btn-primary" id="select_location" value="전체" data-bs-toggle="modal" data-bs-target="#locationModal"></button>
 			</div>
 		</div>
 		
@@ -38,24 +38,48 @@
 		
 		
 		<!-- https://getbootstrap.kr/docs/5.2/components/modal/ -->
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!-- 월 선택 Modal -->
+		<div class="modal fade" id="monthModal" tabindex="-1" aria-labelledby="monthModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="modal-content">
 					<div class="modal-body">
 						<!-- https://getbootstrap.kr/docs/5.2/components/list-group/ -->
 						<ul class="list-group">
 							<li class="list-group-item">
-								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio" checked>
-								<label class="form-check-label" for="firstRadio">First radio</label>
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="monthRadio1" checked>
+								<label class="form-check-label" for="firstRadio">monthRadio1</label>
 							</li>
 							<li class="list-group-item">
-								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="secondRadio">
-								<label class="form-check-label" for="secondRadio">Second radio</label>
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="monthRadio2">
+								<label class="form-check-label" for="secondRadio">monthRadio2</label>
 							</li>
 							<li class="list-group-item">
-								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="thirdRadio">
-								<label class="form-check-label" for="thirdRadio">Third radio</label>
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="monthRadio3">
+								<label class="form-check-label" for="thirdRadio">monthRadio3</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 지역 선택 Modal -->
+		<div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-body">
+						<!-- https://getbootstrap.kr/docs/5.2/components/list-group/ -->
+						<ul class="list-group">
+							<li class="list-group-item">
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="locationRadio1" checked>
+								<label class="form-check-label" for="firstRadio">locationRadio1</label>
+							</li>
+							<li class="list-group-item">
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="locationRadio2">
+								<label class="form-check-label" for="secondRadio">locationRadio2</label>
+							</li>
+							<li class="list-group-item">
+								<input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="locationRadio3">
+								<label class="form-check-label" for="thirdRadio">locationRadio3</label>
 							</li>
 						</ul>
 					</div>
