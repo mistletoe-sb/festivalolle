@@ -1,23 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
    
-   
- <style>
-input[type=file]::file-selector-button {
 
-  width: 100px auto;
-  height: 35px;
-  background: #4e73df;
-  border: 1px solid #4e73df;
-  border-radius: 7px;
-  cursor: pointer;
-  font-family : #fff
-  &:hover {
-    background: #4e73df;
-    color: #4e73df;
-  }
- }
- </style>  
  <%@ include file="../admintop.jsp" %>
 
 	<div class="container-fluid">
@@ -80,13 +66,13 @@ input[type=file]::file-selector-button {
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block; padding: 0px" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required></th>
+				<th scope="col"><input  type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required></th>
 			</tr>
 		</table>
 			<fieldset>
 			<div class="d-grid gap-2 col-6 mx-auto" style="margin:auto ">
-				<input type="submit" class="btn btn-primary" value='등록하기' style="width: 50%; margin : .5rem!important;">
-				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기' style="width: 50%; margin : .5rem!important;">
+				<input type="submit" class="btn btn-primary" value='등록하기' >
+				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기' >
 			</div>
 			</div>
 
@@ -110,7 +96,7 @@ input[type=file]::file-selector-button {
 <script>
 
 
-//태그 입력 폼
+/*  //태그 입력 폼
 function splitTag(event){
 	// 스페이스 바 누를 시 동작
 	if(event.keyCode == 32){
@@ -125,7 +111,79 @@ function splitTag(event){
 			}
 		}
 		$('#tags').val(tags);	// 새로 가공된 내용을 출력
+		
+
+		
+		
 	}
+}  */
+
+
+/* ===================================================================== */
+// 태그 입력 폼
+function splitTag(event) {
+  // 스페이스 바 누를 시 동작
+  if (event.keyCode == 32) {
+    var tagList = $('#tags').val().split(' '); // 현재 입력한 태그 내용들을 ' ' 기준으로 split
+    var tags = '';
+    // split한 각 태그들을 검증해서 가공
+    for (x of tagList) {
+      if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,
+        var tag = x;
+        if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag) && checkTagCount(tagList)) {
+          // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하면,
+          tags += ('#' + tag + ' '); // #을 붙여서 추가
+        }
+      } 
+    }
+    $('#tags').val(tags); // 새로 가공된 내용을 출력
+
+    /* 태그 제약 조건 */
+
+  }
+}
+
+// 태그 길이 제한
+const MAX_TAG_LENGTH = 10;
+
+function checkTagLength(tag) {
+  if (tag.length > MAX_TAG_LENGTH) {
+    alert("태그는 "+MAX_TAG_LENGTH+"자 이하여야 합니다.");
+    return false;
+  }
+  return true;
+}
+
+// 문자 제한
+function checkTagCharacters(tag) {
+  const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/;
+  if (!regex.test(tag)) {
+    alert("태그는 알파벳, 숫자, 한글만 입력할 수 있습니다.");
+    return false;
+  }
+  return true;
+}
+
+// 예약어 제한
+const RESERVED_TAGS = ["javascript", "html", "css"];
+
+function checkReservedTags(tag) {
+  if (RESERVED_TAGS.includes(tag.toLowerCase())) {
+    alert("javascript, html, css은 사용할 수 없는 예약어입니다.");
+    return false;
+  }
+  return true;
+}
+
+// 태그 수 제한
+const MAX_TAG_COUNT = 10;
+
+function checkTagCount(tagList) {
+  if (tagList.length >= MAX_TAG_COUNT) {
+    alert("태그는 최대" + MAX_TAG_COUNT +"개까지 사용할 수 있습니다.");
+    return false;
+  }
+  return true;
 }
 
 

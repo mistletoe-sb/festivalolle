@@ -239,7 +239,7 @@ public class FestivalController {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Exception");
 		}
-		return view_pos + "adminfestivalinfo";
+		return "redirect:/admin/adminfestivalinfo?festivalCode="+festivalCode;
 	}
 	
 	@GetMapping("/selectYearTitleList")
