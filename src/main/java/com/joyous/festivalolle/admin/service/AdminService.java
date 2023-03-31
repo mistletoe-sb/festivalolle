@@ -66,6 +66,11 @@ public class AdminService implements IAdminService {
 	public List<AdminVO> adminSearch(String keyword) {
 		return adminRepository.adminSearch(keyword);
 	}
-		
+	
+	//관리자 등록 시 중복확인
+	@Override
+	public int overlapChk(AdminVO adminVO) {	
+		return adminRepository.overlapChk(adminVO);
+	}
 
 }

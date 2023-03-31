@@ -1,5 +1,7 @@
 package com.joyous.festivalolle.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,10 @@ public class MemberController {
 		return view_pos + "count";
 	}
 	
+	@GetMapping(value="member/login")
+	public String login(HttpSession session) {
+		return view_pos + "login";
+	}
 
 
 }

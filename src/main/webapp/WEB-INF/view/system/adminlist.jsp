@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../admintop.jsp" %>
+<%@ include file="systemtop.jsp" %>
 
 	<div class="container-fluid">
 		<!-- Page Heading -->
@@ -10,11 +10,7 @@
             For more information about DataTables, please visit the <a target="_blank"
                 href="https://datatables.net">official DataTables documentation</a>.</p> -->
                 
-                
-
-		
-		<a class="btn btn-primary" id = "button1">숨기기</a>
-		
+	
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -291,9 +287,6 @@
 			})			
 		})
 		
-		$('#button1').on('click', function(){
-			$('#firstShown').hide();
-		})
 		
 		$('#adminSearch').on('click', function(){
 			var keyword = $('#searchKeyword').val();
@@ -413,4 +406,4 @@
 
 
 
-<%@ include file="../adminfooter.jsp" %>
+<%@ include file="systemfooter.jsp" %>

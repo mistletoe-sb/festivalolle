@@ -29,9 +29,13 @@ public interface IAdminRepository {
 	int adminApproval(@Param("id") String id);
 	
 	//시스템 관리자: 관리자 검색
-	//List<Map<String, Object>>adminSearch(Map<String, Object> paramMap) throws Exception;
-	
-	//시스템 관리자: 관리자 검색
 	List<AdminVO> adminSearch(@Param("keyword") String keyword);
+	
+	//관리자 등록 시 중복확인
+	//1. 아이디 중복 체크
+	//2. 이메일 중복 체크
+	//3. 핸드폰 번호 중복 체크
+	int overlapChk(AdminVO adminVO);
+	
 	
 }

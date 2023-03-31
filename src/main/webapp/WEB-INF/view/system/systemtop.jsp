@@ -14,7 +14,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 
-    <title>관리자</title>
+    <title>시스템 관리자</title>
 
     <!-- Custom fonts for this template-->
     <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<c:url value='/admin/main'/>">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -60,35 +60,22 @@
 
 
             <!-- Nav Item - tables -->
-            <li class="nav-item">
-                <!-- <a class="nav-link" href="charts.html"> -->
-                
-                <!-- <a class="nav-link" href="/admin/adminhome.jsp"> -->
-                <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
-         
-                <!-- "<c:url value='/admin/festivallist'/>" -->
-                    <i class="fas fa-fw fa-table" id="festialList"></i>
-                    <span>축제 관리</span></a>
+            <li class="nav-item">          
+                <a class="nav-link" href="<c:url value='/system/adminlist'/>">              
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>축제 담당자 관리</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value='/admin/ticket/list'/>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>티켓 구매</span></a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value='/admin/review/list'/>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>사용자 리뷰</span></a>
-            </li>
-            
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>계정 정보</span></a>
-            </li>
+                    <span>티켓 구매</span></a>
+            </li> -->
+            
+            
+            
+            
             
             
             
@@ -120,6 +107,19 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -135,7 +135,8 @@
                                 <img class="img-profile rounded-circle"
                                     src="<c:url value='/resources/img/undraw_profile.svg'/>"> 
                                   
-                                
+                                <%-- <img class="rounded-circle" src="<c:url value='/resources/img/undraw_profile.svg'/>"
+                                        alt="...">  --%> 
                                     
                             </a>
                             <!-- Dropdown - User Information -->
@@ -158,3 +159,4 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                
