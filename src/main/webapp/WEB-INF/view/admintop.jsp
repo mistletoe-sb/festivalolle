@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+ 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -48,13 +50,13 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<c:url value='/admin/main'/>">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">축 제 올 래</div>
             </a>
-
+ 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -65,21 +67,19 @@
                 
                 <!-- <a class="nav-link" href="/admin/adminhome.jsp"> -->
                 <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
-         
-                <!-- "<c:url value='/admin/festivallist'/>" -->
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-table" id="festialList"></i>
                     <span>축제 관리</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<c:url value='/admin/ticket/list'/>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>티켓 구매</span></a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<c:url value='/admin/review/list'/>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>사용자 리뷰</span></a>
             </li>
@@ -120,19 +120,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -148,8 +135,7 @@
                                 <img class="img-profile rounded-circle"
                                     src="<c:url value='/resources/img/undraw_profile.svg'/>"> 
                                   
-                                <%-- <img class="rounded-circle" src="<c:url value='/resources/img/undraw_profile.svg'/>"
-                                        alt="...">  --%> 
+                                
                                     
                             </a>
                             <!-- Dropdown - User Information -->

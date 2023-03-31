@@ -26,4 +26,5 @@ public class FestivalVO {
 	private String fileName;			//이미지 파일명 (이미지)
 	private byte[] image;				//이미지 (이미지)
 	private byte[] thumbnail;			//썸네일 (이미지)
+	private float rating;				// 평균 평점
 }

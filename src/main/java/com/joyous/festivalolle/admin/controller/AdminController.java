@@ -24,20 +24,26 @@ import com.joyous.festivalolle.admin.service.IAdminService;
 @Controller
 public class AdminController {
 	
-	//private final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private final Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@Autowired
 	IAdminService adminService;
 	
+	//관리자 홈화면으로 이동
+	@GetMapping(value="/admin/main")
+	public String login() {
+		return "adminindex";
+	}
+	
 	//관리자 로그인화면으로 이동
-	@GetMapping(value="/admin")
+	@GetMapping(value="/admin/login")
 	public String login(Model model, HttpSession session) {
 		return "admin/login";
 	}
 	
 	//관리자 로그인
 	//@RequestMapping(value="/admin", method=RequestMethod.POST)	
-	@PostMapping(value="/admin")
+	@PostMapping(value="/admin/login")
 	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();
 		adminVO = adminService.adminLogin(id, password);
@@ -45,10 +51,11 @@ public class AdminController {
 		if(adminVO != null) {
 			int adminType = adminVO.getStatus();
 			if(adminType == 0) {
-				return "admin/systemhome";			
+				session.setAttribute("loginUser", adminVO);		//세션에 VO 담아줌	
+				return "system/systemhome";			
 			} else if(adminType == 2) {				
 				session.setAttribute("loginUser", adminVO);		//세션에 VO 담아줌				
-				return "adminindex";
+				return "redirect:/admin/main";
 			}
 		} else {
 			System.out.println("로그인 실패");
@@ -59,11 +66,28 @@ public class AdminController {
 	//로그아웃
 	@GetMapping(value="/admin/logout")
 	public String logout(HttpSession session, Model model, Locale locale) {
-		//logger.info("세션 파기 전", locale);
+		logger.info("세션 파기 전", locale);
 		session.invalidate();
 		//logger.info("세션 파기 후", locale);
-		return "redirect:/admin";
+		return "redirect:/admin/login";
 	}
+	
+	//아이디 찾기 페이지로 이동
+	@GetMapping(value="/admin/findid")
+	public String findId(Locale locale) {
+		return "admin/findid";
+	}
+	
+	//비밀번호 변경 페이지로 이동
+	@GetMapping(value="/admin/forgotpassword")
+	public String password(Locale locale) {
+		return "admin/forgotpassword";
+	}
+	
+	
+	
+	
+	
 	
 	//관리자 회원가입 페이지로 이동
 	@GetMapping(value="/admin/register")
@@ -78,6 +102,37 @@ public class AdminController {
 		return (adminService.registerAdmin(adminVO) == 1)? "ok":"fail";
 	}
 	
+	//회원가입 email 중복 체크
+	@PostMapping(value="/admin/idchk")
+	@ResponseBody
+	public String idChk(String id, Locale locale) {
+		//0이면 사용 가능, 1이면 사용 불가		
+		AdminVO adminVO = new AdminVO();
+		adminVO.setId(id);		
+		return (adminService.overlapChk(adminVO) == 0)? "ok":"fail";
+	}
+	
+	@PostMapping(value="/admin/emailchk")
+	@ResponseBody
+	public String emailChk(String email, Locale locale) {
+		//0이면 사용 가능, 1이면 사용 불가		
+		AdminVO adminVO = new AdminVO();
+		adminVO.setEmail(email);		
+		return (adminService.overlapChk(adminVO) == 0)? "ok":"fail";
+	}
+	
+	//회원가입 휴대폰번호 중복 체크
+	@PostMapping(value="/admin/phonechk")
+	@ResponseBody
+	public String phoneChk(String telephone, Locale locale) {
+		//0이면 사용 가능, 1이면 사용 불가		
+		AdminVO adminVO = new AdminVO();
+		adminVO.setTelephone(telephone);		
+		return (adminService.overlapChk(adminVO) == 0)? "ok":"fail";
+	}
+	
+	
+	
 	//관리자 등록: 기관 코드 가져오기
 	@PostMapping(value="/admin/organizationcode")
 	@ResponseBody
@@ -85,12 +140,14 @@ public class AdminController {
 		//기관명 받아서 기관 코드 return					
 		return adminService.organizationCode(organizationName);
 	}
+	
+
 
 	//각 항목으로 이동
-	/*
-	 * @GetMapping(value="/admin/festivallist") public String festivalList(Model
-	 * model, HttpSession session) { return "admin/adminhome"; }
-	 */
+	
+	// @GetMapping(value="/admin/festivallist") 
+	 //public String festivalList(Model model, HttpSession session) { return "admin/adminhome"; }
+	 
 
 	
 
