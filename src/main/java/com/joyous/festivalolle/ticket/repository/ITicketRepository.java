@@ -11,5 +11,6 @@ public interface ITicketRepository {
 	
 	List<V_ticketBuyerListVO> ticketBuyerList(V_ticketBuyerListVO buyerList); //구매자 목록 출력
 	int totalBuyerCount(); //구매자 목록의 행 수
+	List<V_ticketBuyerListVO> searchBuyer(V_ticketBuyerListVO buyerList);//구매자 목록 검색
 	
 }

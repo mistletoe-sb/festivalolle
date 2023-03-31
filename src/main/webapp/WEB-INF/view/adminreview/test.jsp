@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <meta charset="UTF-8">
-<title>reviewList TEST</title>
+<title>reviewList TEST의 test</title>
 </head>
-<body>
+<body>	
 	<div class="container-fluid">
 	<input type="radio" name="sort" value="all" id="allReview" checked="checked">전체
 	<input type="radio" name="sort" value="reported" id="reportedReview">신고된 리뷰
 	<table class="table">
-		<thead>
+			<thead>
 			<tr id="sector">
-	
 				<th scope="col">리뷰 상태</th>
 				<th scope="col">아이디</th>
 				<th scope="col">내용</th>
@@ -22,57 +22,81 @@
 				<th scope="col">축제명</th>
 			</tr>
 		</thead>
-		<tbody>
-			<c:forEach items="${test}" var="test">
-				<tr>
-					<td>${test.status}</td>
+		<tbody id="contents">
+		<c:forEach items="${test}" var="test">
+		<tr>
+				<c:set var = "status" value = "${test.status}"/>		
+					<c:choose>
+						<c:when test="${status > 0 && status < 2}" >
+							<td><div class="icon"><i class="bi bi-exclamation-circle-fill"></i></div></td>
+						</c:when>
+						<c:otherwise>
+							<td><div class="icon" style="display:none;"><i class="bi bi-exclamation-circle-fill"></i></div></td>
+						</c:otherwise>
+					</c:choose>
 					<td>${test.id}</td>
-					<td>${test.content}</td>
+					<td><a href="./test2?festivalReviewCode=${test.festivalReviewCode}">${test.content}</a></td>
 					<td>${test.writeDate}</td>
 					<td>${test.title}</td>
-				</tr>
-			</c:forEach>
+		</tr>
+		</c:forEach>
 		</tbody>
 	</table>
 	</div>
+
 <script type="text/javascript">
-$(document).ready(function(){	
-  function getReportedList(){
+$(document).ready(function() {
+  $("#reportedReview").on('click',function getReportedList() {
+    $("#contents").empty();
     $.ajax({
-      type : 'get',				// 타입 (get, post, put 등등)
-      url : '/test3',			// 요청할 서버url 
-      async : true,				// 비동기화 여부 (default : true)
-      headers : {				// Http header
-        "Content-Type" : "json",
-        "X-HTTP-Method-Override" : "GET"
+      url : "./test3",
+      type : "get",
+      datatype : "json",
+      success : function(data) {
+        $.each(data, function(index,test) {
+          var row = $('<tr></tr>');
+          var status = test.status;
+          var iconClass = (status > 0 && status < 2) ? "bi-exclamation-circle-fill" : "";
+          var icon = $('<div class="icon"></div>').append($('<i class="bi"></i>').addClass(iconClass));
+          row.append($('<td></td>').append(icon));
+          row.append($('<td></td>').text(test.id));
+          row.append($('<td></td>').append($('<a></a>').attr('href', './test2?festivalReviewCode=' + test.festivalReviewCode).text(test.content)));
+          row.append($('<td></td>').text(test.writeDate));
+          row.append($('<td></td>').text(test.title));
+          $("#contents").append(row);
+        });
       },
-      dataType : 'json',			// 데이터 타입 (html, xml, json, text 등등)
-      data : JSON.parse('{}'),		// 보낼 데이터 (Object , String, Array) data를 받아와서 JSON형태로 변환
-      success:function(result){		//Array
-        let obj=JSON.parse(data);	
-        let array=["<tr>"]; 
-        obj["selectReport"].forEach(
-          test =>  array.push("<td>"+test.status+"</td>" + "<td>"+test.id+"</td>" + "<td>"+test.content+"</td>" + "<td>"+test.writeDate+"</td>" + "<td>"+test.title+"</td>" )    
-        );
-        array.push("</tr>");                                   
-        $("#result").html(array.join(""));    	//array의 요소들을 다 합쳐서 하나로 만든후 id="result"인 태그에 html로 출력
-      },
-      error:function(xhr, textStatus, errorThrown){					// 결과 에러 콜백함수
-    	  console.log(errorThrown);
+      error : function() {
+        alert('error');      
       }
-    });    
-  }
-  
-  $('input[name="sort"]').change(function() {	//라디오 버튼 변경 확인
-    $('input[name="sort"]').each(function() {
-      var value = $(this).val();
-      var checked = $(this).prop('checked'); 
-      if($("#reportedReview").is(":checked")){ 	//신고된 리뷰 checked 시, getReportedList 실행
-        getReportedList();
-      }
-    });
-  });
-});
-</script>
+	    });
+	  });
+	$("#allReview").on('click',function getAllList() {
+		 $("#contents").empty();
+		    $.ajax({
+		      url : "./test1",
+		      type : "get",
+		      datatype : "json",
+		      success : function(data) {
+		        $.each(data, function(index,test) {
+		          var row = $('<tr></tr>');
+		          var status = test.status;
+		          var iconClass = (status > 0 && status < 2) ? "bi-exclamation-circle-fill" : "";
+		          var icon = $('<div class="icon"></div>').append($('<i class="bi"></i>').addClass(iconClass));
+		          row.append($('<td></td>').append(icon));
+		          row.append($('<td></td>').text(test.id));
+		          row.append($('<td></td>').append($('<a></a>').attr('href', './test2?festivalReviewCode=' + test.festivalReviewCode).text(test.content)));
+		          row.append($('<td></td>').text(test.writeDate));
+		          row.append($('<td></td>').text(test.title));
+		          $("#contents").append(row);
+		        });
+		      },
+		      error : function() {
+		        alert('error');
+		      }
+		    });
+		  });
+	    });
+</script>	
 </body>
 </html>

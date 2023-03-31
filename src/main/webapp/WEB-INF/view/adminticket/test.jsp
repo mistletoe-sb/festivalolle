@@ -20,14 +20,14 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${buyerList}" var="V_ticketBuyerListVO">
+		<c:forEach items="${test}" var="test">
 			<tr>
-				<td>${V_ticketBuyerListVO.id}]</td>
-				<td>${V_ticketBuyerListVO.name}</td>
-				<td>${V_ticketBuyerListVO.mobile}</td>
-				<td>${V_ticketBuyerListVO.purchaseTime}</td>
-				<td>${V_ticketBuyerListVO.entranceTime}</td>
-				<td>${V_ticketBuyerListVO.couponUseTime}</td>
+				<td>${test.id}]</td>
+				<td>${test.name}</td>
+				<td>${test.mobile}</td>
+				<td>${test.purchaseTime}</td>
+				<td>${test.entranceTime}</td>
+				<td>${test.couponUseTime}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

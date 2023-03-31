@@ -16,5 +16,35 @@
 	<select id="totalBuyerCount" resultType="int"> 
 		select*count from v_ticket_buyer_list
 	</select>
+	
+	<select id="searchBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+      <![CDATA[ 아이디, 이름, 휴대폰번호로 검색
+      
+         SELECT DISTINCT id, name, mobile
+         FROM v_ticket_buyer_list
+      ]]>
+      <where>
+         <choose>
+         <when test="option == 1">
+            <![CDATA[AND id LIKE #{id}]]>
+         </when>
+         <when test="option == 2">
+            <![CDATA[AND name LIKE #{name}]]>
+         </when>
+         <when test="option == 3">
+            <![CDATA[AND mobile LIKE #{moblie}]]>
+         </when>
+         <otherwise>
+            <![CDATA[
+               AND
+               (id LIKE #{id}
+               OR name LIKE #{name}
+               OR mobile LIKE #{moblie})
+            ]]>
+         </otherwise>
+         </choose>
+      </where>
+      <![CDATA[ORDER BY ticket_code DESC]]>
+   </select>
 </mapper>
 	
