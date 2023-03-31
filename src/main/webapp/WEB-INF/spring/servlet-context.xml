@@ -47,5 +47,20 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/login"/>
+			<exclude-mapping path="/admin/findid"/>
+			<exclude-mapping path="/admin/forgotpassword"/>
+			<exclude-mapping path="/admin/register"/>
+			<beans:bean class="com.joyous.festivalolle.admin.controller.LoginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/system/**"/>
+			<beans:bean class="com.joyous.festivalolle.admin.controller.LoginInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

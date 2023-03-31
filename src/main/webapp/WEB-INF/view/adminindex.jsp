@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
  
 <%@ include file="admintop.jsp" %>
-<%-- <jsp:include page="admintop.jsp" /> --%>
+
 
 <div class="container-fluid">
 </div>
