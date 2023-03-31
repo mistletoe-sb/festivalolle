@@ -8,7 +8,7 @@ public class FestivalMainVO {
 	private int festivalCode;	// 축제 코드
 	private String stateName;	// 지역(시/도)명
 	private String cityName;	// 지역(시/군/구)명
-	private String startDdate;	// 시작일자
+	private String startDate;	// 시작일자
 	private String endDate;		// 종료일자
 	private int status;			// 축제 상태
 	private String fileName;	// 이미지 파일명
