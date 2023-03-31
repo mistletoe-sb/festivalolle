@@ -99,7 +99,33 @@ $(document).ready(function() {
 		      }
 		    });
 		  });
+	    
+	  $("#reviewSearch").on('click',function getReviewList() { //리뷰 리스트 검색결과 출력
+	    $("#contents").empty();
+	    $.ajax({
+	      url : "./list",
+	      type : "get",
+	      datatype : "json",
+	      success : function(data) {
+	        $.each(data, function(index,reviewList) { //데이터의 각 항목에 대해 반복
+	          var row = $('<tr></tr>');
+	          var status = reviewList.status;
+	          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
+	          var icon = $('<div class="icon"></div>').append($('<i></i>').addClass(iconClass));
+	          row.append($('<td></td>').append(icon));	//완성된 행을 row 변수에 추가
+	          row.append($('<td></td>').text(reviewList.id));
+	          row.append($('<td></td>').append($('<a></a>').attr('href', './detail?festivalReviewCode=' + reviewList.festivalReviewCode).text(reviewList.content)));
+	          row.append($('<td></td>').text(reviewList.writeDate));
+	          row.append($('<td></td>').text(reviewList.title)); 
+	          $("#contents").append(row); //각 행을 $("#contents")에 추가
+	        });
+	      },
+			error : function getReportedList() {
+				alert('error');			
+			}
 	    });
+	  });
+	});  
 </script>	
 
 

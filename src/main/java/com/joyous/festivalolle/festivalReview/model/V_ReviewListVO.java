@@ -14,4 +14,7 @@ public class V_ReviewListVO {
 	private String content;			//리뷰 내용
 	private String writeDate;		//작성일시
 	private String title;			//작성일시
+	public static void setOrganizationCode(int organizationCode) {
+		
+	}
 }

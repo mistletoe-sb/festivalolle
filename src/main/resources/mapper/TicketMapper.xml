@@ -26,20 +26,20 @@
       <where>
          <choose>
          <when test="option == 1">
-            <![CDATA[AND id LIKE #{id}]]>
+            <![CDATA[AND id LIKE #{search}]]>
          </when>
          <when test="option == 2">
-            <![CDATA[AND name LIKE #{name}]]>
+            <![CDATA[AND name LIKE #{search}]]>
          </when>
          <when test="option == 3">
-            <![CDATA[AND mobile LIKE #{moblie}]]>
+            <![CDATA[AND mobile LIKE #{search}]]>
          </when>
          <otherwise>
             <![CDATA[
                AND
-               (id LIKE #{id}
-               OR name LIKE #{name}
-               OR mobile LIKE #{moblie})
+               (id LIKE #{search}
+               OR name LIKE #{search}
+               OR mobile LIKE #{search})
             ]]>
          </otherwise>
          </choose>

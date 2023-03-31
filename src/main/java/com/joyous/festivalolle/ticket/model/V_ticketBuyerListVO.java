@@ -14,4 +14,8 @@ public class V_ticketBuyerListVO {
 	private String purchaseTime;		//구매일시
 	private String entranceTime;		//입장일시
 	private String couponUseTime;		//쿠폰사용일시
+	private int organizationCode;		//기관코드
+	public void setOrganizationCode(int organizationCode) {
+		
+	}
 }
