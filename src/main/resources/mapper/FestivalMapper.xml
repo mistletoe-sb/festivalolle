@@ -14,18 +14,73 @@
 			SELECT * 
 			FROM FESTIVAL
 			WHERE organization_code = #{organizationCode}
+			ORDER BY register_date DESC
+		]]>
+	</select>
+	
+	
+<!-- ================================================ 축제 진행상황별 리스트 =================================================== -->	
+
+	<select id="selectStatusFestivalList" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM FESTIVAL
+			WHERE organization_code = #{organizationCode} and status = #{status}
+			ORDER BY register_date DESC
 		]]>
 	</select>
 	
 <!-- ================================================ 축제 상세정보 =================================================== -->	
 
-	<select id="selectFestivalInfo" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+	<select id="selectFestivalInfo" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * 
-			FROM v_festival
-			WHERE FESTIVAL_CODE = #{festivalCode}
+			FROM festival
+			WHERE FESTIVAL_CODE = #{festivalCode} and organization_code = #{organizationCode}
 		]]>
 	</select>
+	
+<!-- ================================================ 월별 축제 리스트 =================================================== -->	
+
+	<select id="selectYearTitleList" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM festival
+			WHERE start_date like  #{startDate} or end_date like  #{startDate} and organization_code = #{organizationCode}
+		]]>
+	</select>	
+	
+<!-- ================================================ 월별 축제 =================================================== -->	
+
+	<select id="selectYearFestival" parameterType="com.joyous.festivalolle.festival.model.FestivalVO" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM festival
+			WHERE festival_code = #{festivalCode}
+		]]>
+	</select>	
+
+<!-- ================================================ 검색 =================================================== -->	
+
+	<select id="selectFestivalSearch" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			SELECT * 
+			FROM festival
+			where organization_code = #{organizationCode}
+		]]>
+			<choose>
+				<when test="tableBox == 'title'">
+					<![CDATA[and title LIKE '%'|| #{festivalKeyword} || '%']]>
+				</when>
+				<when test="tableBox == 'admin_name'">
+					<![CDATA[and admin_name LIKE '%'|| #{festivalKeyword} || '%']]>
+				</when>
+				<otherwise>
+					<![CDATA[and admin_name LIKE ' ']]>
+				</otherwise>
+			</choose>
+		<![CDATA[ORDER BY register_date DESC]]>
+	</select>	
 	
 <!-- ================================================ 축제 추가 =================================================== -->	
 
@@ -84,37 +139,64 @@
 				image,
 				thumbnail
 			)VALUES(
-				#{festivalImageCode}
+				#{festivalImageCode},
 				#{festivalCode}, 
-				#{fileName},
-				#{festivalCode} || #{festivalImageCode} || #{fileName},
+				#{festivalCode} || #{festivalImageCode},
+				#{image},
 				#{thumbnail})
 		]]>
 	</insert>
 	
-<!-- ================================================ 축제 수정(삭제) =================================================== -->	
+<!-- ================================================ 축제 수정 =================================================== -->	
 
 	<update id="updateFestival" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			UPDATE
 				FESTIVAL
 			SET
-				title = #{memberName}, 
-				state_name = #{memberPassword}, 
-				city_name = #{memberEmail}, 
-				address = #{memberPhone}, 
-				start_date = #{memberJob}, 
-				end_date = #{memberProfile}
-				fee = #{fee}
-				url = #{url}
-				telephone = #{telephone}
-				admin_name = #{adminName}
-				detail = #{detail}
-				tags = #{tags}
-				register_date = 
-				status = 
+				title = #{title}, 
+				state_name = #{stateName}, 
+				city_name = #{cityName}, 
+				address = #{address}, 
+				start_date = #{startDate}, 
+				end_date = #{endDate},
+				fee = #{fee},
+				url = #{url},
+				telephone = #{telephone},
+				admin_name = #{adminName},
+				detail = #{detail},
+				tags = #{tags},
+				register_date = TO_CHAR(SYSDATE,'YYYY-MM-DD'),
+				status = #{status}
 			WHERE
-				FESTIVAL_CODE = #{festivalCode}
+				FESTIVAL_CODE = #{festivalCode} and organization_code = #{organizationCode}
+		]]>
+
+	</update>
+	
+<!-- ================================================ 이미지 수정 =================================================== -->	
+	<update id="updateFestivalImage" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			UPDATE
+				FESTIVAL_IMAGE
+			SET
+				image = #{image}
+			WHERE
+				festival_image_code = #{festivalImageCode}
+		]]>
+
+	</update>	
+	
+<!-- ================================================ 축제 수정(삭제) =================================================== -->	
+	<update id="updateFestivalStatus" parameterType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[
+			UPDATE
+				FESTIVAL
+			SET
+
+				status = #{status}
+			WHERE
+				FESTIVAL_CODE = #{festivalCode} and organization_code = #{organizationCode}
 		]]>
 
 	</update>
