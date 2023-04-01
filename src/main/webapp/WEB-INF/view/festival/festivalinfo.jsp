@@ -17,18 +17,12 @@
 		<%-- 축제 상세정보 출력할 레이아웃 --%>
 		<div class="festival_info_layout">
 			<div class="festival_info_sub_title">
-				<h3>${fesInfo[0].title}</h3>
-				<c:choose>
-					<c:when test="${fesInfo[0].status == 1}">
-						<button class="btn btn-danger d-day_info">진행 중</button>
-					</c:when>
-					<c:when test="${fesInfo[0].status == 2}">
-						<button class="btn btn-secondary d-day_info">D-${dday}</button>
-					</c:when>
-					<c:when test="${fesInfo[0].status == 3}">
-						<button class="btn btn-secondary d-day_info">종료</button>
-					</c:when>
-				</c:choose>
+				<div id="fes_title">
+					<h3>${fesInfo[0].title}</h3>
+				</div>
+				<div id="fes_status">
+					<button class="btn btn-secondary d-day_info">${statusMsg}</button>
+				</div>
 			</div>
 			<div>
 				<div class="icon_layout rating_img">

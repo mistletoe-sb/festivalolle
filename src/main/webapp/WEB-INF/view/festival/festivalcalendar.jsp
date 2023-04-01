@@ -45,8 +45,8 @@
 		</div>
 				
 		<%-- 축제 목록 출력할 레이아웃 --%>
-		<c:forEach var="week" items="${weekData}" varStatus="stat">
-			<div id="calendar_list_layout">
+		<div id="calendar_list_layout">
+			<c:forEach var="week" items="${weekData}" varStatus="stat">
 				<c:choose>
 					<c:when test="${week.key == 1}">
 						<input class="folding_active" type="hidden" value="active">			
@@ -71,10 +71,9 @@
 						</div>
 					</c:otherwise>
 				</c:choose>
-			</div>
-		</c:forEach>
+			</c:forEach>
+		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
-		
 		
 		<%-- <!-- https://getbootstrap.kr/docs/5.2/components/modal/ -->
 		<!-- 월 선택 Modal -->

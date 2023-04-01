@@ -47,12 +47,7 @@ public class FestivalMainController {
 	public String selectFestivalInfo(Model model, @RequestParam(value="festivalCode") int festivalCode) {
 		// 축제 코드에 해당하는 상세 정보 조회(이미지가 여러 개인 경우를 고려하여 List 타입)
 		List<FestivalVO> festivalVOList = festivalMainService.selectFestialInfo(festivalCode);
-		// 축제가 진행예정 상태인 경우 D-Day 계산
-		String dday = null;
-		if(festivalVOList.get(0).getStatus() == 2) {
-			dday = getDday(festivalVOList.get(0).getStartDate());
-		}
-		model.addAttribute("dday", dday);				// D-Day 정보
+		model.addAttribute("statusMsg", getFestivalStatus(festivalVOList.get(0)));	// 축제 상태 정보
 		model.addAttribute("fesInfo", festivalVOList);	// 상세 정보
 		return "festival/festivalinfo";
 	}
@@ -68,7 +63,7 @@ public class FestivalMainController {
 		model.addAttribute("locationList", getStateList(festivalMainVOList));	// 지역 목록
 		model.addAttribute("festivalList", festivalMainVOList);					// 표시할 축제 목록
 		// 주차 별 축제 정보
-		model.addAttribute("weekData", getFestivalListIndexEachWeek(festivalMainVOList, getMonth(month)));
+		model.addAttribute("weekData", getFestivalListEachWeek(festivalMainVOList, month));
 		model.addAttribute("nowMonth", month);									// 현재 월
 		return "festival/festivalcalendar";
 	}
@@ -93,30 +88,50 @@ public class FestivalMainController {
 	@ResponseBody
 	public Map<String, Object> selectFestivalCalendarList(Model model, @RequestParam(value="month") int month,
 			@RequestParam(value="location", required = false, defaultValue = "전체") String location) {
-		// 선택한 월 추출값(yyyy-MM 포맷)
-		String selectedMonth = getMonth(month);
 		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
 		List<FestivalMainVO> festivalMainVOList = null;
 		Map<String, Object> responseData = new HashMap<String, Object>();
 		// 조회한 축제 목록(지역 선택 안 할 경우 전체 지역 선택으로 간주)
 		if(location.equals(SelectFilter.ALL_LOCATION)) {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(selectedMonth);
+			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), null);
 			responseData.put("locationList", getStateList(festivalMainVOList));		// 지역 목록을 ajax응답에 저장
 		} else {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(selectedMonth, location);
+			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
 		}
 		// ajax 응답 데이터 생성(주차(week) 정보 + 축제 리스트)
-		responseData.put("weekData", getFestivalListIndexEachWeek(festivalMainVOList, selectedMonth));
+		responseData.put("weekData", getFestivalListEachWeek(festivalMainVOList, month));
 		return responseData;
 	}
 	
-	// D-Day 계산 메서드(util로 옮기는 것 고려)
-	public String getDday(String startDate) {
-		LocalDate fromDate = LocalDate.now();										// 현재 날짜
-		LocalDate toDate = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);	// 축제 시작일자
-		logger.info("d-day: " + ChronoUnit.DAYS.between(fromDate, toDate));
-		// 두 날짜 간 차이 계산하여 반환
-		return Long.toString(ChronoUnit.DAYS.between(fromDate, toDate));
+	/*
+	 * // D-Day 계산 메서드(util로 옮기는 것 고려) public String getDday(String startDate) {
+	 * LocalDate fromDate = LocalDate.now(); // 현재 날짜 LocalDate toDate =
+	 * LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE); // 축제 시작일자
+	 * logger.info("d-day: " + ChronoUnit.DAYS.between(fromDate, toDate)); // 두 날짜 간
+	 * 차이 계산하여 반환 return Long.toString(ChronoUnit.DAYS.between(fromDate, toDate)); }
+	 */
+
+	// 축제 상태 표시 메시지 반환 메서드
+	public String getFestivalStatus(FestivalVO festivalVO) {
+		// 축제 상태(진행 중, 진행 예정, 종료)에 따라 표시할 메시지 반환
+		switch (festivalVO.getStatus()) {
+			// 진행 중
+			case 1:
+				return "진행 중";
+			// 진행 예정
+			case 2:
+				LocalDate fromDate = LocalDate.now();								// 현재 날짜
+				LocalDate toDate = LocalDate.parse(festivalVO.getStartDate(), 
+													DateTimeFormatter.ISO_DATE);	// 축제 시작일자
+				// 두 날짜 간 차이 계산하여 반환
+				return "D-" + ChronoUnit.DAYS.between(fromDate, toDate);
+			// 종료
+			case 3:
+				return "종료";
+			// 그 외
+			default:
+				return "숨김";
+		}
 	}
 	
 	// 축제 리스트에서 지역명(시/도 단위) 배열 추출
@@ -149,38 +164,58 @@ public class FestivalMainController {
 		}
 	}
 	
-	// 주차(week) 정보 추출
-	public Map<Integer, List<FestivalMainVO>> getFestivalListIndexEachWeek(List<FestivalMainVO> festivalMainVOList
-			, String selectedMonth) {
+	// 선택한 달의 각 주차 시작일, 종료일 계산(util로 옮기는 것 고려)
+	public LocalDate[][] getWeekOfMonth(int month) {
+		String selectedMonth = getMonth(month);		// 해당 월을 yyyy-MM 포맷 문자열로 변환
 		// 해당 월의 첫 날 계산
 		LocalDate startDayOfFirstWeek = LocalDate.parse(selectedMonth + "-01");
 		// 해당 월의 마지막 날 계산
 		LocalDate endDayOfLastWeek = LocalDate.parse(selectedMonth + "-" + startDayOfFirstWeek.lengthOfMonth());
 		// 선택된 월의 각 주차 시작일 목록 추출(각 주차는 일요일~월요일 기준)
-		List<LocalDate> startDateOfMonthList = new ArrayList<LocalDate>();
-		startDateOfMonthList.add(startDayOfFirstWeek);
+		List<LocalDate> startDateOfWeekList = new ArrayList<LocalDate>();
+		startDateOfWeekList.add(startDayOfFirstWeek);
 		// 해당 월의 첫 날이 무슨 요일인지에 따라 2주차 시작일 계산
 		switch(startDayOfFirstWeek.getDayOfWeek().getValue()) {
-			case 1: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(6)); break;
-			case 2: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(5)); break;
-			case 3: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(4)); break;
-			case 4: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(3)); break;
-			case 5: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(2)); break;
-			case 6: startDateOfMonthList.add(startDayOfFirstWeek.plusDays(1)); break;
+			case 1: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(6)); break;
+			case 2: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(5)); break;
+			case 3: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(4)); break;
+			case 4: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(3)); break;
+			case 5: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(2)); break;
+			case 6: startDateOfWeekList.add(startDayOfFirstWeek.plusDays(1)); break;
 			case 7: break;
 		}
 		// 해당 월의 마지막 날이 있는 주차까지의 시작일 목록 추출
 		boolean isCurrentMonth = true;
 		while(isCurrentMonth) {
-			int currentSize = startDateOfMonthList.size();	// 현재 리스트 사이즈
-			LocalDate startDayOfNextWeek = startDateOfMonthList.get(currentSize - 1).plusWeeks(1);	// 다음 주차의 시작일
+			int currentSize = startDateOfWeekList.size();	// 현재 리스트 사이즈
+			LocalDate startDayOfNextWeek = startDateOfWeekList.get(currentSize - 1).plusWeeks(1);	// 다음 주차의 시작일
 			// 시작일이 현재 월에 포함될 경우 리스트에 추가
-			if(startDayOfNextWeek.getMonthValue() == startDayOfFirstWeek.getMonthValue()) {
-				startDateOfMonthList.add(startDayOfNextWeek);
+			if(startDayOfNextWeek.getMonthValue() == month) {
+				startDateOfWeekList.add(startDayOfNextWeek);
 			} else {
 				isCurrentMonth = false;		// 반복문 종료 조건
 			}
 		}
+		// 각 주차의 시작일과 종료일을 담은 배열 생성하여 반환
+		int week = startDateOfWeekList.size();
+		LocalDate[][] weekOfMonth = new LocalDate[week][2];
+		for(int i = 0; i < week; i++) {
+			if(i < week - 1) {
+				weekOfMonth[i][0] = startDateOfWeekList.get(i);						// 해당 주차의 시작일
+				weekOfMonth[i][1] = startDateOfWeekList.get(i + 1).minusDays(1);	// 해당 주차의 종료일
+			} else {
+				weekOfMonth[i][0] = startDateOfWeekList.get(i);						// 마지막 주차의 시작일
+				weekOfMonth[i][1] = endDayOfLastWeek;								// 마지막 주차의 종료일				
+			}
+		}
+		return weekOfMonth;
+	}
+	
+	// 주차(week)별 축제 정보 추출
+	public Map<Integer, List<FestivalMainVO>> getFestivalListEachWeek(List<FestivalMainVO> festivalMainVOList
+			, int month) {
+		// 선택한 달의 주차별 시작 및 종료일을 계산한 배열 획득
+		LocalDate[][] weekOfMonth = getWeekOfMonth(month);
 		// 축제의 시작 및 종료일자를 LocalDate형으로 변환한 배열 추출
 		LocalDate[][] festivalPeriodList = new LocalDate[festivalMainVOList.size()][2];
 		for(int i = 0; i < festivalMainVOList.size(); i++) {
@@ -188,26 +223,34 @@ public class FestivalMainController {
 			festivalPeriodList[i][1] = LocalDate.parse(festivalMainVOList.get(i).getEndDate());
 		}
 		
-		// 조회한 축제 목록 중 각 주차별로 진행되는 축제가 위치하는 인덱스 추출
-		Map<Integer, List<FestivalMainVO>> festivalListIndexEachWeek = new HashMap<Integer, List<FestivalMainVO>>();
-		for(int week = 0; week < startDateOfMonthList.size(); week++) {
+		// 조회한 축제 목록 중 각 주차별로 진행되는 축제 목록 추출
+		Map<Integer, List<FestivalMainVO>> festivalListEachWeek = new HashMap<Integer, List<FestivalMainVO>>();
+		for(int week = 0; week < weekOfMonth.length; week++) {
+			// 해당 주차의 진행 축제 목록 저장
 			List<FestivalMainVO> listIndexEachWeek = new ArrayList<FestivalMainVO>();
 			for(int i = 0; i < festivalPeriodList.length; i++) {
-				// 축제 시작일자가 해당 주의 종료일 이전이고, 축제 종료일자가 해당 주의 시작일 이후이면 해당 축제가 저장된 인덱스 추출
-				if(week < startDateOfMonthList.size() - 1) {
-					if(festivalPeriodList[i][0].isAfter(startDateOfMonthList.get(week).minusDays(1))
-							&& festivalPeriodList[i][1].isBefore(startDateOfMonthList.get(week + 1))) {
-						listIndexEachWeek.add(festivalMainVOList.get(i));
-					}
-				} else {
-					if(festivalPeriodList[i][0].isAfter(startDateOfMonthList.get(week).minusDays(1))
-							&& festivalPeriodList[i][1].isBefore(endDayOfLastWeek.plusDays(1))) {
-						listIndexEachWeek.add(festivalMainVOList.get(i));
-					}
+				// 해당 주에 진행 중인 축제를 리스트에 추가
+				if(checkInProgress(festivalPeriodList[i], weekOfMonth[week])) {
+					listIndexEachWeek.add(festivalMainVOList.get(i));
 				}
-				festivalListIndexEachWeek.put(week + 1, listIndexEachWeek);	// 각 주차별 축제 목록 인덱스 저장
+				festivalListEachWeek.put(week + 1, listIndexEachWeek);	// 각 주차별 축제 목록 저장
 			}
 		}
-		return festivalListIndexEachWeek;
+		return festivalListEachWeek;
+	}
+	
+	// 주어진 기간 내에서 진행 중인 축제인지 판별하는 메서드
+	public boolean checkInProgress(LocalDate[] festivalPeriod, LocalDate[] setPeriod) {
+		LocalDate setStart = setPeriod[0];					// 기간 시작일
+		LocalDate setEnd = setPeriod[1];					// 기간 종료일
+		LocalDate festivalStartDate = festivalPeriod[0];	// 축제 시작일
+		LocalDate festivalEndDate = festivalPeriod[1];		// 축제 종료일
+		
+		// 축제 시작일자가 주어진 기간의 종료일 이전이고, 축제 종료일자가 주어진 기간의 시작일 이후이면 true 반환
+		if(festivalStartDate.isBefore(setEnd) && festivalEndDate.isAfter(setStart)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

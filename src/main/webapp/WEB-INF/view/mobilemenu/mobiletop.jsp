@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="top_empty"></div>
+<div class="top_empty">
+	<input id="rootContext" type="hidden" value="<c:url value='/'/>">
+</div>
 <div class="top_menu">
 	<div class="normal_top">
 		<div class="page_title">
