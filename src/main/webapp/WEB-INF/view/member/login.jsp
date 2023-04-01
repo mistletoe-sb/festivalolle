@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>마이 페이지</title>
+		<title>로그인</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
@@ -44,7 +44,7 @@
 							<div class="row">
 								<div class="col-lg-6">
 	                                <div class="p-5">
-		<%--축제올래 로고 이미지 --%>
+				<%--축제올래 로고 이미지 --%>
 				<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
 										<form class="user" action="<c:url value='/login'/>" method="post" name="loginfrm">                                                             
 											<div class="form-group">

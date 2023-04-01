@@ -43,7 +43,7 @@
                             <form class="user">                                                             
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="register_id"
-                                        placeholder="아이디" required>
+                                        placeholder="아이디" size="20" required>
                                     <label class="ChkLabel" id="idMsg"></label>						
 									<input id="id_reg_check" type="hidden" value="false">
 									<input id="id_overlap_check" type="hidden" value="false">
@@ -60,6 +60,7 @@
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
                                             id="pwchk" placeholder="비밀번호 확인" size="16" required>
+                                        <label class="ChkLabel" id="pwchkMsg2"></label>
                                     </div>
                                 </div>                                
                                 <div class="form-group">
