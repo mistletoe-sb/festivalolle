@@ -82,10 +82,12 @@
 				</div>
 			</div>
 			<div>
-				<p class="multi_line_text">${fesInfo[0].detail}</p>
-			</div>
-			<div>
-				<p class="tag_layout">${fesInfo[0].tags}</p>
+				<div>
+					<p class="multi_line_text">${fesInfo[0].detail}</p>
+				</div>
+				<div>
+					<p class="tag_layout">${fesInfo[0].tags}</p>
+				</div>
 			</div>
 			<div>
 				<div>
