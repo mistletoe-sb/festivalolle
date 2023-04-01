@@ -90,7 +90,7 @@ public class AdminController {
 	
 	
 	//관리자 회원가입 페이지로 이동
-	@GetMapping(value="/admin/register")
+	@GetMapping(value="/admin/toregister")
 	public String register(Model model, HttpSession session) {
 		return "admin/register";
 	}
@@ -99,10 +99,11 @@ public class AdminController {
 	@PostMapping(value="/admin/register")
 	@ResponseBody
 	public String register(@RequestBody AdminVO adminVO, Locale locale) {		
+		logger.info("회원가입 실행", locale);
 		return (adminService.registerAdmin(adminVO) == 1)? "ok":"fail";
 	}
 	
-	//회원가입 email 중복 체크
+	//id 중복 체크
 	@PostMapping(value="/admin/idchk")
 	@ResponseBody
 	public String idChk(String id, Locale locale) {
@@ -112,6 +113,7 @@ public class AdminController {
 		return (adminService.overlapChk(adminVO) == 0)? "ok":"fail";
 	}
 	
+	//이메일 중복체크
 	@PostMapping(value="/admin/emailchk")
 	@ResponseBody
 	public String emailChk(String email, Locale locale) {
