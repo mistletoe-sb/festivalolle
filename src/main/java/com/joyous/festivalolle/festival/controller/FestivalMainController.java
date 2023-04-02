@@ -233,8 +233,8 @@ public class FestivalMainController {
 				if(checkInProgress(festivalPeriodList[i], weekOfMonth[week])) {
 					listIndexEachWeek.add(festivalMainVOList.get(i));
 				}
-				festivalListEachWeek.put(week + 1, listIndexEachWeek);	// 각 주차별 축제 목록 저장
 			}
+			festivalListEachWeek.put(week + 1, listIndexEachWeek);	// 각 주차별 축제 목록 저장
 		}
 		return festivalListEachWeek;
 	}

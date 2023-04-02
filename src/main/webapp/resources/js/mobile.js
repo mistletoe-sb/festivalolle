@@ -29,6 +29,9 @@ $(document).ready(function(){
 		$('.normal_top').attr('hidden', false);
 	});
 	
+	// 페이지 내 이동 이벤트 바인딩
+	moveToIndex();
+	
 	// 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
 	calendar_event();
 	
@@ -91,6 +94,26 @@ $(document).ready(function(){
 				alert('데이터를 불러오는데 실패했습니다.');
 			}
 		});
+	});
+	
+	// 입장권 구매 모달 창 이벤트 바인딩
+	// 모달 창 close
+	$('.fadeout_bottom_click').on('click', function(){
+		$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
+		$('.ticket_modal_layout').css('bottom', '-55vmax');
+		$('#headCount').val('');
+		$('#paymentAmount').text('');
+	});
+	// 모달 창 open
+	$('#ticketModal').on('click', function(){
+		$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
+		$('.ticket_modal_layout').css('bottom', '8vmax');
+		$('#headCount').val('1');
+		$('#paymentAmount').text($('#ticketFee').text());
+	});
+	// 결제금액 계산
+	$('#headCount').on('input', function(){
+		$('#paymentAmount').text($('#headCount').val() * $('#ticketFee').text());
 	});
 });
 
@@ -162,4 +185,25 @@ function printCalendar(month, weekData, pageRoot){
 		appendHTML += '</div>';
 	});
 	return appendHTML;
+}
+
+// 페이지 내 특정 위치로 이동(축제 상세 정보 화면)
+function moveToIndex(){
+	var margin_space = $(window).height()*0.13;
+	$('.menuIndex').click(function(){
+		var offset = $('#menu').offset(); //선택한 태그의 위치를 반환
+        $('html').animate({scrollTop : offset.top - margin_space}, 0);
+	});
+	$('.infoIndex').click(function(){
+		var offset = $('#info').offset(); //선택한 태그의 위치를 반환
+        $('html').animate({scrollTop : offset.top - margin_space}, 0);
+	});
+	$('.foodIndex').click(function(){
+		var offset = $('#food').offset(); //선택한 태그의 위치를 반환
+        $('html').animate({scrollTop : offset.top - margin_space}, 0);
+	});
+	$('.reviewIndex').click(function(){
+		var offset = $('#review').offset(); //선택한 태그의 위치를 반환
+        $('html').animate({scrollTop : offset.top - margin_space}, 0);
+	});
 }
