@@ -8,43 +8,61 @@
 <!-- 작성자: 이혜성 -->
 
 	<!-- 구매자 전체 리스트 출력 -->
-	<select id="ticketBuyerList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
-		select * from V_TICKET_BUYER_LIST
+	<select id="ticketBuyerList" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+		select * from V_TICKET_BUYER_LIST where organization_code = #{organizationCode}
+		ORDER BY purchase_time desc
 	</select>
 	
 	<!-- 구매자 리스트 전체 수  -->
-	<select id="totalBuyerCount" resultType="int"> 
-		select*count from v_ticket_buyer_list
+	<select id="totalBuyerCount" parameterType="int" resultType="int"> 
+		select*count from v_ticket_buyer_list where organization_code = #{organizationCode}
 	</select>
 	
+	<!-- 구매자 검색: 아이디, 이름, 휴대폰번호로 검색  -->
 	<select id="searchBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
-      <![CDATA[ 아이디, 이름, 휴대폰번호로 검색
-      
-         SELECT DISTINCT id, name, mobile
-         FROM v_ticket_buyer_list
-      ]]>
-      <where>
-         <choose>
-         <when test="option == 1">
-            <![CDATA[AND id LIKE #{search}]]>
-         </when>
-         <when test="option == 2">
-            <![CDATA[AND name LIKE #{search}]]>
-         </when>
-         <when test="option == 3">
-            <![CDATA[AND mobile LIKE #{search}]]>
-         </when>
-         <otherwise>
-            <![CDATA[
-               AND
-               (id LIKE #{search}
-               OR name LIKE #{search}
-               OR mobile LIKE #{search})
-            ]]>
-         </otherwise>
-         </choose>
-      </where>
-      <![CDATA[ORDER BY ticket_code DESC]]>
-   </select>
+		<![CDATA[
+			SELECT * 
+			FROM V_TICKET_BUYER_LIST
+			where organization_code = #{organizationCode}
+		]]>
+			<choose>
+				<when test="tableBox == 'id'">
+					<![CDATA[and id LIKE '%'|| #{buyerKeyword} || '%']]>
+				</when>
+				<when test="tableBox == 'name'">
+					<![CDATA[and name LIKE '%'|| #{buyerKeyword} || '%']]>
+				</when>
+				<when test="tableBox == 'mobile'">
+					<![CDATA[and mobile LIKE '%'|| #{buyerKeyword} || '%']]>
+				</when>
+				<otherwise>
+					<![CDATA[and name LIKE ' ']]>
+				</otherwise>
+			</choose>
+		<![CDATA[ORDER BY purchase_time desc]]>
+	</select>
+	
+	<!-- 연별 구매자 리스트 -->	
+
+	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+		<![CDATA[
+			SELECT * 
+			FROM V_TICKET_BUYER_LIST
+			WHERE purchase_time like  #{purchaseTime} and organization_code = #{organizationCode}
+			ORDER BY purchase_time desc
+		]]>
+	</select>	
+	
+<!-- 연별 구매자 -->	
+
+	<select id="selectYearBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+		<![CDATA[
+			SELECT * 
+			FROM V_TICKET_BUYER_LIST
+			WHERE festival_code = #{festivalCode}
+			ORDER BY purchase_time desc
+		]]>
+	</select>	
+		
 </mapper>
 	

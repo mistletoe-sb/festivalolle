@@ -40,11 +40,29 @@ public class FestivalReviewService implements IFestivalReviewService {
 		reviewRepository.setBlind(festivalReviewCode);
 	}
 
-
+	@Override
 	public void setNormal(int festivalReviewCode) {
 		
 		reviewRepository.setNormal(festivalReviewCode);
 		
+	}
+	
+	@Override
+	public List<V_ReviewListVO> searchReview(int organizationCode, String reviewKeyword, String tableBox){
+		return reviewRepository.searchReview(organizationCode,reviewKeyword, tableBox);
+	}
+
+
+	@Override
+	public List<V_ReviewListVO> selectYearTitleList(V_ReviewListVO reviewVO) {
+
+		return reviewRepository.selectYearTitleList(reviewVO);
+	}
+
+
+	public List<V_ReviewListVO> selectYearReview(V_ReviewListVO reviewVO) {
+		
+		return reviewRepository.selectYearReview(reviewVO);
 	}
 
 //	@Override

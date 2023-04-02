@@ -2,8 +2,12 @@
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
 
+	
 	<div class="container-fluid">
 	<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">구매자 리스트</h6>
+	</div>
 	<div class="card-body"> 
 	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 		<!-- Topbar Search -->
@@ -21,7 +25,7 @@
                      aria-label="Search" aria-describedby="basic-addon2">
                    </div>
                     <div class="input-group-append" style ="float:left;">
-                      <button class="btn btn-primary" type="button" id="buyerSearch" onClick="getSearchBuyer()">
+                      <button class="btn btn-primary" type="button" id="buyerSearch">
                       	<i class="fas fa-search fa-sm"></i>
                       </button>
                     </div>
@@ -67,119 +71,138 @@
 			</div>
 			
 <script type="text/javascript">
-$(document).ready(function() {
-	/* --- 검색 --- */
-	$('#buyerSearch').on('click', function(){
-	    var buyerKeyword = $('#buyerKeyword').val();
-	    var tableBox = $("#tableBox").val();
-	    $("#contents").empty();
-	    $.ajax({
-	       url: "./search",
-	       type: "GET",
-	       data: {buyerKeyword : buyerKeyword,
-	          tableBox : tableBox},
-	          dataType: "json",
-	       success: function(data) {
-	          
-	          $.each(data, function(index, ticketList){
-	               $("#contents").append("<tr>");
-	               if (ticketList.status == 0) {
-	                    $("#contents").append("<th><a href='#' class='btn btn-secondary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
-	                  } else if (item.status == 1) {
-	                    $("#contents").append("<th><a href='#' class='btn btn-success' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
-	                  } else if (item.status == 2) {
-	                    $("#contents").append("<th><a href='#' class='btn btn-primary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
-	                  } else if (item.status == 3) {
-	                    $("#contents").append("<th><a href='#' class='btn btn-warning' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
-	                  } 
-	               $("#contents").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+ticketList.festivalCode+"'/>'>"+ticketList.title+"</a></th>");
-	               $("#contents").append("<th scope='col'>"+ticketList.adminName+"</th>");
-	               $("#contents").append("<th scope='col'>"+ticketList.registerDate+"</th>");
-	               $("#contents").append("<th scope='col'><button type='button' class='btn btn-outline-primary'>구매자 목록</button></th>");
-	               $("#contents").append("<th scope='col'><button type='button' class='btn btn-outline-primary'>리뷰 관리자</button></th>");
-	               $("#contents").append("</tr>");
-	           });
-	       },
-	       error:function(){
-	          alert("안됨");
-	       }//end error   
-	    });
-	});
-	    /* --- 연도 리스트 생성 --- */
-	    $("#yearList").on('click',function getYears(getY){
-	      $("#yearBox option").empty(); //기존 option을 삭제
-	       
-	       var stY = Number(getY)-5; //올해 기준으로 -5년부터 +5년
-	       var enY = Number(getY)+5;
-	       
-	       for(var y=stY; y<=enY; y++){
-	          $("#yearBox").append("<option value='" + y + "'>" + y + "년" + "</option>");
-	       }
-	    });
-	    
-	    /* --- 연도 선택시 축제 리스트 출력 --- */ //구매자로 변경해야 할 항목만 바꾸기
-	    $('#yearBox').change(function() {
-	       $("#titleList").empty(); //해당 구역 삭제
-	        var titleyear = $(this).val();
+ $(document).ready(function() {
+ 	/* --- 검색 --- */ 
+ 	$('#buyerSearch').on('click', function(){ 
+ 	    var buyerKeyword = $('#buyerKeyword').val(); 
+	    var tableBox = $("#tableBox").val(); 
+ 	    $("#contents").empty(); 
+ 	    $.ajax({ 
+ 	       url: "./search", 
+ 	       type: "GET", 
+ 	       data: {buyerKeyword : buyerKeyword, 
+ 	          tableBox : tableBox}, 
+ 	          dataType: "json", 
+	      	success : function(data) {
+	        $.each(data, function(index,ticketList) { //데이터의 각 항목에 대해 반복
+	          var row = $('<tr></tr>')
+	          row.append($('<td></td>').text(ticketList.id));
+	          row.append($('<td></td>').text(ticketList.name));
+	          row.append($('<td></td>').text(ticketList.mobile));
+	          row.append($('<td></td>').text(ticketList.purchaseTime));
+	          row.append($('<td></td>').text(ticketList.entranceTime));
+	          row.append($('<td></td>').text(ticketList.couponUseTime));
+	          $("#contents").append(row); //각 행을 $("#contents")에 추가
+	        });
+	      },
+ 	       error:function(){ 
+	          alert("error1"); 
+ 	       }//end error    
+ 	    }); 
+ 	}); 
+ 	/* --- 연도별 타이틀 호출 --- */
+	$("#titleList").empty();
+    var titleyear = $(this).val();
+    // AJAX 호출
+    $.ajax({
+        url: './selectYearTitleList', // 서버에서 데이터를 가져올 경로
+        type: 'GET', // GET 방식으로 요청
+        data: { titleyear: titleyear }, // 서버로 보낼 데이터
+        dataType: "json",
+        success: function(data) {
+            $.each(data, function(index, item) {
+            	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
+            });
+        },
+        error: function() {
+            // AJAX 요청이 실패한 경우 에러 처리
+            alert('error2');
+        }
+    });
 
-	        $.ajax({
-	            url: './selectYearTitleList', // 서버에서 데이터를 가져올 경로
-	            type: 'GET', // GET 방식으로 요청
-	            data: { titleyear: titleyear }, // 서버로 보낼 데이터
-	            dataType: "json",
-	            success: function(data) {
-	               $("#titleList").append("<option > 축체를 선택 해주세요. </option>");
-	               $.each(data, function(index, item) {
-	                  $("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
-	                });
-	            },
-	            error: function() {
-	                alert('데이터를 불러오는데 실패했습니다.');
-	            }
-	        });
-	    });
+	    /* --- 현재 년도를 기준으로 생성 --- */
+		var date = new Date();
+		var selYear = date.getFullYear();
+		
+		//현재년도를 기준으로 호출
+		getYears(selYear)
+		
+		//현재 년도를 select
+		$("#yearBox").val(selYear);
+		//현재 년도를 기준으로 다시 option을 세팅
+		$("#yearBox").change(function(){
+			var chgYear = $(this).val();
+			getYears(chgYear);
+			$("#yearBox").val(chgYear);
+		});
+	
+ 	    /* --- 연도 리스트 생성 --- */
+		function getYears(getY){
+			//기존 option을 삭제
+			$("#yearBox option").remove();
+			//홀해 기준으로 -5년부터 +5년
+			var stY = Number(getY)-5;
+			var enY = Number(getY)+5;
+			
+			for(var y=stY; y<=enY; y++){
+				$("#yearBox").append("<option value='" + y + "'>" + y + "년" + "</option>");
+			}
+		}
 	    
-	    /* --- 연도별 축제 선택시 축제 출력 --- */
-	    $('#titleList').change(function() {
-	       $("#contents").empty();
-	        var festivalCode = $(this).val();
-	     // AJAX 호출
-	        $.ajax({
-	            url: './selectYearFestival', // 서버에서 데이터를 가져올 경로
-	            type: 'GET', // GET 방식으로 요청
-	            data: { festivalCode: festivalCode }, // 서버로 보낼 데이터
-	            dataType: "json",
-	            success: function(data) {
-	                $.each(data, function(index, item) {
-	                    $("#contents").append("<tr>");
-	                    if (item.status == 0) {
-	                         $("#contents").append("<th><a href='#' class='btn btn-secondary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
-	                       } else if (item.status == 1) {
-	                         $("#contents").append("<th><a href='#' class='btn btn-success btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
-	                       } else if (item.status == 2) {
-	                         $("#contents").append("<th><a href='#' class='btn btn-primary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
-	                       } else if (item.status == 3) {
-	                         $("#contents").append("<th><a href='#' class='btn btn-warning btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
-	                       } 
-	                    $("#contents").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
-	                    $("#contents").append("<th scope='col'>"+item.adminName+"</th>");
-	                    $("#contents").append("<th scope='col'>"+item.registerDate+"</th>");
-	                    $("#contents").append("<th scope='col'><button type='button' class='btn btn-outline-primary'>구매자 목록</button></th>");
-	                    $("#contents").append("<th scope='col'><button type='button' class='btn btn-outline-primary'>리뷰 관리자</button></th>");
-	                    $("#contents").append("</tr>");
-	                });
-	            },
-	            error: function() {
-	                // AJAX 요청이 실패한 경우 에러 처리
-	                alert('데이터를 불러오는데 실패했습니다.');
-	            }
-	        });
-	    });
-});
+ 	    /* --- 연도 선택시 축제 리스트 출력 --- */ 
+ 	    $('#yearBox').change(function() {
+ 	    	//해당 구역 삭제
+ 	        $("#titleList").empty(); 
+ 	        var titleyear = $(this).val();
+
+ 	        $.ajax({
+ 	            url: './selectYearTitleList', // 서버에서 데이터를 가져올 경로
+ 	            type: 'GET', // GET 방식으로 요청
+ 	            data: { titleyear: titleyear }, // 서버로 보낼 데이터
+ 	            dataType: "json",
+ 	           success: function(data) {
+ 	              $("#titleList").append("<option > 축제를 선택 해주세요. </option>");
+ 	              $.each(data, function(index, ticketList) {
+ 	                 $("#titleList").append("<option value='" +ticketList.festivalCode+ "'>" +ticketList.title + "</option>");
+ 	               });
+ 	           },
+ 	           error: function() {
+ 	               // AJAX 요청이 실패한 경우 에러 처리
+ 	               alert('error3');
+ 	           }
+ 	       });
+ 	   });
+	    
+ 	    /* --- 연도별 축제 선택시 구매자 출력 --- */
+ 	    $('#titleList').change(function() {
+ 	       $("#contents").empty();
+ 	        var festivalCode = $(this).val();
+ 	     // AJAX 호출
+ 	        $.ajax({
+ 	            url: './selectYearBuyer', // 서버에서 데이터를 가져올 경로
+ 	            type: 'GET', // GET 방식으로 요청
+ 	            data: { festivalCode: festivalCode }, // 서버로 보낼 데이터
+ 	            dataType: "json",
+ 	            success: function(data) {
+ 	       	     $.each(data, function(index,ticketList) { //데이터의 각 항목에 대해 반복
+ 	       	       var row = $('<tr></tr>')
+ 	       	       row.append($('<td></td>').text(ticketList.id));
+ 	       	       row.append($('<td></td>').text(ticketList.name));
+ 	       	       row.append($('<td></td>').text(ticketList.mobile));
+ 	       	       row.append($('<td></td>').text(ticketList.purchaseTime));
+ 	       	       row.append($('<td></td>').text(ticketList.entranceTime));
+ 	       	       row.append($('<td></td>').text(ticketList.couponUseTime));
+ 	       	       $("#contents").append(row); //각 행을 $("#contents")에 추가
+ 	       	       });
+ 	       	     },
+ 	        	 error:function(){ 
+ 	       	     alert("error4"); 
+ 	        	 }
+ 	        });
+ 	    });
+ 	});
 
 </script>
-
-
 
 
 
