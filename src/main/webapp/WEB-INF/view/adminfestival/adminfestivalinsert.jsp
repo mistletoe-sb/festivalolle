@@ -72,7 +72,7 @@ width: 500px;
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label" >이미지</label></th>
 				<th scope="col">
 					<div id="image_container" style="width: 500px;"></div>
-					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
 				</th>
 			
 			</tr>
@@ -183,7 +183,7 @@ function splitTag(event) {
 	    // split한 각 태그들을 검증해서 가공
 	    if (checkTagCount(tagList)) {
 	      for (x of tagList) {
-	        if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,
+	        if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,addTag(tag)
 	          var tag = '#' + x;
 	          if (checkTagLength(tag) && checkTagCharacters(tag) && checkReservedTags(tag) && !usedTags.includes(tag.toLowerCase())) {
 	            // 태그 길이, 문자, 예약어, 개수 제한 조건을 모두 만족하고, 사용된 태그가 아니면,
@@ -256,9 +256,9 @@ var tagArray = []; // 태그 배열을 전역 변수로 선언
 function addTag(tag) {
 if (tagArray.includes(tag)) { // 태그 배열에 이미 존재하는 경우
   alert("이미 입력된 태그입니다.");
-  return;
+  return false;
 }
-tagArray.push(tag); // 태그 배열에 추가
+return true; // 태그 배열에 추가
 // 태그 출력 및 제약조건 체크 등 추가 구현
 }
 

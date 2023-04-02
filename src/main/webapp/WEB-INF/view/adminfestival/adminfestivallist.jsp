@@ -81,7 +81,7 @@
 			
 			
 	
-			
+			<button style="float:right" class="btn btn-primary" onclick="location.href='<c:url value='/admin/mypageticketlist'/>'">마이페이지 리스트</button>
 			<button style="float:right" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivalinsertform'/>'">축제 추가</button>
 			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
 		            <thead >

@@ -61,7 +61,7 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><img style="width: 500px;" src="data:image:jpg;base64,${img}"/></th>
+				<th scope="col"><img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"></th>
 			</tr>
 			
 			<%-- <c:set var="len" value="${fn:length${adminfestivalinfo.image}"/>

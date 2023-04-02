@@ -182,7 +182,7 @@
 			SET
 				image = #{image}
 			WHERE
-				festival_image_code = #{festivalImageCode}
+				FESTIVAL_CODE = #{festivalCode}
 		]]>
 
 	</update>	

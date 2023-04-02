@@ -53,6 +53,7 @@ public class FestivalController {
 	private IFestivalService festivalService;
 
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
+	private String mypage_view_pos = "mypage/";		// 뷰 저장 위치
 
 /* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
@@ -102,12 +103,17 @@ public class FestivalController {
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
 		FestivalVO selectFestivalInfo = festivalService.selectFestivalInfo(vo);
+		byte[] getImage = selectFestivalInfo.getImage();
 		
-		String img;
-		
-		img = Base64.getEncoder().encodeToString(selectFestivalInfo.getImage());
-		model.addAttribute("img", img);
 		model.addAttribute("adminfestivalinfo", selectFestivalInfo);
+		if(getImage == null) {
+		
+		} else {
+			String img;
+			
+			img = Base64.getEncoder().encodeToString(selectFestivalInfo.getImage());
+			model.addAttribute("img", img);
+		}
 		
 		return view_pos + "adminfestivalinfo";
 	}
@@ -131,7 +137,7 @@ public class FestivalController {
 		return view_pos + "adminfestivalinsert";
 	}
 
-	/* =====================================================festivastatusllist====================================================== */	
+	/* =====================================================festivalinsert====================================================== */	
 	@PostMapping("/festivalinsert")
 	public String festivalInsert(FestivalVO vo, HttpSession session, Model model, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file) {
 		try {
@@ -208,6 +214,16 @@ public class FestivalController {
 
 		
 		model.addAttribute("adminfestivalinfo", selectFestivalInfo);
+		byte[] getImage = selectFestivalInfo.getImage();
+		if(getImage == null) {
+			
+		} else {
+			String img;
+			
+			img = Base64.getEncoder().encodeToString(selectFestivalInfo.getImage());
+			model.addAttribute("img", img);
+		}
+		
 		return view_pos + "adminfestivalupdate";
 	}
 	
@@ -260,6 +276,7 @@ public class FestivalController {
 			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
+			vo.setFestivalCode(festivalCode);
 			vo.setOrganizationCode(organizationCode);
 			vo.setImage(fileBytes);
 			vo.setThumbnail(fileBytes);
@@ -351,5 +368,22 @@ public class FestivalController {
 	    headers.setContentLength(imgFile.length);
 	    return new ResponseEntity<byte[]>(imgFile, headers, HttpStatus.OK);
 	}
+	
+	
+	/* =====================================================입장권 리스트 파트====================================================== */	
+	/* =====================================================festivallist====================================================== */	
+	@GetMapping("/mypageticketlist")
+
+	public String mypageticketlist(Model model, HttpSession session) throws Exception {
+		/*
+		 AdminVO adminVO = (AdminVO) session.getAttribute("loginUser"); int
+		 organizationCode = adminVO.getOrganizationCode();
+		 
+		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
+		model.addAttribute("selectFestivalList", selectFestivalList);
+*/
+		return mypage_view_pos + "mypageticketlist";
+	}
+
 
 }

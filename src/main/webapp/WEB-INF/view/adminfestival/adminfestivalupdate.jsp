@@ -3,7 +3,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
    
-   
+  <style>
+img{
+width: 500px;
+}
+</style>    
  <%@ include file="../admintop.jsp" %>
 
 	<div class="container-fluid">
@@ -66,7 +70,13 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><input style="display: block;" type="file" name="file"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required value="${adminfestivalinfo.image}"></th>
+				<th scope="col">
+					<div id="image_container" style="width: 500px;">
+						<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+					</div>
+					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
+					
+				</th>
 			</tr>
 		</table>
 		</div>
@@ -97,6 +107,18 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+function setThumbnail(event) {
+    var reader = new FileReader();
+	
+    reader.onload = function(event) {
+    	$("#image_container").empty();
+      var img = document.createElement("img");
+      img.setAttribute("src", event.target.result);
+      document.querySelector("div#image_container").appendChild(img);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  }
 
 //태그 입력 폼
 function splitTag(event){
