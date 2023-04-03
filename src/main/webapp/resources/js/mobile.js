@@ -47,10 +47,11 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data) {
 				// 응답 데이터 분류
-				var locationList = data.locationList;	// 선택한 월에 축제가 있는 지역 목록
-				var weekData = data.weekData;			// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
+				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
 				if(locationList != null){
-					$('#select_location').empty();		// 데이터 출력할 요소 비우기
+					$('#select_location').empty();			// 데이터 출력할 요소 비우기
 					// 지역 목록 출력
 					$("#select_location").append('<option value="전체" selected>전체</option>');
 					$.each(locationList, function(index, item) {
@@ -59,7 +60,7 @@ $(document).ready(function(){
 				}
 				$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
 				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, root));
+				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 				// 이벤트 바인딩
 				calendar_event();
 			},
@@ -82,10 +83,11 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data) {
 				// 응답 데이터 분류
-				var weekData = data.weekData;			// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-				$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
+				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
+				$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
 				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, root));
+				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 				// 이벤트 바인딩
 				calendar_event();
 			},
@@ -149,15 +151,15 @@ function calendar_event(){
 }
 
 // 카드 형식(세로) 축제 정보 레이아웃 요소 생성
-function printFestivalCard(fes, pageRoot){
+function printFestivalCard(fes, img, pageRoot){
 	var appendHTML = '<div class="festival_card_container" onclick="location.href=';
 	appendHTML += "'" + pageRoot + '/festival/info?festivalCode=' + fes.festivalCode + "'" + '">';
 	appendHTML += '<div class="card">';
 	appendHTML += '<div class="ratio">';
-	if(fes.fileName != null && fes.fileName != ""){
-		appendHTML += '<img src="' + pageRoot + '/resources/img/' + fes.fileName + '" class="card-img-top" alt="image">';
+	if(img != null){
+		appendHTML += '<img src="data:image:jpg;base64,' + img + '" class="card-img-top" alt="loading failed">';
 	}else{
-		appendHTML += '<img src="' + pageRoot + '/resources/img/festest3.jpg" class="card-img-top" alt="기본 썸네일">';
+		appendHTML += '<img src="' + pageRoot + '/resources/img/festest3.jpg" class="card-img-top" alt="no image">';
 	}
 	appendHTML += '</div>';
 	appendHTML += '<div class="card-body">';
@@ -174,9 +176,10 @@ function printFestivalCard(fes, pageRoot){
 }
 
 // 주차 별 축제 일정 정보 레이아웃 요소 생성
-function printCalendar(month, weekData, pageRoot){
+function printCalendar(month, weekData, weekDataImages, pageRoot){
 	var appendHTML = '';
 	$.each(weekData, function(index, item) {
+		var images = weekDataImages[index];
 		if(index == 1){
 			appendHTML += '<input class="folding_active" type="hidden" value="active">';
 		}else{
@@ -191,7 +194,7 @@ function printCalendar(month, weekData, pageRoot){
 			appendHTML += '<div class="default_list_layout folding_space" hidden="true">';
 		}
 		$.each(item, function(i, fes) {
-			appendHTML += printFestivalCard(fes, pageRoot);
+			appendHTML += printFestivalCard(fes, images[i], pageRoot);
 		});
 		appendHTML += '</div>';
 	});

@@ -25,7 +25,7 @@ public class TicketInsertController {
 	@PostMapping("/insert")
 	public String insertFestivalReview(TicketVO ticketVO, HttpSession session) {
 		//festivalReviewVO.setMemberCode(Integer.parseInt(session.getAttribute("").toString()));	// 세션에서 회원 코드 참조
-		ticketVO.setMemberCode(10);	// 세션에서 회원 코드 참조
+		ticketVO.setMemberCode(6);	// 세션에서 회원 코드 참조
 		try {
 			ticketInsertService.insertTicket(ticketVO);	// insert 실행
 		} catch (Exception e) {
