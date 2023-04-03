@@ -61,7 +61,18 @@
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
-				<th scope="col"><img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"></th>
+				<c:choose>
+					<c:when test="${img == '1'}">
+						<th scope="col">
+							<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+						</th>
+					</c:when>
+					<c:otherwise>
+						<th scope="col">
+							<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+						</th>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 			
 			<%-- <c:set var="len" value="${fn:length${adminfestivalinfo.image}"/>

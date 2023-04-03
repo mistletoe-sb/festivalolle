@@ -27,8 +27,8 @@ public class TicketVO {
 	private String name;			//이름
 	private String mobile;			//휴대폰번호
 	private String birth;			//생년월일
-	private String gender;			//성별
-	private String status;			//회원 상태
+	private int gender;			//성별
+	private int status;			//회원 상태
 	
 	/* festival */
 	private String title;			//축제명
@@ -37,7 +37,7 @@ public class TicketVO {
 	private String endDate;		//종료일자
 	
 	/* festival_image */
-	private String image;			//이미지 원본
-	private String thumbnail;		//이미지썸네일
+	private byte[] image;			//이미지 원본
+	private byte[] thumbnail;		//이미지썸네일
 }
 

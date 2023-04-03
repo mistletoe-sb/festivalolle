@@ -21,8 +21,8 @@ public class MypageTicketService implements IMypageTicketService {
 	}
 
 	@Override
-	public TicketVO selectTicketInfo(TicketVO vo) {
-		return mypageTicketRepository.selectTicketInfo(vo);
+	public TicketVO selectTicketInfo(int ticketCode) {
+		return mypageTicketRepository.selectTicketInfo(ticketCode);
 	}
 
 }

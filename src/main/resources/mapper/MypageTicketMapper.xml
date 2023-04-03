@@ -19,11 +19,11 @@
 	
 <!-- ================================================ 축제 상세정보 =================================================== -->	
 
-	<select id="selectTicketInfo" parameterType="com.joyous.festivalolle.ticket.model.TicketVO" resultType="com.joyous.festivalolle.ticket.model.TicketVO">
+	<select id="selectTicketInfo" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.TicketVO">
 		<![CDATA[
 			SELECT *
 			FROM v_ticket_mypage
-			where MEMBER_CODE = #{ticketCode}
+			where ticket_Code = #{ticketCode}
 		]]>
 	</select>
 	
