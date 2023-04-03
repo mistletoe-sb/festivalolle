@@ -13,7 +13,7 @@ import com.joyous.festivalolle.member.service.IMemberService;
 
 @Controller
 // 회원정보 서비스 컨트롤러 클래스
-// 작성자 : 정재웅
+
 public class MemberController {
 	
 	   
@@ -58,7 +58,16 @@ public class MemberController {
 		return view_pos + "join";
 	}
 
-	
+	//id 찾기
+	@GetMapping(value="/findId")
+	public String findId(HttpSession session) {
+		return view_pos + "findid";
+	}
 
+	//비밀번호 찾기
+	@GetMapping(value="/findPw")
+	public String findPw(HttpSession session) {
+		return view_pos + "findpw";
+	}
 }
 

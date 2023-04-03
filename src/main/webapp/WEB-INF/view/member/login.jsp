@@ -52,15 +52,15 @@
 											</div>      											
 											<div class="form-group">
 												<input type="password" class="form-control form-control-user" id="login_pw" placeholder="비밀번호를 입력하세요.." size="16" required>
-											</div> 											
-											<input type="submit" id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" />                       											
+											</div>										
+											<input type="submit" id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" />                     											
 										</form>
 										
-										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">아이디 찾기</a>
+										<div class="text-center">	
+											<a class="small a-mobile" href="./findId">아이디 찾기</a>
 										</div>
 										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">비밀번호 변경</a>
+											<a class="small a-mobile" href="./findPw">비밀번호 변경</a>
 										</div>
 										<div class="text-center">
 											<a class="small a-mobile" href="forgot-password.html">회원 가입</a>
