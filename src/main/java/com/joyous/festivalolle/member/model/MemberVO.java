@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
-	private int member_code;			// 회원번호
+	private int memberCode;			// 회원번호
 	private String id;		// ID
 	private String password;	// 비밀번호
 	private String name;		// 이름

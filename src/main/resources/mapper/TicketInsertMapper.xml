@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.ticket.repository.ITicketInsertRepository">
+
+	<insert id="insertTicket" parameterType="com.joyous.festivalolle.ticket.model.TicketVO">
+		<![CDATA[
+			INSERT INTO festivalolle.ticket
+			(ticket_code, member_code, festival_code,
+			head_count, fee, coupon_amount, purchase_time, payment_time)
+			VALUES
+			(ticket_code_seq.NEXTVAL, #{memberCode}, #{festivalCode},
+			#{headCount}, #{fee}, #{couponAmount}, 
+			TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))
+		]]>
+	</insert>
+</mapper>

@@ -66,18 +66,30 @@
 			<div id="carouselFestivalInfoImage" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					<c:forEach var="fes" items="${fesInfo}" varStatus="stat">
+						<c:set var="img" value="${fesInfoImages[stat.index]}"/>
 				        <c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
-									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
-									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+									<c:choose>
+										<c:when test="${img != null}">
+											<img src="data:image:jpg;base64,${img}" class="d-block w-100 img_layout" alt="loading failed">
+										</c:when>
+										<c:otherwise>
+											<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="no image">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
-									<img alt="" src="/getByteImage" />
-									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
-									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+									<c:choose>
+										<c:when test="${img != null}">
+											<img src="data:image:jpg;base64,${img}" class="d-block w-100 img_layout" alt="loading failed">
+										</c:when>
+										<c:otherwise>
+											<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="no image">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:otherwise>
 						</c:choose>
@@ -178,7 +190,8 @@
 					</div>
 				</div>
 				<div>
-					<div class="review_card my_review">
+					<div class="my_review">
+						<%@ include file="reviewcard.jsp"%>
 						<c:choose>
 							<c:when test="${sessionScope.memberVO == null}">
 							</c:when>
@@ -187,6 +200,8 @@
 							<c:otherwise>
 							</c:otherwise>
 						</c:choose>
+						
+						
 						
 						<form action="<c:url value='/review/insert'/>" method="post">
 							<textarea name="content" rows="10" cols="20"></textarea>
@@ -204,7 +219,13 @@
 						</form>
 					</div>
 					<c:forEach var="review" items="${reviewList}" varStatus="stat">
-						
+						<c:choose>
+							<c:when test="${stat.index == 0}">
+							</c:when>
+							<c:otherwise>
+								<%@ include file="reviewcard.jsp"%>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</div>
 			</div>
@@ -217,27 +238,31 @@
 				<img src="<c:url value='/resources/img/icon/back.png'/>" alt="close">
 			</div>
 			<div class="ticket_modal_body">
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">입장권</div>
-					<div class="modal_body_content_main">
-						<input type="number" id="headCount" min="1" max="99" pattern="^[1-9]{1}$|^[0-9]{2}$">
+				<form id="ticketInsert" action="<c:url value='/ticket/insert'/>" method="post">
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">입장인원</div>
+						<div class="modal_body_content_main">
+							<input type="number" id="headCount" name="headCount" min="1" max="99">
+						</div>
+						<div class="modal_body_content_sub">명</div>					
 					</div>
-					<div class="modal_body_content_sub">매</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">요금</div>
-					<div class="modal_body_content_main" id="ticketFee">${fesInfo[0].fee}</div>
-					<div class="modal_body_content_sub">원</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">결제금액</div>
-					<div class="modal_body_content_main" id="paymentAmount"></div>
-					<div class="modal_body_content_sub">원</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_btn modal_cancel fadeout_bottom_click">취소</div>
-					<div class="modal_body_btn modal_submit">구매</div>
-				</div>
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">요금</div>
+						<div class="modal_body_content_main">${fesInfo[0].fee}</div>
+						<div class="modal_body_content_sub">원</div>					
+					</div>
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">결제금액</div>
+						<div class="modal_body_content_main" id="paymentAmount"></div>
+						<div class="modal_body_content_sub">원</div>					
+					</div>
+					<div class="modal_body_content">
+						<div class="modal_body_btn modal_cancel fadeout_bottom_click">취소</div>
+						<div class="modal_body_btn modal_submit" id="ticket_submit">구매</div>
+					</div>
+					<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
+					<input type="hidden" id="fee" name="fee" value="${fesInfo[0].fee}">
+				</form>
 			</div>
 		</div>
 	</body>

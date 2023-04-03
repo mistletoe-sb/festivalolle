@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,26 @@ public class FestivalMainController {
 	@GetMapping(value="/home")
 	public String selectFestivalMainList(Model model) {
 		int recommend = 7;
-		model.addAttribute("recommendList", festivalMainService.selectFestivalRecommendList(recommend));	// 추천 목록
-		model.addAttribute("defaultList", festivalMainService.selectFestivalMainList());					// 기본 목록
-		model.addAttribute("recommend", recommend);															// 추천 개수
+		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
+		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList();
+		// 뷰에 표시할 이미지 binary 데이터 추출
+		List<byte[]> recommendListImages = new ArrayList<byte[]>();
+		List<byte[]> defaultListImages = new ArrayList<byte[]>();
+		for(FestivalMainVO vo : recommendList) {
+			recommendListImages.add(vo.getImage());
+		}
+		for(FestivalMainVO vo : defaultList) {
+			defaultListImages.add(vo.getImage());
+		}
+		
+		// 뷰에 표시할 데이터를 model 통해 전달
+		model.addAttribute("recommendList", recommendList);		// 추천 목록
+		model.addAttribute("recommendListImages", 
+				convertByteArrayToString(recommendListImages));	// 추천 목록에 표시할 이미지 목록
+		model.addAttribute("defaultList", defaultList);			// 기본 목록
+		model.addAttribute("defaultListImages", 
+				convertByteArrayToString(defaultListImages));	// 기본 목록에 표시할 이미지 목록
+		model.addAttribute("recommend", recommend);				// 추천 개수
 		return "mobilehome";
 	}
 	
@@ -47,8 +65,14 @@ public class FestivalMainController {
 	public String selectFestivalInfo(Model model, @RequestParam(value="festivalCode") int festivalCode) {
 		// 축제 코드에 해당하는 상세 정보 조회(이미지가 여러 개인 경우를 고려하여 List 타입)
 		List<FestivalVO> festivalVOList = festivalMainService.selectFestialInfo(festivalCode);
+		// 뷰에 표시할 이미지 binary 데이터 추출
+		List<byte[]> festivalImages = new ArrayList<byte[]>();
+		for(FestivalVO vo : festivalVOList) {
+			festivalImages.add(vo.getImage());
+		}
 		model.addAttribute("statusMsg", getFestivalStatus(festivalVOList.get(0)));	// 축제 상태 정보
 		model.addAttribute("fesInfo", festivalVOList);	// 상세 정보
+		model.addAttribute("fesInfoImages", convertByteArrayToString(festivalImages));	// 해당 축제에 등록된 이미지 목록
 		return "festival/festivalinfo";
 	}
 	
@@ -63,25 +87,15 @@ public class FestivalMainController {
 		model.addAttribute("locationList", getStateList(festivalMainVOList));	// 지역 목록
 		model.addAttribute("festivalList", festivalMainVOList);					// 표시할 축제 목록
 		// 주차 별 축제 정보
-		model.addAttribute("weekData", getFestivalListEachWeek(festivalMainVOList, month));
-		model.addAttribute("nowMonth", month);									// 현재 월
+		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
+		// 주차 별 축제 이미지 목록 추출
+		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
+		model.addAttribute("weekData", weekData);			// 주차 별 축제 목록
+		model.addAttribute("weekDataImages", 
+				convertByteArrayToString(weekDataImages));	// 주차 별 축제 이미지 목록
+		model.addAttribute("nowMonth", month);				// 현재 월
 		return "festival/festivalcalendar";
 	}
-	
-	/*
-	 * // 선택된 달의 전체 축제 일정 조회하여 데이터 전달
-	 * 
-	 * @GetMapping(value="/festival/calendar/selectmonth")
-	 * 
-	 * @ResponseBody public HashMap<String, Object> selectFestivalCalendarList(Model
-	 * model, @RequestParam(value="month") int month) { // 조회한 축제 목록
-	 * List<FestivalMainVO> festivalMainVOList =
-	 * festivalMainService.selectFestivalCalendarList(getMonth(month), null); //
-	 * ajax 응답 데이터 생성(지역 리스트 + 축제 리스트) HashMap<String, Object> responseData = new
-	 * HashMap<String, Object>(); responseData.put("locationList",
-	 * getStateList(festivalMainVOList)); responseData.put("festivalList",
-	 * festivalMainVOList); return responseData; }
-	 */
 	
 	// 선택된 월, 지역 축제 일정 조회하여 데이터 전달(지역 선택 안 되었을 시 선택된 월의 전체 축제 조회)
 	@GetMapping(value="/festival/calendar/select")
@@ -98,8 +112,13 @@ public class FestivalMainController {
 		} else {
 			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
 		}
-		// ajax 응답 데이터 생성(주차(week) 정보 + 축제 리스트)
-		responseData.put("weekData", getFestivalListEachWeek(festivalMainVOList, month));
+		// 주차 별 축제 정보
+		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
+		// 주차 별 축제 이미지 목록 추출
+		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
+		// ajax 응답 데이터 생성(주차(week) 정보 + 주차 별 축제 이미지 목록)
+		responseData.put("weekData", weekData);
+		responseData.put("weekDataImages", convertByteArrayToString(weekDataImages));
 		return responseData;
 	}
 	
@@ -252,5 +271,49 @@ public class FestivalMainController {
 		} else {
 			return false;
 		}
+	}
+	
+	// 이미지 binary 배열을 string으로 변환하는 메서드(이미지가 여러 개인 경우를 고려하여 결과값을 String[]으로 반환)(util로 이동 고려)
+	public String[] convertByteArrayToString(List<byte[]> imageList) {
+		String[] imageDataArray = new String[imageList.size()];
+		for(int i = 0; i < imageDataArray.length; i++) {
+			if(imageList.get(i) != null) {
+				imageDataArray[i] = Base64.getEncoder().encodeToString(imageList.get(i));	// 이미지 원본이 존재하면, 문자열로 인코딩
+			} else {
+				imageDataArray[i] = null;
+			}
+		}
+		return imageDataArray;
+	}
+	// 이미지 binary 데이터 변환(오버로딩)
+	public Map<Integer, String[]> convertByteArrayToString(Map<Integer, List<byte[]>> imageList) {
+		Map<Integer, String[]> imageDataMap = new HashMap<Integer, String[]>();
+		for(Integer key : imageList.keySet()) {
+			List<byte[]> tempList = imageList.get(key);
+			String[] images = new String[tempList.size()];
+			for(int i = 0; i < images.length; i++) {
+				if(tempList.get(i) != null) {
+					images[i] = Base64.getEncoder().encodeToString(tempList.get(i));	// 이미지 원본이 존재하면, 문자열로 인코딩
+				} else {
+					images[i] = null;
+				}
+			}
+			imageDataMap.put(key, images);
+		}
+		return imageDataMap;
+	}
+	
+	// 주차 별 축제 이미지 binary 데이터 목록 추출
+	public Map<Integer, List<byte[]>> getImageBinaryDataList(Map<Integer, List<FestivalMainVO>> weekData) {
+		// 주차 별 축제 이미지 목록 추출
+		Map<Integer, List<byte[]>> weekDataImages = new HashMap<Integer, List<byte[]>>();
+		for(Integer key : weekData.keySet()) {
+			List<byte[]> images = new ArrayList<byte[]>();
+			for(FestivalMainVO vo : weekData.get(key)) {
+				images.add(vo.getImage());
+			}
+			weekDataImages.put(key, images);
+		}
+		return weekDataImages;
 	}
 }
