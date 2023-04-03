@@ -1,8 +1,11 @@
 package com.joyous.festivalolle.member.service;
 
-// 회원정보 관련 서비스 인터페이스
-// 작성자 : 정재웅
+import com.joyous.festivalolle.member.model.MemberVO;
+
 public interface IMemberService {
 	int countMember();
+	
+	//회원 로그인
+	MemberVO memberLogin(String id, String password);
 	
 }

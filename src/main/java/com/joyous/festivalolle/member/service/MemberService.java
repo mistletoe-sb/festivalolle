@@ -2,6 +2,8 @@ package com.joyous.festivalolle.member.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.repository.IMemberRepository;
 
 @Service
@@ -15,6 +17,12 @@ public class MemberService implements IMemberService {
 	@Override
 	public int countMember() {
 		return memberRepository.countMember();
+	}
+	
+	//회원 로그인
+	@Override
+	public MemberVO memberLogin(String id, String password) {
+		return memberRepository.memberLogin(id, password);
 	}
 	
 	
