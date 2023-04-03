@@ -36,10 +36,10 @@
 		
 		
 		
-		
+		<div class="recommend_list_layout">
 		<div id="recommend_carousel" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
-				<c:forEach var="item" items="${recommendList}" varStatus="page">
+				<c:forEach var="item" items="${myticketList}" varStatus="page">			
 					<c:choose>
 						<c:when test='${page.index == 0}'>
 							<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}" class="active" aria-current="true"></button>
@@ -51,19 +51,120 @@
 				</c:forEach>
 			</div>
 			<div class="carousel-inner">
-				<c:forEach var="fes" items="${recommendList}" varStatus="stat">
+				<c:forEach var="ticket" items="${myticketList}" varStatus="stat">
+					<c:set var="img" value="${myticketImages[stat.index]}"/>
 					<c:choose>
 						<c:when test='${stat.index == 0}'>
 							<div class="carousel-item active" data-bs-interval="8000">
 								<div class="d-block w-100">
-									<%@ include file="festival/festivalcard.jsp"%>
+									
+									
+									
+									
+									
+									
+									
+									<!-- 이미지카드 -->
+									<div class="festival_card_container"
+										 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<div class="card">
+											<div class="ratio">
+												<c:choose>								
+													<c:when test='${img != null}'>																		  	
+														<img src="data:image:jpg;base64,${img}" class="card-img-top" alt="loading failed">				  	
+													</c:when>
+													<c:otherwise>																	  	
+														<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="no image">				  	
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="card-body">
+												<div class="festival_location">							
+													<p class="card-text">
+														${ticket.title} 
+													</p>
+												</div>	
+												<div class="festival_location">							
+													<p class="card-text">
+														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
+													</p>
+												</div>
+												<div>
+													<hr width="300" color="EEEEEE" noshade />
+												</div>
+												<div class="festival_location">							
+													<p class="card-text">
+														입장권 및 쿠폰을 사용하시려면
+														시설 담당자에게 QR 코드를 
+														보여주세요.
+													</p>
+												</div>									
+												
+											</div>
+										</div>
+									</div>
+									<!-- end 이미지카드 -->
+									
+									
+									
+									
+									
+									
+									
+									
+									
 								</div>
 							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="carousel-item" data-bs-interval="8000">
 								<div class="d-block w-100">
-									<%@ include file="festival/festivalcard.jsp"%>
+									
+									
+									
+									<div class="festival_card_container"
+										 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<div class="card">
+											<div class="ratio">
+												<c:choose>								
+													<c:when test='${img != null}'>																		  	
+														<img src="data:image:jpg;base64,${img}" class="card-img-top" alt="loading failed">				  	
+													</c:when>
+													<c:otherwise>																	  	
+														<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="no image">				  	
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="card-body">
+												<div class="festival_location">							
+													<p class="card-text">
+														${ticket.title} 
+													</p>
+												</div>	
+												<div class="festival_location">							
+													<p class="card-text">
+														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
+													</p>
+												</div>	
+												<div>
+													<hr width="300" color="EEEEEE" noshade />
+												</div>
+												<div class="festival_location">							
+													<p class="card-text">
+														입장권 및 쿠폰을 사용하시려면
+														시설 담당자에게 QR 코드를 
+														보여주세요.
+													</p>
+												</div>	
+																			
+												
+											</div>
+										</div>
+									</div>
+									
+									
+									
+									
 								</div>
 							</div>							
 						</c:otherwise>
@@ -71,42 +172,12 @@
 				</c:forEach>
 			</div>
 		</div>
-		
-		
-		
-		
-		
-		<div class="festival_card_container"
-			 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
-			<div class="card">
-				<div class="ratio">
-					<c:choose>
-						<c:when test='${(fes.fileName != null) && (fes.fileName != "")}'>
-							<img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image">				  	
-						</c:when>
-						<c:otherwise>
-							<%-- <img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일"> --%>				  	
-							<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
-						</c:otherwise>
-					</c:choose>
-				</div>
-				<div class="card-body">
-					<div class="festival_location">							
-						<p class="card-text">
-							${fes.stateName} ${fes.cityName}
-						</p>
-					</div>
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-					</div>
-					<div class="icon_layout rating_txt">							
-						<p class="card-text">
-							${fes.rating}
-						</p>
-					</div>
-				</div>
-			</div>
 		</div>
+		
+		
+		
+		
+		
 		
 		
 		

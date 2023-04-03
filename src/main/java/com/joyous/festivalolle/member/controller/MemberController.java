@@ -1,5 +1,6 @@
 package com.joyous.festivalolle.member.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import com.joyous.festivalolle.admin.controller.AdminController;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
+import com.joyous.festivalolle.ticket.model.TicketVO;
 
 @Controller
 // 회원정보 서비스 컨트롤러 클래스
@@ -73,7 +75,12 @@ public class MemberController {
 	//마이페이지 화면
 	@GetMapping(value="/mypage")
 	public String mypage(HttpSession session, Locale locale) {
-		return "member/mypage";
+		MemberVO memberVO = (MemberVO)session.getAttribute("loginUser");
+		if (memberVO != null) {
+			return "member/mypage";
+		} else {
+			return "member/gologin";
+		}
 	}
 	
 
