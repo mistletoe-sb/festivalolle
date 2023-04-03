@@ -11,7 +11,7 @@
 		<img src="<c:url value='/resources/img/icon/calendar.png'/>" alt="calendar">
 		<p>축제일정</p>
 	</div>
-	<div onclick="location.href='<c:url value="/ticket/ticketlist"/>'">
+	<div onclick="location.href='<c:url value="/myticket"/>'">
 		<img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket">
 		<p>입장권</p>
 	</div>

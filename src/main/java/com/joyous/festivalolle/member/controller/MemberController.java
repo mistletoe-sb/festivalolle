@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.controller.AdminController;
+import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
 
@@ -81,6 +82,43 @@ public class MemberController {
 	@GetMapping(value="/join")
 	public String join(HttpSession session) {
 		return view_pos + "join";
+	}
+	
+	
+	
+	/***************입장권*****************/
+	
+	//QR URL
+	@GetMapping(value="/qrreader")
+	public String qrReader(HttpSession session) {
+		AdminVO adminVO = (AdminVO)session.getAttribute("loginAdmin");
+		int adminType = adminVO.getStatus();
+		
+		if (adminType == 3) {
+			session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
+			return "ticket/ticketvalidator";			
+		} else if(adminType == 4) {				
+			session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+			return "ticket/couponvalidator";
+		} else {
+			return "redirect:/admin/login";
+		}
+	}
+	
+	
+	
+	
+	
+	//관리자 티켓 확인 페이지
+	@GetMapping(value="/ticketvalidator")
+	public String ticketValidate(HttpSession session) {
+		return null;
+	}
+	
+	//관리자 쿠폰 확인 페이지
+	@GetMapping(value="/couponvalidator")
+	public String couponValidate(HttpSession session) {
+		return null;
 	}
 
 	
