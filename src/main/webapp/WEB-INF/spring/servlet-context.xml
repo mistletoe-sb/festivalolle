@@ -54,7 +54,13 @@
 			<exclude-mapping path="/admin/login"/>
 			<exclude-mapping path="/admin/findid"/>
 			<exclude-mapping path="/admin/forgotpassword"/>
-			<exclude-mapping path="/admin/register"/>
+			<exclude-mapping path="/admin/toregister"/>
+			<exclude-mapping path="/admin/register"/>			
+			<exclude-mapping path="/admin/idchk"/>
+			<exclude-mapping path="/admin/emailchk"/>
+			<exclude-mapping path="/admin/phonechk"/>
+			<exclude-mapping path="/admin/organizationcode"/>
+			
 			<beans:bean class="com.joyous.festivalolle.admin.controller.LoginInterceptor"/>
 		</interceptor>
 		<interceptor>

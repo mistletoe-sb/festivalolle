@@ -1,0 +1,60 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'nanum';
+    font-weight: 300;
+    src: url('../font/NanumSquareRoundL.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: normal;
+    src: url('../font/NanumSquareRoundR.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: bold;
+    src: url('../font/NanumSquareRoundB.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'nanum';
+    font-weight: 800;
+    src: url('../font/NanumSquareRoundEB.ttf') format('truetype');
+}
+
+/* 공통 적용 */
+body {
+	position: relative;
+	background: #FFFFFF;
+	font-family: 'nanum' !important;
+	font-size: 16px;
+	color: #191919;
+}
+
+
+.btn-primary-mobile {
+  color: #fff;
+  background-color: #F15600 !important;
+  border-color: #F15600 !important;
+}
+
+
+.shadow-lg-mobile {
+    box-shadow: 0 !important;
+}
+
+ .a-mobile {
+ 	color: black !important;
+ 	text-decoration: none;
+  	background-color: transparent;
+    
+ 
+ }
+
+.a-mobile:hover {
+  /*color: #224abe;*/
+  text-decoration: underline;
+}
+
+
+
+
+

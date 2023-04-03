@@ -43,7 +43,7 @@
                             <form class="user">                                                             
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="register_id"
-                                        placeholder="아이디" required>
+                                        placeholder="아이디" size="20" required>
                                     <label class="ChkLabel" id="idMsg"></label>						
 									<input id="id_reg_check" type="hidden" value="false">
 									<input id="id_overlap_check" type="hidden" value="false">
@@ -51,7 +51,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="register_pw" placeholder="비밀번호" size="15" oninput="passwordChk()" required>
+                                            id="register_pw" placeholder="비밀번호" size="16" required>
                                     	<label class="ChkLabel" id="pwchkMsg"></label>
                                     	<input id="pw_reg_check" type="hidden" value="false">							
 										<input id="pwchk2" type="hidden" value="false">
@@ -59,7 +59,8 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="pwchk" placeholder="비밀번호 확인" size="15" oninput="passwordChk()" required>
+                                            id="pwchk" placeholder="비밀번호 확인" size="16" required>
+                                        <label class="ChkLabel" id="pwchkMsg2"></label>
                                     </div>
                                 </div>                                
                                 <div class="form-group">
@@ -148,7 +149,7 @@
 		var register_email = $('#register_email').val();
 		
 		var param = {"id":register_id, "password":register_pw, "organizationCode":organization_code, "name":register_name, "telephone":register_telephone, "email":register_email}
-		//JSON.stringify(param),
+		
 		
 		var id_overlap_check = $('#id_overlap_check').val();  
 	    var pwchk2 = $('#pwchk2').val();  
@@ -181,15 +182,18 @@
 	    	
 	    	return false;	
 	    		
-	    } else {		
+	    } else {
+	    	console.log(param);
 			$.ajax({
 				url: "<c:url value='/admin/register'/>",
 				type: "post",
 				contentType: 'application/json',
 				data: JSON.stringify(param),
 				success: function(data){
+					console.log(data);
 					if(data == 'ok'){
-						window.location.replace("<c:url value='/admin'/>");
+						//window.location.replace("<c:url value='/admin/login'/>");
+						window.location.href = "<c:url value='/admin/login'/>";
 						alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
 					} else {
 						alert("신청 불가");
@@ -245,7 +249,7 @@
 				//$('#email').focus();
 			} else if(reg_id.test(id)) {	//아이디 올바른 형식일 경우
 				$('#id_reg_check').val("true");
-				$('#idMsg').text("올바른 이메일 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
+				//$('#idMsg').text("올바른 이메일 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				//$('#idMsg').val("");
 				
 			if ($('#id_reg_check').val() == 'true'){	

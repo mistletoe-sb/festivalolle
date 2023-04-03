@@ -2361,10 +2361,24 @@ fieldset:disabled a.btn {
   border-color: #4e73df;
 }
 
+/* 모바일 */
+.btn-primary-mobile {
+  color: #fff;
+  background-color: #F15600;
+  border-color: #F15600;
+}
+
 .btn-primary:hover {
   color: #fff;
   background-color: #2e59d9;
   border-color: #2653d4;
+}
+
+/* 모바일 */
+.btn-primary-mobile:hover {
+  color: #fff;
+  background-color: #F15600;
+  border-color: #F15600;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -9904,6 +9918,14 @@ a:focus {
   background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
   background-size: cover;
 }
+
+/* 모바일 배경화면 */
+.bg-gradient-primary-mobile {
+  background-color: #FFFFFF;
+  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-size: cover;
+}
+
 
 .bg-gradient-secondary {
   background-color: #858796;
