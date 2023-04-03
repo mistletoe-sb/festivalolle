@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO;
 import com.joyous.festivalolle.ticket.repository.ITicketRepository;
 
@@ -25,10 +26,20 @@ public class TicketService implements ITicketService {
 		return ticketRepository.totalBuyerCount(); //구매자 목록의 행 수;
 	}
 
+
 	@Override
-	public List<V_ticketBuyerListVO> searchBuyer(V_ticketBuyerListVO buyerList) {
-	
-		return  ticketRepository.searchBuyer(buyerList);
+	public List<V_ticketBuyerListVO> searchBuyer(int organizationCode, String buyerKeyword, String tableBox) {
+		return  ticketRepository.searchBuyer(organizationCode,buyerKeyword,tableBox);
+
 	}
 
+	@Override
+	public List<V_ticketBuyerListVO> selectYearTitleList(V_ticketBuyerListVO buyerList) {
+		
+		return ticketRepository.selectYearTitleList(buyerList);
+	}
+
+	public List<V_ticketBuyerListVO> selectYearBuyer(V_ticketBuyerListVO buyerListVO) {
+		return ticketRepository.selectYearBuyer(buyerListVO);
+	}
 }
