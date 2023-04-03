@@ -44,16 +44,18 @@
 							<div class="row">
 								<div class="col-lg-6">
 	                                <div class="p-5">
-				<%--축제올래 로고 이미지 --%>
-				<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
-										<form class="user" action="<c:url value='/login'/>" method="post" name="loginfrm">                                                             
+										<%--축제올래 로고 이미지 --%>
+										<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
+										<%-- <form class="user" action="<c:url value='/login'/>" method="post" name="loginfrm"> --%> 
+										<form class="user"  name="loginfrm">                                                            
 											<div class="form-group">
 												<input type="text" class="form-control form-control-user" id="login_id" placeholder="아이디를 입력하세요.." size="20" required>			
 											</div>      											
 											<div class="form-group">
-												<input type="password" class="form-control form-control-user" id="login_pw" placeholder="비밀번호를 입력하세요.." size="16" required>
-											</div>										
-											<input type="submit" id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" />                     											
+												<input type="password" class="form-control form-control-user" id="login_pw" placeholder="비밀번호를 입력하세요.." size="16" required>     											
+											</div> 											
+											<!-- <input type="submit" id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" /> -->                       											
+											<input  id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" /> 
 										</form>
 										
 										<div class="text-center">	
@@ -75,6 +77,70 @@
 		<!--  </div>-->
 		
 		
+		
+		
+		<!-- Logout Modal-->
+	    <div class="modal fade" id="loginAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	        aria-hidden="true">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+	                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">×</span>
+	                    </button>
+	                </div>
+	                <div class="modal-body">아이디, 비밀번호를 확인해주세요.</div>
+	                <div class="modal-footer">
+	                    <button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		
+		
+		
+		
+		
+		
+		<script>
+		
+		//로그인 실행
+		$('#memberLogin').click(function(){
+			//로그인 실행
+			//var emailchk = $('#email_login_overlap_check').val();
+			//var pwchk = $('#pw_login_overlap_check').val();
+			//console.log(emailchk);
+			//console.log(pwchk);
+		
+				//console.log(emailchk);
+				//console.log(pwchk);
+				var id = $('#login_id').val();	
+				var password = $('#login_pw').val();
+				console.log(id);
+				
+					$.ajax({
+						url: "<c:url value='/login'/>",
+						type: "post",
+						data: {id: id, password: password},
+						success: function(data){
+							if(data == 'ok'){
+								window.location.replace("/festivalolle/home");																				
+							} else {
+								$('#loginAlert').modal();
+								
+								//alert("아이디, 비밀번호를 확인해주세요.");	
+							}//end if								
+						},//end success
+						error:function(){
+							alert("로그인 실패");
+						}//end error														
+					})//end 로그인 실행 ajax				
+			
+		})//end login_btn
+		
+		
+		</script>
 		
 		
 		
