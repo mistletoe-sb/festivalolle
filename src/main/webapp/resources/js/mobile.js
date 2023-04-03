@@ -109,11 +109,15 @@ $(document).ready(function(){
 		$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
 		$('.ticket_modal_layout').css('bottom', '8vmax');
 		$('#headCount').val('1');
-		$('#paymentAmount').text($('#ticketFee').text());
+		$('#paymentAmount').text($('#fee').val());
 	});
 	// 결제금액 계산
 	$('#headCount').on('input', function(){
-		$('#paymentAmount').text($('#headCount').val() * $('#ticketFee').text());
+		$('#paymentAmount').text($('#headCount').val() * $('#fee').val());
+	});
+	// 입장권 생성
+	$('#ticket_submit').on('click', function(){
+		$('#ticketInsert').submit();
 	});
 });
 

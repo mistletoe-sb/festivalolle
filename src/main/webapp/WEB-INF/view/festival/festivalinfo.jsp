@@ -178,7 +178,8 @@
 					</div>
 				</div>
 				<div>
-					<div class="review_card my_review">
+					<div class="my_review">
+						<%@ include file="reviewcard.jsp"%>
 						<c:choose>
 							<c:when test="${sessionScope.memberVO == null}">
 							</c:when>
@@ -187,6 +188,8 @@
 							<c:otherwise>
 							</c:otherwise>
 						</c:choose>
+						
+						
 						
 						<form action="<c:url value='/review/insert'/>" method="post">
 							<textarea name="content" rows="10" cols="20"></textarea>
@@ -217,27 +220,31 @@
 				<img src="<c:url value='/resources/img/icon/back.png'/>" alt="close">
 			</div>
 			<div class="ticket_modal_body">
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">입장권</div>
-					<div class="modal_body_content_main">
-						<input type="number" id="headCount" min="1" max="99" pattern="^[1-9]{1}$|^[0-9]{2}$">
+				<form id="ticketInsert" action="<c:url value='/ticket/insert'/>" method="post">
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">입장인원</div>
+						<div class="modal_body_content_main">
+							<input type="number" id="headCount" name="headCount" min="1" max="99" pattern="^[1-9]{1}$|^[0-9]{2}$">
+						</div>
+						<div class="modal_body_content_sub">명</div>					
 					</div>
-					<div class="modal_body_content_sub">매</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">요금</div>
-					<div class="modal_body_content_main" id="ticketFee">${fesInfo[0].fee}</div>
-					<div class="modal_body_content_sub">원</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_content_title">결제금액</div>
-					<div class="modal_body_content_main" id="paymentAmount"></div>
-					<div class="modal_body_content_sub">원</div>					
-				</div>
-				<div class="modal_body_content">
-					<div class="modal_body_btn modal_cancel fadeout_bottom_click">취소</div>
-					<div class="modal_body_btn modal_submit">구매</div>
-				</div>
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">요금</div>
+						<div class="modal_body_content_main">${fesInfo[0].fee}</div>
+						<div class="modal_body_content_sub">원</div>					
+					</div>
+					<div class="modal_body_content">
+						<div class="modal_body_content_title">결제금액</div>
+						<div class="modal_body_content_main" id="paymentAmount"></div>
+						<div class="modal_body_content_sub">원</div>					
+					</div>
+					<div class="modal_body_content">
+						<div class="modal_body_btn modal_cancel fadeout_bottom_click">취소</div>
+						<div class="modal_body_btn modal_submit" id="ticket_submit">구매</div>
+					</div>
+					<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
+					<input type="hidden" id="fee" name="fee" value="${fesInfo[0].fee}">
+				</form>
 			</div>
 		</div>
 	</body>

@@ -58,7 +58,13 @@ body {
 	color: #191919;
 	text-decoration : none;
 }
-
+/* textarea 스타일 설정 */
+textarea {
+	resize: none !important;
+}
+textarea::placeholder {
+	font-style: italic;
+}
 /* 문단 형태의 텍스트 */
 .multi_line_text p {
 	white-space: pre-line;
@@ -343,6 +349,39 @@ body {
 	display: inline-block;
 	width: 80%;
 	text-align: left;
+}
+
+/* 리뷰 출력할 카드 폼 CSS */
+.review_card_container {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 2.4vmax;
+	padding: 0vmax 1vmin;
+	font-size: 0.75rem;
+	font-weight: bold;
+}
+.review_card_container .card {
+	border: 0.1rem solid #F2F2F2;
+	border-radius: 1rem;
+	box-shadow: 0rem 0.125rem 0.25rem #00000016;
+}
+.review_card_container .card-body {
+	padding: 1.1vmax;
+}
+.review_body {
+	float: left;
+	width: 90%;
+	height: 100%;
+}
+.review_btn_layout {
+	float: left;
+	width: 10%;
+	height: 100%;
+}
+.review_body > .rating_layout > .rating_img {
+	width: 4vmin;
+	height: 2.16vmax;
+	text-align: center;
 }
 
 /* 아이콘 + 텍스트가 배치되는 레이아웃*/
