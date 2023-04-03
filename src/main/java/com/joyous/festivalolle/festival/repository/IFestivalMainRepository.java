@@ -14,6 +14,6 @@ public interface IFestivalMainRepository {
 	List<FestivalMainVO> selectFestivalMainList();						// 홈화면의 축제 리스트 정보 조회
 	List<FestivalVO> selectFestialInfo(int festivalCode);				// 축제 상세 정보 조회
 	// 선택한 달의 지역 축제 리스트 정보 조회(지역 선택 안 할 시 해당 월의 전체 축제 리스트)
-	List<FestivalMainVO> selectFestivalCalendarList(@Param("month") String month);
+//	List<FestivalMainVO> selectFestivalCalendarList(@Param("month") String month);
 	List<FestivalMainVO> selectFestivalCalendarList(@Param("month") String month, @Param("location") String location);
 }

@@ -37,24 +37,43 @@
 				
 				<select class="select_calendar_btn" id="select_location" name="locationSelector">
 					<option value="전체" selected>전체</option>
-					<c:forEach var="month" begin="1" end="12">
-						<option value="${month}">${month}월</option>
+					<c:forEach var="location" items="${locationList}" varStatus="stat">
+						<option value="${location}">${location}</option>
 					</c:forEach>
 				</select>
 			</div>
 		</div>
 				
 		<%-- 축제 목록 출력할 레이아웃 --%>
-		<div class="default_list_layout">
-			<div>
-				<h3>진행 중인 축제</h3>
-			</div>
-			<c:forEach var="fes" items="${festivalList}" varStatus="stat">
-				<%@ include file="festivalcard.jsp"%>
+		<div id="calendar_list_layout">
+			<c:forEach var="week" items="${weekData}" varStatus="stat">
+				<c:choose>
+					<c:when test="${week.key == 1}">
+						<input class="folding_active" type="hidden" value="active">			
+						<div class="week_bar">
+							<h3>${nowMonth}월 ${week.key}주</h3>
+						</div>
+						<div class="default_list_layout folding_space">
+							<c:forEach var="fes" items="${weekData[week.key]}">
+								<%@ include file="festivalcard.jsp"%>
+							</c:forEach>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<input class="folding_active" type="hidden" value="hide">
+						<div class="week_bar">
+							<h3>${nowMonth}월 ${week.key}주</h3>
+						</div>
+						<div class="default_list_layout folding_space" hidden="true">
+							<c:forEach var="fes" items="${weekData[week.key]}">
+								<%@ include file="festivalcard.jsp"%>
+							</c:forEach>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
-		
 		
 		<%-- <!-- https://getbootstrap.kr/docs/5.2/components/modal/ -->
 		<!-- 월 선택 Modal -->
