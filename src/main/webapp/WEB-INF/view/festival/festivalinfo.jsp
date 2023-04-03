@@ -176,8 +176,17 @@
 						<p>${fesInfo[0].rating}</p>
 					</div>
 				</div>
-				<%-- <div>
+				<div>
 					<div class="review_card my_review">
+						<c:choose>
+							<c:when test="${sessionScope.memberVO == null}">
+							</c:when>
+							<c:when test="${(sessionScope.memberVO != null) && reviewList[0].festivalReviewCode == null}">
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+						
 						<form action="<c:url value='/review/insert'/>" method="post">
 							<textarea name="content" rows="10" cols="20"></textarea>
 							<input type="number" name="rating">
@@ -196,7 +205,7 @@
 					<c:forEach var="review" items="${reviewList}" varStatus="stat">
 						
 					</c:forEach>
-				</div> --%>
+				</div>
 			</div>
 		</div>
 		<%@ include file="../mobilemenu/topbutton.jsp"%>
