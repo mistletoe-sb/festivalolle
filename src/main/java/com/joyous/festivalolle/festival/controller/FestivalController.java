@@ -53,7 +53,7 @@ public class FestivalController {
 	private IFestivalService festivalService;
 
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
-	private String mypage_view_pos = "mypage/";		// 뷰 저장 위치
+
 
 /* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
@@ -107,7 +107,7 @@ public class FestivalController {
 		
 		model.addAttribute("adminfestivalinfo", selectFestivalInfo);
 		if(getImage == null) {
-		
+			model.addAttribute("img", "이미지가 없습니다.");
 		} else {
 			String img;
 			
@@ -371,19 +371,7 @@ public class FestivalController {
 	
 	
 	/* =====================================================입장권 리스트 파트====================================================== */	
-	/* =====================================================festivallist====================================================== */	
-	@GetMapping("/mypageticketlist")
 
-	public String mypageticketlist(Model model, HttpSession session) throws Exception {
-		/*
-		 AdminVO adminVO = (AdminVO) session.getAttribute("loginUser"); int
-		 organizationCode = adminVO.getOrganizationCode();
-		 
-		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
-		model.addAttribute("selectFestivalList", selectFestivalList);
-*/
-		return mypage_view_pos + "mypageticketlist";
-	}
 
 
 }

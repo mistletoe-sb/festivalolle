@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.ticket.repository.IMypageTicketRepository">
+
+
+
+<!-- ================================================ 축제 리스트 =================================================== -->	
+
+	<select id="selectTicketList" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.TicketVO">
+		<![CDATA[
+			SELECT *
+			FROM v_ticket_mypage
+			where MEMBER_CODE = #{memberCode}
+		]]>
+	</select>
+	
+<!-- ================================================ 축제 상세정보 =================================================== -->	
+
+	<select id="selectTicketInfo" parameterType="com.joyous.festivalolle.ticket.model.TicketVO" resultType="com.joyous.festivalolle.ticket.model.TicketVO">
+		<![CDATA[
+			SELECT *
+			FROM v_ticket_mypage
+			where MEMBER_CODE = #{ticketCode}
+		]]>
+	</select>
+	
+
+</mapper>
+
+<!-- 작성자 : 정재웅 -->
