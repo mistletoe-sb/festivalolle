@@ -2,8 +2,7 @@ package com.joyous.festivalolle.member.model;
 
 import lombok.Data;
 
-// 회원정보 VO 클래스
-// 작성자 : 정재웅
+
 @Data
 public class MemberVO {
 	private int member_code;			// 회원번호

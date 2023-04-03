@@ -26,22 +26,22 @@
 		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
 		
 		<div class="icon">
-		<img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket">
+		<%-- <img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket"> --%>
 		</div>
-		<a href="forgot-password.html">구매 내역</a>
+		<a href="<c:url value='/mypage/ticketlist'/>">구매 내역</a>
 		
 		<div class="icon">
-		<img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
+		<%-- <img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰"> --%>
 		</div>
-		<a href="forgot-password.html">나의 리뷰</a>
+		<a href="<c:url value='/mypage/reviewlist'/>">나의 리뷰</a>
 		
 		<div class="icon">
-		<img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
+		<%-- <img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크"> --%>
 		</div>
 		<a href="forgot-password.html">북마크</a>
 		
 		<div class="icon">
-		<img src="<c:url value='/resources/img/icon/mypage.png'/>" href=" " alt="mypage">
+		<%-- <img src="<c:url value='/resources/img/icon/mypage.png'/>" href=" " alt="mypage"> --%>
 		</div>
 		<a href="forgot-password.html">회원 정보</a>
 		

@@ -16,7 +16,14 @@
 	
 	
 <!-- ====================================================================================================================== -->
-<!-- 작성자 : 정재웅 -->
+
+	<!-- 로그인 -->
+	<select id="memberLogin" resultType="com.joyous.festivalolle.member.model.MemberVO">
+		<![CDATA[
+			SELECT * FROM FESTIVALOLLE.member WHERE id = #{id} AND password = #{password}
+		]]>
+	</select>
+
 
 </mapper>
 	
