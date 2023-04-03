@@ -66,18 +66,30 @@
 			<div id="carouselFestivalInfoImage" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					<c:forEach var="fes" items="${fesInfo}" varStatus="stat">
+						<c:set var="img" value="${fesInfoImages[stat.index]}"/>
 				        <c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
-									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
-									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+									<c:choose>
+										<c:when test="${img != null}">
+											<img src="data:image:jpg;base64,${img}" class="d-block w-100 img_layout" alt="loading failed">
+										</c:when>
+										<c:otherwise>
+											<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="no image">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
-									<img alt="" src="/getByteImage" />
-									<%-- <img src="${fes.image}" class="d-block w-100 img_layout" alt="image"> --%>
-									<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="image">
+									<c:choose>
+										<c:when test="${img != null}">
+											<img src="data:image:jpg;base64,${img}" class="d-block w-100 img_layout" alt="loading failed">
+										</c:when>
+										<c:otherwise>
+											<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="no image">
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</c:otherwise>
 						</c:choose>
@@ -207,7 +219,13 @@
 						</form>
 					</div>
 					<c:forEach var="review" items="${reviewList}" varStatus="stat">
-						
+						<c:choose>
+							<c:when test="${stat.index == 0}">
+							</c:when>
+							<c:otherwise>
+								<%@ include file="reviewcard.jsp"%>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</div>
 			</div>
@@ -224,7 +242,7 @@
 					<div class="modal_body_content">
 						<div class="modal_body_content_title">입장인원</div>
 						<div class="modal_body_content_main">
-							<input type="number" id="headCount" name="headCount" min="1" max="99" pattern="^[1-9]{1}$|^[0-9]{2}$">
+							<input type="number" id="headCount" name="headCount" min="1" max="99">
 						</div>
 						<div class="modal_body_content_sub">명</div>					
 					</div>

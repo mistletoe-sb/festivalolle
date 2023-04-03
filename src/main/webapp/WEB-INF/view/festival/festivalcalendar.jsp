@@ -65,7 +65,9 @@
 							<h3>${nowMonth}월 ${week.key}주</h3>
 						</div>
 						<div class="default_list_layout folding_space" hidden="true">
-							<c:forEach var="fes" items="${weekData[week.key]}">
+							<c:set var="imgList" value="${weekDataImages[week.key]}"/>
+							<c:forEach var="fes" items="${weekData[week.key]}" varStatus="i">
+								<c:set var="img" value="${imgList[i.index]}"/>
 								<%@ include file="festivalcard.jsp"%>
 							</c:forEach>
 						</div>

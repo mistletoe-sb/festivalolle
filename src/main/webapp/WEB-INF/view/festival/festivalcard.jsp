@@ -6,12 +6,14 @@
 	<div class="card">
 		<div class="ratio">
 			<c:choose>
-				<c:when test='${(fes.fileName != null) && (fes.fileName != "")}'>
-					<img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image">				  	
+				<%-- <c:when test='${(fes.fileName != null) && (fes.fileName != "")}'> --%>
+				<c:when test='${img != null}'>
+					<%-- <img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image"> --%>				  	
+					<img src="data:image:jpg;base64,${img}" class="card-img-top" alt="loading failed">				  	
 				</c:when>
 				<c:otherwise>
 					<%-- <img src="<c:url value='/resources/img/default_thumbnail.jpg'/>" class="card-img-top" alt="기본 썸네일"> --%>				  	
-					<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="기본 썸네일">				  	
+					<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="no image">				  	
 				</c:otherwise>
 			</c:choose>
 		</div>
