@@ -12,8 +12,8 @@ public class TicketVO {
 	private int festivalCode;
 	private int headCount;
 	private int fee;
-	private int coupon_amount;
-	private String purchase_time;
+	private int couponAmount;
+	private String purchaseTime;
 	private String paymentTime;
 	private String entranceTime;
 	private String couponUseTime;
