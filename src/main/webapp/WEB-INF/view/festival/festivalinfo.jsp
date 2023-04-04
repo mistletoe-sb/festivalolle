@@ -203,7 +203,7 @@
 						
 						
 						
-						<form action="<c:url value='/review/insert'/>" method="post">
+						<%-- <form action="<c:url value='/review/insert'/>" method="post">
 							<textarea name="content" rows="10" cols="20"></textarea>
 							<input type="number" name="rating">
 							<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
@@ -216,7 +216,7 @@
 						<form action="<c:url value='/review/delete'/>" method="post">
 							<input type="hidden" name="festivalReviewCode" value="9">
 							<input type="submit" value="삭제">
-						</form>
+						</form> --%>
 					</div>
 					<c:forEach var="review" items="${reviewList}" varStatus="stat">
 						<c:choose>

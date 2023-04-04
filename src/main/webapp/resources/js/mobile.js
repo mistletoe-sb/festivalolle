@@ -128,6 +128,37 @@ $(document).ready(function(){
 	$('#ticket_submit').on('click', function(){
 		$('#ticketInsert').submit();
 	});
+	
+	// 축제 리뷰 초기 로딩
+	var isReviewAlreadyInitLoad = false;
+	$(window).on('scroll',function() {
+		if(checkVisible($('#review')) && !isReviewAlreadyInitLoad) {
+			var festivalCode = $('input[name="festivalCode"]').val();
+			// AJAX 호출
+			$.ajax({
+				url: './review/list', 					// 요청 URL
+				type: 'GET', 							// GET 방식으로 요청
+				data: { festivalCode: festivalCode},	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					// 응답 데이터 분류
+					var reviewList = data;				// 해당 축제의 리뷰 목록
+					
+					$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
+					// 각 주차 별 축제 목록 출력
+					$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
+					// 이벤트 바인딩
+					calendar_event();
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					alert('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+			isReviewAlreadyInitLoad = true;
+		}
+	});
+	
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -220,4 +251,14 @@ function moveToIndex(){
 		var offset = $('#review').offset(); //선택한 태그의 위치를 반환
         $('html').animate({scrollTop : offset.top - margin_space}, 0);
 	});
+}
+
+// 해당 요소가 화면에 보이는지 확인
+function checkVisible(checkElement){
+	var viewportHeight = $(window).height();	// Viewport Height
+	var scrolltop = $(window).scrollTop();		// Scroll Top
+	var y = $(checkElement).offset().top;				// Element Top
+	var elementHeight = $(checkElement).height();		// Element Height
+    
+    return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
 }
