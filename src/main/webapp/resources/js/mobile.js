@@ -47,10 +47,11 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data) {
 				// 응답 데이터 분류
-				var locationList = data.locationList;	// 선택한 월에 축제가 있는 지역 목록
-				var weekData = data.weekData;			// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
+				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
 				if(locationList != null){
-					$('#select_location').empty();		// 데이터 출력할 요소 비우기
+					$('#select_location').empty();			// 데이터 출력할 요소 비우기
 					// 지역 목록 출력
 					$("#select_location").append('<option value="전체" selected>전체</option>');
 					$.each(locationList, function(index, item) {
@@ -59,7 +60,7 @@ $(document).ready(function(){
 				}
 				$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
 				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, root));
+				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 				// 이벤트 바인딩
 				calendar_event();
 			},
@@ -82,10 +83,11 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data) {
 				// 응답 데이터 분류
-				var weekData = data.weekData;			// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-				$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
+				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
+				$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
 				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, root));
+				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 				// 이벤트 바인딩
 				calendar_event();
 			},
@@ -126,6 +128,33 @@ $(document).ready(function(){
 	$('#ticket_submit').on('click', function(){
 		$('#ticketInsert').submit();
 	});
+	
+	// 축제 리뷰 초기 로딩
+	var isReviewAlreadyInitLoad = false;
+	$(window).on('scroll',function() {
+		if(checkVisible($('#review')) && !isReviewAlreadyInitLoad) {
+			var festivalCode = $('input[name="festivalCode"]').val();
+			// AJAX 호출
+			$.ajax({
+				url: '../review/list', 					// 요청 URL
+				type: 'GET', 							// GET 방식으로 요청
+				data: { festivalCode: festivalCode},	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					// 응답 데이터 분류
+					var reviewList = data;				// 해당 축제의 리뷰 목록
+					// 리뷰 목록 출력
+					$('.review_list_layout').append(printReviewList(reviewList, root));
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					alert('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+			isReviewAlreadyInitLoad = true;
+		}
+	});
+	
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -149,15 +178,15 @@ function calendar_event(){
 }
 
 // 카드 형식(세로) 축제 정보 레이아웃 요소 생성
-function printFestivalCard(fes, pageRoot){
+function printFestivalCard(fes, img, pageRoot){
 	var appendHTML = '<div class="festival_card_container" onclick="location.href=';
 	appendHTML += "'" + pageRoot + '/festival/info?festivalCode=' + fes.festivalCode + "'" + '">';
 	appendHTML += '<div class="card">';
 	appendHTML += '<div class="ratio">';
-	if(fes.fileName != null && fes.fileName != ""){
-		appendHTML += '<img src="' + pageRoot + '/resources/img/' + fes.fileName + '" class="card-img-top" alt="image">';
+	if(img != null){
+		appendHTML += '<img src="data:image:jpg;base64,' + img + '" class="card-img-top" alt="loading failed">';
 	}else{
-		appendHTML += '<img src="' + pageRoot + '/resources/img/festest3.jpg" class="card-img-top" alt="기본 썸네일">';
+		appendHTML += '<img src="' + pageRoot + '/resources/img/festest3.jpg" class="card-img-top" alt="no image">';
 	}
 	appendHTML += '</div>';
 	appendHTML += '<div class="card-body">';
@@ -174,9 +203,10 @@ function printFestivalCard(fes, pageRoot){
 }
 
 // 주차 별 축제 일정 정보 레이아웃 요소 생성
-function printCalendar(month, weekData, pageRoot){
+function printCalendar(month, weekData, weekDataImages, pageRoot){
 	var appendHTML = '';
-	$.each(weekData, function(index, item) {
+	$.each(weekData, function(index, item){
+		var images = weekDataImages[index];
 		if(index == 1){
 			appendHTML += '<input class="folding_active" type="hidden" value="active">';
 		}else{
@@ -190,10 +220,39 @@ function printCalendar(month, weekData, pageRoot){
 		}else{
 			appendHTML += '<div class="default_list_layout folding_space" hidden="true">';
 		}
-		$.each(item, function(i, fes) {
-			appendHTML += printFestivalCard(fes, pageRoot);
+		$.each(item, function(i, fes){
+			appendHTML += printFestivalCard(fes, images[i], pageRoot);
 		});
 		appendHTML += '</div>';
+	});
+	return appendHTML;
+}
+
+// 리뷰 목록 레이아웃 요소 생성
+function printReviewList(reviewList, pageRoot){
+	var appendHTML = '';
+	$.each(reviewList, function(index, item){
+		appendHTML += '<div class="review_card_container">';
+		appendHTML += '<div class="card">';
+		appendHTML += '<div class="card-body">';
+		appendHTML += '<div class="review_body">';
+		appendHTML += '<div><p class="card-text">' + item.id + '</p></div>';
+		appendHTML += '<div class="rating_layout">';
+		for(var i = 1; i <= item.rating; i++){
+			appendHTML += '<div class="icon_layout rating_img">';
+			appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+			appendHTML += '</div>';
+		}
+		for(var j = item.rating + 1; j <= 5; j++){
+			appendHTML += '<div class="icon_layout rating_img">';
+			appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+			appendHTML += '</div>';
+		}
+		appendHTML += '</div>';
+		appendHTML += '<div class="multi_line_text"><p>' + item.content + '</p></div>';
+		appendHTML += '</div>';
+		appendHTML += '<div class="review_btn_layout"><p class="card-text">신고</p></div>';
+		appendHTML += '</div></div></div>';
 	});
 	return appendHTML;
 }
@@ -217,4 +276,14 @@ function moveToIndex(){
 		var offset = $('#review').offset(); //선택한 태그의 위치를 반환
         $('html').animate({scrollTop : offset.top - margin_space}, 0);
 	});
+}
+
+// 해당 요소가 화면에 보이는지 확인
+function checkVisible(checkElement){
+	var viewportHeight = $(window).height();	// Viewport Height
+	var scrolltop = $(window).scrollTop();		// Scroll Top
+	var y = $(checkElement).offset().top;				// Element Top
+	var elementHeight = $(checkElement).height();		// Element Height
+    
+    return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
 }

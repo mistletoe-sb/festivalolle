@@ -23,10 +23,35 @@
 		]]>
 	</update>
 	
-	<delete id="deleteFestivalReview" parameterType="int">
+	<delete id="deleteFestivalReview">
 		<![CDATA[
 			DELETE festivalolle.festival_review
 			WHERE festival_review_code = #{festivalReviewCode}
+			AND member_code = #{memberCode}
 		]]>
 	</delete>
+	
+	<select id="selectMyFestivalReviewInFestivalInfo" 
+			resultType="com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO">
+		<![CDATA[
+			SELECT festival_review_code, festival_code,
+			write_date, content, rating, id
+			FROM festivalolle.v_festival_review
+			WHERE member_code = #{member_code}
+			AND festival_code = #{festival_code}
+		]]>
+	</select>
+	
+	<select id="selectFestivalReviewList" 
+			resultType="com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO">
+		<![CDATA[
+			SELECT festival_review_code, festival_code,
+			write_date, content, rating, id
+			FROM festivalolle.v_festival_review
+			WHERE festival_code = #{festivalCode}
+		]]>
+		<if test="memberCode != 0">
+			<![CDATA[AND member_code != #{memberCode}]]>
+		</if>
+	</select>
 </mapper>
