@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.ticket.repository.ITicketRepositoryMyticket">
+
+	<!-- 작성자: 이기쁨 -->
+	<!-- 이용권 조회 -->
+	<select id="getMyCurrentTicket" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.TicketVOmyticket">
+		<![CDATA[select * from v_myticket WHERE member_code = #{memberCode} AND status = 1 AND (entrance_time IS NULL OR coupon_use_time IS NULL)]]>
+	</select>
+	
+	
+
+	
+
+	
+		
+</mapper>
+	

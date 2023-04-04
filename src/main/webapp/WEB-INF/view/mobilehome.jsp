@@ -33,6 +33,7 @@
 				</div>
 				<div class="carousel-inner">
 					<c:forEach var="fes" items="${recommendList}" varStatus="stat">
+						<c:set var="img" value="${recommendListImages[stat.index]}"/>
 						<c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
@@ -59,6 +60,7 @@
 				<h3>진행 중인 축제</h3>
 			</div>
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
+				<c:set var="img" value="${defaultListImages[stat.index]}"/>
 				<%@ include file="festival/festivalcard.jsp"%>
 			</c:forEach>
 		</div>
