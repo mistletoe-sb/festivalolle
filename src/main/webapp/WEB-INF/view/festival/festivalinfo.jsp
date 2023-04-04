@@ -8,6 +8,7 @@
 		<title>상세정보</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>" />
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b65446e66b6e8b6a52d46722fe1fb6f&libraries=services"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
@@ -171,7 +172,7 @@
 					<h3>주변 음식점</h3>
 				</div>
 				<div>
-					<%-- 지도 API 사용 --%>
+					<div id="kakaomap" style="width:100%;height:40vmax;"></div>
 				</div>
 			</div>
 			<div class="layout_bottom_line" id="review">
@@ -266,5 +267,36 @@
 				</form>
 			</div>
 		</div>
+		<script type="text/javascript">
+			// 주변 음식점 찾기(카카오맵 API)
+			var mapContainer = document.getElementById('kakaomap');		// 맵 레이아웃 레퍼런스
+			var mapOptions = {
+				center: new kakao.maps.LatLng(37.5838175, 126.9999694),	// 중심 좌표(위도, 경도)
+				level: 3												// 확대, 축소 정도(레벨)
+			};
+			var mapView = new kakao.maps.Map(mapContainer, mapOptions);	// 지도 생성 및 반환
+		
+			// 주소-좌표 변환 객체 생성
+			var geoCoder = new kakao.maps.services.Geocoder();
+			// 주소로 좌표 검색
+			geoCoder.addressSearch('전남 순천시 국가정원1호길 47', function(result, status){
+				if(status == kakao.maps.services.Status.OK){	// 정상적으로 검색 완료 시
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					// 결과값으로 받은 좌표를 이용해 마커 표시
+					var marker = new kakao.maps.Marker({
+						map: mapView,
+						position: coords
+					});
+					// 장소 설명 표시
+					var info = new kakao.maps.InfoWindow({
+						content: '<div style="width:150px;text-align:center;font-weight:normal;font-size:0.875rem">${fesInfo[0].title}</div>'
+					});
+					info.open(mapView, marker);
+					
+					// 지도 중심 위치를 마커 위치로 이동
+					mapView.setCenter(coords);
+				}
+			});
+		</script>
 	</body>
 </html>
