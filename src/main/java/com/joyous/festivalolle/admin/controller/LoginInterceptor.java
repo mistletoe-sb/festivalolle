@@ -33,7 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			
 			
 			//String admin= (String) request.getSession().getAttribute("loginUser");
-			AdminVO admin = (AdminVO) request.getSession().getAttribute("loginUser");
+			AdminVO admin = (AdminVO) request.getSession().getAttribute("loginAdmin");
 			//int status = adminVO.getStatus();
 			
 			if(admin == null || admin.equals("")){
