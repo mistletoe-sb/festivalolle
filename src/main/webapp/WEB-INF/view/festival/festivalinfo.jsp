@@ -190,13 +190,26 @@
 					</div>
 				</div>
 				<div class="review_list_layout">
-					<%@ include file="reviewcard.jsp"%>
+					<%-- <%@ include file="reviewcard.jsp"%> --%>
 					<c:choose>
-						<c:when test="${sessionScope.memberVO == null}">
-						</c:when>
-						<c:when test="${(sessionScope.memberVO != null) && reviewList[0].festivalReviewCode == null}">
+						<c:when test="${sessionScope.loginUser == null}">
+							<div class="review_card_container">
+								<div class="card">
+									<div class="card-body">
+										<div class="review_body">							
+											<div class="multi_line_text">
+												<textarea placeholder="로그인 후 이용 가능합니다."></textarea>
+											</div>
+										</div>
+										<div class="review_btn_layout">							
+											<p class="card-text review_login">등록</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</c:when>
 						<c:otherwise>
+							<div id="my_review"></div>
 						</c:otherwise>
 					</c:choose>
 					
@@ -216,15 +229,6 @@
 						<input type="submit" value="삭제">
 					</form> --%>
 				</div>
-				<%-- <c:forEach var="review" items="${reviewList}" varStatus="stat">
-					<c:choose>
-						<c:when test="${stat.index == 0}">
-						</c:when>
-						<c:otherwise>
-							<%@ include file="reviewcard.jsp"%>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach> --%>
 			</div>
 		</div>
 		<%@ include file="../mobilemenu/topbutton.jsp"%>

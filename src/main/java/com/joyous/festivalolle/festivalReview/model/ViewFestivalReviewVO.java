@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class ViewFestivalReviewVO {
 	private int festivalReviewCode;		// 축제리뷰 코드
+	private int memberCode;				// 회원 코드
 	private int festivalCode;			// 축제 코드
 	private String writeDate;			// 작성일자
 	private String content;				// 내용

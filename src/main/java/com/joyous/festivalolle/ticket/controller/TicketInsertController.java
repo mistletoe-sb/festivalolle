@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.ticket.model.TicketVO;
 import com.joyous.festivalolle.ticket.service.ITicketInsertService;
 
@@ -24,15 +25,21 @@ public class TicketInsertController {
 	// 리뷰 작성
 	@PostMapping("/insert")
 	public String insertFestivalReview(TicketVO ticketVO, HttpSession session) {
-		//festivalReviewVO.setMemberCode(Integer.parseInt(session.getAttribute("").toString()));	// 세션에서 회원 코드 참조
-		ticketVO.setMemberCode(6);	// 세션에서 회원 코드 참조
-		try {
-			ticketInsertService.insertTicket(ticketVO);	// insert 실행
-		} catch (Exception e) {
-			logger.info(e.getMessage());
-			e.printStackTrace();
+		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
+		
+		// 세션 null 체크
+		if(loginUser != null) {			
+			ticketVO.setMemberCode(loginUser.getMemberCode());	// 회원 코드 참조
+			try {
+				ticketInsertService.insertTicket(ticketVO);		// insert 실행
+			} catch (Exception e) {
+				logger.info(e.getMessage());
+				e.printStackTrace();
+			}
+			return "redirect:/home";
+		} else {			
+			return "redirect:/login";
 		}
 //		return "redirect:/ticket/list";
-		return "redirect:/home";
 	}
 }
