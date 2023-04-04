@@ -68,6 +68,7 @@
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
 			SELECT DISTINCT TITLE, festival_code
+			FROM V_REVIEW_LIST
 			WHERE WRITE_DATE like  #{writeDate} and organization_code = #{organizationCode}
 		]]>
 	</select>	
