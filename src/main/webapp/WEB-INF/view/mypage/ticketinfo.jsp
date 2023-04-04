@@ -38,7 +38,7 @@
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
-								<h5 class="card-title">${adminfestivalinfo.title}</h5>
+								<h5 class="card-title" onclick="location.href='<c:url value='/festival/info?festivalCode=${fes.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
 								<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
 								<p class="card-text"><small class="text-muted">
 									구매 일자 : ${adminfestivalinfo.purchaseTime}<br>

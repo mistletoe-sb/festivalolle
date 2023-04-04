@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.festivalReview.service.IMypageReviewService;
@@ -28,15 +29,26 @@ public class MypageReviewController {
 	/* =====================================================ticketlist====================================================== */	
 	@GetMapping("/reviewlist")
 
-	public String reviewlist(Model model, HttpSession session) throws Exception {
+	public String reviewlist(Model model, HttpSession session ) throws Exception {
 
 		 MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
-		 int memberCode = memberVO.getMemberCode();
+		 String memberId = memberVO.getId();
 		 
-		List<V_ReviewListVO> selectReviewtList = mypageReviewService.selectReviewList(memberCode);
+		List<V_ReviewListVO> selectReviewtList = mypageReviewService.selectReviewList(memberId);
 		model.addAttribute("selectReviewtList", selectReviewtList);
 
 		return view_pos + "reviewlist";
+	}
+	
+	@GetMapping("/reviewdelect")
+
+	public String reviewdelect(Model model, HttpSession session, @RequestParam(value="festivalReviewCode", required=true) int festivalReviewCode) throws Exception {
+
+		 
+		mypageReviewService.delectReview(festivalReviewCode);
+		
+
+		return "redirect:/mypage/reviewlist";
 	}
 	
 }

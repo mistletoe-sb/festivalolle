@@ -16,8 +16,8 @@ public class MypageReviewService implements IMypageReviewService {
 	
 
 	@Override
-	public List<V_ReviewListVO> selectReviewList(int memberCode) {
-		return mypageReviewRepository.selectReviewList(memberCode);
+	public List<V_ReviewListVO> selectReviewList(String memberId) {
+		return mypageReviewRepository.selectReviewList(memberId);
 	}
 
 	@Override

@@ -9,11 +9,11 @@
 
 <!-- ================================================ 축제 리스트 =================================================== -->	
 
-	<select id="selectReviewList" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
+	<select id="selectReviewList" parameterType="String" resultType="com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO">
 		<![CDATA[
 			SELECT *
-			FROM v_review_list
-			where MEMBER_CODE = #{memberCode}
+			FROM v_festival_review
+			where id = #{memberId}
 		]]>
 	</select>
 	

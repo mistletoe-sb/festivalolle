@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -370,8 +371,50 @@ public class FestivalController {
 	}
 	
 	
-	/* =====================================================입장권 리스트 파트====================================================== */	
-
-
+	/* =====================================================updateFestivalStatus====================================================== */	
+	@GetMapping("/updateFestivalStatus") 
+	void updateFestivalStatus(FestivalVO vo, @RequestParam("status") int status, @RequestParam("organizationCode") int organizationCode, @RequestParam("festivalCode") int festivalCode, @RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
+		vo.setOrganizationCode(organizationCode);
+		vo.setFestivalCode(festivalCode);
+		if (status == 0) {
+			vo.setStatus(0);
+			festivalService.updateFestivalStatus(vo);
+		} else {
+			//오늘날짜 yyyy-MM-dd로 생성
+			String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+			 
+			//yyyy-MM-dd 포맷 설정
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			 
+			//비교할 date와 today를데이터 포맷으로 변경
+			Date startDate = new Date(dateFormat.parse(start).getTime()); 
+			Date endDate = new Date(dateFormat.parse(end).getTime());
+			Date today = new Date(dateFormat.parse(todayfm).getTime());
+			 
+			//compareTo메서드를 통한 날짜비교
+			int startCompare = startDate.compareTo(today); 
+			int endCompare = endDate.compareTo(today); 
+			 
+			//조건문
+			if(startCompare > 0) {
+				vo.setStatus(2);
+			  System.out.println("date가 today보다 큽니다.(date > today)");
+			}else if(startCompare < 0) {
+				if (endCompare<0) {
+					vo.setStatus(3);
+				}
+				else {
+					vo.setStatus(1);
+				}
+				
+			  System.out.println("today가 date보다 큽니다.(date < today)");
+			}else {
+				vo.setStatus(1);
+			  System.out.println("today와 date가 같습니다.(date = today)");
+			}
+			
+			festivalService.updateFestivalStatus(vo);
+		}
+	}
 
 }
