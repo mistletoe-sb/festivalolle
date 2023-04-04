@@ -7,7 +7,7 @@
 			<div class="review_body">							
 				<div>
 					<p class="card-text">
-						닉네임${review.name}
+						닉네임${review.id}
 					</p>
 				</div>
 				<div class="rating_layout">

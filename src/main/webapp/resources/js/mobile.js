@@ -136,19 +136,15 @@ $(document).ready(function(){
 			var festivalCode = $('input[name="festivalCode"]').val();
 			// AJAX 호출
 			$.ajax({
-				url: './review/list', 					// 요청 URL
+				url: '../review/list', 					// 요청 URL
 				type: 'GET', 							// GET 방식으로 요청
 				data: { festivalCode: festivalCode},	// 서버로 보낼 데이터
 				dataType: 'json',
 				success: function(data) {
 					// 응답 데이터 분류
 					var reviewList = data;				// 해당 축제의 리뷰 목록
-					
-					$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
-					// 각 주차 별 축제 목록 출력
-					$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
-					// 이벤트 바인딩
-					calendar_event();
+					// 리뷰 목록 출력
+					$('.review_list_layout').append(printReviewList(reviewList, root));
 				},
 				error: function() {
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -209,7 +205,7 @@ function printFestivalCard(fes, img, pageRoot){
 // 주차 별 축제 일정 정보 레이아웃 요소 생성
 function printCalendar(month, weekData, weekDataImages, pageRoot){
 	var appendHTML = '';
-	$.each(weekData, function(index, item) {
+	$.each(weekData, function(index, item){
 		var images = weekDataImages[index];
 		if(index == 1){
 			appendHTML += '<input class="folding_active" type="hidden" value="active">';
@@ -224,10 +220,39 @@ function printCalendar(month, weekData, weekDataImages, pageRoot){
 		}else{
 			appendHTML += '<div class="default_list_layout folding_space" hidden="true">';
 		}
-		$.each(item, function(i, fes) {
+		$.each(item, function(i, fes){
 			appendHTML += printFestivalCard(fes, images[i], pageRoot);
 		});
 		appendHTML += '</div>';
+	});
+	return appendHTML;
+}
+
+// 리뷰 목록 레이아웃 요소 생성
+function printReviewList(reviewList, pageRoot){
+	var appendHTML = '';
+	$.each(reviewList, function(index, item){
+		appendHTML += '<div class="review_card_container">';
+		appendHTML += '<div class="card">';
+		appendHTML += '<div class="card-body">';
+		appendHTML += '<div class="review_body">';
+		appendHTML += '<div><p class="card-text">' + item.id + '</p></div>';
+		appendHTML += '<div class="rating_layout">';
+		for(var i = 1; i <= item.rating; i++){
+			appendHTML += '<div class="icon_layout rating_img">';
+			appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+			appendHTML += '</div>';
+		}
+		for(var j = item.rating + 1; j <= 5; j++){
+			appendHTML += '<div class="icon_layout rating_img">';
+			appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+			appendHTML += '</div>';
+		}
+		appendHTML += '</div>';
+		appendHTML += '<div class="multi_line_text"><p>' + item.content + '</p></div>';
+		appendHTML += '</div>';
+		appendHTML += '<div class="review_btn_layout"><p class="card-text">신고</p></div>';
+		appendHTML += '</div></div></div>';
 	});
 	return appendHTML;
 }

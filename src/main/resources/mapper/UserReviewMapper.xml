@@ -48,10 +48,10 @@
 			SELECT festival_review_code, festival_code,
 			write_date, content, rating, id
 			FROM festivalolle.v_festival_review
-			WHERE festival_code = #{festival_code}
+			WHERE festival_code = #{festivalCode}
 		]]>
 		<if test="memberCode != 0">
-			<![CDATA[AND member_code != #{member_code}]]>
+			<![CDATA[AND member_code != #{memberCode}]]>
 		</if>
 	</select>
 </mapper>
