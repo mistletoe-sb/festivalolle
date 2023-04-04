@@ -26,9 +26,9 @@ public class MypageReviewController {
 	private String view_pos = "mypage/";		// 뷰 저장 위치
 	
 	/* =====================================================ticketlist====================================================== */	
-	@GetMapping("/Reviewlist")
+	@GetMapping("/reviewlist")
 
-	public String Reviewlist(Model model, HttpSession session) throws Exception {
+	public String reviewlist(Model model, HttpSession session) throws Exception {
 
 		 MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
 		 int memberCode = memberVO.getMemberCode();
@@ -36,7 +36,7 @@ public class MypageReviewController {
 		List<V_ReviewListVO> selectReviewtList = mypageReviewService.selectReviewList(memberCode);
 		model.addAttribute("selectReviewtList", selectReviewtList);
 
-		return view_pos + "Reviewlist";
+		return view_pos + "reviewlist";
 	}
 	
 }

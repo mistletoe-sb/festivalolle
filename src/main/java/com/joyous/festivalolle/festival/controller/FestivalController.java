@@ -54,7 +54,7 @@ public class FestivalController {
 
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
 
-	private String loginAdmin = "loginUser";
+	private String loginAdmin = "loginAdmin";
 /* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
 
