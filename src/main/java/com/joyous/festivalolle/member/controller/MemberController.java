@@ -1,10 +1,7 @@
 package com.joyous.festivalolle.member.controller;
 
-import java.util.List;
 import java.util.Locale;
-
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.joyous.festivalolle.admin.controller.AdminController;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
-import com.joyous.festivalolle.ticket.model.TicketVO;
 
 @Controller
 // 회원정보 서비스 컨트롤러 클래스
