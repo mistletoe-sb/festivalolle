@@ -189,45 +189,42 @@
 						<p>${fesInfo[0].rating}</p>
 					</div>
 				</div>
-				<div>
-					<div class="my_review">
-						<%@ include file="reviewcard.jsp"%>
-						<c:choose>
-							<c:when test="${sessionScope.memberVO == null}">
-							</c:when>
-							<c:when test="${(sessionScope.memberVO != null) && reviewList[0].festivalReviewCode == null}">
-							</c:when>
-							<c:otherwise>
-							</c:otherwise>
-						</c:choose>
-						
-						
-						
-						<form action="<c:url value='/review/insert'/>" method="post">
-							<textarea name="content" rows="10" cols="20"></textarea>
-							<input type="number" name="rating">
-							<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
-							<input type="submit" value="등록">
-						</form>
-						<form action="<c:url value='/review/report'/>" method="post">
-							<input type="hidden" name="festivalReviewCode" value="9">
-							<input type="submit" value="신고">
-						</form>
-						<form action="<c:url value='/review/delete'/>" method="post">
-							<input type="hidden" name="festivalReviewCode" value="9">
-							<input type="submit" value="삭제">
-						</form>
-					</div>
-					<c:forEach var="review" items="${reviewList}" varStatus="stat">
-						<c:choose>
-							<c:when test="${stat.index == 0}">
-							</c:when>
-							<c:otherwise>
-								<%@ include file="reviewcard.jsp"%>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
+				<div class="review_list_layout">
+					<%@ include file="reviewcard.jsp"%>
+					<c:choose>
+						<c:when test="${sessionScope.memberVO == null}">
+						</c:when>
+						<c:when test="${(sessionScope.memberVO != null) && reviewList[0].festivalReviewCode == null}">
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
+					
+					
+					<%-- <form action="<c:url value='/review/insert'/>" method="post">
+						<textarea name="content" rows="10" cols="20"></textarea>
+						<input type="number" name="rating">
+						<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
+						<input type="submit" value="등록">
+					</form>
+					<form action="<c:url value='/review/report'/>" method="post">
+						<input type="hidden" name="festivalReviewCode" value="9">
+						<input type="submit" value="신고">
+					</form>
+					<form action="<c:url value='/review/delete'/>" method="post">
+						<input type="hidden" name="festivalReviewCode" value="9">
+						<input type="submit" value="삭제">
+					</form> --%>
 				</div>
+				<%-- <c:forEach var="review" items="${reviewList}" varStatus="stat">
+					<c:choose>
+						<c:when test="${stat.index == 0}">
+						</c:when>
+						<c:otherwise>
+							<%@ include file="reviewcard.jsp"%>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach> --%>
 			</div>
 		</div>
 		<%@ include file="../mobilemenu/topbutton.jsp"%>

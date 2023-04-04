@@ -7,25 +7,15 @@
 			<div class="review_body">							
 				<div>
 					<p class="card-text">
-						닉네임${review.name}
+						닉네임${review.id}
 					</p>
 				</div>
 				<div class="rating_layout">
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="1">
-					</div>
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="2">
-					</div>
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="3">
-					</div>
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="4">
-					</div>
-				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="5">
-					</div>
+					<c:forEach var="i" begin="1" end="5">
+					    <div class="icon_layout rating_img">
+							<img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="${i}">
+						</div>
+					</c:forEach>
 				</div>
 				<div class="multi_line_text">
 					<p>
