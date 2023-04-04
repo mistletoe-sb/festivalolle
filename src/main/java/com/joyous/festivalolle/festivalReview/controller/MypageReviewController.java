@@ -30,8 +30,8 @@ public class MypageReviewController {
 
 	public String Reviewlist(Model model, HttpSession session) throws Exception {
 
-		 MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); int
-		 memberCode = memberVO.getMember_code();
+		 MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+		 int memberCode = memberVO.getMemberCode();
 		 
 		List<V_ReviewListVO> selectReviewtList = mypageReviewService.selectReviewList(memberCode);
 		model.addAttribute("selectReviewtList", selectReviewtList);

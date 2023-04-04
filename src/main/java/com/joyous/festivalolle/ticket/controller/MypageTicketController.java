@@ -30,8 +30,10 @@ public class MypageTicketController {
 
 	public String ticketlist(TicketVO vo, Model model, HttpSession session) throws Exception {
 
-		MemberVO memberVO = (MemberVO) session.getAttribute("loginUser");
-		List<TicketVO> selectTicketList = mypageTicketService.selectTicketList(10);
+		 MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+		 int memberCode = memberVO.getMemberCode();
+
+		List<TicketVO> selectTicketList = mypageTicketService.selectTicketList(memberCode);
 		
 
 		byte[] getImage;
