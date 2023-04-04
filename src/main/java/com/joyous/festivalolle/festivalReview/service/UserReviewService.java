@@ -1,10 +1,13 @@
 package com.joyous.festivalolle.festivalReview.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.joyous.festivalolle.festivalReview.model.FestivalReviewVO;
+import com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.repository.IUserReviewRepository;
 
 // 사용자 화면 리뷰 관리용 service 구현 클래스
@@ -37,11 +40,23 @@ public class UserReviewService implements IUserReviewService {
 	// 리뷰 삭제
 	@Override
 	@Transactional
-	public void deleteFestivalReview(int festivalReviewCode) throws Exception {
-		int check = userReviewRepository.deleteFestivalReview(festivalReviewCode);
+	public void deleteFestivalReview(int festivalReviewCode, int memberCode) throws Exception {
+		int check = userReviewRepository.deleteFestivalReview(festivalReviewCode, memberCode);
 		if(check != 1) {
 			throw new Exception("리뷰 삭제에 실패했습니다.");
 		}
+	}
+
+	// 해당 축제에 본인이 작성한 리뷰 조회
+	@Override
+	public ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(int memberCode, int festivalCode) {
+		return userReviewRepository.selectMyFestivalReviewInFestivalInfo(memberCode, festivalCode);
+	}
+
+	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
+	@Override
+	public List<ViewFestivalReviewVO> selectFestivalReviewList(int memberCode, int festivalCode) {
+		return userReviewRepository.selectFestivalReviewList(memberCode, festivalCode);
 	}
 
 }
