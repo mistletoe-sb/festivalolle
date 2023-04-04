@@ -24,6 +24,23 @@ public class MemberService implements IMemberService {
 	public MemberVO memberLogin(String id, String password) {
 		return memberRepository.memberLogin(id, password);
 	}
+
+	@Override
+	public MemberVO findId(String id, String mobile) {
+
+		return memberRepository.findId(id, mobile);
+	}
+
+	@Override
+	public void updatePassword(String password, String id) {
+		
+	}
+
+	@Override
+	public MemberVO findPw(String password, String id) {
+		
+		return memberRepository.findPw(password, id);
+	}
 	
 	
 

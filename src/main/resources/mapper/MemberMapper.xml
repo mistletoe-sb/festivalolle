@@ -24,6 +24,26 @@
 		]]>
 	</select>
 
-
+	<!-- id 조회- 작성자: 이혜성 -->
+	<select id="findId" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+	SELECT id FROM member WHERE  id = #{id} AND mobile = #{mobile}
+		]]>
+	</select>
+	
+	<!-- 비밀번호 조회- 작성자: 이혜성 -->
+	<select id="findPw" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+	SELECT password FROM member WHERE  id = #{id}
+		]]>
+	</select>
+	
+	<!-- 비밀번호 변경- 작성자: 이혜성 -->
+	<select id="updatePassword" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+ 		UPDATE member SET password = #{password} WHERE id = #{id}
+ 			]]>
+ 		
+	</select>
 </mapper>
 	

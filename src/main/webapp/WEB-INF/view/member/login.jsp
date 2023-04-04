@@ -59,10 +59,10 @@
 										</form>
 										
 										<div class="text-center">	
-											<a class="small a-mobile" href="./findId">아이디 찾기</a>
+											<a class="small a-mobile" href="./findid">아이디 찾기</a>
 										</div>
 										<div class="text-center">
-											<a class="small a-mobile" href="./findPw">비밀번호 변경</a>
+											<a class="small a-mobile" href="./findpw">비밀번호 변경</a>
 										</div>
 										<div class="text-center">
 											<a class="small a-mobile" href="forgot-password.html">회원 가입</a>
