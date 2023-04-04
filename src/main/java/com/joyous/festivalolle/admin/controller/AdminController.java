@@ -51,11 +51,17 @@ public class AdminController {
 		if(adminVO != null) {
 			int adminType = adminVO.getStatus();
 			if(adminType == 0) {
-				session.setAttribute("loginUser", adminVO);		//세션에 VO 담아줌	
+				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
 				return "system/systemhome";			
 			} else if(adminType == 2) {				
-				session.setAttribute("loginUser", adminVO);		//세션에 VO 담아줌				
+				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
 				return "redirect:/admin/main";
+			} else if(adminType == 3) {							//입장권 관리자
+				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+				return "ticket/myticket";
+			} else if(adminType == 4) {							//쿠폰 사용 관리자
+				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+				return "redirect:/ticket/myticket";
 			}
 		} else {
 			System.out.println("로그인 실패");
