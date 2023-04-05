@@ -11,6 +11,10 @@
 		<![CDATA[select * from v_myticket WHERE member_code = #{memberCode} AND status = 1 AND (entrance_time IS NULL OR coupon_use_time IS NULL)]]>
 	</select>
 	
+	<!-- 티켓 확인 -->
+	<select id="ticketValidate" resultType="com.joyous.festivalolle.ticket.model.TicketVOvalidator">
+		<![CDATA[select * from v_ticketvalidate WHERE member_code = #{memberCode} AND ticket_code = #{ticketCode} ]]>
+	</select>
 	
 
 	

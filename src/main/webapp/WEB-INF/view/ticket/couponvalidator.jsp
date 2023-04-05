@@ -1,118 +1,156 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>로그인</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile_member.css'/>"/>
-		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
-		 <!-- Custom fonts for this template-->
-	    <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
-	    <link
-	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	        rel="stylesheet">
+<html lang="en">
 
-	    <!-- Custom styles for this template-->
-	    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
-			
+<head>
+ 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-		
-	</head>
-	<body class="bg-gradient-primary-mobile">
-		<%@ include file="../mobilemenu/mobiletop.jsp"%>		
-		<%-- 내용 삽입 --%>
-		<!--  <div class="container">-->
-			
 
-	        <!-- Outer Row -->
-	        <!--  <div class="row justify-content-center">-->
-	        
-	        	
-	            <div class="col-xl-10 col-lg-12 col-md-9">	
-	            
-	                <div class="card o-hidden border-0 my-5 shadow-lg-mobile">
-	                    <div class="card-body p-0">		
-							<div class="row">
-								<div class="col-lg-6">
-	                                <div class="p-5">
-										<%--축제올래 로고 이미지 --%>
-										<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
-										<%-- <form class="user" action="<c:url value='/login'/>" method="post" name="loginfrm"> --%> 
-										<form class="user"  name="loginfrm">                                                            
-											<div class="form-group">
-												<input type="text" class="form-control form-control-user" id="login_id" placeholder="아이디를 입력하세요.." size="20" required>			
-											</div>      											
-											<div class="form-group">
-												<input type="password" class="form-control form-control-user" id="login_pw" placeholder="비밀번호를 입력하세요.." size="16" required>
-											</div> 											
-											<!-- <input type="submit" id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" /> -->                       											
-											<input  id="memberLogin" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="로그인" /> 
-										</form>
-										
-										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">아이디 찾기</a>
-										</div>
-										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">비밀번호 변경</a>
-										</div>
-										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">회원 가입</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			<!--  </div>-->
-		<!--  </div>-->
-		
-		
-		
-		
-		<!-- Logout Modal-->
-	    <div class="modal fade" id="loginAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	        aria-hidden="true">
-	        <div class="modal-dialog" role="document">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <h5 class="modal-title" id="exampleModalLabel"></h5>
-	                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-	                        <span aria-hidden="true">×</span>
-	                    </button>
-	                </div>
-	                <div class="modal-body">아이디, 비밀번호를 확인해주세요.</div>
-	                <div class="modal-footer">
-	                    <button class="btn btn-secondary" type="button" data-dismiss="modal">확인</button>
-	                </div>
-	            </div>
+    <title>관리자</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
+    
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <!-- <link href="resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet">
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+	
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button> -->
+                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    	<h1 class="h3 mb-0 text-gray-800">축 제 올 래</h1>
+                    </div>
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">                                    	
+                        
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginUser.organizationName}&nbsp &nbsp |&nbsp &nbsp ${loginUser.name}</span>
+                                <!-- <img class="img-profile rounded-circle"
+                                    src="resources/img/undraw_profile.svg"> -->
+                                <img class="img-profile rounded-circle"
+                                    src="<c:url value='/resources/img/undraw_profile.svg'/>"> 
+                                  
+                                
+                                    
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    계정 정보
+                                </a>
+                                
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    로그아웃
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid">    
+<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+	    <div class="card-header py-3">
+	        <h6 class="m-0 font-weight-bold text-primary">${ticketInfo.title}</h6>
+	    </div>
+	    <div class="card-body">
+	        <div class="table-responsive">
+	            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                <tbody> 
+					   <tr>
+						   <td>성    명</td>
+						   <td>${ticketInfo.name}</td>
+					   </tr>
+					   <tr>
+						   <td>쿠폰 금액</td>
+						   <td>${ticketInfo.couponAmount}</td>
+					   </tr>
+					   <tr>
+						   <td>휴대폰 번호</td>
+						   <td>${ticketInfo.mobile}</td>
+					   </tr>                    
+	                </tbody>
+	            </table>
+	            <a href="#" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="text">쿠폰 사용</span>
+                </a>
+	            	            
 	        </div>
 	    </div>
-		
-		
-		
-		
-		
-		
-		<script>
-		
-		
+	</div>
 
-		
-		</script>
-		
-		
-		
-		<%-- 내용 끝 --%>
-		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
-	</body>
-</html>
+
+</div>
+
+<%@ include file="../adminfooter.jsp" %>

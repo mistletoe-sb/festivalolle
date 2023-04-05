@@ -1,33 +1,53 @@
 package com.joyous.festivalolle.member.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.joyous.festivalolle.admin.controller.AdminController;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
 import com.joyous.festivalolle.ticket.model.TicketVO;
+import com.joyous.festivalolle.ticket.model.TicketVOvalidator;
+import com.joyous.festivalolle.ticket.service.TicketServiceMyticket;
 
 @Controller
-// 회원정보 서비스 컨트롤러 클래스
-// 작성자 : 정재웅
 public class MemberController {
-	private final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	   
 	@Autowired
 	private IMemberService memberService;	// MemberService 객체
+	
+	@Autowired
+	TicketServiceMyticket ticketServiceMyticket;
+	
 	
 	private String view_pos = "member/";		// 뷰 저장 위치
 	
@@ -95,21 +115,88 @@ public class MemberController {
 	
 	/***************입장권*****************/
 	
-	//QR URL
-	@GetMapping(value="/qrreader")
-	public String qrReader(HttpSession session) {
-		AdminVO adminVO = (AdminVO)session.getAttribute("loginAdmin");
-		int adminType = adminVO.getStatus();
+	
+	
+	@GetMapping("/qr")
+    public Object createQr(@RequestParam String url) throws WriterException, IOException {
+        int width = 200;
+        int height = 200;
+        BitMatrix matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height);
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+            MatrixToImageWriter.writeToStream(matrix, "PNG", out);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(out.toByteArray());
+        }
+    }
+    
+	//파일명 브라우저에서
+	//인코딩 base64
+	
+	
+	
+	@GetMapping(value="/qr1")
+	@ResponseBody
+    public Object createQr(String url, Locale locale) throws WriterException, IOException {
+		logger.info("qr 코드 생성 메서드 왔음");
 		
-		if (adminType == 3) {
-			session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
-			return "ticket/ticketvalidator";			
-		} else if(adminType == 4) {				
-			session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
-			return "ticket/couponvalidator";
+        int width = 200;
+        int height = 200;
+        BitMatrix matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height);
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+            MatrixToImageWriter.writeToStream(matrix, "PNG", out);
+            
+            String qrCode = Base64.getEncoder().encodeToString(out.toByteArray());
+           
+            
+            /*
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(out.toByteArray());
+            */
+            
+            return qrCode;
+        }
+    }
+	
+	
+	
+	
+	
+	//QR URL 읽어오기
+	
+	@GetMapping(value="/qrreader/{memberCode}/{ticketCode}")
+	public String qrReader(@PathVariable("memberCode") int memberCode, @PathVariable("ticketCode") int ticketCode, HttpSession session, Locale locale, Model model) {
+		logger.info("vo 담기 전", locale);
+		AdminVO adminVO = (AdminVO)session.getAttribute("loginAdmin");
+		logger.info("vo 담았다", locale);
+		
+		TicketVOvalidator validatorVO = new TicketVOvalidator();
+		validatorVO = ticketServiceMyticket.ticketValidate(memberCode, ticketCode);
+		
+		if(adminVO != null) {
+			int adminType = adminVO.getStatus();
+			if (adminType == 3) {
+				model.addAttribute("ticketInfo", validatorVO);
+				//session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
+				return "ticket/ticketvalidator";			
+			} else if(adminType == 4) {				
+				//session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+				model.addAttribute("ticketInfo", validatorVO);
+				return "ticket/couponvalidator";
+			} else {
+				return "redirect:/admin/login";			
+			}	
 		} else {
 			return "redirect:/admin/login";
 		}
+		
+		
+		//logger.info("status 값 가져옴", locale);
+		
+		
 	}
 	
 	
