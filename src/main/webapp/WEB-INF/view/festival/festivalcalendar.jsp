@@ -15,7 +15,7 @@
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="empty_space"></div>
-		<div class="select_space">
+		<div class="top_fix select_space">
 			<div class="select_btn_space">
 				<%--
 				<button type="button" class="select_calendar_btn" id="select_month" data-bs-toggle="modal" data-bs-target="#monthModal">월</button>

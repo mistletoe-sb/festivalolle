@@ -29,6 +29,23 @@ $(document).ready(function(){
 		$('.normal_top').attr('hidden', false);
 	});
 	
+	// 스크롤 시 top, bottom 메뉴 숨기기
+	var firstScroll = 0;
+	var prevScrollTop = $(window).scrollTop();
+	var tp = prevScrollTop;
+	
+	$(window).on('scroll', function(e){
+		tp = $(this).scrollTop();
+		if ( tp > prevScrollTop ){
+			$(".top_fix").css("transform","translateY(-15vmax)");
+			$(".bottom_menu").css("transform","translateY(8vmax)");
+		} else if( tp < prevScrollTop ) {
+			$(".top_fix").css("transform","translateY(0vmax)");
+			$(".bottom_menu").css("transform","translateY(0vmax)");
+		}
+		prevScrollTop = tp;
+	});
+	
 	// 페이지 내 이동 이벤트 바인딩
 	moveToIndex();
 	
@@ -110,6 +127,7 @@ $(document).ready(function(){
 			$('.ticket_modal_layout').css('bottom', '-55vmax');
 			$('#headCount').val('');
 			$('#paymentAmount').text('');
+			$(document).off('mouseup touchend');
 		});
 		// 모달 창 open
 		$('#ticketModal').on('click', function(){
@@ -118,6 +136,12 @@ $(document).ready(function(){
 			$('#headCount').val('1');
 			$('#paymentAmount').text($('#fee').val());
 			$('#headCount').focus();
+			$(document).on('mouseup touchend', function (e){
+				var container = $('.ticket_modal_layout');
+				if(container.has(e.target).length === 0){
+					$('.fadeout_bottom_click').click();
+				}
+			});
 		});
 		// 결제금액 계산
 		$('#headCount').on('input', function(){

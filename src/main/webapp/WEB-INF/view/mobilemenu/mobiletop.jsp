@@ -4,7 +4,7 @@
 <div class="top_empty" id="top">
 	<input id="rootContext" type="hidden" value="<c:url value='/'/>">
 </div>
-<div class="top_menu">
+<div class="top_fix top_menu">
 	<div class="normal_top">
 		<div class="page_title">
 			<p></p>
