@@ -36,7 +36,7 @@
 		
 		
 		
-		<div class="recommend_list_layout">
+		<!-- <div class="recommend_list_layout"> -->
 		<div id="recommend_carousel" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
 				<c:forEach var="item" items="${myticketList}" varStatus="page">			
@@ -65,8 +65,7 @@
 									
 									
 									<!-- 이미지카드 -->
-									<div class="festival_card_container"
-										 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+									<div class="festival_card_container">
 										<div class="card">
 											<div class="ratio">
 												<c:choose>								
@@ -98,6 +97,9 @@
 														시설 담당자에게 QR 코드를 
 														보여주세요.
 													</p>
+													<form action="/festivalolle/qr", method="get" onsubmit="qrSubmit();">
+												   		<input id="qrurl" type="text" name="url" hidden=""/><button type="submit">QR code</button>
+												  	</form>
 												</div>									
 												
 											</div>
@@ -122,8 +124,7 @@
 									
 									
 									
-									<div class="festival_card_container"
-										 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+									<div class="festival_card_container">
 										<div class="card">
 											<div class="ratio">
 												<c:choose>								
@@ -146,6 +147,7 @@
 														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
 													</p>
 												</div>	
+												<input class="ticketCode" type="hidden" value="${ticket.ticketCode}" />
 												<div>
 													<hr width="300" color="EEEEEE" noshade />
 												</div>
@@ -155,15 +157,31 @@
 														시설 담당자에게 QR 코드를 
 														보여주세요.
 													</p>
+													
+													 <!-- 
+													<form action="/festivalolle/qr" method="get" onsubmit="qrSubmit();" class="generateQR">
+														<input class="qrurl" type="text" name="url" hidden/><button type="submit">QR code</button>
+													</form> -->
+													
+													
+													
+														<!-- <input class="qrurl" type="text" name="url" hidden=""/> -->
+														
+														<a class="generateQR1">QR code</a>
+													
+													
+													<div class="qrResult">
+													
+													</div>
+													
+													
+												
 												</div>	
-																			
 												
 											</div>
 										</div>
 									</div>
-									
-									
-									
+
 									
 								</div>
 							</div>							
@@ -172,25 +190,63 @@
 				</c:forEach>
 			</div>
 		</div>
-		</div>
-		
-		
-		
-		
-		
-		
-		
-		
+		<!-- </div> -->
 
-		
-		
-		
 		
 		
 		
 		<script>
 		
+		
+		function qrSubmit() {			
+			$('.qrurl').val("http://192.168.230.199:8080/festivalolle/qrreader");	
+		}
 
+		
+		
+		$(document).on('click', '.generateQR1', function(){
+			
+			var memberCode = ${loginUser.memberCode}
+			var ticketCode = $('.ticketCode').val();
+			console.log(memberCode);
+			console.log(ticketCode);
+			
+			var url = "http://192.168.230.199:8080/festivalolle/qrreader/";
+				url += memberCode + "/";
+				url += ticketCode;
+				
+			
+			console.log(url);
+			
+			$.ajax({
+				url: "<c:url value='/qr1'/>",
+				type: "get",
+				data: {url: url},
+				success: function(data){
+					console.log(url);
+					console.log(data);
+					//$('.qrResult').val(data);
+					var html = '<img src="data:image:jpg;base64,';
+						html += data;
+						html += '">';
+					
+					$(this).next().empty().append(html);
+					
+				
+					
+					
+				}.bind(this),//end success
+				error:function(){
+					alert("기관 코드 없음");
+				}//end error														
+			})//end 기관코드ajax			
+		})
+		
+		
+		
+		
+		
+			
 		
 		
 		</script>

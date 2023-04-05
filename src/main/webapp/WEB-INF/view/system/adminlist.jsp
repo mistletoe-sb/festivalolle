@@ -333,8 +333,9 @@
 					html += '</tbody></table></div>';
 					
 					$('#firstResult').hide();
-					$('#boardList').empty();
-					$('#boardList').append(html);					 	
+					//$('#boardList').empty();
+					//$('#boardList').append(html);					 	
+					$('#boardList').empty.append(html);							
 					
 				},//end success
 				error:function(){

@@ -58,10 +58,10 @@ public class AdminController {
 				return "redirect:/admin/main";
 			} else if(adminType == 3) {							//입장권 관리자
 				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
-				return "ticket/myticket";
+				return "ticket/ticketvalidator";
 			} else if(adminType == 4) {							//쿠폰 사용 관리자
 				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
-				return "redirect:/ticket/myticket";
+				return "ticket/couponvalidator";
 			}
 		} else {
 			System.out.println("로그인 실패");
