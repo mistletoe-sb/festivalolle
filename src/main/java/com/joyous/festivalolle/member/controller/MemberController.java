@@ -165,8 +165,7 @@ public class MemberController {
 	
 	
 	
-	//QR URL 읽어오기
-	
+	//QR URL 읽어오기	
 	@GetMapping(value="/qrreader/{memberCode}/{ticketCode}")
 	public String qrReader(@PathVariable("memberCode") int memberCode, @PathVariable("ticketCode") int ticketCode, HttpSession session, Locale locale, Model model) {
 		logger.info("vo 담기 전", locale);
@@ -180,10 +179,8 @@ public class MemberController {
 			int adminType = adminVO.getStatus();
 			if (adminType == 3) {
 				model.addAttribute("ticketInfo", validatorVO);
-				//session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
 				return "ticket/ticketvalidator";			
-			} else if(adminType == 4) {				
-				//session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+			} else if(adminType == 4) {							
 				model.addAttribute("ticketInfo", validatorVO);
 				return "ticket/couponvalidator";
 			} else {
@@ -192,17 +189,30 @@ public class MemberController {
 		} else {
 			return "redirect:/admin/login";
 		}
-		
-		
-		//logger.info("status 값 가져옴", locale);
-		
-		
+	}
+	
+	
+	//입장 확인
+	@PostMapping(value="/ticket/entrance")
+	@ResponseBody
+	public String entrance(int ticketCode) {
+		logger.info("입장 확인 하러 옴");
+		int result = ticketServiceMyticket.validateEntrance(ticketCode);
+		System.out.println(result);
+		return (ticketServiceMyticket.validateEntrance(ticketCode) == 1)? "ok":"fail";		
+	}
+	
+	//쿠폰 사용 확인
+	@PostMapping(value="/ticket/coupon")
+	@ResponseBody
+	public String coupon(int ticketCode) {
+
+		return (ticketServiceMyticket.validateCoupon(ticketCode) == 1)? "ok":"fail";	
 	}
 	
 	
 	
-	
-	
+	/*
 	//관리자 티켓 확인 페이지
 	@GetMapping(value="/ticketvalidator")
 	public String ticketValidate(HttpSession session) {
@@ -214,7 +224,7 @@ public class MemberController {
 	public String couponValidate(HttpSession session) {
 		return null;
 	}
-
+	*/
 	
 
 }

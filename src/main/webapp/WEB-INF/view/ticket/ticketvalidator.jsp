@@ -75,7 +75,7 @@
                         
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginUser.organizationName}&nbsp &nbsp |&nbsp &nbsp ${loginUser.name}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${loginAdmin.organizationName}&nbsp &nbsp |&nbsp &nbsp ${loginAdmin.name}</span>
                                 <!-- <img class="img-profile rounded-circle"
                                     src="resources/img/undraw_profile.svg"> -->
                                 <img class="img-profile rounded-circle"
@@ -136,15 +136,25 @@
 					   <tr>
 						   <td>휴대폰</td>
 						   <td>${ticketInfo.mobile}</td>
-					   </tr>                    
+					   </tr>
 	                </tbody>
 	            </table>
-	            <a href="#" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-check"></i>
-                    </span>
-                    <span class="text">입장 확인</span>
-                </a>
+	            <div id="entrance_div">
+		            <a href="#" class="btn btn-primary btn-icon-split" id="entrance_button">
+	                    <span class="icon text-white-50">
+	                        <i class="fas fa-check"></i>
+	                    </span>
+	                    <span class="text">입장 확인</span>
+	                </a>
+                </div>
+                <div id="complete_div" hidden="true">
+	                <a href="#" class="btn btn-secondary btn-icon-split">
+	                    <span class="icon text-white-50">
+	                        <i class="fas fa-check"></i>
+	                    </span>
+	                    <span class="text">사용 완료</span>
+	                </a>
+                </div>
 	            	            
 	        </div>
 	    </div>
@@ -152,5 +162,36 @@
 
 
 </div>
+
+<script>
+
+
+	$('#entrance_button').on('click', function(){		
+		var ticketCode = ${ticketInfo.ticketCode};		
+		$.ajax({
+			url: "<c:url value='/ticket/entrance'/>",
+			type: "post",
+			data: {ticketCode, ticketCode},
+			success: function(data){
+				console.log(data);
+				if(data == 'ok'){
+					$('#entrance_div').attr('hidden', true);
+					$('#complete_div').attr('hidden', false);					
+					//alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
+				} else {
+					alert("사용 불가");
+				}//end if
+			},//end success
+			error:function(){
+				alert("사용 실패");
+			}		
+		})//end ajax		
+	})
+	
+
+
+</script>
+
+
 
 <%@ include file="../adminfooter.jsp" %>

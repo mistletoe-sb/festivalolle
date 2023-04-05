@@ -54,7 +54,48 @@ body {
   text-decoration: underline;
 }
 
+.myticket {
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+}
 
+.qrdesc {
+	width: 54%;
+	float: left;
+}
 
+.qr-container {
+	width: 45%;
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+
+.qr {
+	width: 100%;
+	height: 100%;
+}
+
+.myticket_form {
+	width: 100vmin;
+	height: 80vmax;
+	padding-top: 3vmax;
+	padding-bottom: 6vmax;
+	margin: 2.7vmax 0vmin;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	display: flex;
+	/* box-shadow: 0vw 0.15625rem 0.125rem 0vw #0000001A; */
+}
+
+.myticket-content {
+	
+}
+
+.qr-content {
+	height: 15vmax;
+}
 
 

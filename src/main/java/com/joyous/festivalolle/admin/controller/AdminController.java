@@ -42,7 +42,6 @@ public class AdminController {
 	}
 	
 	//관리자 로그인
-	//@RequestMapping(value="/admin", method=RequestMethod.POST)	
 	@PostMapping(value="/admin/login")
 	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();

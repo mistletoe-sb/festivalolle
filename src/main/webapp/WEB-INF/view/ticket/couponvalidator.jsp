@@ -139,12 +139,22 @@
 					   </tr>                    
 	                </tbody>
 	            </table>
-	            <a href="#" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-check"></i>
-                    </span>
-                    <span class="text">쿠폰 사용</span>
-                </a>
+	            <div id="coupon_div">
+		            <a href="#" class="btn btn-primary btn-icon-split" id="entrance_button">
+	                    <span class="icon text-white-50">
+	                        <i class="fas fa-check"></i>
+	                    </span>
+	                    <span class="text">쿠폰 사용</span>
+	                </a>
+                </div>
+                <div id="complete_div" hidden="true">
+	                <a href="#" class="btn btn-secondary btn-icon-split">
+	                    <span class="icon text-white-50">
+	                        <i class="fas fa-check"></i>
+	                    </span>
+	                    <span class="text">사용 완료</span>
+	                </a>
+                </div>
 	            	            
 	        </div>
 	    </div>
@@ -152,5 +162,34 @@
 
 
 </div>
+
+<script>
+
+
+	$('#entrance_button').on('click', function(){		
+		var ticketCode = ${ticketInfo.ticketCode};		
+		$.ajax({
+			url: "<c:url value='/ticket/coupon'/>",
+			type: "post",
+			data: {ticketCode, ticketCode},
+			success: function(data){
+				console.log(data);
+				if(data == 'ok'){
+					$('#coupon_div').attr('hidden', true);
+					$('#complete_div').attr('hidden', false);					
+					//alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
+				} else {
+					alert("사용 불가");
+				}//end if
+			},//end success
+			error:function(){
+				alert("사용 실패");
+			}		
+		})//end ajax		
+	})
+	
+
+
+</script>
 
 <%@ include file="../adminfooter.jsp" %>
