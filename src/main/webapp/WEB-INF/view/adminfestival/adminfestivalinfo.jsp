@@ -119,8 +119,6 @@ function addButtonListeners() {
     var status = 0;
     var start = "${adminfestivalinfo.startDate}";
     var end = "${adminfestivalinfo.endDate}";
-    alert(start);
-    alert(end);
     $.ajax({
         url: './updateFestivalStatus', // 서버에서 데이터를 가져올 경로
         type: 'GET', // GET 방식으로 요청

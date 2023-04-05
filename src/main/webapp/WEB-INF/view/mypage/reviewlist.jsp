@@ -11,12 +11,12 @@
 		  unicode-bidi: bidi-override;
 		  width: max-content;
 		  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-		  -webkit-text-stroke-width: 1.3px;
-		  -webkit-text-stroke-color: #2b2a29;
+		  -webkit-text-stroke-width: 1px;
+		  -webkit-text-stroke-color: #C7C7C7;
 		}
 		 
 		.star-ratings-fill {
-		  color: #fff58c;
+		  color: #F15600;
 		  padding: 0;
 		  position: absolute;
 		  z-index: 1;
@@ -24,7 +24,9 @@
 		  top: 0;
 		  left: 0;
 		  overflow: hidden;
-		  -webkit-text-fill-color: gold;
+		  -webkit-text-fill-color: #F15600;
+		  -webkit-text-stroke-width: 1px;
+		  -webkit-text-stroke-color: #F15600;
 		}
 		 
 		.star-ratings-base {
@@ -53,32 +55,39 @@
 						<div class="col-md-8">
 							<div class="card-body">
 								<div>
-									<h5 class="card-title" onclick="location.href='<c:url value='/festival/info?festivalCode=${fes.festivalCode}'/>'">${fes.title}</h5>
-								</div>
-								<div>
-									<p class="card-text" onclick="location.href='<c:url value='/mypage/reviewdelect?festivalReviewCode=${fes.festivalReviewCode}'/>'">삭제</p>
-								</div>
-								<p class="card-text">
-									<div class="star-ratings">
-									<div class="star-ratings-fill space-x-2 text-lg" style="width: ${fes.rating*20}%">
-										<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+									<div style ="float:left;">
+										<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${fes.festivalCode}'/>'">${fes.title}</h5>
 									</div>
-									<div class="star-ratings-base space-x-2 text-lg">
-										<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+									<div style ="float:right;">
+										<p class="card-text" style="cursor: pointer;" onclick="location.href='<c:url value='/mypage/reviewdelect?festivalReviewCode=${fes.festivalReviewCode}'/>'">삭제</p>
 									</div>
 								</div>
-								</p>
-								<p class="card-text" id="writeDate" ></p>
-								<p class ="writeDate2" data-date="${fes.writeDate}"><small class="text-muted"> test</small></p>
-								<c:choose>
-								<c:when test="${fes.status == '2'}">
-									<p class="card-text" style="color: red;">블라인드 처리된 리뷰 입니다.<small class="text-muted"></small></p>
-								</c:when>
-								<c:otherwise>
-									<p class="card-text"><small class="text-muted">${fes.content}</small></p>
-								</c:otherwise>
-								</c:choose>
-
+								<div style ="clear:both;">
+									<div style ="float:left;">
+											<div class="star-ratings">
+												<div class="star-ratings-fill space-x-2 text-lg" style="width: ${fes.rating*20}%">
+													<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+												</div>
+												<div class="star-ratings-base space-x-2 text-lg">
+													<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+												</div>
+											</div>
+									</div>
+									<div style ="float:left;">
+										<p  class ="writeDate2" data-date="${fes.writeDate}"><small class="text-muted"> test</small></p>
+									</div>
+								</div>
+								
+								<div style ="clear:both;">
+									<c:choose>
+										<c:when test="${fes.status == '2'}">
+											<p class="card-text" style="color: red;">블라인드 처리된 리뷰 입니다.<small class="text-muted"></small></p>
+										</c:when>
+										<c:otherwise>
+											<p class="card-text"><small class="text-muted">${fes.content}</small></p>
+										</c:otherwise>
+									</c:choose>
+								</div>
 								
 							</div>
 						</div>
@@ -110,14 +119,15 @@
 	        
 	        return result;//결과값 저장
 	    }
-	   
+	    
 	    $(".writeDate2").each(function(){//해당 클래스에 해당하는 반복문
 	    	var date = $(this).attr('data-date');//매번 값이 변하고 class가 같기 때문에 this로 해서 값을 받아오기
 	    	var result = timeForToday(date);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
-	    	$(this).text(result);//this 위치에 해당 데이터를 작성하기
+	    	$(this).children(".text-muted").text(result);//this 위치에 해당 데이터를 작성하기
 	    	
 	    	 console.log(result);
 	    });
+
 
 
 
