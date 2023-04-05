@@ -26,22 +26,38 @@ public class MemberService implements IMemberService {
 	}
 
 	@Override
-	public MemberVO findId(String id, String mobile) {
+	public MemberVO findId(String name, String mobile) {
 
-		return memberRepository.findId(id, mobile);
+		return memberRepository.findId(name, mobile);
 	}
 
 	@Override
-	public void updatePassword(String password, String id) {
+	public MemberVO updatePassword(String password, String id) {
+		return memberRepository.updatePassword(password, id);
 		
 	}
 
 	@Override
-	public MemberVO findPw(String password, String id) {
+	public boolean findPw(String id) {
 		
-		return memberRepository.findPw(password, id);
+		int exist = memberRepository.findPw(id);
+		if(exist == 1) {
+			 return true;
+		 }else {
+			 return false;
+		 }
 	}
-	
-	
 
+	@Override
+	public boolean selectAcountInfo(String name, String mobile) {
+		
+		 int exist = memberRepository.selectAcountInfo(name, mobile);
+		 
+		 if(exist == 1) {
+			 return true;
+		 }else {
+			 return false;
+		 }
+}
+	
 }

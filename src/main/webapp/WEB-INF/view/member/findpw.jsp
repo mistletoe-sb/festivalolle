@@ -18,8 +18,7 @@
 		 <!-- Custom fonts for this template-->
 	    <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
 	    <link
-	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	        rel="stylesheet">
+	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 	    <!-- Custom styles for this template-->
 	    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
@@ -31,36 +30,41 @@
 		<%--축제올래 로고 이미지 --%>
 			<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
 			<h6 class="text-center">찾는 비밀번호의 아이디를 입력해주세요.</h6><br>
-				<form class="user" name="loginfrm"> 
+				<form class="user" name="findpwfrm" action="./findpw" method="POST"> 
 					<div class="form-group">
 						<label>아이디</label>
 						<input class="form-control form-control-user" type="text" id="id" placeholder="아이디 입력">
-						<input type="hidden" id="alertId">
-						<br><input type="submit" class="btn btn-primary btn-user btn-block btn-primary-mobile" id="findPwNext" value="다음" onClick="postPwInfo()">
+						<span id="alertId" style="color:red"></span>
+						<br><input type="submit" class="btn btn-primary btn-user btn-block btn-primary-mobile" id="findPwNext" value="다음">
 					</div>
 					<div class="text-center">
 						아이디가 기억나지 않으시나요?
 						<a href="./findid"><br>> 아이디 찾기</a>
 					</div>
 				</form>
-			</div>
+			</div>		
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#id").on('change', function(){
+$(document).ready(function() {	
+	$("#id").on('click', function(){
 		var id = $("#id").val();
-		if(id == ""){
-			$("#alertId").text("아이디를 입력하세요.");
+		  if (id == ""){	
+			$("#alertId").text("아이디를 입력해주세요.");
 			$("#alertId").css("color", "red");
+			$("#id").val('');
+		    return false;
+		  }else{
 			$("#alertId").val('');
-			$("#alertId").val('');
-				return false;
-				}else{
-					return true;
-			}
+			return true;
+		  }
+		});
 	});
-}
+});
+
 </script>
-		
+
+
+
+
 		<%-- 내용 끝 --%>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>

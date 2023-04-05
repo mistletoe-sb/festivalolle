@@ -44,9 +44,9 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
-                                        <p class="mb-4">We get it, stuff happens. Just enter your email address below
-                                            and we'll send you a link to reset your password!</p>
+                                        <h1 class="h4 text-gray-900 mb-2">아이디를 잊으셨나요?</h1>
+                                        <p class="mb-4">아래에 이메일 주소를 입력하세요.
+                                            아이디를 재설정할 수 있는 링크를 보내드립니다!</p>
                                     </div>
                                     <form class="user">
                                         <div class="form-group">
@@ -55,15 +55,15 @@
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                            Reset Password
+                                            아이디 재설정
                                         </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.html">새로운 계정을 만드세요!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="login.html">Already have an account? Login!</a>
+                                        <a class="small" href="login.html">이미 계정을 가지고 계신가요? 로그인하세요!</a>
                                     </div>
                                     <div>
 								        <input type="text" placeholder="full name" id="fullName" required/> <br />    

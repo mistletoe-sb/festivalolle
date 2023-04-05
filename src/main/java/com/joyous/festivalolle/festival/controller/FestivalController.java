@@ -59,7 +59,7 @@ public class FestivalController {
 	@GetMapping("/festivallist")
 
 	public String festivalList(Model model, HttpSession session) throws Exception {
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
 		model.addAttribute("selectFestivalList", selectFestivalList);
@@ -71,7 +71,7 @@ public class FestivalController {
 	@GetMapping("/statusfestivallist")
 	@ResponseBody
 	public List<FestivalVO> selectFestivalList(Model model, HttpSession session) {				
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
 		return selectFestivalList;		
@@ -81,7 +81,7 @@ public class FestivalController {
 	@GetMapping("/festivastatusllist")
 	@ResponseBody
 	public List<FestivalVO> festivastatusllist(FestivalVO vo,Model model, HttpSession session, @RequestParam("status") int status) {				
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		if(status == 5) {
 			List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
@@ -98,7 +98,7 @@ public class FestivalController {
 /* =====================================================adminfestivalinfo====================================================== */		
 	@GetMapping("/adminfestivalinfo") 
 	public String adminfestivalinfo(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
@@ -182,7 +182,7 @@ public class FestivalController {
 
 			byte[] fileBytes = file.getBytes();
 			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
-			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
 			vo.setOrganizationCode(organizationCode);
@@ -206,7 +206,7 @@ public class FestivalController {
 	/* =====================================================adminfestivalupdateform====================================================== */	
 	@GetMapping("/adminfestivalupdateform") 
 	public String adminfestivalupdateform(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
@@ -273,7 +273,7 @@ public class FestivalController {
 			
 			byte[] fileBytes = file.getBytes();
 			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
-			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
 			vo.setFestivalCode(festivalCode);
@@ -301,7 +301,7 @@ public class FestivalController {
 	public List<FestivalVO> selectYearTitleList(FestivalVO vo,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
 		String titleyear2 = titleyear + "%";
 		System.out.println(titleyear2);
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 			vo.setOrganizationCode(organizationCode);
 			vo.setStartDate(titleyear2);
@@ -357,7 +357,7 @@ public class FestivalController {
 	/* =====================================================getFestivalImage====================================================== */	
 	@RequestMapping("/image/{id}")
 	public ResponseEntity<byte[]> getFestivalImage(FestivalVO vo,@PathVariable int id, HttpSession session) {
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(id);

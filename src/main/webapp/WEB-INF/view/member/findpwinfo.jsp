@@ -29,18 +29,46 @@
 		<%-- 내용 작성: 이혜성 --%>
 		<div class="p-5">
 		<h6 class="text-center">새로운 비밀번호로 재설정해주세요.</h6><br>
-			<form class="user" name="loginfrm"> 
+			<form class="user" name="updatepwfrm" action="./updatepw" method="POST">> 
 				<div class="form-group">
 					<label>비밀번호</label>
 					<input class="form-control form-control-user" type="password" id="newPassword" placeholder="새로운 비밀번호를 입력해주세요."><br>
+					<input type="hidden" id="PasswordChekAlert" size="16" required>
 					<input class="form-control form-control-user" type="password" id="dupChek" placeholder="비밀번호 확인" size="16" required><br>
 					<input type="hidden" id="dupChekAlert" size="16" required>
-					<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="updatePw" value="비밀번호 변경" onClick="postUpdatePw()">
+					<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="button" id="updatePw" value="비밀번호 변경">
 				</div>
 			</form>
 		</div>
 <script type="text/javascript">
-
+$(document).ready(function() {
+	$("#newPassword").ready(function() {
+		$('#newPassword').on('change',function(){
+			var pw = $("#newPassword").val();
+			var pwChk = $("#dupChek").val();
+			if(pw == ""||pw.length < 16){
+				$("#PasswordChekAlert").text("비밀번호를 16자 이상 설정해주세요.");
+				$("#PasswordChekAlert").css("color", "red");
+				$("#newPassword").val('');
+				$("#dupChek").val('');
+				return false;
+			}else if(pw != pwChk){
+					$("#dupChekAlert").text("비밀번호가 동일하지 않습니다.");
+					$("#dupChekAlert").css("color", "red");
+					$("#dupChek").val('');
+					$("#dupChek").focus();
+					return false;
+				}else{
+					$("#dupChekAlert").text("비밀번호가 동일합니다.");
+					$("#dupChekAlert").css("color", "green");
+					return true;
+				}
+		});
+});
 </script>
+
+
+		<%-- 내용 끝 --%>
+		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 </body>
 </html>

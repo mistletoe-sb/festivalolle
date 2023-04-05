@@ -34,62 +34,62 @@
 					<h6 class="text-center">회원정보의 전화번호를 입력해주세요.</h6><br>
 				</div>
 				<div>
-					<form class="user" name="loginfrm">                                                            
+					<form class="user" name="findidfrm" action="./checkacount" method="POST">                                                 
 						<div class="form-group">															
-							<label style="padding-right: 30px;">이름</label>
-							<input class="form-control form-control-user" type="text" id="name">
-							<input type="hidden" id="nameAlert"><br>
+							<input class="form-control form-control-user" type="text" id="name" name="name" placeholder="이름">
+							<span id="nameAlert" style="color:red" ></span><br>
 						</div>
 						<div class="form-group">
-							<label >전화번호</label>
-							<input class="form-control form-control-user" type="text" id="mobile"placeholder="하이픈(-)과 함께 작성해주세요.">
-							<input type="hidden" id="mobileAlert"><br>
+							<input class="form-control form-control-user" type="text" id="mobile" name="mobile" placeholder="010-****-****">
+							<span id="mobileAlert" style="color:red"></span><br>
 							<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="auth" value="다음">
-						</div> 	
+						</div>
 					</form>
 				</div>
 			</div>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#name").on('change',function(){
-		var name = $("#name").val();
-		if(name == ""){
-			$("#nameAlert").text("이름을 입력하세요.");
-			$("#nameAlert").css("color", "red");
-			$("#nameAlert").val('');
-			$("#nameAlert").val('');
-				return false;
-				}else{
-					return true;
-			}
-		});
+	$("#name").on('change',function(){  
+	  var name = $("#name").val();
+		      if(name == ""){
+		        $("#nameAlert").text("이름을 입력하세요.");
+		        $("#nameAlert").css("color", "red");
+		        $("#name").val('');
+		        return false;
+		      } else{
+		    	$("#nameAlert").val('');
+		      }
+		    });
 	
-	$("#mobile").on('change',function(){
-		var mobile = $("#mobile").val();
-		if(mobile == ""){
-			$("#mobileAlert").text("전화번호를 입력하세요.");
-			$("#mobileAlert").css("color", "red");
-			$("#mobileAlert").val('');
-			$("#mobileAlert").val('');
-				return false;
-				}else{
-					return true;
-			}
+	  $("#mobile").on('change',function(){
+		      var mobile = $("#mobile").val();
+		      if(mobile == ""){
+		        $("#mobileAlert").text("전화번호를 입력하세요.");
+		        $("#mobileAlert").css("color", "red");
+		        $("#mobile").val('');
+		        return false;
+		      } else{
+		    	$("#mobileAlert").val('');
+		      }
+		    });
+
+	  $("#auth").click(function() {
+		    var name = $("#name").val();
+		    var mobile = $("#mobile").val();
+
+		    if (name == "" && mobile == "") {
+		        $("#nameAlert").text("이름을 입력하세요.");
+		        $("#mobileAlert").text("전화번호를 입력하세요.");
+		        return false;
+		    } else {
+		        $("#nameAlert").text('');
+		        $("#mobileAlert").text('');
+		    }
 		});
-	
-	$("#auth").on('click',function(){
-		var auth = $("#auth").val();
-		if(mobile == ""){
-			return false;
-		}else if(조건:회원 정보랑 같아야 함){
-			location.href="./idinfo"
-			return true;
-		}
-	});
-}
+});
 </script>
 		
-		
+ 
 		
 
 		<%-- 내용 끝 --%>

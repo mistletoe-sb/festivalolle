@@ -29,10 +29,10 @@
 		<%-- 내용 작성:이혜성 --%>
 		<div class="p-5">
 		<h6 class="text-center">고객님의 정보와 일치하는 아이디입니다.</h6><br>
-			<form class="user" name="loginfrm"> 
+			<form class="user" name="idinfofrm" action="./idinfo" method="GET"> 
 				<div class="form-group">
 					<label>아이디</label>
-					<input class="form-control form-control-user" type="text" id="idInfo" readonly><br>
+					<input class="form-control form-control-user" type="text" id="idInfo" name="id" readonly value="${resultId.id}"><br>
 					<a href="./login">
 					<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="button" id="goLogin" value="로그인"></a>
 				</div>
@@ -42,5 +42,9 @@
 				</div>
 			</form>
 		</div>
-</body>
+
+		
+				<%-- 내용 끝 --%>
+		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
+	</body>
 </html>
