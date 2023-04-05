@@ -29,132 +29,169 @@ $(document).ready(function(){
 		$('.normal_top').attr('hidden', false);
 	});
 	
+	// 스크롤 시 top, bottom 메뉴 숨기기
+	var firstScroll = 0;
+	var prevScrollTop = $(window).scrollTop();
+	var tp = prevScrollTop;
+	
+	$(window).on('scroll', function(e){
+		tp = $(this).scrollTop();
+		if ( tp > prevScrollTop ){
+			$(".top_fix").css("transform","translateY(-15vmax)");
+			$(".bottom_menu").css("transform","translateY(8vmax)");
+		} else if( tp < prevScrollTop ) {
+			$(".top_fix").css("transform","translateY(0vmax)");
+			$(".bottom_menu").css("transform","translateY(0vmax)");
+		}
+		prevScrollTop = tp;
+	});
+	
 	// 페이지 내 이동 이벤트 바인딩
 	moveToIndex();
 	
 	// 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
 	calendar_event();
 	
-	// 축제 일정 조회 Ajax
-	// 월 선택
-	$('#select_month').on('change', function(){
-		var month = $('#select_month').val();
-		// AJAX 호출
-		$.ajax({
-			url: './calendar/select', 		// 요청 URL
-			type: 'GET', 					// GET 방식으로 요청
-			data: { month: month }, 		// 서버로 보낼 데이터
-			dataType: 'json',
-			success: function(data) {
-				// 응답 데이터 분류
-				var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
-				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
-				if(locationList != null){
-					$('#select_location').empty();			// 데이터 출력할 요소 비우기
-					// 지역 목록 출력
-					$("#select_location").append('<option value="전체" selected>전체</option>');
-					$.each(locationList, function(index, item) {
-						$("#select_location").append('<option value="' + item + '">' + item + '</option>');
-					});
-				}
-				$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
-				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
-				// 이벤트 바인딩
-				calendar_event();
-			},
-			error: function() {
-				// AJAX 요청이 실패한 경우 에러 처리
-				alert('데이터를 불러오는데 실패했습니다.');
-			}
-		});
-	});
-	// 지역 선택
-	$('#select_location').on('change', function(){
-		var month = $('#select_month').val();
-		var location = $('#select_location').val();
-		// AJAX 호출
-		$.ajax({
-			url: './calendar/select', 		// 요청 URL
-			type: 'GET', 					// GET 방식으로 요청
-			data: { month: month, 
-					location: location}, 	// 서버로 보낼 데이터
-			dataType: 'json',
-			success: function(data) {
-				// 응답 데이터 분류
-				var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-				var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
-				$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
-				// 각 주차 별 축제 목록 출력
-				$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
-				// 이벤트 바인딩
-				calendar_event();
-			},
-			error: function() {
-				// AJAX 요청이 실패한 경우 에러 처리
-				alert('데이터를 불러오는데 실패했습니다.');
-			}
-		});
-	});
-	
-	// 입장권 구매 모달 창 이벤트 바인딩
-	// 모달 창 close
-	$('.fadeout_bottom_click').on('click', function(){
-		$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
-		$('.ticket_modal_layout').css('bottom', '-55vmax');
-		$('#headCount').val('');
-		$('#paymentAmount').text('');
-	});
-	// 모달 창 open
-	$('#ticketModal').on('click', function(){
-		$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
-		$('.ticket_modal_layout').css('bottom', '8vmax');
-		$('#headCount').val('1');
-		$('#paymentAmount').text($('#fee').val());
-		$('#headCount').focus();
-	});
-	// 결제금액 계산
-	$('#headCount').on('input', function(){
-		/*var inputPattern1 = /^\d{1}$/
-		var inputPattern2 = /^\d{2}$/
-		var headCount = $('#headCount').val();
-		if(!inputPattern1.test(headCount)||!inputPattern2.test(headCount)||headCount == 0){
-			$('#headCount').val('');
-		}*/
-		$('#paymentAmount').text($('#headCount').val() * $('#fee').val());
-	});
-	// 입장권 생성
-	$('#ticket_submit').on('click', function(){
-		$('#ticketInsert').submit();
-	});
-	
-	// 축제 리뷰 초기 로딩
-	var isReviewAlreadyInitLoad = false;
-	$(window).on('scroll',function() {
-		if(checkVisible($('#review')) && !isReviewAlreadyInitLoad) {
-			var festivalCode = $('input[name="festivalCode"]').val();
+	// 축제 일정 조회 Ajax(요소 존재 시 이벤트 바인딩)
+	if($('#select_month').length){
+		// 월 선택
+		$('#select_month').on('change', function(){
+			var month = $('#select_month').val();
 			// AJAX 호출
 			$.ajax({
-				url: '../review/list', 					// 요청 URL
-				type: 'GET', 							// GET 방식으로 요청
-				data: { festivalCode: festivalCode},	// 서버로 보낼 데이터
+				url: './calendar/select', 		// 요청 URL
+				type: 'GET', 					// GET 방식으로 요청
+				data: { month: month }, 		// 서버로 보낼 데이터
 				dataType: 'json',
 				success: function(data) {
 					// 응답 데이터 분류
-					var reviewList = data;				// 해당 축제의 리뷰 목록
-					// 리뷰 목록 출력
-					$('.review_list_layout').append(printReviewList(reviewList, root));
+					var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
+					var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+					var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
+					if(locationList != null){
+						$('#select_location').empty();			// 데이터 출력할 요소 비우기
+						// 지역 목록 출력
+						$("#select_location").append('<option value="전체" selected>전체</option>');
+						$.each(locationList, function(index, item) {
+							$("#select_location").append('<option value="' + item + '">' + item + '</option>');
+						});
+					}
+					$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
+					// 각 주차 별 축제 목록 출력
+					$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
+					// 이벤트 바인딩
+					calendar_event();
 				},
 				error: function() {
 					// AJAX 요청이 실패한 경우 에러 처리
-					alert('데이터를 불러오는데 실패했습니다.');
+					console.log('데이터를 불러오는데 실패했습니다.');
 				}
 			});
-			isReviewAlreadyInitLoad = true;
-		}
-	});
+		});
+	}
+	if($('#select_month').length){
+		// 지역 선택
+		$('#select_location').on('change', function(){
+			var month = $('#select_month').val();
+			var location = $('#select_location').val();
+			// AJAX 호출
+			$.ajax({
+				url: './calendar/select', 		// 요청 URL
+				type: 'GET', 					// GET 방식으로 요청
+				data: { month: month, 
+						location: location }, 	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					// 응답 데이터 분류
+					var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
+					var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
+					$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
+					// 각 주차 별 축제 목록 출력
+					$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
+					// 이벤트 바인딩
+					calendar_event();
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
 	
+	// 입장권 구매 모달 창 이벤트 바인딩
+	if($('.ticket_modal_layout').length){
+		// 모달 창 close
+		$('.fadeout_bottom_click').on('click', function(){
+			$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
+			$('.ticket_modal_layout').css('bottom', '-55vmax');
+			$('#headCount').val('');
+			$('#paymentAmount').text('');
+			$(document).off('mouseup touchend');
+		});
+		// 모달 창 open
+		$('#ticketModal').on('click', function(){
+			$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
+			$('.ticket_modal_layout').css('bottom', '8vmax');
+			$('#headCount').val('1');
+			$('#paymentAmount').text($('#fee').val());
+			$('#headCount').focus();
+			$(document).on('mouseup touchend', function (e){
+				var container = $('.ticket_modal_layout');
+				if(container.has(e.target).length === 0){
+					$('.fadeout_bottom_click').click();
+				}
+			});
+		});
+		// 결제금액 계산
+		$('#headCount').on('input', function(){
+			/*var inputPattern1 = /^\d{1}$/
+			var inputPattern2 = /^\d{2}$/
+			var headCount = $('#headCount').val();
+			if(!inputPattern1.test(headCount)||!inputPattern2.test(headCount)||headCount == 0){
+				$('#headCount').val('');
+			}*/
+			$('#paymentAmount').text($('#headCount').val() * $('#fee').val());
+		});
+		// 입장권 생성
+		$('#ticket_submit').on('click', function(){
+			$('#ticketInsert').submit();
+		});		
+	}
+	
+	// id가 my_review인 요소가 존재할 경우 동작
+	if($('#my_review').length){
+		// 내 리뷰 요청 & 출력
+		requestMyReview(root);
+	}
+	
+	// 축제 리뷰 초기 로딩
+	if($('.review_list_layout').length){
+		var isReviewAlreadyInitLoad = false;
+		$(window).on('scroll',function() {
+			if(checkVisible($('#review')) && !isReviewAlreadyInitLoad) {
+				var festivalCode = $('input[name="festivalCode"]').val();
+				// AJAX 호출
+				$.ajax({
+					url: '../review/list', 					// 요청 URL
+					type: 'GET', 							// GET 방식으로 요청
+					data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+					dataType: 'json',
+					success: function(data) {
+						// 리뷰 목록 출력
+						$('.review_list_layout').append(printReviewList(data, root));
+						// 이벤트 바인딩
+						review_btn_event(root);
+					},
+					error: function() {
+						// AJAX 요청이 실패한 경우 에러 처리
+						console.log('데이터를 불러오는데 실패했습니다.');
+					}
+				});
+				isReviewAlreadyInitLoad = true;
+			}
+		});		
+	}
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -228,6 +265,79 @@ function printCalendar(month, weekData, weekDataImages, pageRoot){
 	return appendHTML;
 }
 
+// 내 리뷰 정보 Ajax 요청 함수
+function requestMyReview(pageRoot){
+	var festivalCode = $('input[name="festivalCode"]').val();
+	// AJAX 호출
+	$.ajax({
+		url: '../review/myreview', 				// 요청 URL
+		type: 'GET', 							// GET 방식으로 요청
+		data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+		dataType: 'json',
+		success: function(data) {
+			$('#my_review').empty();			// 요소 비우기
+			// 리뷰 목록 출력
+			$('#my_review').append(printMyReview(data, pageRoot));
+			review_btn_event(pageRoot);
+		},
+		error: function() {
+			// AJAX 요청이 실패한 경우 에러 처리
+			console.log('데이터를 불러오는데 실패했습니다.');
+		}
+	});
+}
+
+// 내 리뷰 레이아웃 요소 생성
+function printMyReview(myReview, pageRoot){
+	var appendHTML = '<div class="review_card_container">';
+	appendHTML += '<div class="card">';
+	appendHTML += '<div class="card-body">';
+	appendHTML += '<div class="review_body">';
+	if(myReview.festivalReviewCode == -1){	// 축제 리뷰 코드가 -1인 경우(= 축제 입장권을 구매하지 않은 경우 > 리뷰 작성 불가)
+		appendHTML += '<div class="multi_line_text">';
+		appendHTML += '<textarea placeholder="축제 입장권 구매 후 작성 가능합니다."></textarea>';
+		appendHTML += '</div>';
+		appendHTML += '</div>';
+		appendHTML += '<div class="review_btn_layout"><p class="card-text goto_ticket">등록</p>';
+	}else{
+		if(myReview.festivalReviewCode == 0){	// myReview의 축제 리뷰 코드가 0인 경우(= 작성한 리뷰가 없는 상태)
+			appendHTML += '<div class="rating_layout">';
+			for(var i = 1; i <= 5; i++){
+				appendHTML += '<div class="icon_layout rating_img rating_clickable">';
+				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + i + '">';
+				appendHTML += '</div>';
+			}
+			appendHTML += '</div>';
+			appendHTML += '<div class="multi_line_text">';
+			appendHTML += '<textarea placeholder="리뷰를 작성해주세요."></textarea>';
+			appendHTML += '</div>';
+			appendHTML += '</div>';
+			appendHTML += '<div class="review_btn_layout"><p class="card-text insert_review">등록</p>';
+		}else{		// 작성한 리뷰가 있는 상태 > 표시
+			appendHTML += '<div><p class="card-text">내가 쓴 리뷰</p></div>';
+			appendHTML += '<div class="rating_layout">';
+			for(var i = 1; i <= myReview.rating; i++){
+				appendHTML += '<div class="icon_layout rating_img">';
+				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+				appendHTML += '</div>';
+			}
+			for(var j = myReview.rating + 1; j <= 5; j++){
+				appendHTML += '<div class="icon_layout rating_img">';
+				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+				appendHTML += '</div>';
+			}
+			appendHTML += '</div>';		
+			appendHTML += '<div class="multi_line_text"><p>' + myReview.content + '</p></div>';
+			appendHTML += '</div>';
+			appendHTML += '<div class="review_btn_layout"><p class="card-text delete_review">삭제</p>';		
+		}
+	}
+	appendHTML += '<input type="hidden" value="' + myReview.festivalReviewCode + '">';
+	appendHTML += '</div></div></div></div>';
+	
+	return appendHTML;
+}
+
 // 리뷰 목록 레이아웃 요소 생성
 function printReviewList(reviewList, pageRoot){
 	var appendHTML = '';
@@ -251,10 +361,118 @@ function printReviewList(reviewList, pageRoot){
 		appendHTML += '</div>';
 		appendHTML += '<div class="multi_line_text"><p>' + item.content + '</p></div>';
 		appendHTML += '</div>';
-		appendHTML += '<div class="review_btn_layout"><p class="card-text">신고</p></div>';
-		appendHTML += '</div></div></div>';
+		appendHTML += '<div class="review_btn_layout"><p class="card-text report_review">신고</p>';
+		appendHTML += '<input type="hidden" value="' + item.festivalReviewCode + '">';
+		appendHTML += '</div></div></div></div>';
 	});
 	return appendHTML;
+}
+
+// 리뷰 카드 내 버튼 이벤트 등록
+function review_btn_event(pageRoot){
+	// 로그인 하지 않은 상태에서 등록 버튼 클릭 시
+	if($('.review_login').length){
+		$('.review_login').off('click').on('click', function(){
+			location.href = pageRoot + '/login';	// 로그인 페이지로 이동
+		});
+	}
+	// 입장권 구매하지 않은 상태에서 등록 버튼 클릭 시
+	if($('.goto_ticket').length){
+		$('.goto_ticket').off('click').on('click', function(){
+			$('.menuIndex').click();	// 입장권 구매 위치로 스크롤 이동
+		});
+	}
+	// 정상적인 리뷰 등록 이벤트
+	if($('.insert_review').length){
+		$('.insert_review').off('click').on('click', function(){
+			var festivalCode = $('input[name="festivalCode"]').val();
+			var content = $('#my_review textarea').val();
+			var rating = $('.rating_check').length;
+			// post 요청할 데이터 JSON 타입으로 가공
+			var param = {'festivalCode':festivalCode,'content':content,'rating':rating };
+			// AJAX 호출
+			$.ajax({
+				url: '../review/insert', 			// 요청 URL
+				type: 'POST', 						// POST 방식으로 요청
+				contentType: 'application/json',
+				data: JSON.stringify(param),		// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					if(data){
+						alert('등록이 완료되었습니다.');
+						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
+					}else{
+						console.log('리뷰 등록에 실패했습니다.');
+					}
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
+	// 리뷰 신고 시 이벤트
+	if($('.report_review').length){
+		$('.report_review').off('click').on('click', function(){
+			var festivalReviewCode = $(this).next().val();
+			// AJAX 호출
+			$.ajax({
+				url: '../review/report', 				// 요청 URL
+				type: 'POST', 							// POST 방식으로 요청
+				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					if(data){
+						alert('신고 처리되었습니다.');
+						$(this).closest('.review_card_container').remove();		// 해당 리뷰 숨김
+					}else{
+						console.log('신고 처리에 실패했습니다.');
+					}
+				}.bind(this),
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
+	// 리뷰 삭제 시
+	if($('.delete_review').length){
+		$('.delete_review').off('click').on('click', function(){
+			var festivalReviewCode = $(this).next().val();
+			// AJAX 호출
+			$.ajax({
+				url: '../review/delete', 				// 요청 URL
+				type: 'POST', 							// POST 방식으로 요청
+				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					if(data){
+						alert('삭제가 완료되었습니다.');
+						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
+					}else{
+						console.log('리뷰 삭제에 실패했습니다.');
+					}
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
+	// 평점 부여 이벤트
+	if($('.rating_clickable').length){
+		$('.rating_clickable').off('click').on('click', function(){
+			$(this).prevAll().children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon.png');
+			$(this).prevAll().children('img').attr('class', 'rating_check');
+			$(this).children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon.png');
+			$(this).children('img').attr('class', 'rating_check');
+			$(this).nextAll().children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon_empty.png');
+			$(this).nextAll().children('img').attr('class', '');
+		});
+	}
 }
 
 // 페이지 내 특정 위치로 이동(축제 상세 정보 화면)

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +32,7 @@ public class UserReviewController {
 	// 리뷰 작성
 	@PostMapping("/insert")
 	@ResponseBody
-	public Boolean insertFestivalReview(FestivalReviewVO festivalReviewVO, HttpSession session) {
+	public Boolean insertFestivalReview(@RequestBody FestivalReviewVO festivalReviewVO, HttpSession session) {
 		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
 		
 		// 세션 null 체크
@@ -102,9 +103,22 @@ public class UserReviewController {
 		// 세션 null 체크
 		if(loginUser != null) {
 			// 내 리뷰 정보 반환
-			return userReviewService.selectMyFestivalReviewInFestivalInfo(loginUser.getMemberCode(), festivalCode);
+			ViewFestivalReviewVO vo = userReviewService.selectMyFestivalReviewInFestivalInfo(festivalCode, 
+									loginUser.getMemberCode());
+			// null 체크
+			if(vo != null) {
+				logger.info("vo is not null");
+			}else {
+				logger.info("vo is null");
+				vo = new ViewFestivalReviewVO();
+				vo.setFestivalReviewCode(-1);
+			}
+			return vo;
 		} else {
-			return null;
+			logger.info("session is not found");
+			ViewFestivalReviewVO vo = new ViewFestivalReviewVO();
+			vo.setFestivalReviewCode(-1);
+			return vo;
 		}
 	}
 	
@@ -116,10 +130,10 @@ public class UserReviewController {
 		
 		// 세션 null 체크
 		if(loginUser != null) {
-			// 내 리뷰 정보 반환
-			return userReviewService.selectFestivalReviewList(loginUser.getMemberCode(), festivalCode);
+			// 리뷰 목록 반환
+			return userReviewService.selectFestivalReviewList(festivalCode, loginUser.getMemberCode());
 		} else {
-			return userReviewService.selectFestivalReviewList(0, festivalCode);
+			return userReviewService.selectFestivalReviewList(festivalCode, 0);
 		}
 	}
 }
