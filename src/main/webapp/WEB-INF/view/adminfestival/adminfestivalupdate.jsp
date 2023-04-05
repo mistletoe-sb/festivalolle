@@ -71,8 +71,15 @@ width: 500px;
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">이미지</label></th>
 				<th scope="col">
-					<div id="image_container" style="width: 500px;">
-						<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+					<div id="image_container">
+						<c:choose>
+							<c:when test="${img == '1'}">
+									<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+							</c:when>
+							<c:otherwise>
+									<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+							</c:otherwise>
+						</c:choose>
 					</div>
 					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
 					
