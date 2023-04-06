@@ -33,7 +33,7 @@
 				<form class="user" name="findpwfrm" action="./findpw" method="POST"> 
 					<div class="form-group">
 						<label>아이디</label>
-						<input class="form-control form-control-user" type="text" id="id" placeholder="아이디 입력">
+						<input class="form-control form-control-user" type="text" id="id" name="id" placeholder="아이디 입력">
 						<span id="alertId" style="color:red"></span>
 						<br><input type="submit" class="btn btn-primary btn-user btn-block btn-primary-mobile" id="findPwNext" value="다음">
 					</div>
@@ -45,18 +45,16 @@
 			</div>		
 <script type="text/javascript">
 $(document).ready(function() {	
-	$("#id").on('click', function(){
+	$("#findPwNext").on('click', function(){
 		var id = $("#id").val();
 		  if (id == ""){	
 			$("#alertId").text("아이디를 입력해주세요.");
 			$("#alertId").css("color", "red");
-			$("#id").val('');
 		    return false;
 		  }else{
 			$("#alertId").val('');
 			return true;
 		  }
-		});
 	});
 });
 

@@ -40,39 +40,38 @@ public class FindMemberInfoController {
 	    }
 	}// id 찾기 계정유무, 해당 계정 ID 확인	
 	
-//	//비밀번호 찾기
-//	@GetMapping(value="/findpw")
-//	public String getFindPw(HttpSession session) {
-//		return view_pos + "findpw";
-//	}// 비밀번호 찾기 페이지
-//		
-//	@PostMapping(value="/findpw")
-//	public String postFindPw(String id, Model model) {
-//		boolean findAcount = memberService.findPw (id);
-//		
-//		if(findAcount) {
-//		    model.addAttribute("id", id);
-//		    return view_pos + "findpwinfo";
-//		} else {
-//		    return view_pos + "findpw";
-//		}
-//	}// 비밀번호 찾기 계정조회
-//		
-//	//비밀번호 변경
-//	@GetMapping(value="/updatepw")
-//	public String updatePwInfo(HttpSession session) {
-//		return view_pos + "findpwinfo";
-//	}//비밀번호 변경 페이지
-//	
-//	@PostMapping(value="/updatepw")
-//		public MemberVO postUpdatePwInfo(String password, Model model) {
-//		 	
-//		String id = (String) model.getAttribute("id");
-//		 	
-//		MemberVO resultPw =memberService.updatePassword(password, id);
-//		model.addAttribute("resultPw", resultPw);
-//		model.addAttribute("resultPw", resultPw);
-//		    
-//			return resultPw;
-//	}//비밀번호 변경
+	//비밀번호 찾기
+	@GetMapping(value="/findpw")
+	public String getFindPw(HttpSession session) {
+		return view_pos + "findpw";
+	}// 비밀번호 찾기 페이지
+		
+	@PostMapping(value="/findpw")
+	public String postFindPw(String id, Model model) {
+		boolean findAcount = memberService.findPw (id);
+		
+		if(findAcount) {
+		    model.addAttribute("id", id);
+		    return view_pos + "findpwinfo";
+		} else {
+		    return "redirect:/findpw";
+		}
+	}// 비밀번호 찾기 계정조회
+		
+	//비밀번호 변경
+	@GetMapping(value="/updatepw")
+	public String updatePwInfo(HttpSession session) {
+		return view_pos + "findpwinfo";
+	}//비밀번호 변경 페이지
+	
+	@PostMapping(value="/updatepw")
+		public MemberVO postUpdatePwInfo(String password, Model model) {
+		 	
+		String id = (String) model.getAttribute("id");
+		 	
+		MemberVO resultPw =memberService.updatePassword(password, id);
+		model.addAttribute("resultPw", resultPw);
+		    
+			return resultPw;
+	}//비밀번호 변경
 }
