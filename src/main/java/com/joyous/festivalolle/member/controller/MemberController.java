@@ -128,10 +128,11 @@ public class MemberController {
 	
 	//회원가입
 	@PostMapping(value="/join")
-	@ResponseBody
-	public String join(@RequestBody MemberVO memberVO, Locale locale) {
+	public String join(MemberVO memberVO, Locale locale) {
+		logger.info("회원가입");
+		memberService2.joinMember(memberVO);
 		logger.info("회원 회원가입 실행", locale);
-		return (memberService2.joinMember(memberVO) == 1)? "ok":"fail";
+		return "redirect:/login";
 	}
 	
 	//id 중복 체크

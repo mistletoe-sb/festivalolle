@@ -45,51 +45,50 @@
 								<div class="col-lg-7">
 	                                <div class="p-5">
 				
-										<form class="user" action="<c:url value='/join'/>" method="post" name="joinfrm">                                                             
+										<form class="user" action="<c:url value='/join'/>" method="post" name="joinfrm" id="joinMember_btn" >                                                             
 											 
 											<div class="form-group">
-			                                    <input type="text" class="form-control form-control-user" id="join_id"
-			                                        placeholder="아이디: 5~20자의 영문 소문자, 숫자" size="20" required>
-
-			                                    <div id="id-hide" hidden="true">
-				                                    <label class="ChkLabel" id="idMsg" display="none"></label>						
-													<input id="id_reg_check" type="hidden" value="false">
-													<input id="id_overlap_check" type="hidden" value="false">
-												</div>
+			                                    <input type="text" class="form-control form-control-user" id="join_id" name="id"
+			                                        placeholder="아이디" size="20" required>
+			                                   
+			                                    <label class="ChkLabel" id="idMsg" ></label>						
+												<input id="id_reg_check" type="hidden" value="false">
+												<input id="id_overlap_check" type="hidden" value="false">
+												
 			                                </div>
 
 			                                <div class="form-group">
-			                                    <input type="password" class="form-control form-control-user"
-		                                            id="join_pw" placeholder="비밀번호: 5~16자의 영문자, 숫자" size="16" required>
-		                                    	<div id="pw-hide" hidden="true">
-			                                    	<label class="ChkLabel" id="pwchkMsg"></label>
-			                                    	<input id="pw_reg_check" type="hidden" value="false">							
-													<input id="pwchk2" type="hidden" value="false">
-			                                	</div>
+			                                    <input type="password" class="form-control form-control-user" name="password"
+		                                            id="join_pw" placeholder="비밀번호" size="16" required>
+		                                    	
+		                                    	<label class="ChkLabel" id="pwchkMsg"></label>
+		                                    	<input id="pw_reg_check" type="hidden" value="false">							
+												<input id="pwchk2" type="hidden" value="false">
+			                                	
 			                                </div>  
 
 											<div class="form-group">
 												<input type="password" class="form-control form-control-user"
                                            			 id="join_pwchk" placeholder="비밀번호 확인" size="16" required>
-                                           		<div class="pwchk-hide" hidden="true">
-                                           			<label class="ChkLabel" id="pwchkMsg2"></label>
-												</div>
+                                           		
+                                         		<label class="ChkLabel" id="pwchkMsg2"></label>
+												
 											</div> 
 											<div class="form-group">
-			                                   <input type="text" class="form-control form-control-user" 
+			                                   <input type="text" class="form-control form-control-user" name="name"
 			                                   		id="join_name" placeholder="담당자명" required>
 			                               </div>
 											<div class="form-group">
-			                                    <input type="text" class="form-control form-control-user" id="join_telephone"
-			                                        placeholder="연락처: 010-1234-5678" type="tel" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
-			                                    <div class="tel-hide" hidden="true">
-				                                    <label class="ChkLabel" id="phoneNumber_msg"></label>
-				                                    <input id="phoneNumber_reg_check" type="hidden" value="false">
-													<input id="phoneNumber_overlap_check" type="hidden" value="false">	
-			                                	</div>
+			                                    <input type="text" class="form-control form-control-user" id="join_telephone" name="mobile"
+			                                        placeholder="연락처" type="tel" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+			                                    
+			                                    <label class="ChkLabel" id="phoneNumber_msg"></label>
+			                                    <input id="phoneNumber_reg_check" type="hidden" value="false">
+												<input id="phoneNumber_overlap_check" type="hidden" value="false">	
+			                                	
 			                                </div>
 																						
-											<input type="submit" id="joinMember_btn" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="회원가입" />                       											
+											<input type="submit" onclick="join_btn_action()" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="회원가입" />                       											
 										
 										</form>
 										
@@ -107,28 +106,28 @@
 		<script>
 		
 		//아이디 유효성 확인 ->중복검사 ajax
-		$('#login_id').blur(function(){			
+		$('#join_id').blur(function(){			
 			var reg_id = /^[a-z0-9]{5,20}$/;
-			var id = $('#login_id').val();
+			var id = $('#join_id').val();
 	
-			if ($('#login_id').val() == ''){
-				$('#id-hide').attr('hidden', false);
+			if ($('#join_id').val() == ''){
+				
 				$('#idMsg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#id_overlap_check').val("false");
 				//$('#email').focus();
 			} else if (!reg_id.test(id)){
-				$('#id-hide').attr('hidden', false);
+				
 				$('#idMsg').text("5~20자의 영문 소문자,  숫자만 사용 가능합니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#id_overlap_check').val("false");
 				//$('#email').focus();
 			} else if(reg_id.test(id)) {	//아이디 올바른 형식일 경우
-				$('#id-hide').attr('hidden', true);
+				
 				$('#id_reg_check').val("true");
 				//$('#idMsg').text("올바른 이메일 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				//$('#idMsg').val("");
 				
 				if ($('#id_reg_check').val() == 'true'){	
-					var id = $('#login_id').val();
+					var id = $('#join_id').val();
 					console.log(id);
 					$.ajax({
 						url: "<c:url value='/member/idchk'/>",		
@@ -138,11 +137,11 @@
 						success: function(data){
 							console.log(data);
 							if(data == 'ok'){
-								$('#id-hide').attr('hidden', true);
+								
 								$('#idMsg').text("사용 가능한 아이디입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 								$('#id_overlap_check').val("true");
 							} else {
-								$('#id-hide').attr('hidden', false);
+								
 								$('#idMsg').text("이미 가입된 아이디입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 								$('#id_overlap_check').val("false");
 								//$('#email').focus();
@@ -158,39 +157,39 @@
 		
 		//휴대폰번호 유효성검사 -> 중복체크
 		$('#join_telephone').blur(function(){
-			var telephone = $('#join_telephone').val();
+			var mobile = $('#join_telephone').val();
 			var reg_phone = /^\d{2,3}-\d{3,4}-\d{4}$/;
 			
 			if ($('#join_telephone').val() == ''){
-				$('#tel-hide').attr('hidden', false);
+				
 				$('#phoneNumber_msg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#phoneNumber_overlap_check').val("false");
-			} else if (!reg_phone.test(telephone)){
-				$('#tel-hide').attr('hidden', false);
+			} else if (!reg_phone.test(mobile)){
+				
 				$('#phoneNumber_msg').text("잘못된 전화번호 형식입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#phoneNumber_overlap_check').val("false");
-			} else if(reg_phone.test(telephone)) {	//이메일 올바른 형식일 경우
-				$('#tel-hide').attr('hidden', true);
+			} else if(reg_phone.test(mobile)) {	//이메일 올바른 형식일 경우
+				
 				$('#phoneNumber_reg_check').val("true");
 				//$('#phoneNumber_msg').text("올바른 전화번호 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#phoneNumber_msg').val("");
 				
 				if ($('#phoneNumber_reg_check').val() == 'true'){	
-					var telephone = $('#join_telephone').val();
+					var mobile = $('#join_telephone').val();
 						
 					$.ajax({
 						url: "<c:url value='/member/mobilechk'/>",		
 						type: "post",
-						data: {telephone: telephone},
+						data: {mobile: mobile},
 						dataType: 'text',
 						success: function(data){
 							console.log(data);
 							if(data == 'ok'){
-								$('#tel-hide').attr('hidden', true);
+								
 								$('#phoneNumber_msg').text("사용 가능한 번호입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });	// 사용 가능 알림메세지
 								$('#phoneNumber_overlap_check').val("true");
 							} else {
-								$('#tel-hide').attr('hidden', false);
+								
 								$('#phoneNumber_msg').text("이미 가입된 회원입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });	
 								$('#phoneNumber_overlap_check').val("false");
 							}
@@ -209,31 +208,31 @@
 			var reg_pw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,16}$/; 
 			
 			if ($('#join_pw').val() == ''){				
-				$('#pw_hide').attr('hidden', false);
+				
 				$('#pwchkMsg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#pwchk2').val("false");
 			} else if (!reg_pw.test(pw)){
-				$('#pw_hide').attr('hidden', false);
+				
 				$('#pwchkMsg').text("5~16자의 영문자, 숫자를 사용하세요.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#pwchk2').val("false");
 			} else if(reg_pw.test(pw)) {	
 				$('#pw_reg_check').val("true");
-				$('#pw_hide').attr('hidden', true);
+				
 				//$('#pwchkMsg').text("올바른 전화번호 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#pwchkMsg').text("");
 				
 				$('#join_pwchk').blur(function(){
 					if($('#join_pwchk').val() == ''){
-						$('#pw_hide').attr('hidden', false);
+						
 						$('#pwchkMsg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 						$('#pwchk2').val("false");									
 					} else {
 						if($('#join_pw').val() == $('#join_pwchk').val()){
-							$('#pw_hide').attr('hidden', true);
+							
 							$('#pwchkMsg').text("비밀번호가 일치합니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 							$('#pwchk2').val("true");
 						} else {
-							$('#pw_hide').attr('hidden', false);
+							
 							$('#pwchkMsg').text("비밀번호가 일치하지 않습니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 							$('#pwchk2').val("false");
 						}
@@ -314,43 +313,36 @@
 		
 		*/
 		
-		/*
+		
 		//joinMember_btn
 		function join_btn_action(){
-			  $('#joinMember_btn').on('click', function(){	// 현재의 submit 이벤트 핸들러를 제거하고 새로 생성하여 function 등록
-			    var email_overlap_check = $('#email_overlap_check').val();  
-			    var pwchk2 = $('#pwchk2').val();  
-			 	var nickname_overlap_check = $('#nickname_overlap_check').val();         
+			  $('#joinMember_btn').off("submit").on("submit", function(){	// 현재의 submit 이벤트 핸들러를 제거하고 새로 생성하여 function 등록
+			    var id_overlap_check = $('#id_overlap_check').val();  
+			    var pwchk2 = $('#pwchk2').val();  			 	      
 			    var phoneNumber_overlap_check = $('#phoneNumber_overlap_check').val();
 			    				    
 			    if(id_overlap_check == 'false'){   
-			    	alert("중복되지 않은 이메일을 입력해주세요.");
+			    	alert("아이디를 확인해주세요.");
 				    $('#join_id').focus(); 
 			    	
 			    	return false;	
 				                				     				    
 			    }else if(pwchk2 == 'false'){     
-			    	alert("입력한 비밀번호를 다시 확인해주세요.");
+			    	alert("비밀번호를 확인해주세요.");
 			      	$('#pwchk').focus();  
 			    	
 			    	return false;	
 			      	             		      	
-			    }else if(nickname_overlap_check == 'false'){
-			    	alert("중복되지 않은 닉네임을 선택해주세요.");
-				    $('#nickname').focus();
-			    	
-			    	return false;
-			    	
 			    }else if(phoneNumber_overlap_check == 'false'){
-			    	alert("이미 가입된 휴대폰 번호입니다.");
-				    $('#phoneNumber_join').focus();	
+			    	alert("휴대폰 번호를 확인해주세요.");
+				    $('#join_pw').focus();	
 			    	
 			    	return false;	
-			    		
+			    	
 			    }
 			  });
 			}
-		*/
+		
 		
 		
 		

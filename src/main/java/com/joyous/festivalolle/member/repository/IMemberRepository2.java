@@ -1,8 +1,6 @@
 package com.joyous.festivalolle.member.repository;
 
-import org.apache.ibatis.annotations.Param;
 
-import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 
 //작성자 이기쁨
