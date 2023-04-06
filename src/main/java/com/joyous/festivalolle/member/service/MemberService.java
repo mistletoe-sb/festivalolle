@@ -38,9 +38,9 @@ public class MemberService implements IMemberService {
 	}
 
 	@Override
-	public boolean findPw(String id) {
+	public boolean findPw(String id, String name, String mobile) {
 		
-		int exist = memberRepository.findPw(id);
+		int exist = memberRepository.findPw(id, name, mobile);
 		if(exist == 1) {
 			 return true;
 		 }else {

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
@@ -27,7 +27,7 @@ public class FindMemberInfoController {
 	}//id 찾기 첫 페이지
 	
 	@PostMapping(value="/checkacount")
-	public String checkAcount(String name, String mobile, Model model) {
+	public String checkAcount(String name, String mobile, Model model, RedirectAttributes redirectattribute) {
 	    boolean findAcount = memberService.selectAcountInfo(name, mobile);
 	    System.out.println("/checkacount"+ model.addAttribute("name", name));
 	    System.out.println("/checkacount"+ model.addAttribute("mobile", mobile));
@@ -36,6 +36,8 @@ public class FindMemberInfoController {
 	        model.addAttribute("resultId", resultId);
 	        return view_pos + "findidinfo";
 	    } else {
+	    	String message = "입력하신 정보와 일치하는 아이디가 없습니다.";
+			redirectattribute.addFlashAttribute("message" , message);
 	        return "redirect:/findid";
 	    }
 	}// id 찾기 계정유무, 해당 계정 ID 확인	
@@ -47,31 +49,23 @@ public class FindMemberInfoController {
 	}// 비밀번호 찾기 페이지
 		
 	@PostMapping(value="/findpw")
-	public String postFindPw(String id, Model model) {
-		boolean findAcount = memberService.findPw (id);
-		
-		if(findAcount) {
-		    model.addAttribute("id", id);
-		    return view_pos + "findpwinfo";
-		} else {
-		    return "redirect:/findpw";
-		}
+	public String postFindPw(String id,String name, String mobile, HttpSession session, Model model, RedirectAttributes redirectattribute) {
+	    boolean findAcount = memberService.findPw (id, name, mobile);
+	    session.setAttribute("id", id); // session에 id 값 저장
+	    if(findAcount) {
+	        return view_pos + "findpwinfo";
+	    } else {
+	    	String message = "입력하신 정보와 일치하는 계정이 없습니다.";
+			redirectattribute.addFlashAttribute("message" , message);
+	        return "redirect:/findpw";
+	    }
 	}// 비밀번호 찾기 계정조회
-		
-	//비밀번호 변경
-	@GetMapping(value="/updatepw")
-	public String updatePwInfo(HttpSession session) {
-		return view_pos + "findpwinfo";
-	}//비밀번호 변경 페이지
 	
 	@PostMapping(value="/updatepw")
-		public MemberVO postUpdatePwInfo(String password, Model model) {
-		 	
-		String id = (String) model.getAttribute("id");
-		 	
-		MemberVO resultPw =memberService.updatePassword(password, id);
-		model.addAttribute("resultPw", resultPw);
-		    
-			return resultPw;
+	public String postUpdatePwInfo(@RequestParam("password") String password, HttpSession session, Model model) {
+	    String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
+	    MemberVO resultPw = memberService.updatePassword(password, id);
+	    model.addAttribute("resultPw", resultPw);
+	    return "redirect:/login";
 	}//비밀번호 변경
 }
