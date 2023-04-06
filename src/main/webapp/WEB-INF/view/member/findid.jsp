@@ -37,54 +37,67 @@
 					<form class="user" name="findidfrm" action="./checkacount" method="POST">                                                 
 						<div class="form-group">															
 							<input class="form-control form-control-user" type="text" id="name" name="name" placeholder="이름">
-							<span id="nameAlert" style="color:red" ></span><br>
+							<span id="nameAlert" style="color:red" ></span>
 						</div>
 						<div class="form-group">
 							<input class="form-control form-control-user" type="text" id="mobile" name="mobile" placeholder="010-****-****">
-							<span id="mobileAlert" style="color:red"></span><br>
+							<span id="mobileAlert" style="color:red"></span>
+						</div>
+						<div class="form-group">
 							<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="auth" value="다음">
 						</div>
 					</form>
 				</div>
 			</div>
+			
+<c:if test= "${message != null && message != ''}">
+   <script>
+     alert("${message}");
+   </script>
+</c:if>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#name").on('change',function(){  
-	  var name = $("#name").val();
-		      if(name == ""){
-		        $("#nameAlert").text("이름을 입력하세요.");
-		        $("#nameAlert").css("color", "red");
-		        $("#name").val('');
-		        return false;
-		      } else{
-		    	$("#nameAlert").val('');
-		      }
-		    });
-	
-	  $("#mobile").on('change',function(){
-		      var mobile = $("#mobile").val();
-		      if(mobile == ""){
-		        $("#mobileAlert").text("전화번호를 입력하세요.");
-		        $("#mobileAlert").css("color", "red");
-		        $("#mobile").val('');
-		        return false;
-		      } else{
-		    	$("#mobileAlert").val('');
-		      }
-		    });
 
-	  $("#auth").click(function() {
+	$("#name").on('change', function() {
+		 var name = $("#name").val();
+		 if(name=''){
+			$("#nameAlert").text("이름을 입력하세요.");
+		 }else{
+		 	$("#nameAlert").text('');
+		 }
+	});
+	
+	$("#mobile").on('change', function() {
+		 var mobile = $("#mobile").val();
+		 if(mobile=''){
+			$("#mobileAlert").text("이름을 입력하세요.");
+		 }else{
+		 	$("#mobileAlert").text('');
+		 }
+	});
+	
+	$("#auth").on('click', function() {
 		    var name = $("#name").val();
 		    var mobile = $("#mobile").val();
+		    
 
 		    if (name == "" && mobile == "") {
 		        $("#nameAlert").text("이름을 입력하세요.");
 		        $("#mobileAlert").text("전화번호를 입력하세요.");
 		        return false;
-		    } else {
-		        $("#nameAlert").text('');
+		    }else if(name == ""){
+		    	$("#nameAlert").text("이름을 입력하세요.");
 		        $("#mobileAlert").text('');
-		    }
+		        return false;
+		    }else if(mobile == ""){
+		    	$("#mobileAlert").text("전화번호를 입력하세요.");
+		    	$("#nameAlert").text('');
+		    	return false;
+		    }else{
+		    	$("#nameAlert").text('');
+		    	$("#mobileAlert").text('');
+		    	return true;
+		        }
 		});
 });
 </script>

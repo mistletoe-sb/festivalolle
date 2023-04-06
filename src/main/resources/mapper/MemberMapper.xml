@@ -40,19 +40,37 @@
 	</select>
 	
 	<!-- 비밀번호 찾기용 계정 조회- 작성자: 이혜성 -->
-	<select id="findPw" parameterType="string" resultType="int">
+	<select id="findPw" resultType="int">
 	<![CDATA[
-	SELECT COUNT(*) FROM member WHERE  id = #{id}
+	SELECT COUNT(*) FROM member 
+	WHERE  id = #{id} 
+	AND  name = #{name} 
+	AND mobile = #{mobile}
 		]]>
 	</select>
 	
 	<!-- 비밀번호 변경- 작성자: 이혜성 -->
-	<select id="updatePassword" resultType="string">
+	<select id="updatePassword" parameterType="string" resultType="com.joyous.festivalolle.member.model.MemberVO">
 	<![CDATA[
  		UPDATE member SET password = #{password}
  		WHERE id = #{id}
  			]]>
- 		
+	</select>
+	
+	<!-- 회원탈퇴- 작성자: 이혜성 -->
+	<select id="unactiveMember" parameterType="string" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+ 		UPDATE member SET STATUS= #{status}
+ 		WHERE password= #{password}
+ 			]]>
+	</select>
+	
+	<!-- 회원탈퇴용 계정 조회- 작성자: 이혜성 -->
+	<select id="findMember" resultType="int">
+	<![CDATA[
+	SELECT COUNT(*) FROM member 
+	WHERE  password = #{password} 
+		]]>
 	</select>
 </mapper>
 	
