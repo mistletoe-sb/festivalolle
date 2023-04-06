@@ -43,6 +43,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
+import com.joyous.festivalolle.festival.repository.IFestivalRepository;
 import com.joyous.festivalolle.festival.service.IFestivalService;
 
 @Controller
@@ -52,6 +53,9 @@ public class FestivalController {
 	
 	@Autowired
 	private IFestivalService festivalService;
+	
+	@Autowired
+	private IFestivalRepository festivalRepository;
 
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
 
@@ -164,7 +168,6 @@ public class FestivalController {
 			//조건문
 			if(startCompare > 0) {
 				vo.setStatus(2);//시작전
-			  System.out.println("date가 today보다 큽니다.(date > today)");
 			}else if(startCompare < 0) {//시작후
 				if (endCompare<0) {//끝난후
 					vo.setStatus(3);
@@ -172,16 +175,12 @@ public class FestivalController {
 				else {//끝나기전
 					vo.setStatus(1);
 				}
-				
-			  System.out.println("today가 date보다 큽니다.(date < today)");
 			}else {//축제 당일
 				vo.setStatus(1);
-			  System.out.println("today와 date가 같습니다.(date = today)");
 			}
 
 
 			byte[] fileBytes = file.getBytes();
-			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
 			AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
@@ -191,14 +190,11 @@ public class FestivalController {
 			vo.setAdminName(adminName);
 			festivalService.insertFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
 		}catch(RuntimeException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RuntimeException");
 			e.printStackTrace();
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Exception");
 		}
 		return view_pos + "adminfestivallist";
 	}
@@ -256,7 +252,7 @@ public class FestivalController {
 			//조건문
 			if(startCompare > 0) {
 				vo.setStatus(2);
-			  System.out.println("date가 today보다 큽니다.(date > today)");
+
 			}else if(startCompare < 0) {
 				if (endCompare<0) {
 					vo.setStatus(3);
@@ -265,33 +261,33 @@ public class FestivalController {
 					vo.setStatus(1);
 				}
 				
-			  System.out.println("today가 date보다 큽니다.(date < today)");
 			}else {
 				vo.setStatus(1);
-			  System.out.println("today와 date가 같습니다.(date = today)");
 			}
 
 			
 			byte[] fileBytes = file.getBytes();
-			System.out.println(fileBytes+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
+			
 			AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
 			vo.setFestivalCode(festivalCode);
 			vo.setOrganizationCode(organizationCode);
-			vo.setImage(fileBytes);
+			
 			vo.setThumbnail(fileBytes);
 			vo.setAdminName(adminName);
+			if(vo.getImage()==null) {
+				vo.setImage(fileBytes);
+				festivalRepository.insertFestivalImage(vo);
+			}
+			vo.setImage(fileBytes);
 			festivalService.updateFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!완료");
 		}catch(RuntimeException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RuntimeException");
 			e.printStackTrace();
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Exception");
 		}
 		return "redirect:/admin/adminfestivalinfo?festivalCode="+festivalCode;
 	}
@@ -301,7 +297,6 @@ public class FestivalController {
 	@ResponseBody
 	public List<FestivalVO> selectYearTitleList(FestivalVO vo,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
 		String titleyear2 = titleyear + "%";
-		System.out.println(titleyear2);
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 			vo.setOrganizationCode(organizationCode);
@@ -398,7 +393,6 @@ public class FestivalController {
 			//조건문
 			if(startCompare > 0) {
 				vo.setStatus(2);
-			  System.out.println("date가 today보다 큽니다.(date > today)");
 			}else if(startCompare < 0) {
 				if (endCompare<0) {
 					vo.setStatus(3);
@@ -407,10 +401,8 @@ public class FestivalController {
 					vo.setStatus(1);
 				}
 				
-			  System.out.println("today가 date보다 큽니다.(date < today)");
 			}else {
 				vo.setStatus(1);
-			  System.out.println("today와 date가 같습니다.(date = today)");
 			}
 			
 			festivalService.updateFestivalStatus(vo);

@@ -14,7 +14,13 @@ width: 500px;
 		<!-- ★내용삽입★ -->
 	<div class="card shadow mb-4">
 	<div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">축제 수정</h6>
+				<div style ="float:left; margin:0 auto">
+                	<h6 class="m-0 font-weight-bold text-primary">축제 수정</h6>
+                </div>
+                <div class="d-grid gap-2 d-md-block" style ="float:right;">
+					<input type="submit" class="btn btn-primary" value='수정하기'>
+					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
+				</div>
             </div>
 		<form  action = "<c:url value='/admin/adminfestivalupdate?festivalCode=${adminfestivalinfo.festivalCode}'/>" method="post" enctype="multipart/form-data">
 				<div class="card-body">
@@ -28,12 +34,9 @@ width: 500px;
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
 				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-				<input type="text" class="form-control" id="sample6_address" placeholder="주소"  >
-				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소"  >
+				<input type="text" class="form-control" id="sample6_address" name="address" placeholder="주소"  value="${adminfestivalinfo.address}">
 				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" >
 				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
-				<input type="text" class="form-control" id="realAddress2" disabled value="${adminfestivalinfo.address}">
-				<input type="hidden" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" value="${adminfestivalinfo.address}">
 				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" value="${adminfestivalinfo.stateName}">
 				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" value="${adminfestivalinfo.cityName}">
 				</th>
@@ -90,9 +93,9 @@ width: 500px;
 		</div>
 			<fieldset>
 			
-			<div class="d-grid gap-2 col-6 mx-auto">
+			<div class="d-grid gap-2 d-md-block">
 				<input type="submit" class="btn btn-primary" value='수정하기'>
-				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='돌아가기'>
+				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 			</div>
 
 		        
@@ -200,7 +203,7 @@ var detailAddress = ''
                 document.getElementById("sample6_doAddress").value = data.sido;
                 document.getElementById("sample6_sigooAddress").value = data.sigungu;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+                document.getElementById("sample6_address").focus();
                 
             }
 

@@ -28,18 +28,10 @@
 				<div class="card mb-3" style="max-width: 540px; cursor: pointer;" onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
 					<div class="row g-0" >
 					
-						<div class="endday" data-date="${fes.endDate}" style="background-origin : padding-box">
-							<c:choose>
-								<c:when test="${fes.entranceTime != '' and fes.couponUseTime != ''}">
-									<th scope="col">
-										<img style="width: 50px; " id="status-image" class="rounded-4" src="<c:url value='/resources/img/사용완료.png'/>">
-									</th>
-								</c:when>
+						<div class="endday" data-endDate="${fes.endDate}" style="background-origin : padding-box">
+						<input type="hidden" data-entDate="${fes.entranceTime}">
+						<input type="hidden" data-cpuDate="${fes.couponUseTime}">
 
-								<c:otherwise>
-
-								</c:otherwise>
-							</c:choose>
 						</div>
 						
 						<div class="col-md-4">
@@ -72,26 +64,42 @@
 
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
-	
+
 	<script type="text/javascript">
     /* 작성일자에 따라 보이는  문자 출력 */
-    function endToday(value) {
-        var today = new Date();// 오늘날짜
-        var endToday = new Date(value); //입력될 날짜
-        var betweenTimeDay = Math.floor(today-endToday);//일자로 계산
-		var result = "";//결과값 받을 변수 선언
-        if (betweenTimeDay < 0) {//하루가 안 지났을 경우
-        	result = 0;
-        } else {// 1년이 지났을 경우
-        	result = 1;
-        }
-        
-        return result;//결과값 저장
-    }
+function endToday(endDateParam, entDateParam, cpuDateParam) {
+  var today = new Date(); // 오늘 날짜
+  var endDate = new Date(endDateParam); // 입력된 날짜
+  var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
+  var result = ""; // 결과값 받을 변수 선언
+  console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay)
+  if (((entDateParam !== null) && (cpuDateParam !== null)) && (betweenTimeDay < 0)) { // 사용 완료
+    result = 0;
+  } else if (((entDateParam == null) || (cpuDateParam == null)) && (betweenTimeDay >= 0)) { // 기간 만료
+    result = 1;
+  } else {
+    result = 2;
+  } 
+  
+  return result; // 결과값 저장
+}
     $(".endday").each(function(){//해당 클래스에 해당하는 반복문
-    	var date = $(this).attr('data-date');//매번 값이 변하고 class가 같기 때문에 this로 해서 값을 받아오기
-    	var result = timeForToday(date);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
-    	$(this).text(result);//this 위치에 해당 데이터를 작성하기
+    	var endDateParam = $(this).attr('data-endDate');//매번 값이 변하고 class가 같기 때문에 this로 해서 값을 받아오기
+    	var entDateParam = $(this).attr('data-entDate');
+    	var cpuDateParam = $(this).attr('data-cpuDate');
+    	var result = endToday(endDateParam, entDateParam, cpuDateParam);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
+    	var img = document.createElement("img");
+    	if(result == 0){
+    		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");
+    		img.setAttribute("style","width: 50px; position: absolute; top: 5px; left: 5px;");
+    		$(this).append(img);
+    	} else if(result == 1){
+    		img.setAttribute("src", "<c:url value='/resources/img/기간만료.png'/>");
+    		img.setAttribute("style","width: 50px; position: absolute; top: 5px; left: 5px;");
+    		$(this).append(img);
+    	} else{
+    		
+    	}
 
     });
 	</script>

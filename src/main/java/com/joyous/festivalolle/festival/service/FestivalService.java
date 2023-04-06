@@ -23,13 +23,11 @@ public class FestivalService implements IFestivalService {
 
 	@Override
 	public List<FestivalVO> selectFestivalList(int organizationCode) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11"+organizationCode);
 		return festivalRepository.selectFestivalList(organizationCode);
 	}
 	
 	@Override
 	public List<FestivalVO> selectStatusFestivalList(FestivalVO vo) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!22"+vo.getOrganizationCode());
 		return festivalRepository.selectStatusFestivalList(vo);
 	}
 
