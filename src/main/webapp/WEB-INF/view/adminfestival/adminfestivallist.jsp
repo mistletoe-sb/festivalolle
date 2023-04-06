@@ -1,16 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
+ 
 <style>
- [type="radio"] {
+  [type="radio"] {
   vertical-align: middle;
   position: absolute;
-  
-  
+  display: none;
+} 
+#btnradio1 input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    height: 24px;
+    width: 90px;
+    border: 1px solid #333;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+#btnradio1 input[type=radio]+label{
+    background-color: #fff;
+    color: #333;
+}
+#btnradio1 input[type=radio]:checked+label{
+    background-color: #333;
+    color: #fff;
 }
 
-
-	<div class="container-fluid">
 </style>
 
 		<!-- ★내용삽입★ -->
@@ -64,7 +81,7 @@
             
             <div class="card-body">
                 <div class="table-responsive">
-			<div class="btn-group " id="radiostatus" role="group" aria-label="Basic radio toggle button group">
+			<div class="btn-group " id="radiostatus" role="group" aria-label="Basic radio toggle button group" style = "margin-left : 4px">
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "5" style="position: absolute;">
 			  <label class="btn btn-outline-primary" for="btnradio1">전체</label>
 			
@@ -155,20 +172,20 @@ $(document).ready(function() {
             $.each(data, function(index, item) {
                 $("#myList").append("<tr>");
                 if (item.status == 0) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-secondary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
+                	  $("#myList").append("<th><a href='#' class='btn btn-secondary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>비공개</span></a></th>");
                 	} else if (item.status == 1) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-success btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
+                	  $("#myList").append("<th><a href='#' class='btn btn-success btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행중</span></a></th>");
                 	} else if (item.status == 2) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-primary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
+                	  $("#myList").append("<th><a href='#' class='btn btn-primary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행 예정</span></a></th>");
                 	} else if (item.status == 3) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-warning btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
+                	  $("#myList").append("<th><a href='#' class='btn btn-warning btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행 완료</span></a></th>");
                 	} 
 
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>구매자 목록</button></th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>리뷰 관리자</button></th>");
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
                 $("#myList").append("</tr>");
             });
         }
@@ -218,8 +235,8 @@ $('input[name=btnradio]').change(function() {
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;' onclick='location.href='<c:url value='/admin/ticket/list'/>''>구매자 목록</button></th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;' onclick='location.href='<c:url value='/admin/review/list'/>''>리뷰 관리</button></th>");
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
             });
         },
         error: function() {
@@ -231,6 +248,8 @@ $('input[name=btnradio]').change(function() {
 //$("#titleList").addEventListener("change",function()
 // $('select[name=titleList]').change(function(){		
 
+
+	
 /* --- 연도 선택시 축제 리스트 출력 --- */
 $('#yearBox').change(function() {
 	//해당 구역 삭제
@@ -280,8 +299,8 @@ $('#titleList').change(function() {
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>구매자 목록</button></th>");
-                $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>리뷰 관리자</button></th>");
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
                 $("#myList").append("</tr>");
             });
         },
@@ -319,8 +338,8 @@ $('#festivalSearch').on('click', function(){
                $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-               $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>구매자 목록</button></th>");
-               $("#myList").append("<th scope='col'><button type='button' class='btn btn-primary' style='WIDTH: 90pt;'>리뷰 관리자</button></th>");
+               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
+               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
                $("#myList").append("</tr>");
            });
        },

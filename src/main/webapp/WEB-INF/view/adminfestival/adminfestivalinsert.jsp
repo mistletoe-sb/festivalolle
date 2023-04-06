@@ -13,8 +13,12 @@ width: 500px;
 	<div class="container-fluid">
 		<!-- ★내용삽입★ -->
 	<div class="card shadow mb-4">
-	<div class="card-header py-3">
+			<div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">축제 등록</h6>
+                <div class="d-grid gap-2 d-md-block" style ="float:right;">
+					<input type="submit" class="btn btn-primary" value='등록하기'>
+					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
+				</div>
             </div>
 		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
 		<div class="card-body">
@@ -26,21 +30,28 @@ width: 500px;
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
-				
-				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-				<input type="text" class="form-control" id="sample6_address" name="address" placeholder="주소" required >
-				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
-				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
-				<input type="text" class="form-control" id="realAddress2" disabled>
-				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
-				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
+				<th scope="col">
+					<div >
+						<button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+					</div>
+					<div >
+						<input type="text" class="form-control" id="sample6_address" name="address" placeholder="주소" required >
+					</div>
+					<div style ="clear:both;">
+						<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
+						<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
+						<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
+						<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
+					</div>
 				</th>
 				
 				
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">시작일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" ></th>
+				<th scope="col">
+				<input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
+				</th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">종료일자</label></th>
@@ -76,18 +87,22 @@ width: 500px;
 			</tr>
 		</table>
 			<fieldset>
-			<div class="d-grid gap-2 col-6 mx-auto" style="margin:auto ">
-				<input type="submit" class="btn btn-primary" value='등록하기' >
-				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기' >
+				<div class="d-grid gap-2 d-md-block" style ="float:right;">
+					<input type="submit" class="btn btn-primary" value='등록하기'>
+					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
+				</div>
+			</fieldset>
+			
 			</div>
 			</div>
 
 		        
-		    </fieldset>
+		    
 			
 		</form>
 		</div>
 		</div>
+		
 		
 		
 		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">

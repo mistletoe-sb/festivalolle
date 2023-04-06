@@ -8,6 +8,10 @@
 		  		object-fit: cover;
 				width: 100%;
 				height: 100%;
+				}
+			#btn-ent{
+				border-radius: 20px
+			}
 
 	</style>
 		<meta charset="UTF-8">
@@ -38,19 +42,31 @@
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
-							
-								<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
-								<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
-								<p class="card-text"><small class="text-muted">
-									구매 일자 : ${adminfestivalinfo.purchaseTime}<br>
-									구매자 이름 : ${adminfestivalinfo.name}<br>
-									전화번호 : ${adminfestivalinfo.mobile}</small>
-								</p>
-								<p class="card-text"><small class="text-muted">
-									금액 : ${adminfestivalinfo.fee}원<br>
-									수량 : ${adminfestivalinfo.headCount}개<br>
-									총 결제금액 : ${adminfestivalinfo.fee * adminfestivalinfo.headCount}원</small>
-								</p>
+								<div>
+									<div style ="float:left;">
+										<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
+									</div>
+									<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
+										<%-- <input type="button" id="btn-ent" class="btn btn-warning btn-sm" value="입장권" onclick="location.href='<c:url value='/myticket'/>'" />  --%>
+									</div>
+								</div>
+								<div style ="clear:both;">
+									<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
+									<p class="card-text"><small class="text-muted">
+										구매 일자 : ${adminfestivalinfo.purchaseTime}<br>
+										구매자 이름 : ${adminfestivalinfo.name}<br>
+										전화번호 : ${adminfestivalinfo.mobile}</small>
+									</p>
+									<p class="card-text"><small class="text-muted">
+										입장권 사용 일자 : ${adminfestivalinfo.entranceTime}<br>
+										할인권 사용 일자 : ${adminfestivalinfo.couponUseTime}<br></small>
+									</p>
+									<p class="card-text"><small class="text-muted">
+										금액 : ${adminfestivalinfo.fee}원<br>
+										수량 : ${adminfestivalinfo.headCount}개<br>
+										총 결제금액 : ${adminfestivalinfo.fee * adminfestivalinfo.headCount}원</small>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -59,4 +75,46 @@
 
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
+	
+		<script type="text/javascript">
+    /* 작성일자에 따라 보이는  문자 출력 */
+function endToday(endDateParam, entDateParam, cpuDateParam) {
+  var today = new Date(); // 오늘 날짜
+  var endDate = new Date(endDateParam); // 입력된 날짜
+  var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
+  var result = ""; // 결과값 받을 변수 선언
+  console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
+  if (((entDateParam !== "미사용") && (cpuDateParam !== "미사용")) && (betweenTimeDay < 0)) { // 사용 완료
+    result = 0;
+  } else if (((entDateParam == "미사용") || (cpuDateParam == "미사용")) && (betweenTimeDay >= 0)) { // 기간 만료
+    result = 1;
+  } else {
+    result = 2;
+  } 
+  
+  
+
+  
+  return result; // 결과값 저장
+}
+    $(".entrance").each(function(){//해당 클래스에 해당하는 반복문
+    	var endDateParam = $(this).attr('data-endDate');//매번 값이 변하고 class가 같기 때문에 this로 해서 값을 받아오기
+    	var entDateParam = $(this).attr('data-entDate');
+    	var cpuDateParam = $(this).attr('data-cpuDate');
+
+    	var result = endToday(endDateParam, entDateParam, cpuDateParam);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
+    	console.log(result)
+    	if(result == 0){
+    		
+
+    	} else if(result == 1){
+
+
+    	} else{
+    		 $(this).append('<input type="button" style="background-color:#F15600; border-color:#F15600;" id="btn-ent" class="btn btn-primary btn-sm" value="입장권" onclick="location.href='+"'<c:url value='/myticket'/>'"+'" />' );
+    	}
+    	
+    });
+	</script>
+	
 </html>

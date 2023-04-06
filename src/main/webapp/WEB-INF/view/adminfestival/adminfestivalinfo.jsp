@@ -104,12 +104,23 @@
 		</table>
 </div>
 			<fieldset>
-			<div style ="margin-left : 10px">
-				<div class="d-grid gap-2 d-md-block">
-					<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
-					<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 20px">
+                <div id="nadasim" style ="float:right;">
+					<c:choose>
+						<c:when test="${adminfestivalinfo.status == '0'}">
+							<button style ="margin-left : 4px" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
+						</c:when>
+						<c:otherwise>
+							<button style ="margin-left : 4px" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
+						</c:otherwise>
+						
+					</c:choose>	
 				</div>
-    		</div>
+					<div style ="float:right;">
+						<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
+						<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+	                </div>
+                </div>
 		    </fieldset>
 			
 		</form>
