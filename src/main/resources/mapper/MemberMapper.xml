@@ -56,5 +56,21 @@
  		WHERE id = #{id}
  			]]>
 	</select>
+	
+	<!-- 회원탈퇴- 작성자: 이혜성 -->
+	<select id="unactiveMember" parameterType="string" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+ 		UPDATE member SET STATUS= #{status}
+ 		WHERE password= #{password}
+ 			]]>
+	</select>
+	
+	<!-- 회원탈퇴용 계정 조회- 작성자: 이혜성 -->
+	<select id="findMember" resultType="int">
+	<![CDATA[
+	SELECT COUNT(*) FROM member 
+	WHERE  password = #{password} 
+		]]>
+	</select>
 </mapper>
 	

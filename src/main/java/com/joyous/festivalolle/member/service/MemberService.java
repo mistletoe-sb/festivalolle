@@ -29,13 +29,12 @@ public class MemberService implements IMemberService {
 	public MemberVO findId(String name, String mobile) {
 
 		return memberRepository.findId(name, mobile);
-	}
+	}//아이디 찾기- 작성자: 이혜성
 
 	@Override
 	public MemberVO updatePassword(String password, String id) {
 		return memberRepository.updatePassword(password, id);
-		
-	}
+	}// 비밀번호 변경- 작성자: 이혜성
 
 	@Override
 	public boolean findPw(String id, String name, String mobile) {
@@ -46,7 +45,7 @@ public class MemberService implements IMemberService {
 		 }else {
 			 return false;
 		 }
-	}
+	}//비밀번호 변경용 계정조회- 작성자: 이혜성
 
 	@Override
 	public boolean selectAcountInfo(String name, String mobile) {
@@ -58,6 +57,22 @@ public class MemberService implements IMemberService {
 		 }else {
 			 return false;
 		 }
-}
+}//아이디 찾기용 계정조회- 작성자: 이혜성
+
+	@Override
+	public MemberVO unactiveMember(String password, String status) {
+		
+		return memberRepository.unactiveMember(password, status);
+	}//회원탈퇴- 작성자: 이혜성
+
+	@Override
+	public boolean findMember(String password) {
+		int exist = memberRepository.findMember(password);
+		if(exist == 1) {
+			 return true;
+		 }else {
+			 return false;
+		 }
+	}//회원탈퇴용 계정조회- 작성자: 이혜성
 	
 }

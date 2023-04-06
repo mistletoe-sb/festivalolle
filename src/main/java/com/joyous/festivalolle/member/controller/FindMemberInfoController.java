@@ -68,4 +68,24 @@ public class FindMemberInfoController {
 	    model.addAttribute("resultPw", resultPw);
 	    return "redirect:/login";
 	}//비밀번호 변경
+	
+	@GetMapping(value="/secession")
+	public String secessionMembership(HttpSession session) {
+		return view_pos + "unactivemember";
+	}//회원탈퇴 페이지
+	
+	@PostMapping(value="/secession")
+	public String unactiveMember(String password, String status, HttpSession session, 
+			Model model, RedirectAttributes redirectattribute) {
+		boolean findAcount = memberService.findMember(password);
+		if(findAcount) {
+			MemberVO resultPassword = memberService.unactiveMember(password, status);
+			model.addAttribute("resultPassword", resultPassword);
+			return view_pos + "모달창";
+		}else {
+			String message = "입력하신 정보가 계정과 일치하지 않습니다.";
+			redirectattribute.addFlashAttribute("message" , message);
+			return "redirect:/secession";
+		}		
+	}//탈퇴계정 확인 및 회원탈퇴
 }
