@@ -100,13 +100,7 @@
 										</div>
 									</div>
 									<!-- end 이미지카드 -->
-									
-									
-									
-									
-									
-									
-									
+					
 									
 									
 								</div>
@@ -151,7 +145,7 @@
 														<br>
 														입장권 및 쿠폰을 사용하시려면
 														시설 담당자에게 QR 코드를 
-														보여주세요.														
+														보여주세요.
 													</div>
 													<div class="qr-container">														
 														<a class="generateQR1"><br>클릭해서 <br>QR 보기</a>
