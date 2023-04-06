@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.member.repository.IMemberRepository2">
+
+	
+	<!-- 로그인 -->
+	<select id="memberLogin" resultType="com.joyous.festivalolle.member.model.MemberVO">
+		<![CDATA[
+			SELECT * FROM FESTIVALOLLE.member WHERE id = #{id} AND password = #{password}
+		]]>
+	</select>
+	
+	<!-- 회원 가입 -->
+	<insert id="joinMember" parameterType="com.joyous.festivalolle.member.model.MemberVO">
+		<![CDATA[
+		INSERT INTO festivalolle.member
+			(member_code, id, password, name, 
+			mobile)
+		VALUES
+			(member_code_seq.NEXTVAL, #{id}, #{password}, 
+			#{name}, #{mobile})
+		]]>
+	</insert>
+	
+	<!-- 회원 가입 -->
+	<!-- 아이디 중복 확인 -->
+	<!-- 휴대폰번호 중복 확인 -->
+	<select id="overlapChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM member
+		<where>
+			<if test="id != null">
+				id = #{id}
+			</if>
+			<if test="mobile != null">
+				AND mobile = #{mobile}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+</mapper>
+	

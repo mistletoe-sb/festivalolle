@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,7 +35,7 @@ import com.joyous.festivalolle.admin.controller.AdminController;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
-
+import com.joyous.festivalolle.member.service.IMemberService2;
 import com.joyous.festivalolle.ticket.model.TicketVO;
 import com.joyous.festivalolle.ticket.model.TicketVOvalidator;
 import com.joyous.festivalolle.ticket.service.TicketServiceMyticket;
@@ -46,6 +47,9 @@ public class MemberController {
 	   
 	@Autowired
 	private IMemberService memberService;	// MemberService 객체
+	
+	@Autowired
+	private IMemberService2 memberService2;	// MemberService2 객체
 	
 	@Autowired
 	TicketServiceMyticket ticketServiceMyticket;
@@ -116,12 +120,39 @@ public class MemberController {
 	
 
 	
-	//회원가입
+	//회원가입 페이지로 이동
 	@GetMapping(value="/join")
 	public String join(HttpSession session) {
 		return view_pos + "join";
 	}
 	
+	//회원가입
+	@PostMapping(value="/join")
+	@ResponseBody
+	public String join(@RequestBody MemberVO memberVO, Locale locale) {
+		logger.info("회원 회원가입 실행", locale);
+		return (memberService2.joinMember(memberVO) == 1)? "ok":"fail";
+	}
+	
+	//id 중복 체크
+	@PostMapping(value="/member/idchk")
+	@ResponseBody
+	public String idChk(String id, Locale locale) {
+		//0이면 사용 가능, 1이면 사용 불가		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setId(id);		
+		return (memberService2.overlapChk(memberVO) == 0)? "ok":"fail";
+	}
+	
+	//회원가입 휴대폰번호 중복 체크
+	@PostMapping(value="/member/mobilechk")
+	@ResponseBody
+	public String phoneChk(String mobile, Locale locale) {
+		//0이면 사용 가능, 1이면 사용 불가		
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMobile(mobile);		
+		return (memberService2.overlapChk(memberVO) == 0)? "ok":"fail";
+	}
 	
 	
 	

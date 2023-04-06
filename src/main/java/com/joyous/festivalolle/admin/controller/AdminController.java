@@ -104,7 +104,7 @@ public class AdminController {
 	@PostMapping(value="/admin/register")
 	@ResponseBody
 	public String register(@RequestBody AdminVO adminVO, Locale locale) {		
-		logger.info("회원가입 실행", locale);
+		logger.info("관리자 회원가입 실행", locale);
 		return (adminService.registerAdmin(adminVO) == 1)? "ok":"fail";
 	}
 	
