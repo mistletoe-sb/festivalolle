@@ -28,12 +28,10 @@ width: 500px;
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
 				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-				<input type="text" class="form-control" id="sample6_address" placeholder="주소" required >
-				<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" required >
+				<input type="text" class="form-control" id="sample6_address" name="address" placeholder="주소" required >
 				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" required>
 				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
 				<input type="text" class="form-control" id="realAddress2" disabled>
-				<input type="hidden" class="form-control" name="address" id="realAddress" placeholder="주소 + 상세주소" >
 				<input type="hidden" class="form-control" name="stateName" id="sample6_doAddress" placeholder="도" >
 				<input type="hidden" class="form-control" name="cityName" id="sample6_sigooAddress" placeholder="시구" >
 				</th>
@@ -326,7 +324,7 @@ var detailAddress = ''
                 document.getElementById("sample6_doAddress").value = data.sido;
                 document.getElementById("sample6_sigooAddress").value = data.sigungu;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+                document.getElementById("sample6_address").focus();
                 
             }
 

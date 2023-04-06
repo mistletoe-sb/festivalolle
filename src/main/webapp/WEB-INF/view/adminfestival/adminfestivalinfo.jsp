@@ -13,15 +13,22 @@
 				<div style ="float:left; margin:0 auto">
                 	<h6 class="m-0 font-weight-bold text-primary" >상세정보</h6>
                 </div>
-                <div style ="float:right;" id="nadasim">
-				<c:choose>
-					<c:when test="${adminfestivalinfo.status == '0'}">
-						<button type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
-					</c:when>
-					<c:otherwise>
-						<button type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
-					</c:otherwise>
-				</c:choose>	
+                <div class="d-grid gap-2 d-md-block">
+                <div id="nadasim" style ="float:right;">
+					<c:choose>
+						<c:when test="${adminfestivalinfo.status == '0'}">
+							<button style ="margin-left : 4px" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
+						</c:when>
+						<c:otherwise>
+							<button style ="margin-left : 4px" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
+						</c:otherwise>
+						
+					</c:choose>	
+				</div>
+					<div style ="float:right;">
+						<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
+						<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+	                </div>
                 </div>
             </div>
 		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
@@ -97,12 +104,12 @@
 		</table>
 </div>
 			<fieldset>
-			<div class="d-grid gap-2 col-6 mx-auto">
-				<input type="submit" class="btn btn-primary" value='미리보기'>
-				<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
-				<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='돌아가기'>
-			</div>
-    
+			<div style ="margin-left : 10px">
+				<div class="d-grid gap-2 d-md-block">
+					<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
+					<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+				</div>
+    		</div>
 		    </fieldset>
 			
 		</form>
@@ -131,7 +138,7 @@ function addButtonListeners() {
         complete: function() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
-            $("#nadasim").append("<button type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
             addButtonListeners();
             alert('비공개 처리 됐습니다.');
         }
@@ -156,7 +163,7 @@ function addButtonListeners() {
         complete: function() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
-            $("#nadasim").append("<button type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
             addButtonListeners();
             alert('비공개가 해제 됐습니다.');
         }
