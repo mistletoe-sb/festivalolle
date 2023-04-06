@@ -34,11 +34,17 @@
 	<select id="selectMyFestivalReviewInFestivalInfo" 
 			resultType="com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO">
 		<![CDATA[
-			SELECT festival_review_code, festival_code,
+			SELECT * FROM
+			(SELECT festival_review_code, ticket.member_code AS member_code,
 			write_date, content, rating, id
 			FROM festivalolle.v_festival_review
-			WHERE member_code = #{member_code}
-			AND festival_code = #{festival_code}
+			RIGHT OUTER JOIN festivalolle.ticket
+			ON ticket.festival_code = v_festival_review.festival_code
+			AND ticket.member_code = v_festival_review.member_code
+			WHERE ticket.festival_code = #{festivalCode}
+			AND ticket.member_code = #{memberCode}
+			ORDER BY festival_review_code)
+			WHERE ROWNUM = 1
 		]]>
 	</select>
 	
@@ -49,6 +55,7 @@
 			write_date, content, rating, id
 			FROM festivalolle.v_festival_review
 			WHERE festival_code = #{festivalCode}
+			AND status = 0
 		]]>
 		<if test="memberCode != 0">
 			<![CDATA[AND member_code != #{memberCode}]]>

@@ -18,13 +18,15 @@
 					</c:forEach>
 				</div>
 				<div class="multi_line_text">
-					<p>
+					<%-- <p>
 						${review.content}
-					</p>
+					</p> --%>
+					<textarea placeholder="로그인 후 이용 가능합니다."></textarea>
 				</div>
 			</div>
 			<div class="review_btn_layout">							
 				<p class="card-text">신고</p>
+				<input type="hidden" value="${review.festivalReviewCode}">
 			</div>
 		</div>
 	</div>

@@ -15,9 +15,9 @@ public interface IUserReviewRepository {
 	int deleteFestivalReview(@Param("festivalReviewCode") int festivalReviewCode,
 							@Param("memberCode") int memberCode);	// 리뷰 삭제
 	// 해당 축제에 본인이 작성한 리뷰 조회
-	ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(@Param("memberCode") int memberCode, 
-															@Param("festivalCode") int festivalCode);
+	ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(@Param("festivalCode") int festivalCode,
+															@Param("memberCode") int memberCode);
 	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
-	List<ViewFestivalReviewVO> selectFestivalReviewList(@Param("memberCode") int memberCode, 
-														@Param("festivalCode") int festivalCode);
+	List<ViewFestivalReviewVO> selectFestivalReviewList(@Param("festivalCode") int festivalCode,
+														@Param("memberCode") int memberCode);
 }

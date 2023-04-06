@@ -40,6 +40,25 @@
 		bottom: -55vmax;
 	}
 }
+/* 고정메뉴 fadeIn, fadeOut */
+/* Top */
+/* @keyframes hide_top {
+	from {
+		top: 0vmax;
+	}
+	to {
+		top: -13vmax;
+	}
+} */
+/* Bottom */
+/* @keyframes hide_bottom {
+	from {
+		bottom: 0vmax;
+	}
+	to {
+		bottom: -8vmax;
+	}
+} */
 
 /* 공통 적용 */
 body {
@@ -88,13 +107,13 @@ textarea::placeholder {
 	margin: 0.5rem 0rem 0rem 0rem;
 }
 .carousel-indicators > button {
-	width: 4vmin !important;
-	height: 4vmin !important;
-	background: #F15600 !important;
-	border: 0.0625rem solid #F15600 !important;
+	width: 1.8vmin !important;
+	height: 1.8vmin !important;
+	background: #F15600A6 !important;
+	border: 0.0625rem solid #F156008C !important;
 	border-radius: 50% !important;
-	margin-left: 1.12vmin !important;
-	margin-right: 1.12vmin !important;
+	margin-left: 0.9vmin !important;
+	margin-right: 0.9vmin !important;
 }
 
 /* 기본 축제 목록 레이아웃 */
@@ -119,6 +138,7 @@ textarea::placeholder {
 }
 .festival_info_sub_title h3 {
 	font-weight: bold !important;
+	font-size: 1.125rem;
 	display: inline-block;
 	margin-bottom: 0vmax;
 }
@@ -127,17 +147,28 @@ textarea::placeholder {
 	font-weight: bold !important;
 	padding: 0.125rem 0.75rem !important;
 }
+#fes_info_title {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5vmax;
+}
+#fes_info_title h3 {
+	font-size: 1.1875rem;
+}
 #fes_title {
-	display: inline-block;
-	width: 65%;
+	display: flex;
+	width: auto;
 	height: 100%;
 	text-align: left;
+	align-items: center;
+	margin-right: 3.3vmin;
 }
 #fes_status {
-	display: inline-block;
-	width: 30%;
+	display: flex;
+	width: 27vmin;
 	height: 100%;
-	text-align: right;
+	text-align: left;
+	align-items: center;
 }
 .layout_bottom_line {
 	border-bottom: 0.0625rem solid #C4C4C4;
@@ -159,7 +190,7 @@ textarea::placeholder {
 	left: 0px;
 	width: 100%;
 	height: 5vmax;
-	z-index: 1;
+	z-index: 10;
 	background-color: #FFFFFF;
 }
 .index_menu table {
@@ -324,6 +355,110 @@ textarea::placeholder {
 	color: #FFFFFF;
 	background-color: #F15600;	
 }
+/* 지도 CSS */
+.map_wrap * {
+	font-family: 'nanum' !important;
+	font-size: 0.75rem;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+.map_wrap {
+	position: relative;
+	width: 100%;
+	/* height: 68vmax; */
+}
+#kakaomap {
+	width: 100%;
+	height: 30vmax;
+	margin-bottom: 2.5vmax;
+}
+#placesListLayout {
+	width: 100%;
+	height: 45vmax;
+	overflow-y: auto;
+}
+.bg_white {
+	background: #FFFFFF;
+}
+.festival_marker{
+	width: 40vmin;
+	text-align: center;
+	font-size: 0.875rem
+}
+#placesList li {
+	list-style: none;
+}
+#placesList .item {
+	position: relative;
+	border-bottom: 1px solid #888888;
+	overflow: hidden;
+	cursor: pointer;
+	min-height: 8.7vmax;
+}
+#placesList .item span {
+	display: block;
+	margin-top: 0.54vmax;
+}
+#placesList .item h5, #placesList .item .food_info {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#placesList .item .food_info{
+	padding: 1.35vmax 0vmin 1.35vmax 15.27vmin;
+}
+#placesList .food_info h5 {
+	font-weight: bold;
+	font-size: 0.875rem;
+}
+#placesList .food_info .gray {
+	color: #8A8A8A;
+}
+#placesList .food_info .jibun {
+	padding-left: 7.22vmin;
+	background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
+}
+#placesList .item .markerbg {
+	float: left;
+	position: absolute;
+	width: 10vmin;
+	height: 5vmax;
+	margin: 1.35vmax 0 0 1.35vmax;
+	background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;
+}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{
+	color: #191919;
+	text-decoration: none;
+}
+#pagination {
+	/* margin: 1.35vmax auto; */
+	text-align: center;
+}
+#pagination a {
+	display: inline-block;
+	margin-right: 2.75vmin;
+}
+#pagination .on {
+	font-weight: bold;
+	cursor: default;
+	color:#777777;
+}
 
 /* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
 .festival_card_container {
@@ -371,11 +506,13 @@ textarea::placeholder {
 }
 .review_card_container .card-body {
 	padding: 1.1vmax;
+	min-height: 16vmax;
 }
 .review_body {
 	float: left;
-	width: 90%;
+	width: 85%;
 	height: 100%;
+	margin-right: 5%;
 }
 .review_btn_layout {
 	float: left;
@@ -394,6 +531,11 @@ textarea::placeholder {
 	width: 100%;
 	height: 100%;
 	vertical-align: middle;
+}
+.review_card_container textarea {
+	width: 100%;
+	min-height: 8vmax;
+	border: none;
 }
 
 /* 아이콘 + 텍스트가 배치되는 레이아웃*/
@@ -512,7 +654,7 @@ textarea::placeholder {
 	margin-left: 10vmin;
 }
 .page_title > p {
-	font-size: 1.1875rem;
+	font-size: 1.25rem;
 	font-weight: bold;
 	color: #FFFFFF;
 	margin: 0vmin;

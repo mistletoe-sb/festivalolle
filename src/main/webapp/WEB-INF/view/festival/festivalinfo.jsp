@@ -8,6 +8,7 @@
 		<title>상세정보</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>" />
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b65446e66b6e8b6a52d46722fe1fb6f&libraries=services"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
@@ -39,7 +40,7 @@
 		<div class="index_menu_empty"></div>
 		<%-- 축제 상세정보 출력할 레이아웃 --%>
 		<div class="festival_info_layout">
-			<div class="festival_info_sub_title">
+			<div class="festival_info_sub_title" id="fes_info_title">
 				<div id="fes_title">
 					<h3>${fesInfo[0].title}</h3>
 				</div>
@@ -168,10 +169,24 @@
 			</div>
 			<div class="layout_bottom_line" id="food">
 				<div class="festival_info_sub_title">
+					<h3>위치</h3>
+				</div>
+				<div>
+					<div class="map_wrap" id="map_layout">
+						<div id="kakaomap"></div>
+					</div>
+				</div>
+				<div class="festival_info_sub_title">
 					<h3>주변 음식점</h3>
 				</div>
 				<div>
-					<%-- 지도 API 사용 --%>
+					<div class="map_wrap" id="food_list_layout">
+						<div id="placesListLayout" class="bg_white">
+					        <hr><hr>
+					        <ul id="placesList"></ul>
+					    </div>
+				        <div id="pagination"></div>
+					</div>
 				</div>
 			</div>
 			<div class="layout_bottom_line" id="review">
@@ -190,41 +205,28 @@
 					</div>
 				</div>
 				<div class="review_list_layout">
-					<%@ include file="reviewcard.jsp"%>
 					<c:choose>
-						<c:when test="${sessionScope.memberVO == null}">
-						</c:when>
-						<c:when test="${(sessionScope.memberVO != null) && reviewList[0].festivalReviewCode == null}">
+						<c:when test="${sessionScope.loginUser == null}">
+							<div class="review_card_container">
+								<div class="card">
+									<div class="card-body">
+										<div class="review_body">							
+											<div class="multi_line_text">
+												<textarea placeholder="로그인 후 이용 가능합니다."></textarea>
+											</div>
+										</div>
+										<div class="review_btn_layout">							
+											<p class="card-text review_login">등록</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</c:when>
 						<c:otherwise>
+							<div id="my_review"></div>
 						</c:otherwise>
 					</c:choose>
-					
-					
-					<%-- <form action="<c:url value='/review/insert'/>" method="post">
-						<textarea name="content" rows="10" cols="20"></textarea>
-						<input type="number" name="rating">
-						<input type="hidden" name="festivalCode" value="${fesInfo[0].festivalCode}">
-						<input type="submit" value="등록">
-					</form>
-					<form action="<c:url value='/review/report'/>" method="post">
-						<input type="hidden" name="festivalReviewCode" value="9">
-						<input type="submit" value="신고">
-					</form>
-					<form action="<c:url value='/review/delete'/>" method="post">
-						<input type="hidden" name="festivalReviewCode" value="9">
-						<input type="submit" value="삭제">
-					</form> --%>
 				</div>
-				<%-- <c:forEach var="review" items="${reviewList}" varStatus="stat">
-					<c:choose>
-						<c:when test="${stat.index == 0}">
-						</c:when>
-						<c:otherwise>
-							<%@ include file="reviewcard.jsp"%>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach> --%>
 			</div>
 		</div>
 		<%@ include file="../mobilemenu/topbutton.jsp"%>
@@ -262,5 +264,197 @@
 				</form>
 			</div>
 		</div>
+		<script type="text/javascript">
+			// 주변 음식점 찾기(카카오맵 API)
+			var mapContainer = document.getElementById('kakaomap');		// 맵 레이아웃 레퍼런스
+			var mapOptions = {
+				center: new kakao.maps.LatLng(37.5838175, 126.9999694),	// 중심 좌표(위도, 경도)
+				level: 4			// 확대, 축소 정도(레벨) -> 초기 생성 시의 확대 정도
+			};
+			var mapView = new kakao.maps.Map(mapContainer, mapOptions);	// 지도 생성 및 반환
+			
+			var markers = [];		// 마커 담을 배열
+			var info = new kakao.maps.InfoWindow({zIndex:1});	// 정보 표시 객체 생성
+			var searchObj = new kakao.maps.services.Places();	// 장소 검색 객체 생성
+			var geoCoder = new kakao.maps.services.Geocoder();	// 주소-좌표 변환 객체 생성
+			
+			// 검색 키워드
+			var keyword = '전남 순천시 국가정원1호길 47';
+			//var keyword = ${fesInfo[0].address};
+			
+			// 주소로 좌표 검색
+			geoCoder.addressSearch(keyword, function(result, status){
+				if(status == kakao.maps.services.Status.OK){	// 정상적으로 검색 완료 시
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+					// 결과값으로 받은 좌표를 이용해 마커 표시
+					var centerMarker = new kakao.maps.Marker({
+						map: mapView,
+						position: coords
+					});
+					// 장소 설명 표시 객체 생성
+					var info = new kakao.maps.InfoWindow({
+						content: '<div class="festival_marker">${fesInfo[0].title}</div>'
+						, zIndex: 1
+					});
+					// info window 마커 위에 표시
+					info.open(mapView, centerMarker);
+					// 지도 중심 위치를 마커 위치로 이동
+					mapView.setCenter(coords);
+				}
+			});
+			
+			keyword += ' 음식점';
+			searchObj.keywordSearch(keyword, function(data, status, page){
+				if(status == kakao.maps.services.Status.OK){
+					// 정상적으로 검색 완료 시 검색 목록과 마커 표시
+					displayPlaces(data);
+					// 페이지 번호 표시
+					displayPage(page);
+				}else if(status == kakao.maps.services.Status.ZERO_RESULT){
+					console.log('음식점 검색 결과가 없습니다.');
+					return;
+				}else if(status === kakao.maps.services.Status.ERROR){
+					console.log('음식점 검색 오류 발생');
+				}
+			});
+			
+			function displayPlaces(places){
+				var placeList = document.getElementById('placesList'),			// 검색 결과 목록(음식점, 카페) 표시 레이아웃 요소
+				placeListLayout = document.getElementById('placesListLayout'),	// 장소 목록 표시 레이아웃 요소
+				fragment = document.createDocumentFragment(),
+				bounds = new kakao.maps.LatLngBounds(),
+				fesPos = mapView.getCenter();
+				
+				// 현재 검색 결과 목록에 추가된 항목 제거
+				removeAllChildNods(placeList);
+
+				// 현재 표시되고 있는 검색 마커 제거
+				removeMarker();
+				
+				// 현재 페이지네이션 제거
+				$('#pagination').empty();
+				
+				for(var i = 0; i < places.length; i++){
+					// 마커 생성하여 지도 표시
+					var placePos = new kakao.maps.LatLng(places[i].y, places[i].x),	// 음식점 장소 좌표
+					marker = addMarker(placePos), 
+					item = getListItem(i, places[i]);	// 검색 결과 항목 Element를 생성
+
+					// 검색된 장소 위치를 기준으로 지도 범위를 재설정 >>
+					// LatLngBounds 객체에 좌표 추가
+					bounds.extend(placePos);
+
+					// 마커와 검색결과 항목에 mouseover 했을때
+					// 해당 장소에 인포윈도우에 장소명을 표시합니다
+					// mouseout 했을 때는 인포윈도우를 닫습니다
+					(function(marker, title){
+						kakao.maps.event.addListener(marker, 'mouseover', function(){
+							displayInfowindow(marker, title);
+						});
+						kakao.maps.event.addListener(marker, 'mouseout', function(){
+							info.close();
+						});
+
+						item.onmouseover = function(){
+							displayInfowindow(marker, title);
+						};
+
+						item.onmouseout = function(){
+							info.close();
+						};
+					})(marker, places[i].place_name);
+
+					fragment.appendChild(item);
+				}
+
+				// 검색결과 항목들을 검색결과 목록 Element에 추가
+				placeList.appendChild(fragment);
+				placeListLayout.scrollTop = 0;
+
+				// 검색된 장소 위치를 기준으로 지도 범위 재설정
+				mapView.setBounds(bounds);
+				mapView.setLevel(5);
+				mapView.setCenter(fesPos);
+			}
+			// 각 음식점 검색 결과로 Element를 만들어 반환하는 함수
+			function getListItem(index, place){
+				var el = document.createElement('li'),
+				itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+							'<div class="food_info">' +
+							'   <h5>' + place.place_name + '</h5>';
+				// 도로명 주소가 있으면 도로명 주소, 없으면 지번 주소 표시
+				if (place.road_address_name){
+					itemStr += '    <span>' + place.road_address_name + '</span>';
+				}else{
+					itemStr += '   <span class="jibun gray">' +  place.address_name  + '</span>'; 
+				}
+				itemStr += '  <span class="tel">' + place.phone  + '</span>' +
+							'</div>';           
+				el.innerHTML = itemStr;
+				el.className = 'item';
+
+				return el;
+			}
+
+			// 마커를 생성하고 지도 위에 마커를 표시하는 함수
+			function addMarker(position){
+				var marker = new kakao.maps.Marker({
+					position: position, // 마커의 위치
+				});
+				marker.setMap(mapView);	// 지도 위에 마커 표시
+				markers.push(marker);	// 배열에 생성된 마커 추가
+
+				return marker;
+			}
+
+			// 검색결과 목록 하단에 페이지 번호 표시하는 함수
+			function displayPage(pagination){
+				var paginationEl = document.getElementById('pagination'),
+					fragment = document.createDocumentFragment(),
+					i; 
+
+				for(i = 1; i <= pagination.last; i++){
+					var el = document.createElement('a');
+					el.href = "#";
+					el.innerHTML = i;
+
+					if (i === pagination.current){
+						el.className = 'on';
+					}else{
+						el.onclick = (function(i){
+							return function(){
+								pagination.gotoPage(i);
+							}
+						})(i);
+					}
+					fragment.appendChild(el);
+				}
+				paginationEl.appendChild(fragment);
+			}
+
+			// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
+			// info window에 장소명 표시
+			function displayInfowindow(marker, title) {
+				var content = '<div class="festival_marker">' + title + '</div>';
+
+				info.setContent(content);
+				info.open(mapView, marker);
+				mapView.setCenter(marker.getPosition());
+			}
+			
+			// 지도 위에 표시되고 있는 모든 검색 마커 제거
+			function removeMarker() {
+				for(var i = 0; i < markers.length; i++){
+					markers[i].setMap(null);
+				}
+				markers = [];
+			}
+			// 검색결과 목록의 자식 Element 제거
+			function removeAllChildNods(el) {   
+				while(el.hasChildNodes()){
+					el.removeChild(el.lastChild);
+				}
+			}
+		</script>
 	</body>
 </html>

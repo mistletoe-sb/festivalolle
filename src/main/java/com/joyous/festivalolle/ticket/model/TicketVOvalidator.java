@@ -3,16 +3,16 @@ import lombok.Data;
 
 
 @Data
-public class TicketVOmyticket {
+public class TicketVOvalidator {
 	
 	private int ticketCode;
 	private int memberCode;
 	private int festivalCode;
+	private String title;
+	private String name;
+	private String mobile;
+	private int headCount;
+	private int couponAmount;
 	private String entranceTime;
 	private String couponUseTime;
-	private String title;
-	private String startDate;
-	private String endDate;
-	private int status;
-	private byte[] image;
 }

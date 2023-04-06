@@ -49,14 +49,14 @@ public class UserReviewService implements IUserReviewService {
 
 	// 해당 축제에 본인이 작성한 리뷰 조회
 	@Override
-	public ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(int memberCode, int festivalCode) {
-		return userReviewRepository.selectMyFestivalReviewInFestivalInfo(memberCode, festivalCode);
+	public ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(int festivalCode, int memberCode) {
+		return userReviewRepository.selectMyFestivalReviewInFestivalInfo(festivalCode, memberCode);
 	}
 
 	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
 	@Override
-	public List<ViewFestivalReviewVO> selectFestivalReviewList(int memberCode, int festivalCode) {
-		return userReviewRepository.selectFestivalReviewList(memberCode, festivalCode);
+	public List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, int memberCode) {
+		return userReviewRepository.selectFestivalReviewList(festivalCode, memberCode);
 	}
 
 }
