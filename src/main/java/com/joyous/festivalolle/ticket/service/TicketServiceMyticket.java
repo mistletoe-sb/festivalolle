@@ -26,6 +26,18 @@ public class TicketServiceMyticket implements ITicketServiceMyticket {
 	public TicketVOvalidator ticketValidate(int memberCode, int ticketCode) {
 		return ticketRepositoryMyticket.ticketValidate(memberCode, ticketCode);
 	}
+	
+	//입장 확인
+	@Override
+	public int validateEntrance(int ticketCode) {
+		return ticketRepositoryMyticket.validateEntrance(ticketCode);
+	}
+	
+	//쿠폰 사용 확인
+	@Override
+	public int validateCoupon(int ticketCode) {
+		return ticketRepositoryMyticket.validateCoupon(ticketCode);
+	}
 
 	
 }

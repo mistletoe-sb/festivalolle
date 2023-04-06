@@ -32,11 +32,7 @@
 		
 		<%-- 내용 삽입 --%>
 		
-		
-		
-		
-		
-		<!-- <div class="recommend_list_layout"> -->
+		<div class="myticket_form">
 		<div id="recommend_carousel" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
 				<c:forEach var="item" items="${myticketList}" varStatus="page">			
@@ -57,13 +53,7 @@
 						<c:when test='${stat.index == 0}'>
 							<div class="carousel-item active" data-bs-interval="8000">
 								<div class="d-block w-100">
-									
-									
-									
-									
-									
-									
-									
+
 									<!-- 이미지카드 -->
 									<div class="festival_card_container">
 										<div class="card">
@@ -77,13 +67,13 @@
 													</c:otherwise>
 												</c:choose>
 											</div>
-											<div class="card-body">
-												<div class="festival_location">							
+											<div class="card-body myticket-content">
+												<div class="myticket">							
 													<p class="card-text">
 														${ticket.title} 
 													</p>
 												</div>	
-												<div class="festival_location">							
+												<div class="myticket">							
 													<p class="card-text">
 														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
 													</p>
@@ -91,15 +81,19 @@
 												<div>
 													<hr width="300" color="EEEEEE" noshade />
 												</div>
-												<div class="festival_location">							
-													<p class="card-text">
+												<div class="myticket qr-content">							
+													
+													<div class="qrdesc">
+														<br>
 														입장권 및 쿠폰을 사용하시려면
 														시설 담당자에게 QR 코드를 
-														보여주세요.
-													</p>
-													<form action="/festivalolle/qr", method="get" onsubmit="qrSubmit();">
-												   		<input id="qrurl" type="text" name="url" hidden=""/><button type="submit">QR code</button>
-												  	</form>
+														보여주세요.														
+													</div>
+													<div class="qr-container">
+														<a class="generateQR1"><br>클릭해서 <br>QR 보기</a>
+														<div class="qrResult">
+														</div>
+													</div>													
 												</div>									
 												
 											</div>
@@ -137,12 +131,12 @@
 												</c:choose>
 											</div>
 											<div class="card-body">
-												<div class="festival_location">							
+												<div class="myticket">							
 													<p class="card-text">
 														${ticket.title} 
 													</p>
 												</div>	
-												<div class="festival_location">							
+												<div class="myticket">							
 													<p class="card-text">
 														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
 													</p>
@@ -151,46 +145,38 @@
 												<div>
 													<hr width="300" color="EEEEEE" noshade />
 												</div>
-												<div class="festival_location">							
-													<p class="card-text">
+												<div class="myticket qr-content">							
+													
+													<div class="qrdesc">
+														<br>
 														입장권 및 쿠폰을 사용하시려면
 														시설 담당자에게 QR 코드를 
-														보여주세요.
-													</p>
-													
-													 <!-- 
-													<form action="/festivalolle/qr" method="get" onsubmit="qrSubmit();" class="generateQR">
-														<input class="qrurl" type="text" name="url" hidden/><button type="submit">QR code</button>
-													</form> -->
-													
-													
-													
-														<!-- <input class="qrurl" type="text" name="url" hidden=""/> -->
-														
-														<a class="generateQR1">QR code</a>
-													
-													
-													<div class="qrResult">
-													
+														보여주세요.														
 													</div>
-													
-													
+													<div class="qr-container">														
+														<a class="generateQR1"><br>클릭해서 <br>QR 보기</a>
+														<div class="qrResult">
+														</div>
+													</div>													
+												</div>
 												
-												</div>	
+											</div>	
 												
-											</div>
 										</div>
 									</div>
+								
+								
+								</div>
 
 									
-								</div>
-							</div>							
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</div>
+							</div>
+												
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</div>
-		<!-- </div> -->
+	</div>
+</div>
 
 		
 		
@@ -205,6 +191,9 @@
 		
 		
 		$(document).on('click', '.generateQR1', function(){
+			
+			
+			$(this).hide();
 			
 			var memberCode = ${loginUser.memberCode}
 			var ticketCode = $('.ticketCode').val();
@@ -226,7 +215,7 @@
 					console.log(url);
 					console.log(data);
 					//$('.qrResult').val(data);
-					var html = '<img src="data:image:jpg;base64,';
+					var html = '<img class="qr" src="data:image:jpg;base64,';
 						html += data;
 						html += '">';
 					

@@ -16,4 +16,10 @@ public interface ITicketServiceMyticket {
 	
 	//관리자 티켓 확인용 이용권 정보
 	TicketVOvalidator ticketValidate(int memberCode, int ticketCode);
+	
+	//입장 확인
+	int validateEntrance(int ticketCode);
+	
+	//쿠폰 사용 확인
+	int validateCoupon(int ticketCode);
 }
