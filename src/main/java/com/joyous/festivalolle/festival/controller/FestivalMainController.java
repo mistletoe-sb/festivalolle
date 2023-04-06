@@ -122,6 +122,20 @@ public class FestivalMainController {
 		return responseData;
 	}
 	
+	// 축제 검색 목록 조회
+	@GetMapping(value="festival/search")
+	public String selectFestivalSearchList(String keyword, Model model) {
+		List<FestivalMainVO> searchList = festivalMainService.selectFestivalSearchList(keyword);
+		// 뷰에 표시할 이미지 binary 데이터 추출
+		List<byte[]> searchListImages = new ArrayList<byte[]>();
+		for(FestivalMainVO vo : searchList) {
+			searchListImages.add(vo.getImage());
+		}
+		model.addAttribute("searchList", searchList);	// 검색 목록
+		model.addAttribute("searchListImages", convertByteArrayToString(searchListImages));	// 검색 목록에 표시할 이미지 목록
+		return "festival/festivalsearch";
+	}
+	
 	/*
 	 * // D-Day 계산 메서드(util로 옮기는 것 고려) public String getDday(String startDate) {
 	 * LocalDate fromDate = LocalDate.now(); // 현재 날짜 LocalDate toDate =

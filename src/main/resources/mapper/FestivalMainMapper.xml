@@ -39,4 +39,20 @@
             <![CDATA[AND state_name = #{location}]]>
 		</if>
 	</select>
+
+	<select id="selectFestivalSearchList" parameterType="string" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.v_festival_main 
+			WHERE festival_code IN(
+			SELECT festival_code FROM festivalolle.festival
+			WHERE status != 0
+			AND (title LIKE '%'|| #{keyword} || '%'
+			OR state_name LIKE '%'|| #{keyword} || '%'
+			OR city_name LIKE '%'|| #{keyword} || '%'
+			OR address LIKE '%'|| #{keyword} || '%'
+			OR detail LIKE '%'|| #{keyword} || '%'
+			OR tags LIKE '%'|| #{keyword} || '%'
+			)) ORDER BY status
+		]]>
+	</select>
 </mapper>

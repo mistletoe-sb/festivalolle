@@ -47,6 +47,12 @@ public class FestivalMainService implements IFestivalMainService {
 		return festivalMainRepository.selectFestivalCalendarList(month, location);
 	}
 
+	// 축제 검색 목록 조회
+	@Override
+	public List<FestivalMainVO> selectFestivalSearchList(String keyword) {
+		return festivalMainRepository.selectFestivalSearchList(keyword);
+	}
+
 
 
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.bookmark.repository.IBookmarkRepository">
+
+	<insert id="insertBookmark" parameterType="com.joyous.festivalolle.bookmark.model.BookmarkVO">
+		<![CDATA[
+			INSERT INTO festivalolle.bookmark
+			(bookmark_code, member_code, festival_code)
+			VALUES
+			(bookmark_code_seq.NEXTVAL, #{memberCode}, #{festivalCode})
+		]]>
+	</insert>
+	
+	<delete id="deleteBookmark">
+		<![CDATA[
+			DELETE festivalolle.bookmark
+			WHERE bookmark_code = #{bookmarkCode}
+			AND member_code = #{memberCode}
+		]]>
+	</delete>
+	
+	<select id="selectBookmark" resultType="com.joyous.festivalolle.bookmark.model.BookmarkVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.bookmark
+			WHERE member_code = #{memberCode}
+			AND festival_code = #{festivalCode}
+		]]>
+	</select>
+	
+	<select id="selectBookmarkList" parameterType="int" resultType="com.joyous.festivalolle.bookmark.model.BookmarkVO">
+		<![CDATA[
+			SELECT * FROM festivalolle.bookmark
+			WHERE member_code = #{memberCode}
+		]]>
+	</select>
+</mapper>

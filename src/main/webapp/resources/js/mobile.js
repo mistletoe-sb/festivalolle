@@ -44,6 +44,7 @@ $(document).ready(function(){
 			$.ajax({
 				url: './calendar/select', 		// 요청 URL
 				type: 'GET', 					// GET 방식으로 요청
+				async: false,					// 동기 처리
 				data: { month: month }, 		// 서버로 보낼 데이터
 				dataType: 'json',
 				success: function(data) {
@@ -100,6 +101,17 @@ $(document).ready(function(){
 				}
 			});
 		});
+	}
+	
+	// 상세 정보 북마크 초기 설정
+	if($('.bookmark_img').length){
+		if($('.bookmark_img').length == 1){
+			var fesNum = $('.fes_code').val();
+			requestCheckBookmark(fesNum, root);
+			requestChangeBookmark(root);
+		}else{
+			
+		}
 	}
 	
 	// 입장권 구매 모달 창 이벤트 바인딩
@@ -248,6 +260,132 @@ function printCalendar(month, weekData, weekDataImages, pageRoot){
 	return appendHTML;
 }
 
+// 북마크 여부 확인 요청
+function requestCheckBookmark(festivalCode, pageRoot){
+	// AJAX 호출
+	$.ajax({
+		url: '../bookmark/check', 	// 요청 URL
+		type: 'GET', 				// GET 방식으로 요청
+		data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+		dataType: 'json',
+		success: function(data) {
+			var dataStat = data.dataStat;
+			var bookmarkVO = data.bookmarkVO;
+			var isBookmark = false;
+			ajaxResponseExecuteFull(dataStat,
+				function(){
+					// NORMAL_TRUE 시
+					console.log('북마크 된 축제');
+					isBookmark = true;
+				},
+				function(){
+					// NORMAL_FALSE 시
+					console.log('북마크 안 된 축제');
+					isBookmark = false;
+				},
+				function(){
+					// ERROR 시
+					console.log('북마크 조회에 실패했습니다.');
+					isBookmark = false;
+				},
+				function(){
+					// NOT_SESSION 시
+					console.log('session not found');
+					isBookmark = false;
+				}
+			);
+			var selectorEl = '.fes_code[value="'+festivalCode+'"]';
+			if(isBookmark){
+				$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon.png');
+				$(selectorEl).after('<input type="hidden" class="bookmark_code" value="' + bookmarkVO.bookmarkCode +'">');
+			}else{
+				$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');						
+			}
+			
+		},
+		error: function() {
+			// AJAX 요청이 실패한 경우 에러 처리
+			console.log('데이터를 불러오는데 실패했습니다.');
+		}
+	});
+}
+
+// 북마크 추가, 취소 이벤트 바인딩 함수
+function requestChangeBookmark(pageRoot){
+	$('.bookmarkAction').on('click', function(){
+		if($(this).children('.bookmark_code').length){
+			var bookmarkCode = $(this).children('.bookmark_code').val();
+			// 북마크 된 상태이면 북마크 취소 실행
+			$.ajax({
+				url: '../bookmark/delete', 	// 요청 URL
+				type: 'POST', 				// POST 방식으로 요청
+				async: false,				// 동기 처리
+				data: { bookmarkCode: bookmarkCode },	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					ajaxResponseExecuteTriple(data,
+						function(){
+							// NORMAL_TRUE 시
+							console.log('북마크 취소 완료');
+							$(this).children('.bookmark_code').remove();	// 요소 제거
+							$(this).children('.bookmark_img').attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');
+						}.bind(this),
+						function(){
+							// ERROR 시
+							console.log('북마크 취소 실패');
+						},
+						function(){
+							// NOT_SESSION 시
+							console.log('session not found');
+							location.replace(pageRoot + '/login');	// 로그인 페이지로 리다이렉트
+						}
+					);
+				}.bind(this),
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		}else{
+			// 북마크 안 된 상태이면 북마크 추가 실행
+			var festivalCode = $(this).children('.fes_code').val();
+			$.ajax({
+				url: '../bookmark/insert', 	// 요청 URL
+				type: 'POST', 				// POST 방식으로 요청
+				async: false,				// 동기 처리
+				data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data) {
+					ajaxResponseExecuteFull(data,
+						function(){
+							// NORMAL_TRUE 시
+							console.log('북마크 추가 완료');
+							requestCheckBookmark(festivalCode, pageRoot)
+						},
+						function(){
+							// NORMAL_FALSE 시
+							console.log('이미 북마크 추가된 북마크입니다.');
+						},
+						function(){
+							// ERROR 시
+							console.log('북마크 추가 실패');
+						},
+						function(){
+							// NOT_SESSION 시
+							console.log('session not found');
+							location.replace(pageRoot + '/login');	// 로그인 페이지로 리다이렉트
+						}
+					);
+				},
+				error: function() {
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		}
+	});
+}
+
 // 내 리뷰 정보 Ajax 요청 함수
 function requestMyReview(pageRoot){
 	var festivalCode = $('input[name="festivalCode"]').val();
@@ -377,6 +515,7 @@ function review_btn_event(pageRoot){
 			$.ajax({
 				url: '../review/insert', 			// 요청 URL
 				type: 'POST', 						// POST 방식으로 요청
+				async: false,						// 동기 처리
 				contentType: 'application/json',
 				data: JSON.stringify(param),		// 서버로 보낼 데이터
 				dataType: 'json',
@@ -401,17 +540,27 @@ function review_btn_event(pageRoot){
 			var festivalReviewCode = $(this).next().val();
 			// AJAX 호출
 			$.ajax({
-				url: '../review/report', 				// 요청 URL
-				type: 'POST', 							// POST 방식으로 요청
+				url: '../review/report', 	// 요청 URL
+				type: 'POST', 				// POST 방식으로 요청
+				async: false,				// 동기 처리
 				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
 				dataType: 'json',
 				success: function(data) {
-					if(data){
-						alert('신고 처리되었습니다.');
-						$(this).closest('.review_card_container').remove();		// 해당 리뷰 숨김
-					}else{
-						console.log('신고 처리에 실패했습니다.');
-					}
+					ajaxResponseExecuteTriple(data,
+						function(){
+							// NORMAL_TRUE 시
+							alert('신고 처리되었습니다.');
+							$(this).closest('.review_card_container').remove();		// 해당 리뷰 숨김
+						}.bind(this),
+						function(){
+							// ERROR 시
+							console.log('신고 처리에 실패했습니다.');
+						},
+						function(){
+							// NOT_SESSION 시
+							location.replace(pageRoot + '/login');	// 로그인 페이지로 리다이렉트
+						}
+					);
 				}.bind(this),
 				error: function() {
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -426,8 +575,9 @@ function review_btn_event(pageRoot){
 			var festivalReviewCode = $(this).next().val();
 			// AJAX 호출
 			$.ajax({
-				url: '../review/delete', 				// 요청 URL
-				type: 'POST', 							// POST 방식으로 요청
+				url: '../review/delete', 	// 요청 URL
+				type: 'POST', 				// POST 방식으로 요청
+				async: false,				// 동기 처리
 				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
 				dataType: 'json',
 				success: function(data) {
@@ -487,4 +637,47 @@ function checkVisible(checkElement){
 	var elementHeight = $(checkElement).height();		// Element Height
     
     return ((y < (viewportHeight + scrolltop)) && (y > (scrolltop - elementHeight)));
+}
+
+// Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
+function ajaxResponseExecuteFull(data, trueCallback, falseCallback, errorCallback, notSessionCallback){
+	switch(data){
+		case 'NORMAL_TRUE':
+			trueCallback();
+			break;
+		case 'NORMAL_FALSE':
+			falseCallback();
+			break;
+		case 'ERROR':
+			errorCallback();
+			break;
+		case 'NOT_SESSION':
+			notSessionCallback();
+			break;
+	}
+}
+// Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
+function ajaxResponseExecuteTriple(data, trueCallback, errorCallback, notSessionCallback){
+	switch(data){
+		case 'NORMAL_TRUE':
+			trueCallback();
+			break;
+		case 'ERROR':
+			errorCallback();
+			break;
+		case 'NOT_SESSION':
+			notSessionCallback();
+			break;
+	}
+}
+// Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
+function ajaxResponseExecuteDual(data, trueCallback, falseCallback){
+	switch(data){
+		case 'NORMAL_TRUE':
+			trueCallback();
+			break;
+		case 'NORMAL_FALSE':
+			falseCallback();
+			break;
+	}
 }

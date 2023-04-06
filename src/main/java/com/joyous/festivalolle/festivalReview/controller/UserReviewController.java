@@ -19,6 +19,7 @@ import com.joyous.festivalolle.festivalReview.model.FestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.service.IUserReviewService;
 import com.joyous.festivalolle.member.model.MemberVO;
+import com.joyous.festivalolle.util.status.AjaxResponseStatus;
 
 // 사용자 화면 리뷰 insert(작성)/update(신고 및 신고 해제)/delete(삭제) 관리
 @Controller
@@ -46,6 +47,7 @@ public class UserReviewController {
 			}
 			return true;
 		} else {
+			logger.info("session is not found");
 			return false;
 		}
 	}
@@ -53,7 +55,7 @@ public class UserReviewController {
 	// 리뷰 신고
 	@PostMapping("/report")
 	@ResponseBody
-	public Boolean updateFestivalReview(int festivalReviewCode, HttpSession session) {
+	public AjaxResponseStatus updateFestivalReview(int festivalReviewCode, HttpSession session) {
 		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
 		
 		// 세션 null 체크
@@ -63,13 +65,15 @@ public class UserReviewController {
 				// 신고 정보 로그 생성
 				logger.info("신고] 축제 리뷰 코드 : " + festivalReviewCode + ", 신고자 : {code:" + loginUser.getMemberCode()
 							+ "}, {id:" + loginUser.getId() + "}, 신고일시 : " + LocalDateTime.now());
+				return AjaxResponseStatus.NORMAL_TRUE;
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 				e.printStackTrace();
+				return AjaxResponseStatus.ERROR;
 			}
-			return true;
 		} else {
-			return false;
+			logger.info("session is not found");
+			return AjaxResponseStatus.NOT_SESSION;
 		}
 	}
 	
@@ -90,6 +94,7 @@ public class UserReviewController {
 			}
 			return true;
 		} else {
+			logger.info("session is not found");
 			return false;
 		}
 	}
