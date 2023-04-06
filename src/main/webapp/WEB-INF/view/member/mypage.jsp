@@ -46,6 +46,14 @@
 		<a href="forgot-password.html">회원 정보</a>
 		
 		
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<a href="<c:url value='/logout'/>">로그 아웃</a>
+		
+		
 		
 		<%-- 내용 끝 --%>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>

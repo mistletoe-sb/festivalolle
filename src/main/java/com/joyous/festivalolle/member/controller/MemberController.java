@@ -93,6 +93,15 @@ public class MemberController {
 		return "fail";
 	}
 	
+	//로그아웃
+	@GetMapping(value="/logout")
+	public String logout(HttpSession session, Model model, Locale locale) {
+		logger.info("세션 파기 전", locale);
+		session.invalidate();
+		//logger.info("세션 파기 후", locale);
+		return "redirect:/login";
+	}
+	
 	
 	//마이페이지 화면
 	@GetMapping(value="/mypage")
@@ -115,10 +124,19 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/***************입장권*****************/
 	
 	
-	
+	/*
 	@GetMapping("/qr")
     public Object createQr(@RequestParam String url) throws WriterException, IOException {
         int width = 200;
@@ -131,7 +149,7 @@ public class MemberController {
                     .contentType(MediaType.IMAGE_PNG)
                     .body(out.toByteArray());
         }
-    }
+    }*/
     
 	//파일명 브라우저에서
 	//인코딩 base64
