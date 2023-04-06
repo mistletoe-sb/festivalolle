@@ -21,5 +21,11 @@
 		]]>
 	</delete>
 	
-	
+	<select id="countBookmark">
+		<![CDATA[
+			SELECT COUNT(bookmark_code) FROM festivalolle.bookmark
+			WHERE member_code = #{memberCode}
+			AND festival_code = #{festivalCode}
+		]]>
+	</select>
 </mapper>

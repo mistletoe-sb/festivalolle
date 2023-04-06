@@ -1,25 +1,47 @@
 package com.joyous.festivalolle.bookmark.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.joyous.festivalolle.bookmark.model.BookmarkVO;
+import com.joyous.festivalolle.bookmark.repository.IBookmarkRepository;
 
 // 북마크 service 구현 클래스
 @Service
 public class BookmarkService implements IBookmarkService {
 
+	@Autowired
+	private IBookmarkRepository bookmarkRepository;		// repository 객체 주입
+	
 	// 북마크 추가
 	@Override
+	@Transactional
 	public void insertBookmark(BookmarkVO bookmarkVO) throws Exception {
-		
-
+		int check = bookmarkRepository.insertBookmark(bookmarkVO);
+		if(check != 1) {
+			throw new Exception("북마크 추가에 실패했습니다.");
+		}
 	}
 
-	// 북마크 제거
+	// 북마크 취소
 	@Override
+	@Transactional
 	public void deleteBookmark(int bookmarkCode, int memberCode) throws Exception {
-		
+		int check = bookmarkRepository.deleteBookmark(bookmarkCode, memberCode);
+		if(check != 1) {
+			throw new Exception("북마크 취소에 실패했습니다.");
+		}
+	}
 
+	// 북마크 여부 확인
+	@Override
+	public boolean checkBookmarkIsExist(int memberCode, int festivalCode) {
+		if(bookmarkRepository.countBookmark(memberCode, festivalCode) != 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -46,6 +46,7 @@ public class UserReviewController {
 			}
 			return true;
 		} else {
+			logger.info("session is not found");
 			return false;
 		}
 	}
@@ -69,6 +70,7 @@ public class UserReviewController {
 			}
 			return true;
 		} else {
+			logger.info("session is not found");
 			return false;
 		}
 	}
@@ -90,6 +92,7 @@ public class UserReviewController {
 			}
 			return true;
 		} else {
+			logger.info("session is not found");
 			return false;
 		}
 	}
