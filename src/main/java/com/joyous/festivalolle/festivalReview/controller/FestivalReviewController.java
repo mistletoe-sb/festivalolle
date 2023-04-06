@@ -28,7 +28,7 @@ public class FestivalReviewController {
 		
 		@GetMapping("/list")
 		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session){
-			 AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			 AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			    if (adminVO == null) {
 			        // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
 			        return "admin/login";
@@ -44,7 +44,7 @@ public class FestivalReviewController {
 		@ResponseBody
 		@GetMapping("/all")
 		public List<V_ReviewListVO> getReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session){
-			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			int organizationCode = adminVO.getOrganizationCode();
 			 reviewVO.setOrganizationCode(organizationCode);
 			List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
@@ -56,7 +56,7 @@ public class FestivalReviewController {
 		@ResponseBody
 		@GetMapping("/report")
 		public List<V_ReviewListVO> getReportList(V_ReviewListVO reviewVO, Model model, HttpSession session) {
-			AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			int organizationCode = adminVO.getOrganizationCode();
 			 reviewVO.setOrganizationCode(organizationCode);
 			List<V_ReviewListVO> reportList = festivalReviewService.selectReport(reviewVO);
@@ -66,7 +66,7 @@ public class FestivalReviewController {
 	        
 	        @GetMapping("/detail")
 	        public String getDetail(@RequestParam int festivalReviewCode, Model model, HttpSession session, V_ReviewListVO reviewVO) {
-	        	AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+	        	AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 	    		int organizationCode = adminVO.getOrganizationCode();
 	    		reviewVO.setOrganizationCode(organizationCode);
 	          V_ReviewListVO reviewList = festivalReviewService.selectReview(festivalReviewCode);
@@ -76,7 +76,7 @@ public class FestivalReviewController {
 	        
 			@GetMapping("/normal")
 			public String setNormal(@RequestParam("festivalReviewCode") int festivalReviewCode, HttpSession session, V_ReviewListVO reviewVO) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setNormal(festivalReviewCode);
@@ -86,7 +86,7 @@ public class FestivalReviewController {
 
 			@GetMapping("/blind")
 			public String setBlind(@RequestParam("festivalReviewCode") int festivalReviewCode, HttpSession session, V_ReviewListVO reviewVO) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setBlind(festivalReviewCode);
@@ -98,7 +98,7 @@ public class FestivalReviewController {
 		    @GetMapping("/search")
 		    public List<V_ReviewListVO> getSearch(V_ReviewListVO reviewVO, Model model, HttpSession session,
 		    		 @RequestParam("reviewKeyword") String reviewKeyword, @RequestParam("tableBox") String tableBox){
-		    	AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		    	AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 		    	List<V_ReviewListVO> reviewList = festivalReviewService.searchReview(organizationCode, reviewKeyword, tableBox);
@@ -110,7 +110,7 @@ public class FestivalReviewController {
 		        @GetMapping("/selectYearTitleList")
 		    	@ResponseBody
 		    	public List<V_ReviewListVO> selectYearTitleList(V_ReviewListVO reviewVO,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
-		    		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		    		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 					int organizationCode = adminVO.getOrganizationCode();
 					reviewVO.setOrganizationCode(organizationCode);
 		    		String titleyear2 = titleyear + "%";
@@ -134,7 +134,7 @@ public class FestivalReviewController {
 	  // ---------------------------test controller -------------------------  
 			@GetMapping("/test")
 			public String getTest(V_ReviewListVO reviewVO, Model model, HttpSession session) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 				List<V_ReviewListVO> test = festivalReviewService.festivalReviewList(reviewVO);
@@ -145,7 +145,7 @@ public class FestivalReviewController {
 			@GetMapping("/test1")
 			@ResponseBody
 			public List<V_ReviewListVO> getTest1(V_ReviewListVO reviewVO, Model model, HttpSession session) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 				List<V_ReviewListVO> test = festivalReviewService.festivalReviewList(reviewVO);
@@ -155,7 +155,7 @@ public class FestivalReviewController {
 			
 			@GetMapping("/test2")
 			public String getTest2(Model model, @RequestParam("festivalReviewCode") int festivalReviewCode, HttpSession session, V_ReviewListVO reviewVO) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 			    V_ReviewListVO test2 = festivalReviewService.selectReview(festivalReviewCode);
@@ -166,7 +166,7 @@ public class FestivalReviewController {
 			@GetMapping("/test3")
 			@ResponseBody
 			public List<V_ReviewListVO> getTest3(V_ReviewListVO reviewVO, Model model, HttpSession session) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 				List<V_ReviewListVO> test = festivalReviewService.selectReport(reviewVO);
@@ -176,7 +176,7 @@ public class FestivalReviewController {
 	        
 			@GetMapping("/test4")
 			public String setNormalTest(@RequestParam("festivalReviewCode") int festivalReviewCode, HttpSession session, V_ReviewListVO reviewVO) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setNormal(festivalReviewCode);
@@ -186,7 +186,7 @@ public class FestivalReviewController {
 
 			@GetMapping("/test5")
 			public String setBlindTest(@RequestParam("festivalReviewCode") int festivalReviewCode, HttpSession session, V_ReviewListVO reviewVO) {
-				AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+				AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setBlind(festivalReviewCode);

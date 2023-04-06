@@ -42,25 +42,23 @@
 		<![CDATA[ORDER BY purchase_time desc]]>
 	</select>
 	
-	<!-- 연별 구매자 리스트 -->	
+	<!-- 구매자 구매일 따른 연별 리스트 -->	
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT * 
+			SELECT DISTINCT title, festival_code
 			FROM V_TICKET_BUYER_LIST
 			WHERE purchase_time like  #{purchaseTime} and organization_code = #{organizationCode}
-			ORDER BY purchase_time desc
 		]]>
 	</select>	
 	
-<!-- 연별 구매자 -->	
+<!-- 연별 리스트에 따른 구매 축제 리스트 -->	
 
 	<select id="selectYearBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT * 
+			SELECT *
 			FROM V_TICKET_BUYER_LIST
 			WHERE festival_code = #{festivalCode}
-			ORDER BY purchase_time desc
 		]]>
 	</select>	
 		

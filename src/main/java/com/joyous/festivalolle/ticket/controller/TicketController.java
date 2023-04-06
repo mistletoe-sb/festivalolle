@@ -28,7 +28,7 @@ public class TicketController {
 
 	@GetMapping("/list")
 	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session){
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 	    if (adminVO == null) {
 	        // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
 	        return "admin/login";
@@ -45,7 +45,7 @@ public class TicketController {
     @GetMapping("/search")
     public List<V_ticketBuyerListVO> getSearch(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session,
     		 @RequestParam("buyerKeyword") String buyerKeyword, @RequestParam("tableBox") String tableBox){
-    	AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+    	AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
     	List<V_ticketBuyerListVO> ticketList = ticketService.searchBuyer(organizationCode, buyerKeyword, tableBox);
 
@@ -56,7 +56,7 @@ public class TicketController {
     @GetMapping("/selectYearTitleList")
 	@ResponseBody
 	public List<V_ticketBuyerListVO> selectYearTitleList(V_ticketBuyerListVO buyerListVO,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		buyerListVO.setOrganizationCode(organizationCode);
 		String titleyear2 = titleyear + "%";
@@ -79,7 +79,7 @@ public class TicketController {
 	//-------------------test controller-------------------------------------------
 	@GetMapping("/test")
 	public String getTest(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session){
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginUser");
+		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
 		buyerListVO.setOrganizationCode(organizationCode);
 		List<V_ticketBuyerListVO> test = ticketService.ticketBuyerList(buyerListVO);

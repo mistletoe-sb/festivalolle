@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +29,18 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+
 import com.joyous.festivalolle.admin.controller.AdminController;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
+
 import com.joyous.festivalolle.ticket.model.TicketVO;
 import com.joyous.festivalolle.ticket.model.TicketVOvalidator;
 import com.joyous.festivalolle.ticket.service.TicketServiceMyticket;
 
 @Controller
+
 public class MemberController {
 	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	   
@@ -225,7 +227,7 @@ public class MemberController {
 		return null;
 	}
 	*/
-	
+
 
 }
 

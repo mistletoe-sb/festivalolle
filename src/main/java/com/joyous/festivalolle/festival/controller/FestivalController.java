@@ -64,6 +64,7 @@ public class FestivalController {
 	@GetMapping("/festivallist")
 
 	public String festivalList(Model model, HttpSession session) throws Exception {
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
@@ -76,6 +77,7 @@ public class FestivalController {
 	@GetMapping("/statusfestivallist")
 	@ResponseBody
 	public List<FestivalVO> selectFestivalList(Model model, HttpSession session) {				
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
@@ -86,6 +88,7 @@ public class FestivalController {
 	@GetMapping("/festivastatusllist")
 	@ResponseBody
 	public List<FestivalVO> festivastatusllist(FestivalVO vo,Model model, HttpSession session, @RequestParam("status") int status) {				
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		if(status == 5) {
@@ -103,6 +106,7 @@ public class FestivalController {
 /* =====================================================adminfestivalinfo====================================================== */		
 	@GetMapping("/adminfestivalinfo") 
 	public String adminfestivalinfo(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
@@ -181,6 +185,7 @@ public class FestivalController {
 
 
 			byte[] fileBytes = file.getBytes();
+
 			AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
@@ -202,6 +207,7 @@ public class FestivalController {
 	/* =====================================================adminfestivalupdateform====================================================== */	
 	@GetMapping("/adminfestivalupdateform") 
 	public String adminfestivalupdateform(HttpServletResponse response, FestivalVO vo,Model model, HttpSession session, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);
@@ -267,7 +273,7 @@ public class FestivalController {
 
 			
 			byte[] fileBytes = file.getBytes();
-			
+
 			AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 			int organizationCode = adminVO.getOrganizationCode();
 			String adminName = adminVO.getName();
@@ -297,6 +303,7 @@ public class FestivalController {
 	@ResponseBody
 	public List<FestivalVO> selectYearTitleList(FestivalVO vo,Model model, HttpSession session, @RequestParam("titleyear") String titleyear) {				
 		String titleyear2 = titleyear + "%";
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 			vo.setOrganizationCode(organizationCode);
@@ -353,6 +360,7 @@ public class FestivalController {
 	/* =====================================================getFestivalImage====================================================== */	
 	@RequestMapping("/image/{id}")
 	public ResponseEntity<byte[]> getFestivalImage(FestivalVO vo,@PathVariable int id, HttpSession session) {
+
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
 		vo.setOrganizationCode(organizationCode);

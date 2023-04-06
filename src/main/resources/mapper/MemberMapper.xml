@@ -23,7 +23,36 @@
 			SELECT * FROM FESTIVALOLLE.member WHERE id = #{id} AND password = #{password}
 		]]>
 	</select>
+	<!-- 아이디와 전화번호에 해당하는 사용자의 계정 조회- 작성자: 이혜성 -->
+	<select id="selectAcountInfo" resultType="int">
+	  SELECT COUNT(*) FROM member 
+	  WHERE name= #{name}
+	  AND mobile=#{mobile}
+	</select>
 
-
+	<!-- 입력한 아이디와 전화번호에 해당하는 사용자의 아이디 조회- 작성자: 이혜성 -->
+	<select id="findId" resultType="com.joyous.festivalolle.member.model.MemberVO">
+	<![CDATA[
+	SELECT id FROM member 
+	WHERE  name = #{name} 
+	AND mobile = #{mobile}
+		]]>
+	</select>
+	
+	<!-- 비밀번호 찾기용 계정 조회- 작성자: 이혜성 -->
+	<select id="findPw" parameterType="string" resultType="int">
+	<![CDATA[
+	SELECT COUNT(*) FROM member WHERE  id = #{id}
+		]]>
+	</select>
+	
+	<!-- 비밀번호 변경- 작성자: 이혜성 -->
+	<select id="updatePassword" resultType="string">
+	<![CDATA[
+ 		UPDATE member SET password = #{password}
+ 		WHERE id = #{id}
+ 			]]>
+ 		
+	</select>
 </mapper>
 	
