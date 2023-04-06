@@ -101,8 +101,9 @@
 				<div class="festival_info_menu"><%-- 아이콘 div --%>
 					<div class="festival_info_menu_empty"></div>
 					<div class="icon_layout">
-						<a class="link_anchor" href="#">
-							<img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
+						<a class="link_anchor bookmarkAction">
+							<img class="bookmark_img" src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
+							<input type="hidden" class="fes_code" value="${fesInfo[0].festivalCode}">
 							<br>북마크
 						</a>
 					</div>
@@ -185,7 +186,7 @@
 					        <hr><hr>
 					        <ul id="placesList"></ul>
 					    </div>
-				        <div id="pagination"></div>
+				        <a id="more_result" href="#" target="_blank">>> 더 많은 검색 결과를 보고 싶나요?</a>
 					</div>
 				</div>
 			</div>
@@ -280,7 +281,7 @@
 			
 			// 검색 키워드
 			var keyword = '전남 순천시 국가정원1호길 47';
-			//var keyword = ${fesInfo[0].address};
+			//var fesAddress = ${fesInfo[0].address};
 			
 			// 주소로 좌표 검색
 			geoCoder.addressSearch(keyword, function(result, status){
@@ -303,20 +304,25 @@
 				}
 			});
 			
+			// 축제 장소 주변 음식점 검색
 			keyword += ' 음식점';
+			var searchOptions = {
+				category_group_code: 'FD6',		// 카테고리 코드(음식점='FD6')
+				location: mapView.getCenter()	// 기준 중심 좌표
+			};
 			searchObj.keywordSearch(keyword, function(data, status, page){
 				if(status == kakao.maps.services.Status.OK){
 					// 정상적으로 검색 완료 시 검색 목록과 마커 표시
 					displayPlaces(data);
-					// 페이지 번호 표시
-					displayPage(page);
+					// 더 많은 검색 결과 링크 설정(카카오맵 검색결과 창 새로 띄우기)
+					$('#more_result').attr('href', 'https://map.kakao.com/link/search/' + keyword);
 				}else if(status == kakao.maps.services.Status.ZERO_RESULT){
 					console.log('음식점 검색 결과가 없습니다.');
 					return;
 				}else if(status === kakao.maps.services.Status.ERROR){
 					console.log('음식점 검색 오류 발생');
 				}
-			});
+			}, searchOptions);
 			
 			function displayPlaces(places){
 				var placeList = document.getElementById('placesList'),			// 검색 결과 목록(음식점, 카페) 표시 레이아웃 요소
@@ -324,15 +330,6 @@
 				fragment = document.createDocumentFragment(),
 				bounds = new kakao.maps.LatLngBounds(),
 				fesPos = mapView.getCenter();
-				
-				// 현재 검색 결과 목록에 추가된 항목 제거
-				removeAllChildNods(placeList);
-
-				// 현재 표시되고 있는 검색 마커 제거
-				removeMarker();
-				
-				// 현재 페이지네이션 제거
-				$('#pagination').empty();
 				
 				for(var i = 0; i < places.length; i++){
 					// 마커 생성하여 지도 표시
@@ -379,6 +376,7 @@
 			// 각 음식점 검색 결과로 Element를 만들어 반환하는 함수
 			function getListItem(index, place){
 				var el = document.createElement('li'),
+				imgPath = "<c:url value='/resources/img/icon/place_link_icon.png'/>"
 				itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
 							'<div class="food_info">' +
 							'   <h5>' + place.place_name + '</h5>';
@@ -389,10 +387,12 @@
 					itemStr += '   <span class="jibun gray">' +  place.address_name  + '</span>'; 
 				}
 				itemStr += '  <span class="tel">' + place.phone  + '</span>' +
-							'</div>';           
+							'</div>';
+				itemStr += '<a class="kakaolink link_anchor" href="' + place.place_url + '" target="_blank">';
+				itemStr += '<img src="' + imgPath + '" alt="#"></a>';
 				el.innerHTML = itemStr;
 				el.className = 'item';
-
+				
 				return el;
 			}
 
@@ -407,31 +407,6 @@
 				return marker;
 			}
 
-			// 검색결과 목록 하단에 페이지 번호 표시하는 함수
-			function displayPage(pagination){
-				var paginationEl = document.getElementById('pagination'),
-					fragment = document.createDocumentFragment(),
-					i; 
-
-				for(i = 1; i <= pagination.last; i++){
-					var el = document.createElement('a');
-					el.href = "#";
-					el.innerHTML = i;
-
-					if (i === pagination.current){
-						el.className = 'on';
-					}else{
-						el.onclick = (function(i){
-							return function(){
-								pagination.gotoPage(i);
-							}
-						})(i);
-					}
-					fragment.appendChild(el);
-				}
-				paginationEl.appendChild(fragment);
-			}
-
 			// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수
 			// info window에 장소명 표시
 			function displayInfowindow(marker, title) {
@@ -440,20 +415,6 @@
 				info.setContent(content);
 				info.open(mapView, marker);
 				mapView.setCenter(marker.getPosition());
-			}
-			
-			// 지도 위에 표시되고 있는 모든 검색 마커 제거
-			function removeMarker() {
-				for(var i = 0; i < markers.length; i++){
-					markers[i].setMap(null);
-				}
-				markers = [];
-			}
-			// 검색결과 목록의 자식 Element 제거
-			function removeAllChildNods(el) {   
-				while(el.hasChildNodes()){
-					el.removeChild(el.lastChild);
-				}
 			}
 		</script>
 	</body>

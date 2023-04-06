@@ -69,7 +69,11 @@ body {
 	color: #191919;
 }
 /* <a>태그 기본 스타일 제거 */
-.link_anchor, .link_anchor:visited {
+.link_anchor {
+	color: #191919;
+	text-decoration : none;
+}
+.link_anchor:visited {
 	color: #191919;
 	text-decoration : none;
 }
@@ -388,10 +392,11 @@ textarea::placeholder {
 }
 #placesList li {
 	list-style: none;
+	display: flex;
 }
 #placesList .item {
 	position: relative;
-	border-bottom: 1px solid #888888;
+	border-bottom: 0.0625rem solid #888888;
 	overflow: hidden;
 	cursor: pointer;
 	min-height: 8.7vmax;
@@ -406,7 +411,20 @@ textarea::placeholder {
 	white-space: nowrap;
 }
 #placesList .item .food_info{
-	padding: 1.35vmax 0vmin 1.35vmax 15.27vmin;
+	width: 65%;
+	padding: 1.35vmax 0vmin 1.35vmax 2.7vmin;
+}
+#placesList .item .kakaolink {
+	width: 20%;
+	display: flex;
+	padding: 1.35vmax 0vmin 1.35vmax 2.7vmin;
+	align-items: start;
+	justify-content: center;
+}
+#placesList .item .kakaolink img {
+	width: 9vmin;
+	height: 9vmin;
+	object-fit: contain;
 }
 #placesList .food_info h5 {
 	font-weight: bold;
@@ -420,8 +438,6 @@ textarea::placeholder {
 	background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;
 }
 #placesList .item .markerbg {
-	float: left;
-	position: absolute;
 	width: 10vmin;
 	height: 5vmax;
 	margin: 1.35vmax 0 0 1.35vmax;
@@ -442,14 +458,16 @@ textarea::placeholder {
 #placesList .item .marker_13 {background-position: 0 -562px;}
 #placesList .item .marker_14 {background-position: 0 -608px;}
 #placesList .item .marker_15 {background-position: 0 -654px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{
+#more_result {
+	margin-top: 1.35vmax;
+	text-align: center;
+	color: #191919;
+}
+/* .map_wrap a, .map_wrap a:hover, .map_wrap a:active{
 	color: #191919;
 	text-decoration: none;
 }
-#pagination {
-	/* margin: 1.35vmax auto; */
-	text-align: center;
-}
+
 #pagination a {
 	display: inline-block;
 	margin-right: 2.75vmin;
@@ -458,7 +476,7 @@ textarea::placeholder {
 	font-weight: bold;
 	cursor: default;
 	color:#777777;
-}
+} */
 
 /* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
 .festival_card_container {
@@ -481,6 +499,7 @@ textarea::placeholder {
 }
 .festival_card_container .card-img-top {
 	object-fit: cover;
+	object-position: top;
 	width: 100%;
 }
 .festival_card_container .festival_location {
