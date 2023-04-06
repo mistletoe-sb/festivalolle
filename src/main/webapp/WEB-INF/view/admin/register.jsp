@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -205,13 +204,9 @@
 				complete : function () {   // 정상이든 비정상인든 실행이 완료될 경우 실행될 함수
 					//$('#matchEmail2').val("");
 				}		
-			})//end ajax	
-	
-	    }
-	
-	
-	
-	})//end changepw_btn
+			})//end ajax		
+	    }	
+	})//end registerAdmin
 	
 	$('#organization_name').blur(function(){
 		var organizationName = $('#organization_name').val();
@@ -370,44 +365,7 @@
 			}//end 중복검사								
 		})//end function	
 		
-		/*
-		//비밀번호 재입력 일치 확인
-		function passwordChk(){			
-			$('#register_pw').blur(function(){			
-				//"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-			
-				var pw = $('#register_pw').val();
-				var reg_pw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,16}$/; 
-				
-				if ($('#register_pw').val() == ''){
-					$('#pwchkMsg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-				} else if (!reg_pw.test(pw)){
-					$('#pwchkMsg').text("5~16자의 영문자, 숫자를 사용하세요.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-				} else if(reg_pw.test(pw)) {	//이메일 올바른 형식일 경우
-					$('#pw_reg_check').val("true");
-					//$('#pwchkMsg').text("올바른 전화번호 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-					$('#pwchkMsg').text("");
-					
-					$('#pwchk').blur(function(){
-						if($('#pwchk').val() == ''){
-							$('#pwchkMsg').text("필수 정보입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-						
-							if($('#pwchk').val() != '' ){
-								if($('#register_pw').val() == $('#pwchk').val()){
-									$('#pwchkMsg').text("비밀번호가 일치합니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-									$('#pwchk2').val("true");
-								} else {
-									$('#pwchkMsg').text("비밀번호가 일치하지 않습니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-									$('#pwchk2').val("false");
-								}
-							}				
-						}
-					})//end blur					
-				}			
-			})//end blur			
-		}//end passwordChk		
-		*/
-		
+		//비밀번호 확인
 		$('#register_pw').blur(function(){	
 			var pw = $('#register_pw').val();
 			var reg_pw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,16}$/; 
@@ -420,22 +378,12 @@
 				$('#pwchk2').val("false");
 			} else if(reg_pw.test(pw)) {	
 				$('#pw_reg_check').val("true");
-				//$('#pwchkMsg').text("올바른 전화번호 형식입니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#pwchkMsg').text("");
 				
 				$('#pwchk').blur(function(){
 					if($('#pwchk').val() == ''){
 						$('#pwchkMsg').text("필수 정보입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-						$('#pwchk2').val("false");
-						/*if($('#pwchk').val() != '' ){
-							if($('#register_pw').val() == $('#pwchk').val()){
-								$('#pwchkMsg').text("비밀번호가 일치합니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-								$('#pwchk2').val("true");
-							} else {
-								$('#pwchkMsg').text("비밀번호가 일치하지 않습니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
-								$('#pwchk2').val("false");
-							}
-						}	*/			
+						$('#pwchk2').val("false");									
 					} else {
 						if($('#register_pw').val() == $('#pwchk').val()){
 							$('#pwchkMsg').text("비밀번호가 일치합니다.").css({"color": "green", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
@@ -444,20 +392,9 @@
 							$('#pwchkMsg').text("비밀번호가 일치하지 않습니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 							$('#pwchk2').val("false");
 						}
-					}
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+					}					
 				})//end blur				
-			}
-			
+			}			
 		})
 		
 		

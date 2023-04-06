@@ -78,6 +78,7 @@
 														유효기간: ${ticket.startDate} ~ ${ticket.endDate}
 													</p>
 												</div>
+												<input class="ticketCode" type="hidden" value="${ticket.ticketCode}" />
 												<div>
 													<hr width="300" color="EEEEEE" noshade />
 												</div>

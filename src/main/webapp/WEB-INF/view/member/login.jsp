@@ -65,7 +65,7 @@
 											<a class="small a-mobile" href="./findpw">비밀번호 변경</a>
 										</div>
 										<div class="text-center">
-											<a class="small a-mobile" href="forgot-password.html">회원 가입</a>
+											<a class="small a-mobile" href="<c:url value='/join'/>">회원 가입</a>
 										</div>
 									</div>
 								</div>
