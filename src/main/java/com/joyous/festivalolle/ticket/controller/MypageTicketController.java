@@ -52,7 +52,7 @@ public class MypageTicketController {
 			//byte[] getImage = vo.getImage();
 			selectTicketList.get(i).setAddress(img);
 		}
-
+		
 		model.addAttribute("selectTicketList", selectTicketList);
 		
 		return view_pos + "ticketlist";

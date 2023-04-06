@@ -89,18 +89,18 @@ width: 500px;
 				</th>
 			</tr>
 		</table>
-		</div>
-		</div>
+		
 			<fieldset>
 			
-			<div class="d-grid gap-2 d-md-block">
+			<div class="d-grid gap-2 d-md-block" style ="float:right;">
 				<input type="submit" class="btn btn-primary" value='수정하기'>
 				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 			</div>
 
 		        
 		    </fieldset>
-			
+			</div>
+		</div>
 		</form>
 		</div>
 		</div>
