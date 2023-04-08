@@ -40,25 +40,25 @@
 		bottom: -55vmax;
 	}
 }
-/* 고정메뉴 fadeIn, fadeOut */
-/* Top */
-/* @keyframes hide_top {
+/* 검색칸 open, close 애니메이션 스타일 정의 */
+/* 우측에서 좌측으로 검색칸 열리는 애니메이션 스타일 */
+@keyframes open_search {
 	from {
-		top: 0vmax;
+		width: 0%;
 	}
 	to {
-		top: -13vmax;
+		width: 95%;
 	}
-} */
-/* Bottom */
-/* @keyframes hide_bottom {
+}
+/* 좌측에서 우측으로 검색칸 닫히는 애니메이션 스타일 */
+@keyframes close_search {
 	from {
-		bottom: 0vmax;
+		width: 95%;
 	}
 	to {
-		bottom: -8vmax;
+		width: 0%;
 	}
-} */
+}
 
 /* 공통 적용 */
 body {
@@ -98,9 +98,10 @@ textarea::placeholder {
 .recommend_list_layout {
 	width: 100vmin;
 	height: 60vmax;
-	padding-top: 3vmax;
+	/* padding-top: 3vmax;
 	padding-bottom: 6vmax;
-	margin: 2.7vmax 0vmin;
+	margin: 2.7vmax 0vmin; */
+	margin-bottom: 2.7vmax;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
@@ -118,6 +119,16 @@ textarea::placeholder {
 	border-radius: 50% !important;
 	margin-left: 0.9vmin !important;
 	margin-right: 0.9vmin !important;
+}
+.recommend_div {
+	width: 100%;
+	height: 60vmax !important;
+	cursor: pointer;
+}
+.recommend_img {
+	object-fit: cover;
+	object-position: top;
+	width: 100%;
 }
 
 /* 기본 축제 목록 레이아웃 */
@@ -605,21 +616,21 @@ textarea::placeholder {
 
 /* 모바일 하단 메뉴바 */
 .bottom_menu {
+	display: flex;
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
 	height: 8vmax;
+	padding-top: 1vmax;
 	z-index: 100;
 	background-color: white;
 	box-shadow: 0rem -0.125rem 0.25rem 0rem #0000001A;
 }
 .bottom_menu > div {
-	float: left;
-	width: 25%;
+	width: 20%;
 	height: 100%;
 	text-align: center;
-	padding-top: 1vmax;
 }
 .bottom_menu img {
 	object-fit: contain;
@@ -649,15 +660,18 @@ textarea::placeholder {
 	width: 100%;
 	height: 8vmax;
 	z-index: 100;
-	background-color: #F15600;
+	/* background-color: #F15600; */
+	background-color: #FFFFFF;	
 	box-shadow: 0rem 0.125rem 0.25rem 0rem #0000001A;
 }
 .top_menu > div {
 	padding-top: 2vmax;
 }
 /* 일반 상태 */
+.normal_top {
+	display: flex;
+}
 .normal_top > div {
-	float: left;
 	height: 5vmax;
 	width: 16%;
 	text-align: center;
@@ -675,20 +689,22 @@ textarea::placeholder {
 .page_title > p {
 	font-size: 1.25rem;
 	font-weight: bold;
-	color: #FFFFFF;
+	color: #191919;
 	margin: 0vmin;
 }
 /* 검색 활성 상태 */
 .search_top {
+	display: flex;
 	padding-left: 5.5vmin;
 	padding-right: 5.5vmin;
 	text-align: left;
+	justify-content: end;
 }
 .search_box {
 	width: 95%;
 	height: 4.5vmax;
 	border-radius: 6.25rem;
-	background-color: #FFFFFFB3;
+	background-color: #EBEBEBB3;
 	padding-left: 1.389vmin;
 	float: right;
 }
@@ -697,8 +713,10 @@ textarea::placeholder {
 	height: 4.5vmax;
 	border: none;
 	background-color: #FFFFFF00;
-	font-style: italic;
     font-size: 0.875rem;
+}
+.search_input::placeholder {
+	font-style: italic;
 }
 .search_btn {
 	float: left;
@@ -711,7 +729,6 @@ textarea::placeholder {
 .search_close {
 	width: 5%;
 	height: 4.5vmax;
-	float: left;
 }
 .search_close > img {
 	width: 100%;

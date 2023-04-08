@@ -38,14 +38,34 @@
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
 									<div class="d-block w-100">
-										<%@ include file="festival/festivalcard.jsp"%>
+										<div class="recommend_div"
+										onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+											<c:choose>
+												<c:when test='${img != null}'>
+													<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+												</c:when>
+												<c:otherwise>
+													<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+												</c:otherwise>
+											</c:choose>
+										</div>
 									</div>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
 									<div class="d-block w-100">
-										<%@ include file="festival/festivalcard.jsp"%>
+										<div class="recommend_div"
+										onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+											<c:choose>
+												<c:when test='${img != null}'>
+													<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+												</c:when>
+												<c:otherwise>
+													<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+												</c:otherwise>
+											</c:choose>
+										</div>
 									</div>
 								</div>							
 							</c:otherwise>

@@ -22,11 +22,15 @@ $(document).ready(function(){
 	// top메뉴 검색 버튼 이벤트
 	$('#search_btn').on('click', function(){
 		$('.normal_top').attr('hidden', true);
+		$('.search_box').css('animation', 'open_search 1s ease-out');
 		$('.search_top').attr('hidden', false);
 	});
 	$('.search_close').on('click', function(){
-		$('.search_top').attr('hidden', true);
-		$('.normal_top').attr('hidden', false);
+		$('.search_box').css('animation', 'close_search 1s ease-out');
+		setTimeout(function(){
+			$('.search_top').attr('hidden', true);			
+			$('.normal_top').attr('hidden', false);
+		}, 800);
 	});
 	
 	// 페이지 내 이동 이벤트 바인딩
