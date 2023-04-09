@@ -73,7 +73,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgotpassword.jsp">비밀번호를 잊으셨나요?</a><br>
+                                        <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br>
                                         <a class="small" href="findid.jsp">아이디를 잊으셨나요?</a>
                                     </div>
                                     <div class="text-center">

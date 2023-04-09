@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.admin.service.AdminService;
 import com.joyous.festivalolle.admin.service.IAdminService;
 
 //작성자: 이기쁨
@@ -86,8 +87,35 @@ public class AdminController {
 	//비밀번호 변경 페이지로 이동
 	@GetMapping(value="/admin/forgotpassword")
 	public String password(Locale locale) {
+		//logger.info("문자보내기");
+		NaverSENS2 sens = new NaverSENS2();
+		//sens.sendSMS();
+		
 		return "admin/forgotpassword";
 	}
+	
+	
+	//문자 보내기
+	@PostMapping(value="/admin/message")
+	@ResponseBody
+	public String phoneAuth(String tel) {
+		AdminService service = new AdminService();
+		System.out.println("문자보내러왔다.");
+		logger.info("문자보내기");
+
+		service.sendRandomMessage(tel);
+		logger.info("문자 보냈따!");
+	    return "ok";
+	}
+	
+	//문자보내기 실험
+	@GetMapping(value="/send")
+	public String sendMessage(Model model, HttpSession session) {
+		return "admin/send";
+	}
+	
+	
+	
 	
 	
 	
