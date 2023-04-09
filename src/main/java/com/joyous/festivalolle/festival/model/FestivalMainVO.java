@@ -6,6 +6,7 @@ import lombok.Data;
 // 축제 목록에 표시할 데이터를 담는 VO 클래스
 public class FestivalMainVO {
 	private int festivalCode;	// 축제 코드
+	private String title;		// 축제명
 	private String stateName;	// 지역(시/도)명
 	private String cityName;	// 지역(시/군/구)명
 	private String startDate;	// 시작일자
