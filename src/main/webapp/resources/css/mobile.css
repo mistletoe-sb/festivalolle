@@ -131,6 +131,20 @@ textarea::placeholder {
 	width: 100%;
 }
 
+/* 메인 화면 카테고리 별 기본 레이아웃 */
+.default_carousel_layout {
+	
+}
+.carousel_title {
+	
+}
+.default_carousel_layout .festival_card_container {
+	
+}
+.default_carousel_layout .carousel-item {
+	width: 70%;
+}
+
 /* 기본 축제 목록 레이아웃 */
 .default_list_layout {
 	width: 100%;
@@ -474,20 +488,6 @@ textarea::placeholder {
 	text-align: center;
 	color: #191919;
 }
-/* .map_wrap a, .map_wrap a:hover, .map_wrap a:active{
-	color: #191919;
-	text-decoration: none;
-}
-
-#pagination a {
-	display: inline-block;
-	margin-right: 2.75vmin;
-}
-#pagination .on {
-	font-weight: bold;
-	cursor: default;
-	color:#777777;
-} */
 
 /* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
 .festival_card_container {
@@ -504,6 +504,9 @@ textarea::placeholder {
 }
 .festival_card_container .card-body {
 	padding-top: 1.1vmax;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+	box-shadow: 0rem 0.125rem 0.125rem #00000016;
 }
 .festival_card_container .ratio {
 	--bs-aspect-ratio: 120%;
@@ -512,6 +515,8 @@ textarea::placeholder {
 	object-fit: cover;
 	object-position: top;
 	width: 100%;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
 }
 .festival_card_container .festival_location {
 	display: inline-block;
@@ -651,7 +656,7 @@ textarea::placeholder {
 /* 모바일 상단 메뉴바 */
 .top_empty {
 	width: 100%;
-	height: 8.5vmax;
+	height: 8vmax;
 }
 .top_menu {
 	position: fixed;

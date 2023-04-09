@@ -37,35 +37,31 @@
 						<c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
-									<div class="d-block w-100">
-										<div class="recommend_div"
-										onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
-											<c:choose>
-												<c:when test='${img != null}'>
-													<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
-												</c:when>
-												<c:otherwise>
-													<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
-												</c:otherwise>
-											</c:choose>
-										</div>
+									<div class="d-block w-100 recommend_div"
+									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<c:choose>
+											<c:when test='${img != null}'>
+												<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+											</c:when>
+											<c:otherwise>
+												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
-									<div class="d-block w-100">
-										<div class="recommend_div"
-										onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
-											<c:choose>
-												<c:when test='${img != null}'>
-													<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
-												</c:when>
-												<c:otherwise>
-													<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
-												</c:otherwise>
-											</c:choose>
-										</div>
+									<div class="d-block w-100 recommend_div"
+									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<c:choose>
+											<c:when test='${img != null}'>
+												<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+											</c:when>
+											<c:otherwise>
+												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>							
 							</c:otherwise>
@@ -75,14 +71,46 @@
 			</div>
 		</div>
 		<%-- 기본목록(진행 중인 축제) 출력할 레이아웃 --%>
-		<div class="default_list_layout">
-			<div>
-				<h3>진행 중인 축제</h3>
+		<div class="default_carousel_layout">
+			<div class="carousel_title">
+				<h3>이번 주 HOT 축제</h3>
 			</div>
-			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-				<c:set var="img" value="${defaultListImages[stat.index]}"/>
-				<%@ include file="festival/festivalcard.jsp"%>
-			</c:forEach>
+			<div id="default_carousel" class="carousel slide" data-bs-ride="carousel" data-interval="false">
+				<div class="carousel-inner">
+					<c:forEach var="fes" items="${defaultList}" varStatus="stat" begin="0" end="6">
+						<c:set var="img" value="${defaultListImages[stat.index]}"/>
+						<c:choose>
+							<c:when test='${stat.index == 0}'>
+								<div class="carousel-item active">
+									<div class="d-block">
+										<%@ include file="festival/festivalcard.jsp"%>
+									</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="carousel-item">
+									<div class="d-block">
+										<%@ include file="festival/festivalcard.jsp"%>
+									</div>
+								</div>							
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+		<div class="default_carousel_layout">
+			<div class="carousel_title">
+				<h3>이번 주 HOT 축제</h3>
+			</div>
+			<div style="overflow-x: overlay;width:100vmin;display:flex;">
+				<c:forEach var="fes" items="${defaultList}" varStatus="stat" begin="0" end="6">
+					<c:set var="img" value="${defaultListImages[stat.index]}"/>
+						<div style="width: 84vmin;">
+							<%@ include file="festival/festivalcard.jsp"%>
+						</div>
+				</c:forEach>
+			</div>
 		</div>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
