@@ -251,7 +251,6 @@ const RESERVED_TAGS = ["javascript", "html", "css"];
 function checkReservedTags(tag) {
 if (RESERVED_TAGS.includes(tag.toLowerCase())) {
 	swal('입력 오류!', "javascript, html, css은 사용할 수 없는 예약어입니다.", 'warning');
-  alert("javascript, html, css은 사용할 수 없는 예약어입니다.");
   return false;
 }
 return true;
@@ -262,7 +261,7 @@ const MAX_TAG_COUNT = 10;
 
 function checkTagCount(tagList) {
 if (tagList.length > MAX_TAG_COUNT) {
-  alert("태그는 최대 "+ MAX_TAG_COUNT +"개까지 사용할 수 있습니다.");
+	swal('입력 오류!', "태그는 최대 "+ MAX_TAG_COUNT +"개까지 사용할 수 있습니다.", 'warning');
   return false;
 }
 return true;
@@ -272,7 +271,7 @@ var tagArray = []; // 태그 배열을 전역 변수로 선언
 
 function addTag(tag) {
 if (tagArray.includes(tag)) { // 태그 배열에 이미 존재하는 경우
-  alert("이미 입력된 태그입니다.");
+	swal('입력 오류!', "이미 입력된 태그입니다.", 'warning');
   return false;
 }
 return true; // 태그 배열에 추가
@@ -366,7 +365,7 @@ $("#title").on("keyup", function() {
 
 function validateTitle(title) {
   if (title.trim().length > 50) {
-	  alert("제목은 최대 50자 입니다.");
+	  swal('입력 오류!', "제목은 최대 50자 입니다.", 'warning');
     return false;
   }
   return true;
@@ -379,7 +378,7 @@ $("#sample6_address").on("keyup", function() {
 
 function validateAddress(address) {
   if (address.trim().length > 200) {
-	  alert("주소는 최대 200자 입니다.");
+	  swal('입력 오류!', "주소는 최대 200자 입니다.", 'warning');
     return false;
   }
   return true;
@@ -394,13 +393,8 @@ function validateStartDate(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  if (isNaN(start.getTime())) {
-    alert("날짜 형식은 YYYY-MM-DD 여야 합니다.");
-    return false;
-  }
-
   if (start >= end) {
-	  alert("종료일자보다 이전이어야 합니다.");
+	  swal('입력 오류!', "종료일자보다 이전이어야 합니다.", 'warning');
     return false;
   }
   return true;
@@ -415,13 +409,8 @@ function validateEndDate(endDate, startDate) {
   const end = new Date(endDate);
   const start = new Date(startDate);
 
-  if (isNaN(end.getTime())) {
-    alert("날짜 형식은 YYYY-MM-DD 여야 합니다.");
-    return false;
-  }
-
   if (end <= start) {
-	  alert("시작일자보다 이후이어야 합니다.");
+	  swal('입력 오류!', "시작일자보다 이후이어야 합니다.", 'warning');
     return false;
   }
   return true;
@@ -434,7 +423,7 @@ $("#fee").on("keyup", function() {
 
 function validateFee(fee) {
   if (isNaN(parseFloat(fee)) || parseFloat(fee) < 0) {
-	  alert("숫자만 입력해 주세요.");
+	  swal('입력 오류!', "숫자만 입력해 주세요.", 'warning');
     return false;
   }
   return true;
@@ -448,7 +437,7 @@ function validateFee(fee) {
 function validateHomepage(url) {
   const regex = /^(ftp|http|https):\/\/[^ "]+$/;
   if (!regex.test(url)) {
-	  alert("유효한 URL 형식을 입력해 주세요.");
+	  swal('입력 오류!', "유효한 URL 형식을 입력해 주세요.", 'warning');
     return false;
   }
   return true;
@@ -475,7 +464,7 @@ $("#detail").on("keyup", function() {
 
 function validateDescription(description) {
   if (description.trim().length > 1000) {
-	  alert("최대 1000자 까지 가능합니다.");
+	  swal('입력 오류!', "최대 1000자 까지 가능합니다.", 'warning');
     return false;
   }
   return true;
@@ -503,10 +492,11 @@ $("#submit-button").on("click", function(event) {
 	  // 결과 확인 후 전송 또는 알림 출력
 	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
 	    // 모든 유효성 검사를 통과한 경우, 전송
-	    $("this").submit();
+	    swal('축제 등록!', "축제가 등록되었습니다!", 'success');
+	    $("#my-form").submit();
 	  } else {
 	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
-	    alert("입력하신 정보를 다시 확인해주세요.");
+	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');
 	  }
 	});	
 $("#submit-button1").on("click", function(event) {
@@ -531,10 +521,11 @@ $("#submit-button1").on("click", function(event) {
 	  // 결과 확인 후 전송 또는 알림 출력
 	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
 	    // 모든 유효성 검사를 통과한 경우, 전송
-	    $("this").submit();
+	    swal('축제 등록!', "축제가 등록되었습니다!", 'success');
+	    $("#my-form").submit();
 	  } else {
 	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
-	    alert("입력하신 정보를 다시 확인해주세요.");
+	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');
 	  }
 	});
 	

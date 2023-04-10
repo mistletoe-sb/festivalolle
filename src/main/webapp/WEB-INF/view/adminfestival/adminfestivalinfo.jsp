@@ -127,7 +127,7 @@
 		</div>
 		</div>
 		
-		
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>		
 <script>
 
 function addButtonListeners() {
@@ -153,7 +153,7 @@ function addButtonListeners() {
             $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
             $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
             addButtonListeners();
-            alert('비공개 처리 됐습니다.');
+            swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
         }
     })
   });
@@ -180,7 +180,7 @@ function addButtonListeners() {
             $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
             $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
             addButtonListeners();
-            alert('비공개가 해제 됐습니다.');
+            swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
         }
     });
   });
@@ -207,7 +207,7 @@ function addButtonListeners() {
 	            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
 	            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
 	            addButtonListeners();
-	            alert('비공개 처리 됐습니다.');
+	            swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
 	        }
 	    })
 	  });
@@ -234,7 +234,7 @@ function addButtonListeners() {
 	            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
 	            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
 	            addButtonListeners();
-	            alert('비공개가 해제 됐습니다.');
+	            swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
 	        }
 	    });
 	  });
