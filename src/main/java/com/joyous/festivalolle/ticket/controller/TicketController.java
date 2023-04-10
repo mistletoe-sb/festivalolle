@@ -70,7 +70,9 @@ public class TicketController {
 	@GetMapping("/selectYearBuyer")
 	@ResponseBody
 	public List<V_ticketBuyerListVO> selectYeaBuyer(V_ticketBuyerListVO buyerListVO,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
-
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
+			int organizationCode = adminVO.getOrganizationCode();
+			buyerListVO.setOrganizationCode(organizationCode);
 			buyerListVO.setFestivalCode(festivalCode);
 			List<V_ticketBuyerListVO> selectYearBuyer = ticketService.selectYearBuyer(buyerListVO);
 			return selectYearBuyer;	

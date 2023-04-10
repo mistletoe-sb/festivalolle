@@ -67,9 +67,10 @@
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
-			SELECT DISTINCT TITLE, festival_code
+			SELECT DISTINCT write_date, TITLE, festival_code
 			FROM V_REVIEW_LIST
 			WHERE WRITE_DATE like  #{writeDate} and organization_code = #{organizationCode}
+			ORDER BY write_date desc, TITLE, festival_code
 		]]>
 	</select>	
 	
@@ -79,7 +80,8 @@
 		<![CDATA[
 			SELECT DISTINCT *
 			FROM V_REVIEW_LIST
-			WHERE festival_code = #{festivalCode}
+			WHERE festival_code = #{festivalCode} and organization_code = #{organizationCode}
+			ORDER BY write_date desc
 		]]>
 	</select>	
 		

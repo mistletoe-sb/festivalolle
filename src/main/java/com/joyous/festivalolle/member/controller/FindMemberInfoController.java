@@ -75,8 +75,10 @@ public class FindMemberInfoController {
 	}//회원탈퇴 페이지
 	
 	@PostMapping(value="/secession")
-	public String unactiveMember(String password, String status, HttpSession session, 
+	public String unactiveMember(HttpSession session, String password,
 			Model model, RedirectAttributes redirectattribute) {
+		MemberVO memberVO = (MemberVO)session.getAttribute("loginUser");
+		int status = memberVO.getStatus();
 		boolean findAcount = memberService.findMember(password);
 		if(findAcount) {
 			MemberVO resultPassword = memberService.unactiveMember(password, status);

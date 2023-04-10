@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
-import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.festivalReview.service.FestivalReviewService;
 
@@ -124,7 +123,9 @@ public class FestivalReviewController {
 		    	@GetMapping("/selectYearReview")
 		    	@ResponseBody
 		    	public List<V_ReviewListVO> selectYearFestival(V_ReviewListVO reviewVO,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
-
+		    		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
+					int organizationCode = adminVO.getOrganizationCode();
+					reviewVO.setOrganizationCode(organizationCode);
 		    		reviewVO.setFestivalCode(festivalCode);
 		    			List<V_ReviewListVO> selectYearTitleList = festivalReviewService.selectYearReview(reviewVO);
 		    			return selectYearTitleList;	
