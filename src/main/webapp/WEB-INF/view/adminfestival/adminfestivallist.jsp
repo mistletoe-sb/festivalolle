@@ -113,8 +113,8 @@
 		            <tbody id = "myList">
 		            
 		            </tbody>
-		            
 		        </table>
+
 		    </div>
             </div>
         </div>
@@ -137,6 +137,7 @@ $(document).ready(function() {
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
+        	$("#titleList").append("<option disabled selected> 축제를 선택 해주세요. </option>");
             $.each(data, function(index, item) {
             	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });
@@ -262,7 +263,7 @@ $('#yearBox').change(function() {
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-        	$("#titleList").append("<option > 축체를 선택 해주세요. </option>");
+        	$("#titleList").append("<option disabled selected> 축제를 선택 해주세요. </option>");
         	$.each(data, function(index, item) {
         		$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });

@@ -7,6 +7,14 @@
 img{
 width: 500px;
 }
+
+.input-file-button{
+  padding: 6px 25px;
+  background-color:#4e73df;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
 </style>    
  <%@ include file="../admintop.jsp" %>
 
@@ -18,7 +26,7 @@ width: 500px;
                 	<h6 class="m-0 font-weight-bold text-primary">축제 수정</h6>
                 </div>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input type="submit" class="btn btn-primary" value='수정하기'>
+					<input type="submit" class="btn btn-primary" value='저장하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 				</div>
             </div>
@@ -77,14 +85,25 @@ width: 500px;
 					<div id="image_container">
 						<c:choose>
 							<c:when test="${img == '1'}">
+								<div class="img_ctn">
 									<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+								</div>
+									<input type="hidden" class="imgstatus" value="0" name="rating">
 							</c:when>
 							<c:otherwise>
+								<div class="img_ctn">
 									<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+								</div>
+									<input type="hidden" class="imgstatus" value="1" name="rating">
 							</c:otherwise>
 						</c:choose>
 					</div>
-					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
+					<label class="input-file-button" for="form-control">
+					  업로드
+					</label>
+					<input  type="file" name="file" id="form-control" class="form-control" accept="image/*" onchange="setThumbnail(event);" style="display:none">
+					<input  type="hidden" name="image" value="${adminfestivalinfo.image}">
+					<input  type="hidden" name="thumbnail" value="${adminfestivalinfo.image}">
 					
 				</th>
 			</tr>
@@ -93,7 +112,7 @@ width: 500px;
 			<fieldset>
 			
 			<div class="d-grid gap-2 d-md-block" style ="float:right;">
-				<input type="submit" class="btn btn-primary" value='수정하기'>
+				<input type="submit" class="btn btn-primary" value='저장하기' >
 				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 			</div>
 
@@ -114,6 +133,7 @@ width: 500px;
 		<input type="text" id="sample6_doAddress" placeholder="도">
 		<input type="text" id="sample6_sigooAddress" placeholder="시구"> -->
 
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
@@ -121,10 +141,10 @@ function setThumbnail(event) {
     var reader = new FileReader();
 	
     reader.onload = function(event) {
-    	$("#image_container").empty();
+    	$(".img_ctn").empty();
       var img = document.createElement("img");
       img.setAttribute("src", event.target.result);
-      document.querySelector("div#image_container").appendChild(img);
+      document.querySelector("div.img_ctn").appendChild(img);
     };
 
     reader.readAsDataURL(event.target.files[0]);
