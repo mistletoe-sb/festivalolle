@@ -69,13 +69,18 @@ public class FindMemberInfoController {
 	    return "redirect:/login";
 	}//비밀번호 변경
 	
-	@GetMapping(value="/secession")
+	@GetMapping(value="/withdrawal")
 	public String secessionMembership(HttpSession session) {
-		return view_pos + "unactivemember";
+		return view_pos + "withdrawal";
 	}//회원탈퇴 페이지
 	
-	@PostMapping(value="/secession")
-	public String unactiveMember(HttpSession session, String password,
+	@GetMapping(value="/withdrawalmodal")
+	public String withdrawal(HttpSession session){
+		return  view_pos + "withdrawalalert";
+	}
+	
+	@PostMapping(value="/withdrawal")
+	public String withdrawal(HttpSession session, String password,
 			Model model, RedirectAttributes redirectattribute) {
 		MemberVO memberVO = (MemberVO)session.getAttribute("loginUser");
 		int status = memberVO.getStatus();
@@ -83,11 +88,11 @@ public class FindMemberInfoController {
 		if(findAcount) {
 			MemberVO resultPassword = memberService.unactiveMember(password, status);
 			model.addAttribute("resultPassword", resultPassword);
-			return view_pos + "모달창";
+			return "redirect:/withdrawalmodal";
 		}else {
 			String message = "입력하신 정보가 계정과 일치하지 않습니다.";
 			redirectattribute.addFlashAttribute("message" , message);
-			return "redirect:/secession";
+			return "redirect:/withdrawal";
 		}		
-	}//탈퇴계정 확인 및 회원탈퇴
+	}//탈퇴계정 확인 및 회원탈퇴 modal
 }

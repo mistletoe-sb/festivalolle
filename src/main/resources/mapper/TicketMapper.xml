@@ -9,10 +9,18 @@
 
 	<!-- 구매자 전체 리스트 출력 -->
 	<select id="ticketBuyerList" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
-		select ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+		select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
 		nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
 		FROM V_TICKET_BUYER_LIST
-		WHERE ORGANIZATION_CODE = #{organizationCode}
+		<choose> 
+			<when test='festivalCode != 0'>
+				WHERE FESTIVAL_CODE = #{festivalCode}
+				AND ORGANIZATION_CODE = #{organizationCode}
+			</when>
+			<otherwise>
+				WHERE ORGANIZATION_CODE = #{organizationCode}
+			</otherwise>
+		</choose>
 		ORDER BY purchase_time desc
 	</select>
 	
@@ -50,10 +58,9 @@
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
-			nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
-			FROM V_TICKET_BUYER_LIST
-			WHERE purchase_time like  #{purchaseTime} and organization_code = #{organizationCode}
+			SELECT  DISTINCT TITLE, festival_code
+            FROM V_TICKET_BUYER_LIST
+            WHERE purchase_time like #{purchaseTime} and organization_code = #{organizationCode}
 		]]>
 	</select>	
 	

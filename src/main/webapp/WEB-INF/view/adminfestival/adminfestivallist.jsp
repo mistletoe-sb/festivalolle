@@ -184,8 +184,8 @@ $(document).ready(function() {
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></th>');
                 $("#myList").append("</tr>");
             });
         }
@@ -235,8 +235,8 @@ $('input[name=btnradio]').change(function() {
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></th>');
             });
         },
         error: function() {
@@ -299,8 +299,8 @@ $('#titleList').change(function() {
                 $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                 $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                 $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></th>');
+                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></th>');
                 $("#myList").append("</tr>");
             });
         },
@@ -338,8 +338,8 @@ $('#festivalSearch').on('click', function(){
                $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
                $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
                $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></th>');
+               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></th>');
                $("#myList").append("</tr>");
            });
        },

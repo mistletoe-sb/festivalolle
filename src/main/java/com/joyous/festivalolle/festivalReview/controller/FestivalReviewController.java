@@ -26,18 +26,29 @@ public class FestivalReviewController {
 		FestivalReviewService festivalReviewService;
 		
 		@GetMapping("/list")
-		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session){
+		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session, String festivalCode){
 			 AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 			    if (adminVO == null) {
 			        // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
 			        return "admin/login";
+			    }else {
+			    	if(festivalCode == null) {
+				    int organizationCode = adminVO.getOrganizationCode();
+				    reviewVO.setOrganizationCode(organizationCode);
+				    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+				    model.addAttribute("reviewList", reviewList);
+				    System.out.println("reviewList1");
+				    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode x
+				    }else {
+				    	int organizationCode = adminVO.getOrganizationCode();
+					    reviewVO.setOrganizationCode(organizationCode);
+					    reviewVO.setFestivalCode(Integer.parseInt(festivalCode));
+					    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+					    model.addAttribute("reviewList", reviewList);
+					    System.out.println("reviewList2");
+					    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode o
+				    }
 			    }
-			    int organizationCode = adminVO.getOrganizationCode();
-			    reviewVO.setOrganizationCode(organizationCode);
-			    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
-			    model.addAttribute("reviewList", reviewList);
-			    System.out.println("reviewList");
-			    return "adminreview/review";
 		}//리뷰 리스트 페이지-기본 출력: 전체리뷰
 		
 		@ResponseBody

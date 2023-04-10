@@ -1,9 +1,6 @@
 package com.joyous.festivalolle.festival.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.joyous.festivalolle.festival.model.FestivalVO;
 
 public interface IFestivalService  {
