@@ -37,13 +37,13 @@ public class AdminController {
 	}
 	
 	//관리자 로그인화면으로 이동
-	@GetMapping(value="/admin/login")
+	@GetMapping(value="/admin")
 	public String login(Model model, HttpSession session) {
 		return "admin/login";
 	}
 	
 	//관리자 로그인
-	@PostMapping(value="/admin/login")
+	@PostMapping(value="/admin")
 	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();
 		adminVO = adminService.adminLogin(id, password);
@@ -51,22 +51,22 @@ public class AdminController {
 		if(adminVO != null) {
 			int adminType = adminVO.getStatus();
 			if(adminType == 0) {
-				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌	
-				return "system/systemhome";			
+				session.setAttribute("loginAdmin", adminVO);		//관리자타입 1번: 시스템 관리자
+				return "redirect:/system/adminlist";			
 			} else if(adminType == 2) {				
-				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
-				return "redirect:/admin/main";
-			} else if(adminType == 3) {							//입장권 관리자
-				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+				session.setAttribute("loginAdmin", adminVO);		//관리자타입 2번: 일반관리자		
+				return "redirect:/admin/festivallist";
+			} else if(adminType == 3) {								//관리자타입 3번: 입장권 관리자
+				session.setAttribute("loginAdmin", adminVO);					
 				return "ticket/ticketvalidator";
-			} else if(adminType == 4) {							//쿠폰 사용 관리자
-				session.setAttribute("loginAdmin", adminVO);		//세션에 VO 담아줌				
+			} else if(adminType == 4) {								//관리자타입 4번: 쿠폰 사용 관리자
+				session.setAttribute("loginAdmin", adminVO);					
 				return "ticket/couponvalidator";
 			}
 		} else {
 			System.out.println("로그인 실패");
 		}
-		return null;
+		return "admin/login";
 	}
 	
 	//로그아웃
@@ -75,7 +75,7 @@ public class AdminController {
 		logger.info("세션 파기 전", locale);
 		session.invalidate();
 		//logger.info("세션 파기 후", locale);
-		return "redirect:/admin/login";
+		return "redirect:/admin";
 	}
 	
 	//아이디 찾기 페이지로 이동

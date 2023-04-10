@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			//int status = adminVO.getStatus();
 			
 			if(admin == null || admin.equals("")){
-				response.sendRedirect(request.getContextPath()+"/admin/login");
+				response.sendRedirect(request.getContextPath()+"/admin");
 				return false;
 			} 
 			
