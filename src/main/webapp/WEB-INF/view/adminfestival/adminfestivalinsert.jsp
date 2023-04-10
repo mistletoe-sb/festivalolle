@@ -88,6 +88,12 @@ width: 500px;
 				</th>
 			
 			</tr>
+			<tr>
+			<th scope="col"><label for="exampleFormControlInput1" class="form-label" >드롭존</label></th>
+			<th scope="col">
+				<div class="dropzone" id="fileDropzone"></div>
+			</th>
+			</tr>
 		</table>
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
@@ -107,16 +113,40 @@ width: 500px;
 		</div>
 		
 		
-		
-		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" placeholder="주소"><br>
-		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-		<input type="text" id="sample6_doAddress" placeholder="도">
-		<input type="text" id="sample6_sigooAddress" placeholder="시구"> -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<!-- 클라이언트 소스 로드 -->
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+
+<script type="text/javascript">
+
+//fileDropzone dropzone 설정할 태그의 id로 지정
+Dropzone.options.fileDropzone = {
+    url: './festivalinsert', //업로드할 url (ex)컨트롤러)
+    init: function () {
+        /* 최초 dropzone 설정시 init을 통해 호출 */
+        var submitButton = document.querySelector("#my-form");
+        var myDropzone = this; //closure
+        submitButton.addEventListener("click", function () {
+            console.log("업로드"); //tell Dropzone to process all queued files
+            myDropzone.processQueue();
+        });
+    },
+    autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+    clickable: true, // 클릭가능여부
+    thumbnailHeight: 120, // Upload icon size
+    thumbnailWidth: 120, // Upload icon size
+    maxFiles: 1, // 업로드 파일수
+    maxFilesize: 10, // 최대업로드용량 : 10MB
+    parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
+    addRemoveLinks: true, // 삭제버튼 표시 여부
+    dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
+    uploadMultiple: false, // 다중업로드 기능
+};
+</script>
+
 <script>
 
 function setThumbnail(event) {
@@ -532,43 +562,7 @@ $("#submit-button1").on("click", function(event) {
 	
 	
 </script>
-<!-- <script type="text/javascript">
 
-var test = document.querySelector("#test");
-
- 
-$("#test").click(function(){
-	$.ajax({
-		  url: 'https://dapi.kakao.com/v2/local/search/address.json', // 호출할 API의 URL
-		  type: 'GET', // HTTP 요청 방식
-		  dataType: 'json', // 응답 데이터 타입
-		  success: function(response) { // 성공 시 호출되는 콜백 함수
-		    var sidoList = response; // 서버에서 받아온 지역 시도 목록
-		    console.log("answkduf");
-		    console.log(sidoList['data'].length);
-		    var arrSido = sidoList['data'];
-		    for (var i=0; i<arrSido.length; i++) {
-		    	var keys = Object.keys(arrSido[i]); //키를 가져옵니다. 이때, keys 는 반복가능한 객체가 됩니다.
-			    for (var j=0; j<keys.length; j++) {
-			    	var key = keys[j];
-			    	console.log("key : " + key + ", value : " + arrSido[i][key])
-			    }
-		    }
-		    
-		    // 받아온 데이터를 화면에 출력
-		     /* for (var i = 0; i < sidoList.length; i++) {
-		      var sido = sidoList[i];
-		      console.log(sido);
-		    }  */
-		    	
-		  },
-		  error: function(xhr, status, error) { // 실패 시 호출되는 콜백 함수
-		    console.log('Error:', error);
-		  }
-		});
-});
-
-</script> -->
 
 
 
