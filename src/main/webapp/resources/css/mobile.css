@@ -67,6 +67,10 @@ body {
 	font-family: 'nanum' !important;
 	font-size: 16px;
 	color: #191919;
+	-ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+	display: none;
 }
 /* <a>태그 기본 스타일 제거 */
 .link_anchor {
@@ -132,17 +136,17 @@ textarea::placeholder {
 }
 
 /* 메인 화면 카테고리 별 기본 레이아웃 */
-.default_carousel_layout {
+.default_horizontal_layout {
 	
 }
-.carousel_title {
+.category_title {
 	
 }
-.default_carousel_layout .festival_card_container {
+.horizontal_container{
 	
 }
-.default_carousel_layout .carousel-item {
-	width: 70%;
+.default_horizontal_layout .festival_card_container {
+	
 }
 
 /* 기본 축제 목록 레이아웃 */
@@ -194,7 +198,7 @@ textarea::placeholder {
 }
 #fes_status {
 	display: flex;
-	width: 27vmin;
+	width: 34vmin;
 	height: 100%;
 	text-align: left;
 	align-items: center;
@@ -287,17 +291,22 @@ textarea::placeholder {
 	width: 100%;
 	background-color: #F5F5F5;
 }
+.detail_info th, .detail_info td {
+	height: 4.45vmax;
+	vertical-align: top;
+	padding-top: 1.4vmin;
+}
 .detail_info th {
 	width: 20%;
-	height: 4.45vmax;
 	padding-left: 1.4vmin;
 	font-weight: 800;
 }
 .detail_info td {
 	width: 80%;
-	height: 4.45vmax;
 	padding-left: 2.7vmin;
+	padding-right: 1.4vmin;
 	font-weight: bold;
+	word-break: break-all;
 }
 /* 입장권 구매 모달 창 */
 .ticket_modal_layout {
@@ -522,6 +531,8 @@ textarea::placeholder {
 	display: inline-block;
 	width: 80%;
 	text-align: left;
+	font-size: 0.75rem;
+	font-weight: bold;
 }
 
 /* 리뷰 출력할 카드 폼 CSS */

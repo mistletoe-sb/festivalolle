@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <div class="top_empty" id="top">
-	<input id="rootContext" type="hidden" value="<c:url value='/'/>">
+	<input id="rootContext" type="hidden" value="${pageContext.request.contextPath}">
 </div>
 <div class="top_menu">
 	<div class="normal_top">

@@ -4,30 +4,46 @@
 <!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
 <mapper namespace="com.joyous.festivalolle.festival.repository.IFestivalMainRepository">
 
+	<!-- 기본 목록 조회(마지막 호출된 축제 코드 다음부터 페이지 당 콘텐츠 수만큼 조회) *축제 코드 정렬 = 등록순 -->
 	<select id="selectFestivalMainList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
 		<![CDATA[
-			SELECT * FROM festivalolle.v_festival_main WHERE status = 1
-			ORDER BY end_date ASC, start_date ASC, rating DESC
+			SELECT result.* 
+			FROM (SELECT festival_code, title,
+			             state_name, city_name, image, 
+			             rating
+			      FROM festivalolle.v_festival_main WHERE status = 1
+			      ORDER BY festival_code DESC
+			     ) result
 		]]>
+		<where>
+			<if test="lastFestivalCode != 0">
+				<![CDATA[festival_code < #{lastFestivalCode}]]>
+			</if>
+			<![CDATA[AND ROWNUM <= #{perPage}]]>
+		</where>
 	</select>
 	
+	<!-- 추천 목록 조회 -->
 	<select id="selectFestivalRecommendList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
 		<![CDATA[
 			SELECT * FROM 
 			(SELECT * FROM festivalolle.v_festival_main 
 			WHERE status = 1
-			ORDER BY (NVL(rating,0) * 0.5) + (visitors * 0.5) DESC)
+			ORDER BY (rating * 0.5) + (visitors * 0.5) DESC)
 			WHERE ROWNUM <= #{recommend}
 		]]>
 	</select>
 	
+	<!-- 축제 상세정보 조회 -->
 	<select id="selectFestialInfo" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
 		<![CDATA[
 			SELECT * FROM festivalolle.v_festival
-			WHERE festival_code = #{festivalCode}
+			WHERE status != 0
+			AND festival_code = #{festivalCode}
 		]]>
 	</select>
 	
+	<!-- 축제 일정(월별, 지역별) 조회 -->
 	<select id="selectFestivalCalendarList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
 		<![CDATA[
 			SELECT * FROM festivalolle.v_festival_main 
@@ -40,19 +56,34 @@
 		</if>
 	</select>
 
-	<select id="selectFestivalSearchList" parameterType="string" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+	<!-- 축제 검색 -->
+	<select id="selectFestivalSearchList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
 		<![CDATA[
-			SELECT * FROM festivalolle.v_festival_main 
-			WHERE festival_code IN(
-			SELECT festival_code FROM festivalolle.festival
-			WHERE status != 0
-			AND (title LIKE '%'|| #{keyword} || '%'
-			OR state_name LIKE '%'|| #{keyword} || '%'
-			OR city_name LIKE '%'|| #{keyword} || '%'
-			OR address LIKE '%'|| #{keyword} || '%'
-			OR detail LIKE '%'|| #{keyword} || '%'
-			OR tags LIKE '%'|| #{keyword} || '%'
-			)) ORDER BY status
+			SELECT * FROM(
+				SELECT festival_code, title,
+			           state_name, city_name, image, 
+			           rating
+			    FROM festivalolle.v_festival_main 
+				WHERE festival_code IN(
+					SELECT festival_code
+					FROM festivalolle.festival
+					WHERE status != 0
+					AND (title LIKE '%'|| #{keyword} || '%'
+					OR state_name LIKE '%'|| #{keyword} || '%'
+					OR city_name LIKE '%'|| #{keyword} || '%'
+					OR address LIKE '%'|| #{keyword} || '%'
+					OR detail LIKE '%'|| #{keyword} || '%'
+					OR tags LIKE '%'|| #{keyword} || '%'
+				)) ORDER BY festival_code DESC
+			)
 		]]>
+		<where>
+			<if test="lastFestivalCode != 0">
+				<![CDATA[
+					festival_code < #{lastFestivalCode}
+					AND ROWNUM <= #{perPage}
+				]]>
+			</if>
+		</where>
 	</select>
 </mapper>

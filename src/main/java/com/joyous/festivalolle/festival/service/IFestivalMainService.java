@@ -9,11 +9,12 @@ import com.joyous.festivalolle.festival.model.FestivalVO;
 // 작성자 : 이수봉
 public interface IFestivalMainService {
 	List<FestivalMainVO> selectFestivalRecommendList(int recommend);	// 홈화면의 추천 축제 리스트 정보 조회
-	List<FestivalMainVO> selectFestivalMainList();						// 홈화면의 축제 리스트 정보 조회
+	List<FestivalMainVO> selectFestivalMainList(int lastFestivalCode,
+												int perPage);			// 홈화면의 축제 리스트 정보 조회
 	List<FestivalVO> selectFestialInfo(int festivalCode);				// 축제 상세 정보 조회
 	// 선택한 달의 지역 축제 리스트 정보 조회(지역 선택 안 할 시 해당 월의 전체 축제 리스트)
 //	List<FestivalMainVO> selectFestivalCalendarList(String month);
 	List<FestivalMainVO> selectFestivalCalendarList(String month, String location);
 	// 축제 검색 목록 조회
-	List<FestivalMainVO> selectFestivalSearchList(String keyword);
+	List<FestivalMainVO> selectFestivalSearchList(String keyword, int lastFestivalCode, int perPage);
 }

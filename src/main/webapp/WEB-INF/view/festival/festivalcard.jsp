@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <div class="festival_card_container"
 	 onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+	<input type="hidden" class="festival_code" value="${fes.festivalCode}">
 	<div class="card">
 		<div class="ratio">
 			<c:choose>
@@ -18,6 +19,11 @@
 			</c:choose>
 		</div>
 		<div class="card-body">
+			<div class="festival_title">
+				<p class="card-text">
+					${fes.title}
+				</p>
+			</div>
 			<div class="festival_location">							
 				<p class="card-text">
 					${fes.stateName} ${fes.cityName}

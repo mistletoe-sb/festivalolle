@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,13 +19,14 @@
 		<%-- 검색된 목록 출력할 레이아웃 --%>
 		<div class="default_list_layout">
 			<div>
-				<h3>검색결과 : ${fn:length(searchList)}건</h3>
+				<h3>"${keyword}"에 대한<br>검색결과 : ${resultCount}건</h3>
 			</div>
 			<c:forEach var="fes" items="${searchList}" varStatus="stat">
 				<c:set var="img" value="${searchListImages[stat.index]}"/>
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
 		</div>
+		<input type="hidden" id="searched" value="${keyword}">
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>
