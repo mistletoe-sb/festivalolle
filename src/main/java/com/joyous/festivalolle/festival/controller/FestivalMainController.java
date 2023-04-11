@@ -67,10 +67,11 @@ public class FestivalMainController {
 	}
 	
 	// 페이징 처리된 축제 목록 조회(스크롤이 bottom에 다다르면 Ajax 통신하여 자동 로딩)
-	@PostMapping(value={"/home/more", "/festival/search/more", "/festival/calendar/more"})
+	@PostMapping(value={"/home/more", "/festival/list/more", "/festival/search/more", "/festival/calendar/more"})
 	@ResponseBody
 	public Map<String, Object> selectPagingList(@RequestBody Map<String, Object> paramData, HttpServletRequest request) {
-		int lastFestivalCode = Integer.parseInt((String)paramData.get("lastFestivalCode"));	// 마지막으로 조회된 축제 코드
+		String lastFestivalCodeData = (String)paramData.get("lastFestivalCode");
+		int lastFestivalCode = (lastFestivalCodeData!=null)?Integer.parseInt(lastFestivalCodeData):0;	// 마지막으로 조회된 축제 코드
 		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
 		List<FestivalMainVO> festivalMainVOList = null;
 		Map<String, Object> responseData = new HashMap<String, Object>();
@@ -102,6 +103,7 @@ public class FestivalMainController {
 		} else {
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
 		}
+		responseData.put("dataClass", "festival");
 		return responseData;
 	}
 	

@@ -5,6 +5,21 @@ $(document).ready(function(){
 	var root = $('#rootContext').val();					// context root
 	$('.page_title > p').text($('title').text());		// 페이지 제목을 top메뉴에 출력
 	
+	// 페이지 이동 시 로딩 시작
+	$(window).on('beforeunload', function(){
+		$('.loading_img').css('top', '0px');
+		$('.loading_img').css('height', '100%');
+		$('.loading_img').css('background-color', '#FFFFFF99');
+		$('.loading_img').attr('hidden', false);		
+	});
+	// 페이지 로드 완료 시 로딩 종료
+	$(window).on('load', function(){
+		$('.loading_img').css('bottom', '8.5vmax');
+		$('.loading_img').css('height', '5vmax');
+		$('.loading_img').css('background-color', 'none');
+		$('.loading_img').attr('hidden', true);
+	});
+	
 	// bottom메뉴 클릭 시 누른 듯한 효과 부여(mousedown/mouseup, touchstart/touchend)
 	$('.bottom_menu>div').on('mousedown', function(){
 		$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
@@ -39,6 +54,34 @@ $(document).ready(function(){
 	// 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
 	calendar_event();
 	
+	// 이미지 로드
+	if($('festival_card_container .card-img-top, .recommend_img').length){
+		var images = $('.card-img-top, .recommend_img');
+		// 각 요소 별 이미지 로드
+		$.each(images, function(index, item){
+			var festivalCode = $(item).attr('alt');
+			//console.log(festivalCode);
+			// AJAX 호출
+			$.ajax({
+				url: root + '/image',		// 요청 URL
+				type: 'GET',				// GET 방식으로 요청
+				data: {festivalCode: festivalCode},
+				dataType: 'text',
+				success: function(data){
+					if(data != ''){
+						$(item).attr('src', data);
+					}else{
+						$(item).attr('src', root + '/resources/img/festest3.jpg');
+					}
+				},
+				error: function(){
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
+	
 	// 축제 일정 조회 Ajax(요소 존재 시 이벤트 바인딩)
 	if($('#select_month').length){
 		// 월 선택
@@ -46,12 +89,12 @@ $(document).ready(function(){
 			var month = $('#select_month').val();
 			// AJAX 호출
 			$.ajax({
-				url: './calendar/select', 		// 요청 URL
-				type: 'GET', 					// GET 방식으로 요청
-				async: false,					// 동기 처리
-				data: { month: month }, 		// 서버로 보낼 데이터
+				url: root + '/festival/calendar/select',	// 요청 URL
+				type: 'GET', 				// GET 방식으로 요청
+				async: false,				// 동기 처리
+				data: {month: month}, 		// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					// 응답 데이터 분류
 					var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
 					var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
@@ -60,7 +103,7 @@ $(document).ready(function(){
 						$('#select_location').empty();			// 데이터 출력할 요소 비우기
 						// 지역 목록 출력
 						$("#select_location").append('<option value="전체" selected>전체</option>');
-						$.each(locationList, function(index, item) {
+						$.each(locationList, function(index, item){
 							$("#select_location").append('<option value="' + item + '">' + item + '</option>');
 						});
 					}
@@ -70,7 +113,7 @@ $(document).ready(function(){
 					// 이벤트 바인딩
 					calendar_event();
 				},
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
 				}
@@ -84,12 +127,11 @@ $(document).ready(function(){
 			var location = $('#select_location').val();
 			// AJAX 호출
 			$.ajax({
-				url: './calendar/select', 		// 요청 URL
-				type: 'GET', 					// GET 방식으로 요청
-				data: { month: month, 
-						location: location }, 	// 서버로 보낼 데이터
+				url: root + '/festival/calendar/select', 	// 요청 URL
+				type: 'GET', 								// GET 방식으로 요청
+				data: {month: month, location: location}, 	// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					// 응답 데이터 분류
 					var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
 					var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
@@ -99,7 +141,7 @@ $(document).ready(function(){
 					// 이벤트 바인딩
 					calendar_event();
 				},
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
 				}
@@ -167,22 +209,26 @@ $(document).ready(function(){
 	// 축제 리뷰 초기 로딩
 	if($('.review_list_layout').length){
 		var isReviewAlreadyInitLoad = false;
-		$(window).on('scroll',function() {
-			if(checkVisible($('#review')) && !isReviewAlreadyInitLoad) {
-				var festivalCode = $('input[name="festivalCode"]').val();
+		$(window).on('scroll',function(){
+			if(checkVisible($('#review')) && !isReviewAlreadyInitLoad){
+				var paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':'0'}
 				// AJAX 호출
 				$.ajax({
-					url: '../review/list', 					// 요청 URL
-					type: 'GET', 							// GET 방식으로 요청
-					data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+					url: root + '/review/list',			// 요청 URL
+					type: 'POST', 						// POST 방식으로 요청
+					contentType: 'application/json',	// Json 타입으로 데이터 전송
+					data: JSON.stringify(paramData),	// 서버로 보낼 데이터
 					dataType: 'json',
-					success: function(data) {
-						// 리뷰 목록 출력
-						$('.review_list_layout').append(printReviewList(data, root));
-						// 이벤트 바인딩
-						review_btn_event(root);
+					success: function(data){
+						if(data.dataStatus == 'NORMAL_TRUE'){							
+							var reviewList = data.festivalReviewList;
+							// 리뷰 목록 출력
+							$('.review_list_layout').append(printReviewList(reviewList, root));
+							// 이벤트 바인딩
+							review_btn_event(root);
+						}
 					},
-					error: function() {
+					error: function(){
 						// AJAX 요청이 실패한 경우 에러 처리
 						console.log('데이터를 불러오는데 실패했습니다.');
 					}
@@ -200,22 +246,26 @@ $(document).ready(function(){
 			var scrollTop = $(window).scrollTop();		// scroll top
 			var viewportHeight = $(window).height();	// viewport height
 			var scrollHeight = $(document).height();	// available scroll height
-			if (scrollTop + viewportHeight >= scrollHeight) {	// 스크롤이 바닥에 다다를 시
+			if(scrollTop + viewportHeight >= scrollHeight){	// 스크롤이 바닥에 다다를 시
 				var pageTitle = $('title').text();		// 페이지 타이틀
 				var requestUrl = '';										// 요청 URL
-				var lastFestivalCode = $('.festival_code').last().val();	// 마지막으로 호출된 축제 코드 참조
 				var paramData = {};	// 요청 데이터
 				var appendPoint;	// 축제 목록을 추가할 지점
 				switch(pageTitle){
 					case '축제올래':
 						requestUrl = root + '/home/more'
-						paramData = {'lastFestivalCode':lastFestivalCode};
+						paramData = {'lastFestivalCode':$('.festival_code').last().val()};
 						appendPoint = $('.default_list_layout')
 						break;
 					case '축제검색':
 						requestUrl = root + '/festival/search/more'
-						paramData = {'lastFestivalCode':lastFestivalCode, 'keyword':$('#searched').val()};
+						paramData = {'lastFestivalCode':$('.festival_code').last().val(), 'keyword':$('#searched').val()};
 						appendPoint = $('.default_list_layout')
+						break;
+					case '상세정보':
+						requestUrl = root + '/review/list/more'
+						paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':$('.review_code').last().val()};
+						appendPoint = $('.review_list_layout')
 						break;
 					default:
 						isAjaxPossible = false;
@@ -230,31 +280,50 @@ $(document).ready(function(){
 						contentType: 'application/json',	// Json 타입으로 데이터 전송
 						data: JSON.stringify(paramData),	// 서버로 보낼 데이터
 						dataType: 'json',
-						success: function(data) {
+						beforeSend: function(){
+							startLoading();	// 로딩 이미지 출력
+						},
+						success: function(data){
 							isAjaxPossible = false;
-							if(data.dataStatus == 'NORMAL_TRUE'){
-								var fes = data.fesList;
-								var fesImages = data.fesImages;
-								$.each(fes, function(index, item){
-									appendPoint.append(printFestivalCard(item, fesImages[index], root)).trigger("create");
-									//console.log(item.festivalCode);
-								});
-								if(fes.length == 0){
-									console.log('조회할 데이터가 없습니다.');
-									isMoreData = false;
+							if(data.dataStatus == 'NORMAL_TRUE'){	// 정상적인 데이터 응답
+								var dataClass = data.dataClass;
+								if(dataClass == 'festival'){		// 응답 데이터가 축제 목록일 경우
+									var fes = data.fesList;
+									var fesImages = data.fesImages;
+									$.each(fes, function(index, item){
+										appendPoint.append(printFestivalCard(item, fesImages[index], root));
+										//console.log(item.festivalCode);
+									});
+									if(fes.length == 0){
+										console.log('조회할 데이터가 없습니다.');
+										isMoreData = false;
+									}									
+								}else if(dataClass == 'review'){	// 응답 데이터가 리뷰 목록일 경우
+									var review = data.festivalReviewList;
+									$.each(review, function(index, item){
+										appendPoint.append(printReviewList(item, root));
+										//console.log(item.festivalReviewCode);
+										review_btn_event(root);
+									});
+									if(review.length == 0){
+										console.log('조회할 데이터가 없습니다.');
+										isMoreData = false;
+									}
 								}
 							}else{
 								console.log('불러올 목록이 없습니다.');
 								isMoreData = false;
 							}
 						},
-						error: function() {
+						error: function(){
 							// AJAX 요청이 실패한 경우 에러 처리
 							console.log('데이터를 불러오는데 실패했습니다.');
+							endLoading();	// 로딩 이미지 숨김
 						}, 
-						complete: function() {
+						complete: function(){
 							console.log('comp');
 							isAjaxPossible = true;
+							endLoading();	// 로딩 이미지 숨김
 						}
 					});
 				}
@@ -272,7 +341,7 @@ function calendar_event(){
 			$(this).css('margin-bottom', '1.5vh');
 			$(this).next().attr('hidden', true);
 			$(this).prev().val('hide');
-		} else{
+		}else{
 			$('.folding_active[value="active"]').next().css('margin-bottom', '1.5vh');
 			$('.folding_active[value="active"]').next().next().attr('hidden', true);
 			$('.folding_active[value="active"]').val('hide');
@@ -340,11 +409,11 @@ function printCalendar(month, weekData, weekDataImages, pageRoot){
 function requestCheckBookmark(festivalCode, pageRoot){
 	// AJAX 호출
 	$.ajax({
-		url: '../bookmark/check', 	// 요청 URL
-		type: 'GET', 				// GET 방식으로 요청
-		data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+		url: pageRoot + '/bookmark/check', 	// 요청 URL
+		type: 'GET', 						// GET 방식으로 요청
+		data: {festivalCode: festivalCode},	// 서버로 보낼 데이터
 		dataType: 'json',
-		success: function(data) {
+		success: function(data){
 			var dataStat = data.dataStat;
 			var bookmarkVO = data.bookmarkVO;
 			var isBookmark = false;
@@ -379,7 +448,7 @@ function requestCheckBookmark(festivalCode, pageRoot){
 			}
 			
 		},
-		error: function() {
+		error: function(){
 			// AJAX 요청이 실패한 경우 에러 처리
 			console.log('데이터를 불러오는데 실패했습니다.');
 		}
@@ -393,12 +462,12 @@ function requestChangeBookmark(pageRoot){
 			var bookmarkCode = $(this).children('.bookmark_code').val();
 			// 북마크 된 상태이면 북마크 취소 실행
 			$.ajax({
-				url: '../bookmark/delete', 	// 요청 URL
-				type: 'POST', 				// POST 방식으로 요청
-				async: false,				// 동기 처리
-				data: { bookmarkCode: bookmarkCode },	// 서버로 보낼 데이터
+				url: pageRoot + '/bookmark/delete', // 요청 URL
+				type: 'POST', 						// POST 방식으로 요청
+				async: false,						// 동기 처리
+				data: {bookmarkCode: bookmarkCode},	// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					ajaxResponseExecuteTriple(data,
 						function(){
 							// NORMAL_TRUE 시
@@ -417,7 +486,7 @@ function requestChangeBookmark(pageRoot){
 						}
 					);
 				}.bind(this),
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
 				}
@@ -426,17 +495,17 @@ function requestChangeBookmark(pageRoot){
 			// 북마크 안 된 상태이면 북마크 추가 실행
 			var festivalCode = $(this).children('.fes_code').val();
 			$.ajax({
-				url: '../bookmark/insert', 	// 요청 URL
-				type: 'POST', 				// POST 방식으로 요청
-				async: false,				// 동기 처리
-				data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+				url: pageRoot + '/bookmark/insert',	// 요청 URL
+				type: 'POST', 						// POST 방식으로 요청
+				async: false,						// 동기 처리
+				data: {festivalCode: festivalCode},	// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					ajaxResponseExecuteFull(data,
 						function(){
 							// NORMAL_TRUE 시
 							console.log('북마크 추가 완료');
-							requestCheckBookmark(festivalCode, pageRoot)
+							requestCheckBookmark(festivalCode, pageRoot);
 						},
 						function(){
 							// NORMAL_FALSE 시
@@ -453,7 +522,7 @@ function requestChangeBookmark(pageRoot){
 						}
 					);
 				},
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
 				}
@@ -467,17 +536,17 @@ function requestMyReview(pageRoot){
 	var festivalCode = $('input[name="festivalCode"]').val();
 	// AJAX 호출
 	$.ajax({
-		url: '../review/myreview', 				// 요청 URL
+		url: pageRoot + '/review/myreview', 	// 요청 URL
 		type: 'GET', 							// GET 방식으로 요청
-		data: { festivalCode: festivalCode },	// 서버로 보낼 데이터
+		data: {festivalCode: festivalCode},		// 서버로 보낼 데이터
 		dataType: 'json',
-		success: function(data) {
+		success: function(data){
 			$('#my_review').empty();			// 요소 비우기
 			// 리뷰 목록 출력
 			$('#my_review').append(printMyReview(data, pageRoot));
 			review_btn_event(pageRoot);
 		},
-		error: function() {
+		error: function(){
 			// AJAX 요청이 실패한 경우 에러 처리
 			console.log('데이터를 불러오는데 실패했습니다.');
 		}
@@ -515,12 +584,12 @@ function printMyReview(myReview, pageRoot){
 			appendHTML += '<div class="rating_layout">';
 			for(var i = 1; i <= myReview.rating; i++){
 				appendHTML += '<div class="icon_layout rating_img">';
-				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="fill">';
 				appendHTML += '</div>';
 			}
 			for(var j = myReview.rating + 1; j <= 5; j++){
 				appendHTML += '<div class="icon_layout rating_img">';
-				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="empty">';
 				appendHTML += '</div>';
 			}
 			appendHTML += '</div>';		
@@ -559,7 +628,7 @@ function printReviewList(reviewList, pageRoot){
 		appendHTML += '<div class="multi_line_text"><p>' + item.content + '</p></div>';
 		appendHTML += '</div>';
 		appendHTML += '<div class="review_btn_layout"><p class="card-text report_review">신고</p>';
-		appendHTML += '<input type="hidden" value="' + item.festivalReviewCode + '">';
+		appendHTML += '<input type="hidden" class="review_code" value="' + item.festivalReviewCode + '">';
 		appendHTML += '</div></div></div></div>';
 	});
 	return appendHTML;
@@ -576,38 +645,51 @@ function review_btn_event(pageRoot){
 	// 입장권 구매하지 않은 상태에서 등록 버튼 클릭 시
 	if($('.goto_ticket').length){
 		$('.goto_ticket').off('click').on('click', function(){
+			swal({text: "리뷰 작성은 입장권 구매 후 가능합니다.", icon: "info", button: "확인"});
 			$('.menuIndex').click();	// 입장권 구매 위치로 스크롤 이동
 		});
 	}
 	// 정상적인 리뷰 등록 이벤트
 	if($('.insert_review').length){
 		$('.insert_review').off('click').on('click', function(){
-			var festivalCode = $('input[name="festivalCode"]').val();
-			var content = $('#my_review textarea').val();
 			var rating = $('.rating_check').length;
-			// post 요청할 데이터 JSON 타입으로 가공
-			var param = {'festivalCode':festivalCode,'content':content,'rating':rating };
-			// AJAX 호출
-			$.ajax({
-				url: '../review/insert', 			// 요청 URL
-				type: 'POST', 						// POST 방식으로 요청
-				async: false,						// 동기 처리
-				contentType: 'application/json',
-				data: JSON.stringify(param),		// 서버로 보낼 데이터
-				dataType: 'json',
-				success: function(data) {
-					if(data){
-						alert('등록이 완료되었습니다.');
-						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
-					}else{
-						console.log('리뷰 등록에 실패했습니다.');
+			if(rating >= 1 && rating <= 5){	// 평점이 정상적으로 선택된 경우
+				var festivalCode = $('input[name="festivalCode"]').val();
+				var content = $('#my_review textarea').val();
+				// post 요청할 데이터 JSON 타입으로 가공
+				var param = {'festivalCode':festivalCode,'content':content,'rating':rating};
+				// AJAX 호출
+				$.ajax({
+					url: pageRoot + '/review/insert', 	// 요청 URL
+					type: 'POST', 						// POST 방식으로 요청
+					async: false,						// 동기 처리
+					contentType: 'application/json',
+					data: JSON.stringify(param),		// 서버로 보낼 데이터
+					dataType: 'json',
+					success: function(data){
+						if(data){
+							swal({text: "리뷰 등록이 완료되었습니다.", icon: "success", button: "확인"});
+							requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
+							var prevCount = parseInt($('.review_count').text());	// 리뷰 등록 전 리뷰 수
+							var prevRating = parseInt($('.rating_txt p').text());	// 리뷰 등록 전 평점
+							var currentCount = prevCount + 1;			// 리뷰 등록 후 리뷰 수
+							var currentRating = parseFloat(((prevCount * prevRating)) + rating)/currentCount;
+							$('.rating_txt p').text(currentRating.toFixed(1));
+							$('.review_count').text(currentCount);
+						}else{
+							console.log('리뷰 등록에 실패했습니다.');
+							swal({text: "리뷰가 정상적으로 등록되지 못했습니다.", icon: "error", button: "확인"});
+						}
+					},
+					error: function(){
+						// AJAX 요청이 실패한 경우 에러 처리
+						console.log('데이터를 불러오는데 실패했습니다.');
+						swal({text: "리뷰가 정상적으로 등록되지 못했습니다.", icon: "error", button: "확인"});
 					}
-				},
-				error: function() {
-					// AJAX 요청이 실패한 경우 에러 처리
-					console.log('데이터를 불러오는데 실패했습니다.');
-				}
-			});
+				});
+			}else{	// 평점이 정상적으로 선택되지 않은 경우
+				swal({text: "평점을 선택해주세요!", icon: "warning", button: "확인"});
+			}
 		});
 	}
 	// 리뷰 신고 시 이벤트
@@ -616,21 +698,22 @@ function review_btn_event(pageRoot){
 			var festivalReviewCode = $(this).next().val();
 			// AJAX 호출
 			$.ajax({
-				url: '../review/report', 	// 요청 URL
+				url: pageRoot + '/review/report', 	// 요청 URL
 				type: 'POST', 				// POST 방식으로 요청
 				async: false,				// 동기 처리
-				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
+				data: {festivalReviewCode: festivalReviewCode},	// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					ajaxResponseExecuteTriple(data,
 						function(){
 							// NORMAL_TRUE 시
-							alert('신고 처리되었습니다.');
+							swal({text: "신고 처리되었습니다.", icon: "success", button: "확인"});
 							$(this).closest('.review_card_container').remove();		// 해당 리뷰 숨김
 						}.bind(this),
 						function(){
 							// ERROR 시
 							console.log('신고 처리에 실패했습니다.');
+							swal({text: "신고 처리에 실패했습니다.", icon: "error", button: "확인"});
 						},
 						function(){
 							// NOT_SESSION 시
@@ -638,9 +721,10 @@ function review_btn_event(pageRoot){
 						}
 					);
 				}.bind(this),
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
+					swal({text: "신고 처리에 실패했습니다.", icon: "error", button: "확인"});
 				}
 			});
 		});
@@ -649,24 +733,33 @@ function review_btn_event(pageRoot){
 	if($('.delete_review').length){
 		$('.delete_review').off('click').on('click', function(){
 			var festivalReviewCode = $(this).next().val();
+			var rating = $('img[alt="fill"]').length;
 			// AJAX 호출
 			$.ajax({
-				url: '../review/delete', 	// 요청 URL
+				url: pageRoot + '/review/delete', 	// 요청 URL
 				type: 'POST', 				// POST 방식으로 요청
 				async: false,				// 동기 처리
-				data: { festivalReviewCode: festivalReviewCode },	// 서버로 보낼 데이터
+				data: {festivalReviewCode: festivalReviewCode},	// 서버로 보낼 데이터
 				dataType: 'json',
-				success: function(data) {
+				success: function(data){
 					if(data){
-						alert('삭제가 완료되었습니다.');
+						swal({text: "삭제가 완료되었습니다.", icon: "success", button: "확인"});
 						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
+						var prevCount = parseInt($('.review_count').text());	// 리뷰 삭제 전 리뷰 수
+						var prevRating = parseInt($('.rating_txt p').text());	// 리뷰 삭제 전 평점
+						var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
+						var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
+						$('.rating_txt p').text(currentRating.toFixed(1));
+						$('.review_count').text(currentCount);
 					}else{
 						console.log('리뷰 삭제에 실패했습니다.');
+						swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
 					}
 				},
-				error: function() {
+				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
 					console.log('데이터를 불러오는데 실패했습니다.');
+					swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
 				}
 			});
 		});
@@ -689,7 +782,7 @@ function moveToIndex(){
 	var margin_space = $(window).height()*0.13;
 	$('.menuIndex').click(function(){
 		var offset = $('#menu').offset(); //선택한 태그의 위치를 반환
-        $('html').animate({scrollTop : offset.top - margin_space}, 0);
+        $('html').animate({scrollTop : (offset.top*0.6) - margin_space}, 0);
 	});
 	$('.infoIndex').click(function(){
 		var offset = $('#info').offset(); //선택한 태그의 위치를 반환
@@ -756,4 +849,13 @@ function ajaxResponseExecuteDual(data, trueCallback, falseCallback){
 			falseCallback();
 			break;
 	}
+}
+
+// Ajax 시 로딩 이미지 출력
+function startLoading(){
+	$('.loading_img').attr('hidden', false);
+}
+// Ajax 시 로딩 이미지 제거
+function endLoading(){
+	$('.loading_img').attr('hidden', true);
 }

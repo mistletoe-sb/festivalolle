@@ -19,5 +19,7 @@ public interface IUserReviewRepository {
 															@Param("memberCode") int memberCode);
 	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
 	List<ViewFestivalReviewVO> selectFestivalReviewList(@Param("festivalCode") int festivalCode,
-														@Param("memberCode") int memberCode);
+														@Param("memberCode") int memberCode,
+														@Param("lastReviewCode") int lastReviewCode,
+														@Param("perPage") int perPage);
 }
