@@ -46,6 +46,8 @@
                 </div> -->
             
             	
+            	<div id="firstResult2">
+            	
                 <div class="table-responsive" id="firstResult">               	
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">  
                         <thead>
@@ -101,6 +103,7 @@
                         </tbody>
                     </table>
            
+           			<!-- 페이징 네비게이션 -->
 	                <nav aria-label="Page navigation example">
 					  <ul class="pagination">
 					    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -111,8 +114,11 @@
 					  </ul>
 					</nav>
                 </div>
+                
+                </div>
+                
                  
-                <div id = "boardList"><!-- <table id = "boardList" border = "1"> --></table></div>
+                <div id = "boardList"><!-- <table id = "boardList" border = "1"></table> --></div>
                 
                 
                 
@@ -353,10 +359,13 @@
 					
 					html += '</tbody></table></div>';
 					
-					$('#firstResult').hide();
-					//$('#boardList').empty();
-					//$('#boardList').append(html);					 	
-					$('#boardList').empty.append(html);							
+					//$('#firstResult').hide();				 	
+					//$('#boardList').empty.append(html);
+					//$('#boardList').empty;
+					//$('#boardList').append(html);
+					
+					$('#firstResult2').html(html);
+
 					
 				},//end success
 				error:function(){
