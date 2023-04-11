@@ -13,7 +13,6 @@
 .card-horizontal {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -146,7 +145,7 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
   var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
   var result = ""; // 결과값 받을 변수 선언
   console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
-  if (((entDateParam == 1) && (cpuDateParam == 1)) && (betweenTimeDay < 0)) { // 사용 완료
+  if (((entDateParam != 0) && (cpuDateParam != 0))) { // 사용 완료
     result = 0;
   } else if (((entDateParam == 0) || (cpuDateParam == 0)) && (betweenTimeDay >= 0)) { // 기간 만료
     result = 1;
