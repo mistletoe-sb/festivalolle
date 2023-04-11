@@ -1,17 +1,8 @@
 package com.joyous.festivalolle.festival.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festival.repository.IFestivalRepository;
 

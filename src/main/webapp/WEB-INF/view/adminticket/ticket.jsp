@@ -41,18 +41,19 @@
           	
 		 	<div class="table-responsive">
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-					<thead>
-						<tr id="sector">
+					<thead class="text-center">
+						<tr>
 		
-							<th scope="col">아이디</th>
-							<th scope="col">이름</th>
-							<th scope="col">전화번호</th>
-							<th scope="col">구매일시</th>
-							<th scope="col">입장일시</th>
-							<th scope="col">쿠폰사용일시</th>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>전화번호</th>
+							<th>구매일시</th>
+							<th>입장일시</th>
+							<th>쿠폰사용일시</th>
+							<th>축제명</th>
 						</tr>
 					</thead>
-					<tbody id="contents">
+					<tbody class="text-center" id="contents">
 						<c:forEach items="${ticketList}" var="ticketList">
 							<tr>
 								<td>${ticketList.id}</td>
@@ -61,6 +62,7 @@
 								<td>${ticketList.purchaseTime}</td>
 								<td>${ticketList.entranceTime}</td>
 								<td>${ticketList.couponUseTime}</td>
+								<td>${ticketList.title}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -92,6 +94,7 @@
 	          row.append($('<td></td>').text(ticketList.purchaseTime));
 	          row.append($('<td></td>').text(ticketList.entranceTime));
 	          row.append($('<td></td>').text(ticketList.couponUseTime));
+	          row.append($('<td></td>').text(ticketList.title));
 	          $("#contents").append(row); //각 행을 $("#contents")에 추가
 	        });
 	      },
@@ -110,7 +113,8 @@
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-            $.each(data, function(index, item) {
+        		$("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+            	$.each(data, function(index, item) {
             	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });
         },
@@ -161,7 +165,7 @@
  	            data: { titleyear: titleyear }, // 서버로 보낼 데이터
  	            dataType: "json",
  	           success: function(data) {
- 	              $("#titleList").append("<option > 축제를 선택 해주세요. </option>");
+ 	              $("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
  	              $.each(data, function(index, ticketList) {
  	                 $("#titleList").append("<option value='" +ticketList.festivalCode+ "'>" +ticketList.title + "</option>");
  	               });
@@ -192,6 +196,7 @@
  	       	       row.append($('<td></td>').text(ticketList.purchaseTime));
  	       	       row.append($('<td></td>').text(ticketList.entranceTime));
  	       	       row.append($('<td></td>').text(ticketList.couponUseTime));
+ 	       	   	   row.append($('<td></td>').text(ticketList.title));
  	       	       $("#contents").append(row); //각 행을 $("#contents")에 추가
  	       	       });
  	       	     },
