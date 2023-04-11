@@ -159,7 +159,7 @@
 						</tr>
 						<tr>
 							<th scope="row">담당기관</th>
-							<td>${fesInfo[0].organizationCode}</td>
+							<td>${fesInfo[0].organizationName}</td>
 						</tr>
 						<tr>
 							<th scope="row">문의</th>
@@ -192,7 +192,7 @@
 			</div>
 			<div class="layout_bottom_line" id="review">
 				<div class="festival_info_sub_title">
-					<h3>축제 리뷰 N개</h3>
+					<h3>축제 리뷰 ${fesInfo[0].reviewCount}개</h3>
 				</div>
 				<div>
 					<div class="icon_layout">							

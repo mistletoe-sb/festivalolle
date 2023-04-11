@@ -25,8 +25,8 @@ public class FestivalMainService implements IFestivalMainService {
 
 	// 홈 화면 기본 목록 조회
 	@Override
-	public List<FestivalMainVO> selectFestivalMainList() {
-		return festivalMainRepository.selectFestivalMainList();
+	public List<FestivalMainVO> selectFestivalMainList(int lastFestivalCode, int perPage) {
+		return festivalMainRepository.selectFestivalMainList(lastFestivalCode, perPage);
 	}
 
 	// 축제 상세 정보 조회
@@ -49,8 +49,8 @@ public class FestivalMainService implements IFestivalMainService {
 
 	// 축제 검색 목록 조회
 	@Override
-	public List<FestivalMainVO> selectFestivalSearchList(String keyword) {
-		return festivalMainRepository.selectFestivalSearchList(keyword);
+	public List<FestivalMainVO> selectFestivalSearchList(String keyword, int lastFestivalCode, int perPage) {
+		return festivalMainRepository.selectFestivalSearchList(keyword, lastFestivalCode, perPage);
 	}
 
 
