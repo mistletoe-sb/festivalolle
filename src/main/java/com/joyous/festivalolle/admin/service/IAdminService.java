@@ -39,4 +39,10 @@ public interface IAdminService {
 	//2. 이메일 중복 체크
 	//3. 핸드폰 번호 중복 체크
 	int overlapChk(AdminVO adminVO);
+	
+	
+	
+	//시스템 관리자 adminlist 전체 수(Pagination)
+	List<AdminVO>getList(AdminVO searchVO);
+	int getListCnt(AdminVO searchVO);
 }

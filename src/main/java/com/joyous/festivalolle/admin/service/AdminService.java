@@ -94,5 +94,18 @@ public class AdminService implements IAdminService {
 	    return numStr;
 	}
 	
+	//시스템 관리자 adminlist 전체 수(Pagination)
+	@Override
+	public List<AdminVO> getList(AdminVO searchVO) {
+		 return adminRepository.getList(searchVO); 
+	}
+
+	@Override
+	public int getListCnt(AdminVO searchVO) {
+		return adminRepository.getListCnt(searchVO);
+	}
+	
+	
+	
 	
 }

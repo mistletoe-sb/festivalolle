@@ -12,8 +12,8 @@
 		]]>
 	</select>
 	
-	<!-- 전체 목록 개수 -->
-	<select id="countAdminList" resultType="int">
+	<!-- 전체 목록 개수 (Pagination)-->
+	<select id="getListCnt" resultType="int">
 		SELECT COUNT(*) FROM admin
 	</select>
 	
