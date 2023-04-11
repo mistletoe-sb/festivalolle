@@ -88,12 +88,12 @@ width: 500px;
 				</th>
 			
 			</tr>
-			<tr>
+			<!-- <tr>
 			<th scope="col"><label for="exampleFormControlInput1" class="form-label" >드롭존</label></th>
 			<th scope="col">
 				<div class="dropzone" id="fileDropzone"></div>
 			</th>
-			</tr>
+			</tr> -->
 		</table>
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
@@ -119,7 +119,7 @@ width: 500px;
 <!-- 클라이언트 소스 로드 -->
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
-
+<!-- 
 <script type="text/javascript">
 
 //fileDropzone dropzone 설정할 태그의 id로 지정
@@ -146,7 +146,7 @@ Dropzone.options.fileDropzone = {
     uploadMultiple: false, // 다중업로드 기능
 };
 </script>
-
+ -->
 <script>
 
 function setThumbnail(event) {
