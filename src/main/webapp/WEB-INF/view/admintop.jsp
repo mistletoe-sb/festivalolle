@@ -51,9 +51,13 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<c:url value='/admin/main'/>">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
+                 <div class="sidebar-brand-icon rotate-n-15">
+                 <!-- <div class="sidebar-brand-icon">  -->
+                    <!-- <i class="fas fa-laugh-wink"></i> -->
+                    
+                    <i class="fas fa-car-side"></i>
+                    
+                </div> 
                 <div class="sidebar-brand-text mx-3">축 제 올 래</div>
             </a>
  
@@ -68,13 +72,14 @@
                 <!-- <a class="nav-link" href="/admin/adminhome.jsp"> -->
                 <a class="nav-link" href="<c:url value='/admin/festivallist'/>">
                     <i class="fas fa-fw fa-table" id="festialList"></i>
+                    
                     <span>축제 관리</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="<c:url value='/admin/ticket/list'/>">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-table" id="festialList"></i>
                     <span>티켓 구매</span></a>
             </li>
             

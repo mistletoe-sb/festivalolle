@@ -12,10 +12,7 @@
 		]]>
 	</select>
 	
-	<!-- 전체 목록 개수 (Pagination)-->
-	<select id="getListCnt" resultType="int">
-		SELECT COUNT(*) FROM admin
-	</select>
+	
 	
 	<!-- 로그인 동적 sql-->
 	<!-- <select id="adminLogin" resultType="com.joyous.festivalolle.admin.model.AdminVO">		
@@ -118,21 +115,60 @@
 			OR telephone LIKE '%'|| #{keyword} || '%'
 	</select>
 	
-	<!-- <select id="overlapChk" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM MEMBER
-		<where>
-			<if test="email != null">
-				EMAIL = #{email}
-			</if>
-			<if test="nickname != null">
-				AND NICKNAME = #{nickname}
-			</if>
-			<if test="phoneNumber != null">
-				AND PHONE_NUMBER = #{phoneNumber}
-			</if>		
-		</where>
-	</select> -->
+	<!-- 전체 목록 개수 (Pagination)-->
+	<select id="countBoard" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM v_admin 
+				WHERE  (status != 0 AND status != 3 AND status != 4)
+		]]>
+		            <if test="keyword != null">
+		            	<![CDATA[
+			                AND (id LIKE '%'|| #{keyword} || '%' 
+			                OR name LIKE '%'|| #{keyword} || '%'
+			                OR organization_name LIKE '%'|| #{keyword} || '%'
+			                OR telephone LIKE '%'|| #{keyword} || '%') 
+		                ]]>
+		             </if>
+
+	</select>
 	
+	<!-- 페이징: 리스트 가져오기 -->	
+	<select id="selectBoard" parameterType="Map" resultType="com.joyous.festivalolle.admin.model.AdminVO">
+		<![CDATA[	
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+		        (SELECT * FROM v_admin
+		            WHERE (
+		            (status != 0 AND status != 3 AND status != 4)
+		 ]]>
+		            <if test="keyword != null">
+		            	<![CDATA[
+			                AND (id LIKE '%'|| #{keyword} || '%' 
+			                OR name LIKE '%'|| #{keyword} || '%'
+			                OR organization_name LIKE '%'|| #{keyword} || '%'
+			                OR telephone LIKE '%'|| #{keyword} || '%') 
+		                ]]>
+		             </if>
+		 <![CDATA[	
+		                )   
+						ORDER BY 8 DESC) A)
+							WHERE RN BETWEEN #{start} AND #{end}		
+		 ]]>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 
 </mapper>
