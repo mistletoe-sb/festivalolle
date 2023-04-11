@@ -45,33 +45,30 @@
 			</div>
 			<div class="form-group">
 				<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="findMember" value="다음">
+
 			</div>
-			</form>
-	</div>
-<!-- 			<script type="text/javascript"> 비동기 방식으로 모달창 띄우기 시도할 것
-// 			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-//   				<div class="modal-dialog">
-//    		 			<div class="modal-content">
-//       					<div class="modal-header">
-//        						 <h1 class="modal-title fs-5" id="staticBackdropLabel">회원탈퇴</h1>
-//        						 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//       					</div>
-//       					<div class="modal-body">
-//         					<h5 class="text-center">정말 탈퇴 하시겠습니까?</h5>
-//       					</div>
-// 	      				<div class="modal-footer">
-// 	      					<div class="form-group">
-// 								<a href= ./withdrawal>
-// 									<input class="btn btn-secondary btn-user btn-block btn-primary-mobile"  data-bs-dismiss="modal" type="text" id="cancle" value="돌아가기">
-// 								</a>
-// 								<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="withdrawal" value="탈퇴하기">
-// 							</div>
-// 	     				</div>
-// 	     		</div>
-// 	     	</div>
-// 	     </div>
-//      	</form>
-//      	</div> 
-     	</script> -->
+			<div class="modal fade" id="findMember" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  				<div class="modal-dialog">
+   		 			<div class="modal-content">
+      					<div class="modal-header">
+       						 <h1 class="modal-title fs-5" id="staticBackdropLabel">회원탈퇴</h1>
+       						 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      					</div>
+      					<div class="modal-body">
+        					<h5 class="text-center">정말 탈퇴 하시겠습니까?</h5>
+      					</div>
+	      				<div class="modal-footer">
+	      					<div class="form-group">
+								<a href= ./withdrawal>
+									<input class="btn btn-secondary btn-user btn-block btn-primary-mobile"  data-bs-dismiss="modal" type="text" id="cancle" value="돌아가기">
+								</a>
+								<input class="btn btn-primary btn-user btn-block btn-primary-mobile" type="submit" id="withdrawal" value="탈퇴하기">
+							</div>
+	     				</div>
+	     		</div>
+	     	</div>
+	     </div>
+     	</form>
+    </div> 
 </body>
 </html>

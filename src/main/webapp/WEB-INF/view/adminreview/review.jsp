@@ -46,7 +46,7 @@
 		<thead class="text-center">
 			<tr>
 	
-				<th>리뷰 상태</th>
+				<th>신고</th>
 				<th>아이디</th>
 				<th>내용</th>
 				<th>작성일시</th>
@@ -59,10 +59,10 @@
 				<c:set var = "status" value = "${reviewList.status}"/>		
 					<c:choose>
 						<c:when test="${status > 0 && status < 2}" >
-							<td><div class="icon"><i class="btn btn-danger btn-circle"><i class="fas fa-exclamation-triangle"></i></i></div></td>
+							<td><div class="icon"><i class="btn btn-danger btn-circle btn-sm"><i class="fas fa-exclamation-triangle"></i></i></div></td>
 						</c:when>
 						<c:otherwise>
-							<td><div class="icon" style="display:none;"><i class="btn btn-danger btn-circle"><i class="fas fa-exclamation-triangle"></i></i></div></td>
+							<td><div class="icon" style="display:none;"><i class="btn btn-danger btn-circle btn-sm"><i class="fas fa-exclamation-triangle"></i></i></div></td>
 						</c:otherwise>
 					</c:choose>
 					<td>${reviewList.id}</td>
@@ -90,7 +90,7 @@ $(document).ready(function() {
 	        $.each(data, function(index,reviewList) { //데이터의 각 항목에 대해 반복
 	          var row = $('<tr></tr>');
 	          var status = reviewList.status;
-	          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
+	          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle btn-sm" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
 	          var icon = $('<div class="icon"></div>').append($('<i></i>').addClass(iconClass));
 	          row.append($('<td></td>').append(icon));	//완성된 행을 row 변수에 추가
 	          row.append($('<td></td>').text(reviewList.id));
@@ -116,8 +116,7 @@ $(document).ready(function() {
 		        $.each(data, function(index,reviewList) { //데이터의 각 항목에 대해 반복
 		          var row = $('<tr></tr>');
 		          var status = reviewList.status;
-		          var iconClass = (status > 0 && status < 2) ? "btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
-		          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
+		          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle btn-sm" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
 		          var icon = $('<div class="icon"></div>').append($('<i></i>').addClass(iconClass));
 		          row.append($('<td></td>').append(icon));	//완성된 행을 row 변수에 추가
 		          row.append($('<td></td>').text(reviewList.id));
@@ -147,7 +146,7 @@ $(document).ready(function() {
 	        $.each(data, function(index,reviewList) { //데이터의 각 항목에 대해 반복
 	          var row = $('<tr></tr>');
 	          var status = reviewList.status;
-	          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
+	          var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle btn-sm" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
 	          var icon = $('<div class="icon"></div>').append($('<i></i>').addClass(iconClass));
 	          row.append($('<td></td>').append(icon));	//완성된 행을 row 변수에 추가
 	          row.append($('<td></td>').text(reviewList.id));
@@ -251,7 +250,7 @@ $(document).ready(function() {
 		    	  $.each(data, function(index,reviewList) { //데이터의 각 항목에 대해 반복
 		    	     var row = $('<tr></tr>');
 		    	     var status = reviewList.status;
-		    	     var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
+		    	     var iconClass = (status > 0 && status < 2) ? "fas fa-exclamation-triangle btn-danger btn-circle btn-sm" : ""; //상태(status)에 따라 적절한 아이콘 클래스를 선택, 생성
 		    	     var icon = $('<div class="icon"></div>').append($('<i></i>').addClass(iconClass));
 		    	     row.append($('<td></td>').append(icon));	//완성된 행을 row 변수에 추가
 		    	     row.append($('<td></td>').text(reviewList.id));
