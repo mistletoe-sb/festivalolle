@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Forgot Password</title>
+    <title>문자보내기</title>
 
     <!-- Custom fonts for this template-->
     <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
@@ -58,6 +58,7 @@
                                         </a>
                                     </form>
                                     <hr>
+                                    <input type="button" onclick="sendSMS()" value="★문자보내기★">
                                     <div class="text-center">
                                         <a class="small" href="register.html">새로운 계정을 만드세요!</a>
                                     </div>
@@ -102,37 +103,52 @@
     <script src="<c:url value='/resources/js/sb-admin-2.min.js'/>"></script>
     
    <script>
-    	$(document).on('click', '#sendMessage', function(){
-			var tel = $('#telephone').val();			
-			console.log(tel);
-			
-		
-						
-			$.ajax({
-				url: "<c:url value='/admin/message'/>",		
-				type: "post",
-				data: {tel: tel},
-				
-				success: function(data){
-					console.log(tel);
-					if(data == 'ok'){ 
-						console.log(tel);	
-						alert("보냈엉");
-					}
-					
-					/* console.log(data); */
-					
-					
-					/* if(data == 'ok'){ } */
-				}, //end success
-				error:function(){
-					alert("이미 가입된 회원");
-				}
-			})//end ajax
-															
-											
-		})//end function
-    
+   function sendSMS() {
+	   var body = {
+	     "type": "SMS",
+	     "contentType": "COMM",
+	     "countryCode": "82",
+	     "from": "01076133655",
+	     "content": "내용",
+	     "messages": [
+	       {
+	         "to": "01076133655",
+	         "content": "문자 보내기 API 테스트입니다."
+	       }
+	     ]
+	   }
+	   var jsonBody = JSON.stringify(body)
+
+	   var space = ' ' //한 칸 공백
+	   var newLine = '\n' //개행 문자
+	   var method = 'POST' 
+	   var serviceId = 'ncp:sms:kr:305852960143:festivalolle'
+	   var uri = '/sms/v2/services/' + serviceId + 'messages'
+	   var timestamp = new Date().getTime().toString()
+	   
+	   var accessKey = 'qUX8hIkhJ2YXip4BNlWj'
+	   var secretKey = 'xv83Sl61HnC93lWOK8TxgSt9cwkyrjkl8SIHFh6j'
+	   var hmac = method + space + uri + newLine + timestamp + newLine + accessKey
+
+	   var byteSignature = Utilities.computeHmacSha256Signature(hmac, secretKey)
+	   var signature = Utilities.base64Encode(byteSignature).toString()
+
+	   var apiUrl = 'https://sens.apigw.ntruss.com/sms/v2/services/' + serviceId + '/messages'
+	   var options = {
+	     'method': method,
+	     'muteHttpExceptions': true,
+	     'headers': {
+	       'Content-Type': 'application/json; charset=utf-8',
+	       'x-ncp-apigw-timestamp': timestamp,
+	       'x-ncp-iam-access-key': accessKey,
+	       'x-ncp-apigw-signature-v2': signature
+	     },
+	     'payload': jsonBody
+	   }
+
+	   var response = UrlFetchApp.fetch(apiUrl, options)
+	   Logger.log(response)
+	 }
     </script>
     
     

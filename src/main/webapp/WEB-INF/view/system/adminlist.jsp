@@ -101,10 +101,23 @@
                         </tbody>
                     </table>
            
-                
+	                <nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+					    <li class="page-item"><a class="page-link" href="#">1</a></li>
+					    <li class="page-item"><a class="page-link" href="#">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>
                 </div>
                  
                 <div id = "boardList"><!-- <table id = "boardList" border = "1"> --></table></div>
+                
+                
+                
+                
+                
                 </div>
              
             </div>
@@ -138,7 +151,7 @@
 											<td>아이디</td>
 											<td id="adminId"></td>
 											<td>승인여부</td>
-											<td id="adminStatus"></td>
+											<td id="adminStatus"></td>											
 										</tr>
 										<tr>
 											<td>담당자명</td>
@@ -160,26 +173,32 @@
 										</tr>
 									</tbody>
 								</table>
+								<input id="adminStatusHidden" type="hidden" value="" />
 			                </div>
+			                
+			                
+			                
+			                <div class="form-group row">
+					            &nbsp;&nbsp;&nbsp;			    	
+						    	<div id="approval-btn-hidden">
+						       		<a class="btn btn-primary" id = "adminApproval">가입 승인</a>
+						       		&nbsp;&nbsp;&nbsp;
+						        </div>	        
+						        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+					        </div>
+			                
+			                
+			                
 			            </div>
 			        </div>
-			    	<button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-			    	<%-- 
-			    	<c:choose>
-						<c:when test="${'#adminStatus' eq 1}">
-							<a href="#" class="btn btn-warning btn-icon-split">
-			                    <span class="text">승인 대기</span>
-			                </a>
-						</c:when>
-						<c:when test="${adminList.status eq 2}">
-							<a href="#" class="btn btn-success btn-icon-split">
-			                    <span class="text">승인 완료</span>
-			                </a>
-		                </c:when>
-					</c:choose> --%>
-			    	
-			    	
-			        <a class="btn btn-primary" id = "adminApproval">가입 승인</a>               
+			        
+			        
+			        
+			        
+			        
+			        
+			        
+			                    
                 </div>                
             </div>
         </div>
@@ -204,10 +223,12 @@
 					
 					if (data.status == 2) {
 						$('#adminStatus').text('승인 완료');
+						$('#approval-btn-hidden').hide();
 					} else if (data.status == 1) {
 						$('#adminStatus').text('승인 대기');
+						$('#approval-btn-hidden').show();
 					}
-
+					//$('#adminStatusHidden').val(data.status);
 					$('#adminName').text(data.name);
 					$('#adminTelephone').text(data.telephone);
 					$('#adminEmail').text(data.email);
@@ -388,17 +409,17 @@
     
     
     <!-- Bootstrap core JavaScript-->
-    <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
-    <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
+    <%-- <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script> --%>
+    <%-- <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script> --%>
 
     <!-- Core plugin JavaScript-->
-    <script src="<c:url value='/resources/vendor/jquery-easing/jquery.easing.min.js'/>"></script>
+    <%-- <script src="<c:url value='/resources/vendor/jquery-easing/jquery.easing.min.js'/>"></script> --%>
 
 
 	
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 	  
 
 

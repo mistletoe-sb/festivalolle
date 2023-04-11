@@ -12,6 +12,11 @@
 		]]>
 	</select>
 	
+	<!-- 전체 목록 개수 (Pagination)-->
+	<select id="getListCnt" resultType="int">
+		SELECT COUNT(*) FROM admin
+	</select>
+	
 	<!-- 로그인 동적 sql-->
 	<!-- <select id="adminLogin" resultType="com.joyous.festivalolle.admin.model.AdminVO">		
 		<![CDATA[ SELECT * FROM FESTIVALOLLE.v_admin ]]>
@@ -86,10 +91,14 @@
 				request_time, approve_time, status 
 		FROM festivalolle.v_admin
 		WHERE status != 0
+			AND status != 3
+			AND status != 4
 		
 			<if test="id != null">
 				AND id = #{id}
 			</if>
+		
+		ORDER BY 7 DESC
 								
 	</select>
 	
