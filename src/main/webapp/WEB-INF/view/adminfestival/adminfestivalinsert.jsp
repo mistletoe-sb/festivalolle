@@ -4,7 +4,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
 img{
-width: 500px;
+width: 31.25rem;
 }
 </style> 
 
@@ -52,11 +52,11 @@ width: 500px;
 				<th scope="col">
 					<div style ="float:left;">
 						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
-						<input style="width:300px;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
+						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
 					</div>
 					<div style ="float:left;">
 						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
-						<input style="width:300px;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required >
+						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required >
 					</div>
 				</th>
 			</tr>
@@ -83,17 +83,12 @@ width: 500px;
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label" >이미지</label></th>
 				<th scope="col">
-					<div id="image_container" style="width: 500px;"></div>
-					<input  type="file" style="width: 500px;" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
+					<div id="image_container" style="width: 31.25rem;"></div>
+					<input  type="file" style="width: 31.25rem;" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
 				</th>
 			
 			</tr>
-			<!-- <tr>
-			<th scope="col"><label for="exampleFormControlInput1" class="form-label" >드롭존</label></th>
-			<th scope="col">
-				<div class="dropzone" id="fileDropzone"></div>
-			</th>
-			</tr> -->
+
 		</table>
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
@@ -116,37 +111,7 @@ width: 500px;
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<!-- 클라이언트 소스 로드 -->
-<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
-<!-- 
-<script type="text/javascript">
 
-//fileDropzone dropzone 설정할 태그의 id로 지정
-Dropzone.options.fileDropzone = {
-    url: './festivalinsert', //업로드할 url (ex)컨트롤러)
-    init: function () {
-        /* 최초 dropzone 설정시 init을 통해 호출 */
-        var submitButton = document.querySelector("#my-form");
-        var myDropzone = this; //closure
-        submitButton.addEventListener("click", function () {
-            console.log("업로드"); //tell Dropzone to process all queued files
-            myDropzone.processQueue();
-        });
-    },
-    autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-    clickable: true, // 클릭가능여부
-    thumbnailHeight: 120, // Upload icon size
-    thumbnailWidth: 120, // Upload icon size
-    maxFiles: 1, // 업로드 파일수
-    maxFilesize: 10, // 최대업로드용량 : 10MB
-    parallelUploads: 1, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-    addRemoveLinks: true, // 삭제버튼 표시 여부
-    dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-    uploadMultiple: false, // 다중업로드 기능
-};
-</script>
- -->
 <script>
 
 function setThumbnail(event) {

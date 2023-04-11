@@ -1,13 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
- 
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-  [type="radio"] {
+td, th {
+	padding: 0.75rem;
+    vertical-align: top;
+    border: 0.0625rem solid #e3e6f0 !important;
+}
+/*   [type="radio"] {
+  border-radius:20px;
   vertical-align: middle;
   position: absolute;
-  display: none;
+  opacity: 0;
+  accent-color: red !important;
 } 
+
 #btnradio1 input[type=radio]+label{
     display: inline-block;
     cursor: pointer;
@@ -22,16 +31,25 @@
 #btnradio1 input[type=radio]+label{
     background-color: #fff;
     color: #333;
+    accent-color: red;
 }
-#btnradio1 input[type=radio]:checked+label{
-    background-color: #333;
-    color: #fff;
+#radiostatus input[type=radio]:checked.btn-check+label:after {
+    background-color: #333 !important;
+    color: #fff !important;
+    accent-color: red !important;
 }
+
+input[type=radio]:checked#btnradio1+label:after {
+    background-color: #333 !important;
+    color: #fff !important;
+    accent-color: red !important;
+} */
+
 
 </style>
 
 		<!-- ★내용삽입★ -->
-
+<div class="container-fluid">
 		
 		<div>
 			
@@ -43,64 +61,64 @@
                 <h6 class="m-0 font-weight-bold text-primary">축제 리스트</h6>
             </div>
             
-            		<div>
-		<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top">
-		<!-- Topbar Search -->
-               <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                     <div class="input-group" style ="float:left;">
-                     	<select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example">
-                     		<option value="title">축제명</option>
-							<option value="admin_name">작성자</option>
-                     	</select>
-                     	</div>
-                     	<div style ="float:left;">
-                     	<div style ="float:left;">
-                           <input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색"
-                               aria-label="Search" aria-describedby="basic-addon2">
-                               </div>
-                           <div class="input-group-append" style ="float:left;">
-                               <button class="btn btn-primary" type="button" id="festivalSearch">
-                                   <i class="fas fa-search fa-sm"></i>
-                               </button>
-                           </div>
-                       </div>
-                 </form> 
-                 
-		
-		<div>
-			<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right">
-
-			</select>
-			</div>
-			<div>
-			<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right">
-			</select>
-			</div>
-			</nav>
-		</div>
             
             <div class="card-body">
+            
+				<div>
+					<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+					<!-- Topbar Search -->
+					<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+						<div class="input-group" style ="float:left; width:100px;">
+							<select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example">
+								<option value="title">축제명</option>
+								<option value="admin_name">작성자</option>
+							</select>
+						</div>
+						<div style ="float:left;">
+							<div style ="float:left;  ">
+								<input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:2.5rem;">
+							</div>
+							<div class="input-group-append" style ="float:left;  margin:0;">
+								<button class="btn btn-primary" type="button" id="festivalSearch">
+									<i class="fas fa-search fa-sm"></i>
+								</button>
+							</div>
+						</div>
+					</form> 
+					<div>
+						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right; width:6.25rem;">
+						
+						</select>
+					</div>
+						<div>
+							<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right; width:15.625rem;">
+							
+							</select>
+						</div>
+					</nav>
+				</div>
                 <div class="table-responsive">
-			<div class="btn-group " id="radiostatus" role="group" aria-label="Basic radio toggle button group" style = "margin-left : 4px">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "5" style="position: absolute;">
+
+			<div class="btn-group " id="radiostatus" role="group" aria-label="Basic radio toggle button group" style = "margin-left : 0.25rem;">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "5">
 			  <label class="btn btn-outline-primary" for="btnradio1">전체</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value = "0" style="position: absolute;">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value = "0">
 			  <label class="btn btn-outline-secondary" for="btnradio2">비공개</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value = "1" style="position: absolute;">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value = "1">
 			  <label class="btn btn-outline-success" for="btnradio3">진행중</label>
-			    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value = "2" style="position: absolute;">
+			    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value = "2">
 			  <label class="btn btn-outline-primary" for="btnradio4">진행예정</label>
-			    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value = "3" style="position: absolute;">
+			    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value = "3">
 			  <label class="btn btn-outline-warning" for="btnradio5">진행완료</label>
 			</div>
 			
 			
 	
 			<button style="float:right" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivalinsertform'/>'">축제 추가</button>
-			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
-		            <thead >
+			<table class="table-bordered" id="dataTable" style="text-align:center; width:100%; cellspacing:0" >
+		            <thead style="text-align:center">
 		              <tr>
 		                <th scope="col">진행상태</th>
 		                <th scope="col">축제명</th>
@@ -110,13 +128,14 @@
 		                <th scope="col"></th>
 		              </tr>
 		            </thead>
-		            <tbody id = "myList">
+		            <tbody id = "myList" style="text-align:center">
 		            
 		            </tbody>
 		        </table>
 
 		    </div>
             </div>
+        </div>
         </div>
 
 
@@ -170,23 +189,24 @@ $(document).ready(function() {
         type: "GET",
         dataType: "json",
         success: function(data) {
-            $.each(data, function(index, item) {
+        	$('#festivalKeyword').val('');
+        	$.each(data, function(index, item) {
                 $("#myList").append("<tr>");
                 if (item.status == 0) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-secondary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>비공개</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-secondary' style='WIDTH: 6rem; cursor:default;'disabled><span class='text'>비공개</span></a></td>");
                 	} else if (item.status == 1) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-success btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행중</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-success' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행중</span></a></td>");
                 	} else if (item.status == 2) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-primary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행 예정</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-primary ' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 예정</span></a></td>");
                 	} else if (item.status == 3) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-warning btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true' disabled><span class='text'>진행 완료</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
 
-                $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
-                $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
-                $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+                $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
+                $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
+                $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></td>');
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></td>');
                 $("#myList").append("</tr>");
             });
         }
@@ -222,23 +242,26 @@ $('input[name=btnradio]').change(function() {
         data: { status: status }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-            $.each(data, function(index, item) {
+        	$('#festivalKeyword').val('');
+        	$.each(data, function(index, item) {
                 $("#myList").append("<tr>");
                 if (item.status == 0) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-secondary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-secondary' style='WIDTH: 6rem; cursor:default;'disabled><span class='text'>비공개</span></a></td>");
                 	} else if (item.status == 1) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-success' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-success' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행중</span></a></td>");
                 	} else if (item.status == 2) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-primary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-primary ' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 예정</span></a></td>");
                 	} else if (item.status == 3) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-warning' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
-                $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
-                $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
-                $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
-            });
+
+                $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
+                $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
+                $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></td>');
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></td>');
+                $("#myList").append("</tr>");
+                });
         },
         error: function() {
             // AJAX 요청이 실패한 경우 에러 처리
@@ -286,24 +309,26 @@ $('#titleList').change(function() {
         data: { festivalCode: festivalCode }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-            $.each(data, function(index, item) {
+        	$('#festivalKeyword').val('');
+        	$.each(data, function(index, item) {
                 $("#myList").append("<tr>");
                 if (item.status == 0) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-secondary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-secondary' style='WIDTH: 6rem; cursor:default;'disabled><span class='text'>비공개</span></a></td>");
                 	} else if (item.status == 1) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-success btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-success' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행중</span></a></td>");
                 	} else if (item.status == 2) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-primary btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-primary ' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 예정</span></a></td>");
                 	} else if (item.status == 3) {
-                	  $("#myList").append("<th><a href='#' class='btn btn-warning btn-icon-split' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
+                	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
-                $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
-                $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
-                $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-                $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+
+                $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
+                $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
+                $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></td>');
+                $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></td>');
                 $("#myList").append("</tr>");
-            });
+        	});
         },
         error: function() {
             // AJAX 요청이 실패한 경우 에러 처리
@@ -324,23 +349,23 @@ $('#festivalSearch').on('click', function(){
     	   tableBox : tableBox},
     	   dataType: "json",
        success: function(data) {
-    	   
     	   $.each(data, function(index, item) {
                $("#myList").append("<tr>");
                if (item.status == 0) {
-               	  $("#myList").append("<th><a href='#' class='btn btn-secondary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>비공개</span></a></th>");
+               	  $("#myList").append("<td><a class='btn btn-secondary' style='WIDTH: 6rem; cursor:default;'disabled><span class='text'>비공개</span></a></td>");
                	} else if (item.status == 1) {
-               	  $("#myList").append("<th><a href='#' class='btn btn-success' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행중</span></a></th>");
+               	  $("#myList").append("<td><a class='btn btn-success' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행중</span></a></td>");
                	} else if (item.status == 2) {
-               	  $("#myList").append("<th><a href='#' class='btn btn-primary' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 예정</span></a></th>");
+               	  $("#myList").append("<td><a class='btn btn-primary ' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 예정</span></a></td>");
                	} else if (item.status == 3) {
-               	  $("#myList").append("<th><a href='#' class='btn btn-warning' style='WIDTH: 80pt;' aria-disabled='true'><span class='text'>진행 완료</span></a></th>");
+               	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                	} 
-               $("#myList").append("<th scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></th>");
-               $("#myList").append("<th scope='col'>"+item.adminName+"</th>");
-               $("#myList").append("<th scope='col'>"+item.registerDate+"</th>");
-               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/ticket/list'/>'"+'">구매자 목록</button></th>');
-               $("#myList").append('<th scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 90pt;" onclick="location.href='+"'<c:url value='/admin/review/list'/>'"+'">리뷰 목록</button></th>');
+
+               $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
+               $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
+               $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
+               $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></td>');
+               $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></td>');
                $("#myList").append("</tr>");
            });
        },

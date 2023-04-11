@@ -5,13 +5,13 @@
    
   <style>
 img{
-width: 500px;
+width: 31.25rem;
 }
 
 .input-file-button{
-  padding: 6px 25px;
+  padding: 0.125rem 1.5625rem;
   background-color:#4e73df;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   color: white;
   cursor: pointer;
 }
@@ -56,11 +56,11 @@ width: 500px;
 				<th scope="col">
 					<div style ="float:left;">
 						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
-						<input style="width:300px;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required value="${adminfestivalinfo.startDate}">
+						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required value="${adminfestivalinfo.startDate}">
 					</div>
 					<div style ="float:left;">
 						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
-						<input style="width:300px;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}">
+						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}">
 					</div>
 				</th>
 			</tr>
@@ -91,13 +91,13 @@ width: 500px;
 						<c:choose>
 							<c:when test="${img == '1'}">
 								<div class="img_ctn">
-									<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+									<img style="width: 31.25rem;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
 								</div>
 									<input type="hidden" class="imgstatus" value="0" name="rating">
 							</c:when>
 							<c:otherwise>
 								<div class="img_ctn">
-									<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+									<img style="display: block; width: 31.25rem;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 								</div>
 									<input type="hidden" class="imgstatus" value="1" name="rating">
 							</c:otherwise>
