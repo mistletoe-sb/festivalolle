@@ -29,9 +29,6 @@ public class TicketController {
 	@GetMapping("/list")
 	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session, String festivalCode){
 		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-	    if (adminVO == null) {
-	        return "admin/login"; // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-	    }else {
 	    	if(festivalCode == null) {
 	    		int organizationCode = adminVO.getOrganizationCode();
 				buyerListVO.setOrganizationCode(organizationCode);
@@ -48,7 +45,6 @@ public class TicketController {
 				System.out.println("ticketList2");
 					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode o
 			}
-	    }
 	}
 
     @ResponseBody
