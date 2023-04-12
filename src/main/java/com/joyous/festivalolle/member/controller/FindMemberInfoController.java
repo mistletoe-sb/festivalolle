@@ -95,4 +95,18 @@ public class FindMemberInfoController {
 			return "redirect:/withdrawal";
 		}		
 	}//탈퇴계정 확인 및 회원탈퇴 modal
+	
+	//비밀번호 수정- 마이페이지
+		@GetMapping(value="/changepw")
+		public String getChangePw(HttpSession session) {
+			return view_pos + "changepw";
+		}// 비밀번호 수정 페이지
+		
+		@PostMapping(value="/changepw")
+		public String postChangePw(@RequestParam("password") String password, HttpSession session, Model model) {
+		    String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
+		    MemberVO resultPw = memberService.updatePassword(password, id);
+		    model.addAttribute("resultPw", resultPw);
+		    return "redirect:/login";
+		}//비밀번호 변경
 }
