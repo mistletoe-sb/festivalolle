@@ -201,7 +201,6 @@ $(document).ready(function() {
                 	} else if (item.status == 3) {
                 	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
-
                 $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
                 $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
                 $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
@@ -254,14 +253,13 @@ $('input[name=btnradio]').change(function() {
                 	} else if (item.status == 3) {
                 	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
-
                 $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
                 $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
                 $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
                 $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/ticket/list?festivalCode="+item.festivalCode+"'/>'"+'">구매자 목록</button></td>');
                 $("#myList").append('<td scope="col"><button type="button" class="btn btn-primary" style="WIDTH: 7rem;" onclick="location.href='+"'<c:url value='/admin/review/list?festivalCode="+item.festivalCode+"'/>'"+'">리뷰 목록</button></td>');
                 $("#myList").append("</tr>");
-                });
+             });
         },
         error: function() {
             // AJAX 요청이 실패한 경우 에러 처리
@@ -321,7 +319,6 @@ $('#titleList').change(function() {
                 	} else if (item.status == 3) {
                 	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                 	} 
-
                 $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
                 $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
                 $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");
@@ -360,7 +357,6 @@ $('#festivalSearch').on('click', function(){
                	} else if (item.status == 3) {
                	  $("#myList").append("<td><a class='btn btn-warning' style='WIDTH: 6rem;cursor:default;' disabled><span class='text'>진행 완료</span></a></td>");
                	} 
-
                $("#myList").append("<td scope='col'><a href='<c:url value='/admin/adminfestivalinfo?festivalCode="+item.festivalCode+"'/>'>"+item.title+"</a></td>");
                $("#myList").append("<td scope='col'>"+item.adminName+"</td>");
                $("#myList").append("<td scope='col'>"+item.registerDate+"</td>");

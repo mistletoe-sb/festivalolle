@@ -60,7 +60,7 @@ public class MemberService implements IMemberService {
 }//아이디 찾기용 계정조회- 작성자: 이혜성
 
 	@Override
-	public MemberVO unactiveMember(String password, String status) {
+	public MemberVO unactiveMember(String password, int status) {
 		
 		return memberRepository.unactiveMember(password, status);
 	}//회원탈퇴- 작성자: 이혜성

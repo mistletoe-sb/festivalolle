@@ -15,6 +15,10 @@
 		<img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket">
 		<p>입장권</p>
 	</div>
+	<div onclick="location.href='<c:url value="/bookmark/list"/>'">
+		<img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="bookmark">
+		<p>북마크</p>
+	</div>
 	<div onclick="location.href='<c:url value="/mypage"/>'">
 		<img src="<c:url value='/resources/img/icon/mypage.png'/>" alt="mypage">
 		<p>마이페이지</p>

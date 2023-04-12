@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.admin.model.PagingVO;
 
 
 public interface IAdminRepository {
@@ -36,6 +37,18 @@ public interface IAdminRepository {
 	//2. 이메일 중복 체크
 	//3. 핸드폰 번호 중복 체크
 	int overlapChk(AdminVO adminVO);
+	
+	//시스템 관리자 adminlist 전체 수(Pagination)
+	//public List<AdminVO>getList(AdminVO searchVO);
+	//public int getListCnt(AdminVO searchVO);
+	
+	// adminlist 전체 수 총 갯수
+	public int countBoard(String keyword);
+
+	// 페이징 처리 게시글 조회
+	//public List<AdminVO> selectBoard(PagingVO vo);
+	public List<AdminVO> selectBoard(Map<String,Object> map);
+	
 	
 	
 }

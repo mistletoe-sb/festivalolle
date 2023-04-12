@@ -2,12 +2,16 @@ package com.joyous.festivalolle.admin.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.joyous.festivalolle.admin.controller.NaverSENS;
+import com.joyous.festivalolle.admin.controller.NaverSENS2;
 import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.admin.model.PagingVO;
 import com.joyous.festivalolle.admin.repository.IAdminRepository;
 
 @Service
@@ -73,4 +77,50 @@ public class AdminService implements IAdminService {
 		return adminRepository.overlapChk(adminVO);
 	}
 
+	
+	
+	//난수 생성
+	public String sendRandomMessage(String tel) {
+	    NaverSENS2 sens = new NaverSENS2();
+	    Random rand = new Random();
+	    String numStr = "";
+	    for (int i = 0; i < 6; i++) {
+	        String ran = Integer.toString(rand.nextInt(10));
+	        numStr += ran;
+	    }
+	    System.out.println("회원가입 문자 인증 => " + numStr);
+
+	    sens.sendSMS(tel, numStr);
+
+	    return numStr;
+	}
+	
+	//시스템 관리자 adminlist 전체 수(Pagination)	
+	//@Override 
+	//public List<AdminVO> getList(AdminVO searchVO) { return
+	//adminRepository.getList(searchVO); }
+	 
+
+	/*@Override
+	public int getListCnt(AdminVO searchVO) {
+		return adminRepository.getListCnt(searchVO);
+	}*/
+	
+	// adminlist 전체 수 총 갯수
+	public int countBoard(String keyword) {
+		return adminRepository.countBoard(keyword);
+	}
+
+	// 페이징 처리 게시글 조회
+	//public List<AdminVO> selectBoard(PagingVO vo){
+	//	return adminRepository.selectBoard(vo);
+	//}
+	public List<AdminVO> selectBoard(Map<String,Object> map) {
+		return adminRepository.selectBoard(map);
+		
+	}
+	
+	
+	
+	
 }

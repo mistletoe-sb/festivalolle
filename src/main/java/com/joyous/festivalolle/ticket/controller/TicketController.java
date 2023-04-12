@@ -27,18 +27,24 @@ public class TicketController {
 	
 
 	@GetMapping("/list")
-	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session){
+	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session, String festivalCode){
 		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-	    if (adminVO == null) {
-	        // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-	        return "admin/login";
-	    }
-		int organizationCode = adminVO.getOrganizationCode();
-		buyerListVO.setOrganizationCode(organizationCode);
-		List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
-		model.addAttribute("ticketList", ticketList);
-		System.out.println("ticketList");
-        return "adminticket/ticket"; // 구매자 전체 리스트 출력
+	    	if(festivalCode == null) {
+	    		int organizationCode = adminVO.getOrganizationCode();
+				buyerListVO.setOrganizationCode(organizationCode);
+				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
+				model.addAttribute("ticketList", ticketList);
+				System.out.println("ticketList1"); 
+					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode x
+			}else {
+				int organizationCode = adminVO.getOrganizationCode();
+				buyerListVO.setOrganizationCode(organizationCode);
+				buyerListVO.setFestivalCode(Integer.parseInt(festivalCode));
+				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
+				model.addAttribute("ticketList", ticketList);
+				System.out.println("ticketList2");
+					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode o
+			}
 	}
 
     @ResponseBody
@@ -70,7 +76,9 @@ public class TicketController {
 	@GetMapping("/selectYearBuyer")
 	@ResponseBody
 	public List<V_ticketBuyerListVO> selectYeaBuyer(V_ticketBuyerListVO buyerListVO,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
-
+			AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
+			int organizationCode = adminVO.getOrganizationCode();
+			buyerListVO.setOrganizationCode(organizationCode);
 			buyerListVO.setFestivalCode(festivalCode);
 			List<V_ticketBuyerListVO> selectYearBuyer = ticketService.selectYearBuyer(buyerListVO);
 			return selectYearBuyer;	

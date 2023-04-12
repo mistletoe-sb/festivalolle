@@ -22,11 +22,15 @@ $(document).ready(function(){
 	// top메뉴 검색 버튼 이벤트
 	$('#search_btn').on('click', function(){
 		$('.normal_top').attr('hidden', true);
+		$('.search_box').css('animation', 'open_search 1s ease-out');
 		$('.search_top').attr('hidden', false);
 	});
 	$('.search_close').on('click', function(){
-		$('.search_top').attr('hidden', true);
-		$('.normal_top').attr('hidden', false);
+		$('.search_box').css('animation', 'close_search 1s ease-out');
+		setTimeout(function(){
+			$('.search_top').attr('hidden', true);			
+			$('.normal_top').attr('hidden', false);
+		}, 800);
 	});
 	
 	// 페이지 내 이동 이벤트 바인딩
@@ -187,6 +191,76 @@ $(document).ready(function(){
 			}
 		});		
 	}
+	
+	// 스크롤이 바닥에 다다를 시 페이징 목록 Ajax 요청
+	var isMoreData = true;	// 불러올 데이터가 더 있는지 여부
+	var isAjaxPossible = true;	// Ajax 통신 가능한 상태인지(중복 데이터 로딩 방지)
+	$(window).on('scroll',function(){
+		if(isMoreData && isAjaxPossible){
+			var scrollTop = $(window).scrollTop();		// scroll top
+			var viewportHeight = $(window).height();	// viewport height
+			var scrollHeight = $(document).height();	// available scroll height
+			if (scrollTop + viewportHeight >= scrollHeight) {	// 스크롤이 바닥에 다다를 시
+				var pageTitle = $('title').text();		// 페이지 타이틀
+				var requestUrl = '';										// 요청 URL
+				var lastFestivalCode = $('.festival_code').last().val();	// 마지막으로 호출된 축제 코드 참조
+				var paramData = {};	// 요청 데이터
+				var appendPoint;	// 축제 목록을 추가할 지점
+				switch(pageTitle){
+					case '축제올래':
+						requestUrl = root + '/home/more'
+						paramData = {'lastFestivalCode':lastFestivalCode};
+						appendPoint = $('.default_list_layout')
+						break;
+					case '축제검색':
+						requestUrl = root + '/festival/search/more'
+						paramData = {'lastFestivalCode':lastFestivalCode, 'keyword':$('#searched').val()};
+						appendPoint = $('.default_list_layout')
+						break;
+					default:
+						isAjaxPossible = false;
+						break;
+				}
+				if(isMoreData && isAjaxPossible){					
+					// AJAX 호출
+					$.ajax({
+						url: requestUrl, 			// 요청 URL
+						type: 'POST', 				// POST 방식으로 요청
+						async: false,				// 동기 처리
+						contentType: 'application/json',	// Json 타입으로 데이터 전송
+						data: JSON.stringify(paramData),	// 서버로 보낼 데이터
+						dataType: 'json',
+						success: function(data) {
+							isAjaxPossible = false;
+							if(data.dataStatus == 'NORMAL_TRUE'){
+								var fes = data.fesList;
+								var fesImages = data.fesImages;
+								$.each(fes, function(index, item){
+									appendPoint.append(printFestivalCard(item, fesImages[index], root)).trigger("create");
+									//console.log(item.festivalCode);
+								});
+								if(fes.length == 0){
+									console.log('조회할 데이터가 없습니다.');
+									isMoreData = false;
+								}
+							}else{
+								console.log('불러올 목록이 없습니다.');
+								isMoreData = false;
+							}
+						},
+						error: function() {
+							// AJAX 요청이 실패한 경우 에러 처리
+							console.log('데이터를 불러오는데 실패했습니다.');
+						}, 
+						complete: function() {
+							console.log('comp');
+							isAjaxPossible = true;
+						}
+					});
+				}
+			}
+		}
+	});
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -213,6 +287,7 @@ function calendar_event(){
 function printFestivalCard(fes, img, pageRoot){
 	var appendHTML = '<div class="festival_card_container" onclick="location.href=';
 	appendHTML += "'" + pageRoot + '/festival/info?festivalCode=' + fes.festivalCode + "'" + '">';
+	appendHTML += '<input type="hidden" class="festival_code" value="' + fes.festivalCode + '">';
 	appendHTML += '<div class="card">';
 	appendHTML += '<div class="ratio">';
 	if(img != null){
@@ -222,15 +297,16 @@ function printFestivalCard(fes, img, pageRoot){
 	}
 	appendHTML += '</div>';
 	appendHTML += '<div class="card-body">';
+	appendHTML += '<div class="festival_title">';
+	appendHTML += '<p class="card-text">' + fes.title + '</p></div>';
 	appendHTML += '<div class="festival_location">';
 	appendHTML += '<p class="card-text">' + fes.stateName + ' ' + fes.cityName + '</p></div>';
 	appendHTML += '<div class="icon_layout rating_img">';
 	appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="평점">';
 	appendHTML += '</div>';
 	appendHTML += '<div class="icon_layout rating_txt">';
-	appendHTML += '<p class="card-text">' + fes.rating + '</p>';
+	appendHTML += '<p class="card-text">' + parseFloat(fes.rating).toFixed(1) + '</p>';
 	appendHTML += '</div></div></div></div>';
-	
 	return appendHTML;
 }
 

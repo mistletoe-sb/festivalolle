@@ -3,6 +3,7 @@ package com.joyous.festivalolle.festival.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.joyous.festivalolle.festival.model.FestivalVO;
 

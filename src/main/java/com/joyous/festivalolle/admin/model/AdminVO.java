@@ -3,7 +3,7 @@ package com.joyous.festivalolle.admin.model;
 import lombok.Data;
 
 @Data
-public class AdminVO {
+public class AdminVO extends PagingVO{
 
 	private int adminCode;
 	private String id;

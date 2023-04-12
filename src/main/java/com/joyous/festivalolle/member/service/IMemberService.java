@@ -11,6 +11,6 @@ public interface IMemberService {
 	boolean findPw(String id, String name, String mobile); //비밀번호 조회- 작성자: 이혜성
 	boolean selectAcountInfo(String name, String mobile); //계정정보 확인- 작성자: 이혜성
 	MemberVO updatePassword(String password, String id); //비밀번호 변경- 작성자: 이혜성
-	MemberVO unactiveMember(String password, String status); //회원탈퇴- 작성자: 이혜성
+	MemberVO unactiveMember(String password, int status); //회원탈퇴- 작성자: 이혜성
 	boolean findMember(String password); //회원탈퇴용 계정정보 조회- 작성자: 이혜성
 }

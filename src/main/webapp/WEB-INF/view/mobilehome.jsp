@@ -37,15 +37,31 @@
 						<c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
-									<div class="d-block w-100">
-										<%@ include file="festival/festivalcard.jsp"%>
+									<div class="d-block w-100 recommend_div"
+									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<c:choose>
+											<c:when test='${img != null}'>
+												<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+											</c:when>
+											<c:otherwise>
+												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="carousel-item" data-bs-interval="8000">
-									<div class="d-block w-100">
-										<%@ include file="festival/festivalcard.jsp"%>
+									<div class="d-block w-100 recommend_div"
+									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
+										<c:choose>
+											<c:when test='${img != null}'>
+												<img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">				  	
+											</c:when>
+											<c:otherwise>
+												<img src="<c:url value='/resources/img/festest3.jpg'/>" class="recommend_img" alt="no image">				  	
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>							
 							</c:otherwise>
@@ -64,6 +80,19 @@
 				<%@ include file="festival/festivalcard.jsp"%>
 			</c:forEach>
 		</div>
+		<%-- <div class="default_horizontal_layout">
+			<div class="category_title">
+				<h3>이번 주 HOT 축제</h3>
+			</div>
+			<div class="horizontal_container" style="overflow-x: overlay;width:100vmin;display:flex;">
+				<c:forEach var="fes" items="${defaultList}" varStatus="stat">
+					<c:set var="img" value="${defaultListImages[stat.index]}"/>
+						<div style="width: 84vmin;">
+							<%@ include file="festival/festivalcard.jsp"%>
+						</div>
+				</c:forEach>
+			</div>
+		</div> --%>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

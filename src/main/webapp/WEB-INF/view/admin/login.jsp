@@ -43,7 +43,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user" action="<c:url value='/admin/login'/>" method="post" name="loginfrm">
+                                    <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
                                     	
 	                                        <div class="form-group">
 	                                            <input type="text" class="form-control form-control-user"
@@ -73,7 +73,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgotpassword.jsp">비밀번호를 잊으셨나요?</a><br>
+                                        <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br>
                                         <a class="small" href="findid.jsp">아이디를 잊으셨나요?</a>
                                     </div>
                                     <div class="text-center">

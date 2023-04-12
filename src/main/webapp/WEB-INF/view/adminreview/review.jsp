@@ -43,17 +43,17 @@
 	<input type="radio" name="sort" id="allReview" checked="checked">전체
 	<input type="radio" name="sort" id="reportedReview">신고된 리뷰
 	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-		<thead>
-			<tr id="sector">
+		<thead class="text-center">
+			<tr>
 	
-				<th scope="col">리뷰 상태</th>
-				<th scope="col">아이디</th>
-				<th scope="col">내용</th>
-				<th scope="col">작성일시</th>
-				<th scope="col">축제명</th>
+				<th>리뷰 상태</th>
+				<th>아이디</th>
+				<th>내용</th>
+				<th>작성일시</th>
+				<th>축제명</th>
 			</tr>
 		</thead>
-		<tbody id="contents">
+		<tbody class="text-center" id="contents">
 			<c:forEach items="${reviewList}" var="reviewList">
 				<tr>
 				<c:set var = "status" value = "${reviewList.status}"/>		
@@ -173,7 +173,8 @@ $(document).ready(function() {
 	        data: { titleyear: titleyear }, // 서버로 보낼 데이터
 	        dataType: "json",
 	        success: function(data) {
-	            $.each(data, function(index, item) {
+	        		$("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+	            	$.each(data, function(index, item) {
 	            	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
 	            });
 	        },
@@ -226,7 +227,7 @@ $(document).ready(function() {
 		        success: function(data) {
 		        	$("#titleList").append("<option > 축제를 선택 해주세요. </option>");
 		        	$.each(data, function(index, reviewList) {
-		        		$("#titleList").append("<option value='" +reviewList.festivalCode+ "'>" +reviewList.title + "</option>");
+		        	$("#titleList").append("<option value='" +reviewList.festivalCode+ "'>" +reviewList.title + "</option>");
 		            });
 		        },
 		        error: function() {
