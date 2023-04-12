@@ -66,7 +66,7 @@ public class AdminController {
 		} else {
 			System.out.println("로그인 실패");
 		}
-		return "admin/login";
+		return "admin";
 	}
 	
 	//로그아웃

@@ -39,84 +39,7 @@
             
             	<div id="firstResult2">
                 <!-- 예제2 -->			
-				<div class="table-responsive" id="firstResult">               	
-	                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">  
-	                        <thead>
-	                            <tr>
-	                                <th>승인 상태</th>
-	                                <th>아이디</th>
-	                                <th>기관</th>
-	                                <th>담당자</th>
-	                                <th>연락처</th>
-	                                <th>요청 일자</th>
-	                                <th>승인 일자</th>
-	                            </tr>
-	                        </thead>
-	                        <tfoot>
-	                            <tr>
-	                                <th>승인 상태</th>
-	                                <th>아이디</th>
-	                                <th>기관</th>
-	                                <th>담당자</th>
-	                                <th>연락처</th>
-	                                <th>요청 일자</th>
-	                                <th>승인 일자</th>
-	                            </tr>
-	                        </tfoot>
-	                        <tbody> 
-	
-						
-						<c:forEach items="${viewAll }" var="adminList">
-							<tr>
-								<td>
-									<c:choose>
-										<c:when test="${adminList.status eq 1}">
-											<a class="btn btn-warning btn-icon-split">
-							                    <span class="text">승인 대기</span>
-							                </a>
-							            </c:when>
-							            <c:when test="${adminList.status eq 2}">
-											<a class="btn btn-success btn-icon-split">
-							                    <span class="text">승인 완료</span>
-							                </a>
-						                </c:when>
-									</c:choose>							
-								</td>
-								<td>
-									<a class="dropdown-item adminDetail" href="#" data-toggle="modal" data-target="#adminDetailModal" 
-										id="adminDetail">${adminList.id}</a>									
-								</td>
-								<td>${adminList.organizationName}</td>
-								<td>${adminList.name}</td>
-								<td>${adminList.telephone}</td>
-								<td>${adminList.requestTime}</td>
-								<td>${adminList.approveTime}</td>
-							</tr>
-						</c:forEach>
-					</table>				
-					
-					<!-- 페이징 네비게이션 -->
-					<nav aria-label="Page navigation example" style="display: block; text-align: center;">
-						<ul class="pagination">		
-							<c:if test="${paging.startPage != 1 }">	
-								<li class="page-item"><a class="page-link nowPage" >&lt;</a></li>										
-							</c:if>
-							<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-								<c:choose>
-									<c:when test="${p == paging.nowPage }">
-										<li class="page-item"><a class="page-link nowPage" ><b>${p }</b></a></li>
-									</c:when>
-									<c:when test="${p != paging.nowPage }">
-										<li class="page-item"><a class="page-link nowPage" href="javascript:getPage(${p })">${p }</a></li>							
-									</c:when>
-								</c:choose>
-							</c:forEach>
-							<c:if test="${paging.endPage != paging.lastPage}">
-								<li class="page-item"><a class="page-link nowPage" <%-- href="<c:url value='/boardlist?nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>" --%>>&gt;</a></li>						
-							</c:if>
-						</ul>
-					</nav>					
-				</div> <!-- table responsive -->
+				
 				<!-- 예제2 끝 -->
                 
                 
@@ -134,11 +57,6 @@
       <!-- container-fluid 끝 -->
         
        
-<!-- 예제 가져온거 -->
-
-
-
-<!-- 예제 가져온거 끝 --> 
 
 
 
@@ -307,7 +225,7 @@
 			console.log("getPage에서 받아온 키워드: " + keyword );
 			
 			$.ajax({
-				url: "<c:url value='/system/paging'/>",
+				url: "<c:url value='/system/adminlist'/>",
 				type: "post",
 				data: {nowPage: nowPage, keyword: keyword},
 				success: function(data){	

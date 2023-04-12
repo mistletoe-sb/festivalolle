@@ -42,12 +42,12 @@ public class SystemController {
 	//List<AdminVO> adminList = adminService.getAdminList();
 	
 	//시스템 관리자 페이지로 이동: 관리자 목록 출력
-	@GetMapping(value="/system/adminlist")
-	public String login(Model model, HttpSession session) {
-		List<AdminVO> adminList = adminService.getAdminList();
-		model.addAttribute("adminList", adminList);
-		return "system/adminlist";	
-	}
+	//@GetMapping(value="/system/adminlist")
+	//public String login(Model model, HttpSession session) {
+	//	List<AdminVO> adminList = adminService.getAdminList();
+	//	model.addAttribute("adminList", adminList);
+	//	return "system/adminlist";	
+	//}
 	
 	//시스템 관리자: 관리자 상세보기
 	
@@ -94,8 +94,8 @@ public class SystemController {
 	  }
 	 
 	  
-	  
-	  @GetMapping("/boardlist")
+	  /*
+	  @GetMapping("/system/adminlist")
 	  public String boardList(PagingVO vo, String keyword, Model model
 	  		, @RequestParam(value="nowPage", required=false)String nowPage
 	  		, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
@@ -122,9 +122,19 @@ public class SystemController {
 	  	model.addAttribute("viewAll", adminService.selectBoard(map));
 	  	return "system/adminlist2";
 	  }
+	  */
+	  
+	  
+	  
+	  @GetMapping("/system/adminlist")
+	  public String boardList() {
+		  return "system/adminlist2";
+	  }
+	  
+	  
 
 	  //페이징처리
-	  @PostMapping(value="/system/paging")	  
+	  @PostMapping(value="/system/adminlist")	  
 	  @ResponseBody 
 	  public Map<String, Object> adminPaging(String nowPage, String cntPerPage, String keyword, PagingVO vo, Locale locale) {
 		  

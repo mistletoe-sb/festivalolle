@@ -241,78 +241,7 @@
 			}
 		})//비밀번호 입력 검사
 		
-		/* 관리자 등록 신청 */	
-		/*
-		$("#registerAdmin").click(function(){	
-			var register_id = $('#register_id').val();
-			var register_pw = $('#register_pw').val();
-			var organization_code = $('#organization_code').val();
-			var register_name = $('#register_name').val();
-			var register_telephone = $('#register_telephone').val();
-			var register_email = $('#register_email').val();
 
-			var param = {"id":register_id, "password":register_pw, "organizationCode":organization_code, "name":register_name, "telephone":register_telephone, "email":register_email}
-
-			var id_overlap_check = $('#id_overlap_check').val();  
-		    var pwchk2 = $('#pwchk2').val();  
-		 	var email_overlap_check = $('#email_overlap_check').val();         
-		    var phoneNumber_overlap_check = $('#phoneNumber_overlap_check').val(); 
-			
-			console.log();
-			
-			if(id_overlap_check == 'false'){   
-		    	alert("아이디를 확인해주세요.");
-			    $('#email').focus(); 
-		    	
-		    	return false;	
-			                				     				    
-		    }else if(pwchk2 == 'false'){     
-		    	alert("비밀번호를 확인해주세요.");
-		      	$('#pwchk').focus();  
-		    	
-		    	return false;	
-		      	             		      	
-		    }else if(email_overlap_check == 'false'){
-		    	alert("이메일을 확인해주세요.");
-			    $('#nickname').focus();
-		    	
-		    	return false;
-		    	
-		    }else if(phoneNumber_overlap_check == 'false'){
-		    	alert("연락처를 확인해주세요.");
-			    $('#phoneNumber_join').focus();	
-		    	
-		    	return false;	
-		    		
-		    } else {
-		    	console.log(param);
-				$.ajax({
-					url: "<c:url value='/admin/register'/>",
-					type: "post",
-					contentType: 'application/json',
-					data: JSON.stringify(param),
-					success: function(data){
-						console.log(data);
-						if(data == 'ok'){
-							//window.location.replace("<c:url value='/admin/login'/>");
-							window.location.href = "<c:url value='/admin/login'/>";
-							alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
-						} else {
-							alert("신청 불가");
-						}//end if
-					},//end success
-					error:function(){
-						alert("신청 실패");
-					}, 
-					complete : function () {   // 정상이든 비정상인든 실행이 완료될 경우 실행될 함수
-						//$('#matchEmail2').val("");
-					}
-				})//end ajax
-		    }
-		})//end registerAdmin
-		
-		*/
-		
 		
 		//joinMember_btn
 		function join_btn_action(){
