@@ -40,25 +40,25 @@
 		bottom: -55vmax;
 	}
 }
-/* 고정메뉴 fadeIn, fadeOut */
-/* Top */
-/* @keyframes hide_top {
+/* 검색칸 open, close 애니메이션 스타일 정의 */
+/* 우측에서 좌측으로 검색칸 열리는 애니메이션 스타일 */
+@keyframes open_search {
 	from {
-		top: 0vmax;
+		width: 0%;
 	}
 	to {
-		top: -13vmax;
+		width: 95%;
 	}
-} */
-/* Bottom */
-/* @keyframes hide_bottom {
+}
+/* 좌측에서 우측으로 검색칸 닫히는 애니메이션 스타일 */
+@keyframes close_search {
 	from {
-		bottom: 0vmax;
+		width: 95%;
 	}
 	to {
-		bottom: -8vmax;
+		width: 0%;
 	}
-} */
+}
 
 /* 공통 적용 */
 body {
@@ -67,6 +67,10 @@ body {
 	font-family: 'nanum' !important;
 	font-size: 16px;
 	color: #191919;
+	-ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+	display: none;
 }
 /* <a>태그 기본 스타일 제거 */
 .link_anchor {
@@ -98,9 +102,10 @@ textarea::placeholder {
 .recommend_list_layout {
 	width: 100vmin;
 	height: 60vmax;
-	padding-top: 3vmax;
+	/* padding-top: 3vmax;
 	padding-bottom: 6vmax;
-	margin: 2.7vmax 0vmin;
+	margin: 2.7vmax 0vmin; */
+	margin-bottom: 2.7vmax;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
@@ -118,6 +123,31 @@ textarea::placeholder {
 	border-radius: 50% !important;
 	margin-left: 0.9vmin !important;
 	margin-right: 0.9vmin !important;
+}
+.recommend_div {
+	width: 100%;
+	height: 60vmax !important;
+	cursor: pointer;
+}
+.recommend_img {
+	object-fit: cover;
+	object-position: top;
+	width: 100%;
+	min-height: 100%;
+}
+
+/* 메인 화면 카테고리 별 기본 레이아웃 */
+.default_horizontal_layout {
+	
+}
+.category_title {
+	
+}
+.horizontal_container{
+	
+}
+.default_horizontal_layout .festival_card_container {
+	
 }
 
 /* 기본 축제 목록 레이아웃 */
@@ -169,7 +199,7 @@ textarea::placeholder {
 }
 #fes_status {
 	display: flex;
-	width: 27vmin;
+	width: 34vmin;
 	height: 100%;
 	text-align: left;
 	align-items: center;
@@ -262,17 +292,22 @@ textarea::placeholder {
 	width: 100%;
 	background-color: #F5F5F5;
 }
+.detail_info th, .detail_info td {
+	height: 4.45vmax;
+	vertical-align: top;
+	padding-top: 1.4vmin;
+}
 .detail_info th {
 	width: 20%;
-	height: 4.45vmax;
 	padding-left: 1.4vmin;
 	font-weight: 800;
 }
 .detail_info td {
 	width: 80%;
-	height: 4.45vmax;
 	padding-left: 2.7vmin;
+	padding-right: 1.4vmin;
 	font-weight: bold;
+	word-break: break-all;
 }
 /* 입장권 구매 모달 창 */
 .ticket_modal_layout {
@@ -463,20 +498,6 @@ textarea::placeholder {
 	text-align: center;
 	color: #191919;
 }
-/* .map_wrap a, .map_wrap a:hover, .map_wrap a:active{
-	color: #191919;
-	text-decoration: none;
-}
-
-#pagination a {
-	display: inline-block;
-	margin-right: 2.75vmin;
-}
-#pagination .on {
-	font-weight: bold;
-	cursor: default;
-	color:#777777;
-} */
 
 /* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
 .festival_card_container {
@@ -493,6 +514,9 @@ textarea::placeholder {
 }
 .festival_card_container .card-body {
 	padding-top: 1.1vmax;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+	box-shadow: 0rem 0.125rem 0.125rem #00000016;
 }
 .festival_card_container .ratio {
 	--bs-aspect-ratio: 120%;
@@ -501,11 +525,20 @@ textarea::placeholder {
 	object-fit: cover;
 	object-position: top;
 	width: 100%;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
 }
 .festival_card_container .festival_location {
-	display: inline-block;
+	float: left;
 	width: 80%;
 	text-align: left;
+	font-size: 0.75rem;
+	font-weight: bold;
+}
+.festival_card_container .card_rating {
+	float: left;
+	display: flex;
+	width: 20%;
 }
 
 /* 리뷰 출력할 카드 폼 CSS */
@@ -579,8 +612,9 @@ textarea::placeholder {
 	width: 7.5vmin;
 	height: 2.7vmax;
 	letter-spacing: 0.0625rem;
-	text-align: left;
+	text-align: center;
 	font-weight: 800;
+	margin-left: 0.6vmin;
 }
 
 /* 페이지 상단으로 가는 버튼 */
@@ -605,21 +639,21 @@ textarea::placeholder {
 
 /* 모바일 하단 메뉴바 */
 .bottom_menu {
+	display: flex;
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
 	height: 8vmax;
+	padding-top: 1vmax;
 	z-index: 100;
 	background-color: white;
 	box-shadow: 0rem -0.125rem 0.25rem 0rem #0000001A;
 }
 .bottom_menu > div {
-	float: left;
-	width: 25%;
+	width: 20%;
 	height: 100%;
 	text-align: center;
-	padding-top: 1vmax;
 }
 .bottom_menu img {
 	object-fit: contain;
@@ -636,11 +670,23 @@ textarea::placeholder {
 	height: 9vmax;
 	width: 100%;
 }
+/* 로딩 이미지 */
+.loading_img {
+	display: flex;
+	position: fixed;
+	bottom: 8.5vmax;
+	left: 0px;
+	width: 100%;
+	height: 5vmax;
+	z-index: 50;
+	align-items: center;
+	justify-content: center;
+}
 
 /* 모바일 상단 메뉴바 */
 .top_empty {
 	width: 100%;
-	height: 8.5vmax;
+	height: 8vmax;
 }
 .top_menu {
 	position: fixed;
@@ -649,15 +695,18 @@ textarea::placeholder {
 	width: 100%;
 	height: 8vmax;
 	z-index: 100;
-	background-color: #F15600;
+	/* background-color: #F15600; */
+	background-color: #FFFFFF;	
 	box-shadow: 0rem 0.125rem 0.25rem 0rem #0000001A;
 }
 .top_menu > div {
 	padding-top: 2vmax;
 }
 /* 일반 상태 */
+.normal_top {
+	display: flex;
+}
 .normal_top > div {
-	float: left;
 	height: 5vmax;
 	width: 16%;
 	text-align: center;
@@ -675,20 +724,22 @@ textarea::placeholder {
 .page_title > p {
 	font-size: 1.25rem;
 	font-weight: bold;
-	color: #FFFFFF;
+	color: #191919;
 	margin: 0vmin;
 }
 /* 검색 활성 상태 */
 .search_top {
+	display: flex;
 	padding-left: 5.5vmin;
 	padding-right: 5.5vmin;
 	text-align: left;
+	justify-content: end;
 }
 .search_box {
 	width: 95%;
 	height: 4.5vmax;
 	border-radius: 6.25rem;
-	background-color: #FFFFFFB3;
+	background-color: #EBEBEBB3;
 	padding-left: 1.389vmin;
 	float: right;
 }
@@ -697,8 +748,10 @@ textarea::placeholder {
 	height: 4.5vmax;
 	border: none;
 	background-color: #FFFFFF00;
-	font-style: italic;
     font-size: 0.875rem;
+}
+.search_input::placeholder {
+	font-style: italic;
 }
 .search_btn {
 	float: left;
@@ -711,7 +764,6 @@ textarea::placeholder {
 .search_close {
 	width: 5%;
 	height: 4.5vmax;
-	float: left;
 }
 .search_close > img {
 	width: 100%;
@@ -771,4 +823,25 @@ textarea::placeholder {
 	font-size: 1.25rem;
 	font-weight: bold;
 	margin: 0vmin;
+}
+
+/* sweet modal 디자인 변경 */
+.swal-icon:first-child {
+	margin-top: 15px !important;
+}
+.swal-icon {
+	margin: 20px auto !important;
+}
+.swal-footer {
+	margin-top: 0px !important;
+	padding: 13px 16px !important;
+	text-align: center !important;
+}
+.swal-button {
+	padding: 6px 24px !important;
+	margin: 0px !important;
+	width: 100% !important;
+}
+.swal-button-container {
+	width: 60% !important;
 }

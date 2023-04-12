@@ -4,7 +4,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <style>
 img{
-width: 500px;
+width: 31.25rem;
 }
 </style> 
 
@@ -16,11 +16,11 @@ width: 500px;
 			<div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">축제 등록</h6>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input type="submit" class="btn btn-primary" value='등록하기'>
+					<input id="submit-button" type="submit" class="btn btn-primary" value='등록하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
             </div>
-		<form  action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
+		<form id="my-form" action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
 		<div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -48,14 +48,17 @@ width: 500px;
 				
 			</tr>
 			<tr>
-				<th scope="col"><label for="exampleFormControlInput1" class="form-label">시작일자</label></th>
+				<th scope="col"><label for="exampleFormControlInput1" class="form-label">축제기간</label></th>
 				<th scope="col">
-				<input type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
+					<div style ="float:left;">
+						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
+						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
+					</div>
+					<div style ="float:left;">
+						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
+						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required >
+					</div>
 				</th>
-			</tr>
-			<tr>
-				<th scope="col"><label for="exampleFormControlInput1" class="form-label">종료일자</label></th>
-				<th scope="col"><input type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required ></th>
 			</tr>
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">입장료</label></th>
@@ -80,15 +83,16 @@ width: 500px;
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label" >이미지</label></th>
 				<th scope="col">
-					<div id="image_container" style="width: 500px;"></div>
-					<input  type="file" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
+					<div id="image_container" style="width: 31.25rem;"></div>
+					<input  type="file" style="width: 31.25rem;" name="file"  class="form-control" accept="image/*" onchange="setThumbnail(event);" required>
 				</th>
 			
 			</tr>
+
 		</table>
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input type="submit" class="btn btn-primary" value='등록하기'>
+					<input id="submit-button1" type="submit" class="btn btn-primary" value='등록하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
 			</fieldset>
@@ -104,16 +108,10 @@ width: 500px;
 		</div>
 		
 		
-		
-		<!-- <input type="text" id="sample6_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" placeholder="주소"><br>
-		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-		<input type="text" id="sample6_doAddress" placeholder="도">
-		<input type="text" id="sample6_sigooAddress" placeholder="시구"> -->
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
 <script>
 
 function setThumbnail(event) {
@@ -226,7 +224,7 @@ const MAX_TAG_LENGTH = 10;
 
 function checkTagLength(tag) {
 if (tag.length >= MAX_TAG_LENGTH) {
-  alert("태그는 " + MAX_TAG_LENGTH+ "자 이하여야 합니다.");
+	  swal('입력 오류!', "태그는 " + MAX_TAG_LENGTH+ "자 이하여야 합니다.", 'warning');
   return false;
 }
 return true;
@@ -236,7 +234,7 @@ return true;
 function checkTagCharacters(tag) {
 const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣#]+$/;
 if (!regex.test(tag)) {
-  alert("태그는 알파벳, 숫자, 한글만 입력할 수 있습니다.");
+	swal('입력 오류!', "태그는 알파벳, 숫자, 한글만 입력할 수 있습니다.", 'warning');
   return false;
 }
 return true;
@@ -247,7 +245,7 @@ const RESERVED_TAGS = ["javascript", "html", "css"];
 
 function checkReservedTags(tag) {
 if (RESERVED_TAGS.includes(tag.toLowerCase())) {
-  alert("javascript, html, css은 사용할 수 없는 예약어입니다.");
+	swal('입력 오류!', "javascript, html, css은 사용할 수 없는 예약어입니다.", 'warning');
   return false;
 }
 return true;
@@ -258,7 +256,7 @@ const MAX_TAG_COUNT = 10;
 
 function checkTagCount(tagList) {
 if (tagList.length > MAX_TAG_COUNT) {
-  alert("태그는 최대 "+ MAX_TAG_COUNT +"개까지 사용할 수 있습니다.");
+	swal('입력 오류!', "태그는 최대 "+ MAX_TAG_COUNT +"개까지 사용할 수 있습니다.", 'warning');
   return false;
 }
 return true;
@@ -268,7 +266,7 @@ var tagArray = []; // 태그 배열을 전역 변수로 선언
 
 function addTag(tag) {
 if (tagArray.includes(tag)) { // 태그 배열에 이미 존재하는 경우
-  alert("이미 입력된 태그입니다.");
+	swal('입력 오류!', "이미 입력된 태그입니다.", 'warning');
   return false;
 }
 return true; // 태그 배열에 추가
@@ -353,44 +351,183 @@ $("#sample6_detailAddress").blur(function() {
 });
 	
 	
-</script>
-<!-- <script type="text/javascript">
-
-var test = document.querySelector("#test");
-
- 
-$("#test").click(function(){
-	$.ajax({
-		  url: 'https://dapi.kakao.com/v2/local/search/address.json', // 호출할 API의 URL
-		  type: 'GET', // HTTP 요청 방식
-		  dataType: 'json', // 응답 데이터 타입
-		  success: function(response) { // 성공 시 호출되는 콜백 함수
-		    var sidoList = response; // 서버에서 받아온 지역 시도 목록
-		    console.log("answkduf");
-		    console.log(sidoList['data'].length);
-		    var arrSido = sidoList['data'];
-		    for (var i=0; i<arrSido.length; i++) {
-		    	var keys = Object.keys(arrSido[i]); //키를 가져옵니다. 이때, keys 는 반복가능한 객체가 됩니다.
-			    for (var j=0; j<keys.length; j++) {
-			    	var key = keys[j];
-			    	console.log("key : " + key + ", value : " + arrSido[i][key])
-			    }
-		    }
-		    
-		    // 받아온 데이터를 화면에 출력
-		     /* for (var i = 0; i < sidoList.length; i++) {
-		      var sido = sidoList[i];
-		      console.log(sido);
-		    }  */
-		    	
-		  },
-		  error: function(xhr, status, error) { // 실패 시 호출되는 콜백 함수
-		    console.log('Error:', error);
-		  }
-		});
+	
+	
+//최대 50자 이내, 공백 포함 가능한 제목
+$("#title").on("keyup", function() {
+  validateTitle($(this).val());
 });
 
-</script> -->
+function validateTitle(title) {
+  if (title.trim().length > 50) {
+	  swal('입력 오류!', "제목은 최대 50자 입니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 최대 200자 이내, 공백 포함 가능한 주소
+$("#sample6_address").on("keyup", function() {
+	validateAddress($(this).val());
+});
+
+function validateAddress(address) {
+  if (address.trim().length > 200) {
+	  swal('입력 오류!', "주소는 최대 200자 입니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 날짜 형식 (YYYY-MM-DD)에 맞아야 하며, 종료일자보다 이전이어야 하는 시작일자
+$("#startDate").on("blur", function() {
+	validateStartDate($(this).val(),$("#endDate").val());
+});
+
+function validateStartDate(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (start >= end) {
+	  swal('입력 오류!', "종료일자보다 이전이어야 합니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 날짜 형식 (YYYY-MM-DD)에 맞아야 하며, 시작일자보다 이후이어야 하는 종료일자
+$("#endDate").on("blur", function() {
+	validateEndDate($(this).val(),$("#startDate").val());
+});
+
+function validateEndDate(endDate, startDate) {
+  const end = new Date(endDate);
+  const start = new Date(startDate);
+
+  if (end <= start) {
+	  swal('입력 오류!', "시작일자보다 이후이어야 합니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 숫자(정수 또는 실수) 형식, 0 또는 양수인 입장료
+$("#fee").on("keyup", function() {
+	validateFee($(this).val());
+});
+
+function validateFee(fee) {
+  if (isNaN(parseFloat(fee)) || parseFloat(fee) < 0) {
+	  swal('입력 오류!', "숫자만 입력해 주세요.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 유효한 URL 형식인 홈페이지 URL
+/* $("#url").on("keyup", function() {
+	validateHomepage($(this).val());
+}); */
+
+function validateHomepage(url) {
+  const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+  if (!regex.test(url)) {
+	  swal('입력 오류!', "유효한 URL 형식을 입력해 주세요.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 숫자와 하이픈(-) 포함 가능, 최대 20자 이내인 기관 전화번호
+$("#telephone").on("keyup", function() {
+	validatePhoneNumber($(this).val());
+});
+
+function validatePhoneNumber(phone) {
+  const regex = /^[0-9-]{0,20}$/;
+  if (!regex.test(phone)) {
+	  swal('입력 오류!', "숫자와 하이픈(-)포함 최대 20자 까지 가능합니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+
+// 최대 1000자 이내, 공백 포함 가능한 상세 설명
+$("#detail").on("keyup", function() {
+	validateDescription($(this).val());
+});
+
+function validateDescription(description) {
+  if (description.trim().length > 1000) {
+	  swal('입력 오류!', "최대 1000자 까지 가능합니다.", 'warning');
+    return false;
+  }
+  return true;
+}
+	
+$("#submit-button").on("click", function(event) {
+	  // 이벤트 전파 막기
+	  event.preventDefault();
+
+	  // 유효성 검사 함수들 호출
+	  const isTitleValid = validateTitle($("#title").val());
+	  const isAddressValid = validateAddress($("#sample6_address").val());
+	  const isStartDateValid = validateStartDate($("#startDate").val(), $("#endDate").val());
+	  const isEndDateValid = validateEndDate($("#endDate").val(), $("#startDate").val());
+	  const isFeeValid = validateFee($("#fee").val());
+	  const isPhoneNumberValid = validatePhoneNumber($("#telephone").val());
+	  const isDescriptionValid = validateDescription($("#detail").val());
+	console.log(isTitleValid);
+	console.log(isAddressValid);
+	console.log(isStartDateValid);
+	console.log(isEndDateValid);
+	console.log(isFeeValid);
+	console.log(isPhoneNumberValid);
+	console.log(isDescriptionValid);
+	  // 결과 확인 후 전송 또는 알림 출력
+	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
+	    // 모든 유효성 검사를 통과한 경우, 전송
+	    swal('축제 등록!', "축제가 등록되었습니다!", 'success');
+	    $("#my-form").submit();
+	  } else {
+	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
+	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');
+	  }
+	});	
+$("#submit-button1").on("click", function(event) {
+	  // 이벤트 전파 막기
+	  event.preventDefault();
+
+	  // 유효성 검사 함수들 호출
+	  const isTitleValid = validateTitle($("#title").val());
+	  const isAddressValid = validateAddress($("#sample6_address").val());
+	  const isStartDateValid = validateStartDate($("#startDate").val(), $("#endDate").val());
+	  const isEndDateValid = validateEndDate($("#endDate").val(), $("#startDate").val());
+	  const isFeeValid = validateFee($("#fee").val());
+	  const isPhoneNumberValid = validatePhoneNumber($("#telephone").val());
+	  const isDescriptionValid = validateDescription($("#detail").val());
+	console.log(isTitleValid);
+	console.log(isAddressValid);
+	console.log(isStartDateValid);
+	console.log(isEndDateValid);
+	console.log(isFeeValid);
+	console.log(isPhoneNumberValid);
+	console.log(isDescriptionValid);
+	  // 결과 확인 후 전송 또는 알림 출력
+	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
+	    // 모든 유효성 검사를 통과한 경우, 전송
+	    swal('축제 등록!', "축제가 등록되었습니다!", 'success');
+	    $("#my-form").submit();
+	  } else {
+	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
+	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');
+	  }
+	});
+	
+	
+	
+</script>
+
 
 
 

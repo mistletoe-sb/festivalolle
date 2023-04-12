@@ -17,10 +17,10 @@
                 <div id="nadasim" style ="float:right;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
-							<button style ="margin-left : 4px" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
+							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
 						</c:when>
 						<c:otherwise>
-							<button style ="margin-left : 4px" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
+							<button style ="margin-left : 0.25rem" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
 						</c:otherwise>
 						
 					</c:choose>	
@@ -82,12 +82,12 @@
 				<c:choose>
 					<c:when test="${img == '1'}">
 						<th scope="col">
-							<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+							<img style="width: 31.25rem;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
 						</th>
 					</c:when>
 					<c:otherwise>
 						<th scope="col">
-							<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+							<img style="display: block; width: 31.25rem;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 						</th>
 					</c:otherwise>
 				</c:choose>
@@ -104,14 +104,14 @@
 		</table>
 </div>
 			<fieldset>
-			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 20px">
-                <div id="nadasim" style ="float:right;">
+			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 1.25rem">
+                <div id="nadasim1" style ="float:right;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
-							<button style ="margin-left : 4px" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
+							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>
 						</c:when>
 						<c:otherwise>
-							<button style ="margin-left : 4px" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
+							<button style ="margin-left : 0.25rem" type="button" id="bigonggaebtn1" class="btn btn-outline-secondary" >비공개 하기</button>
 						</c:otherwise>
 						
 					</c:choose>	
@@ -127,7 +127,7 @@
 		</div>
 		</div>
 		
-		
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>		
 <script>
 
 function addButtonListeners() {
@@ -149,9 +149,11 @@ function addButtonListeners() {
         complete: function() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
-            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+            $("#nadasim1").empty();
+            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
             addButtonListeners();
-            alert('비공개 처리 됐습니다.');
+            swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
         }
     })
   });
@@ -174,12 +176,68 @@ function addButtonListeners() {
         complete: function() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
-            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+            $("#nadasim1").empty();
+            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
             addButtonListeners();
-            alert('비공개가 해제 됐습니다.');
+            swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
         }
     });
   });
+  
+  $('#bigonggaebtn1').on('click', function(){
+	    var festivalCode = ${adminfestivalinfo.festivalCode};
+	    var organizationCode = ${adminfestivalinfo.organizationCode};
+	    var status = 0;
+	    var start = "${adminfestivalinfo.startDate}";
+	    var end = "${adminfestivalinfo.endDate}";
+	    $.ajax({
+	        url: './updateFestivalStatus', // 서버에서 데이터를 가져올 경로
+	        type: 'GET', // GET 방식으로 요청
+	        data: { festivalCode: festivalCode,
+	            organizationCode : organizationCode,
+	            status : status,
+	            start : start,
+	            end : end
+	          }, // 서버로 보낼 데이터
+	        complete: function() {
+	            // AJAX 요청이 완료된 후 실행될 코드
+	            $("#nadasim").empty();
+	            $("#nadasim1").empty();
+	            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+	            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
+	            addButtonListeners();
+	            swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
+	        }
+	    })
+	  });
+
+	  $('#gonggaebtn1').on('click', function(){
+		    var festivalCode = ${adminfestivalinfo.festivalCode};
+		    var organizationCode = ${adminfestivalinfo.organizationCode};
+		    var status = 1;
+		    var start = "${adminfestivalinfo.startDate}";
+		    var end = "${adminfestivalinfo.endDate}";
+	    $.ajax({
+	        url: './updateFestivalStatus', // 서버에서 데이터를 가져올 경로
+	        type: 'GET', // GET 방식으로 요청
+	        data: { festivalCode: festivalCode,
+	            organizationCode : organizationCode,
+	            status : status,
+	            start : start,
+	            end : end
+	          }, // 서버로 보낼 데이터
+	        complete: function() {
+	            // AJAX 요청이 완료된 후 실행될 코드
+	            $("#nadasim").empty();
+	            $("#nadasim1").empty();
+	            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+	            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
+	            addButtonListeners();
+	            swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
+	        }
+	    });
+	  });
 }
 
 // 초기화

@@ -1,7 +1,9 @@
 package com.joyous.festivalolle.festivalReview.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import com.joyous.festivalolle.festivalReview.model.FestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.model.ViewFestivalReviewVO;
 import com.joyous.festivalolle.festivalReview.service.IUserReviewService;
 import com.joyous.festivalolle.member.model.MemberVO;
+import com.joyous.festivalolle.util.constant.PageValue;
 import com.joyous.festivalolle.util.status.AjaxResponseStatus;
 
 // 사용자 화면 리뷰 insert(작성)/update(신고 및 신고 해제)/delete(삭제) 관리
@@ -128,17 +131,32 @@ public class UserReviewController {
 	}
 	
 	// 해당 축제에 작성된 리뷰 목록 조회(본인 리뷰 제외)
-	@GetMapping("/list")
+	@PostMapping({"/list", "/list/more"})
 	@ResponseBody
-	public List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, HttpSession session) {
+	public Map<String, Object> selectFestivalReviewList(@RequestBody Map<String, Object> paramData,
+														HttpSession session) {
+		String festivalCodeData = (String)paramData.get("festivalCode");
+		String lastReviewCodeData = (String)paramData.get("lastReviewCode");
+		int festivalCode = (festivalCodeData!=null)?Integer.parseInt(festivalCodeData):0;
+		int lastReviewCode = (lastReviewCodeData!=null)?Integer.parseInt(lastReviewCodeData):0;
 		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
-		
+		// 데이터 저장할 변수 선언(리뷰 목록>List / ajax응답>HashMap)
+		List<ViewFestivalReviewVO> festivalReviewList = null;
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		int memberCode = 0;
 		// 세션 null 체크
 		if(loginUser != null) {
-			// 리뷰 목록 반환
-			return userReviewService.selectFestivalReviewList(festivalCode, loginUser.getMemberCode());
-		} else {
-			return userReviewService.selectFestivalReviewList(festivalCode, 0);
+			memberCode = loginUser.getMemberCode();
 		}
+		festivalReviewList = userReviewService.selectFestivalReviewList(festivalCode, memberCode, lastReviewCode, PageValue.PER_PAGE);
+		// 목록이 비어있지 않으면 응답 데이터에 저장
+		if(festivalReviewList != null) {
+			responseData.put("festivalReviewList", festivalReviewList);
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
+		} else {
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
+		}
+		responseData.put("dataClass", "review");
+		return responseData;
 	}
 }

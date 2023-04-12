@@ -13,6 +13,9 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +53,7 @@ import com.joyous.festivalolle.festival.service.IFestivalService;
 @RequestMapping (value = "/admin")
 public class FestivalController {
 	
+	private final Logger logger = LoggerFactory.getLogger(FestivalController.class);
 	
 	@Autowired
 	private IFestivalService festivalService;
@@ -60,15 +64,21 @@ public class FestivalController {
 	private String view_pos = "adminfestival/";		// 뷰 저장 위치
 
 	private String loginAdmin = "loginAdmin";
+	
+	private int paging = 10;
 /* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
 
-	public String festivalList(Model model, HttpSession session) throws Exception {
+	public String festivalList(@RequestParam(value="nowPage", required=false, defaultValue="1") int nowPage, Model model, HttpSession session) throws Exception {
 
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
-		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
-		model.addAttribute("selectFestivalList", selectFestivalList);
+		int festivalCount = festivalService.countFestival(organizationCode);
+		List<FestivalVO> festivalList = festivalService.selectFestivalList(organizationCode);
+		int totalPage = festivalService.countTotalPage(organizationCode, paging);
+		model.addAttribute("festivalcount", festivalCount);
+		model.addAttribute("festivallist", festivalList);
+		model.addAttribute("totalPage", totalPage);
 
 		return view_pos + "adminfestivallist";
 	}
@@ -76,12 +86,14 @@ public class FestivalController {
 /* =====================================================statusfestivallist====================================================== */		
 	@GetMapping("/statusfestivallist")
 	@ResponseBody
-	public List<FestivalVO> selectFestivalList(Model model, HttpSession session) {				
+	public List<FestivalVO> selectFestivalList(@RequestParam(value="nowPage", required=false, defaultValue="1") int nowPage, Model model, HttpSession session) {				
 
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
-		List<FestivalVO> selectFestivalList = festivalService.selectFestivalList(organizationCode);
-		return selectFestivalList;		
+		int festivalCount = festivalService.countFestival(organizationCode);
+		List<FestivalVO> festivalList = festivalService.selectFestivalList(organizationCode);
+		int totalPage = festivalService.countTotalPage(organizationCode, paging);
+		return festivalList;		
 	}
 
 /* =====================================================festivastatusllist====================================================== */		
@@ -201,7 +213,7 @@ public class FestivalController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
-		return view_pos + "adminfestivallist";
+		return "redirect:/admin/festivallist";
 	}
 	
 	/* =====================================================adminfestivalupdateform====================================================== */	
@@ -232,14 +244,16 @@ public class FestivalController {
 	
 	/* =====================================================adminfestivalupdate====================================================== */	
 	@PostMapping("/adminfestivalupdate")
-	public String adminfestivalupdate(FestivalVO vo, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("file") MultipartFile file, @RequestParam(value="festivalCode", required=true) int festivalCode) {
+	public String adminfestivalupdate(FestivalVO vo, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("file") MultipartFile file, 
+			@RequestParam(value="festivalCode", required=true) int festivalCode) {
 		try {
 			/*
 			 * if(profile.getSize() != 0) { String profileURL = PATH + "\\" +
 			 * profile.getBytes(); profile.transferTo(new File(profileURL));
 			 * vo.setImage(profile.getBytes());//setMemberProfile(); }
 			 */
-			
+
+			int imgstatus = (int) vo.getRating();
 			//오늘날짜 yyyy-MM-dd로 생성
 			String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
 			 
@@ -280,14 +294,31 @@ public class FestivalController {
 			vo.setFestivalCode(festivalCode);
 			vo.setOrganizationCode(organizationCode);
 			
-			vo.setThumbnail(fileBytes);
+			
 			vo.setAdminName(adminName);
-			if(vo.getImage()==null) {
+
+			logger.info("^ file"+file.getSize());
+			logger.info("^ getImage"+vo.getImage());
+			
+			if(imgstatus==0) {
 				vo.setImage(fileBytes);
+				vo.setThumbnail(fileBytes);
 				festivalRepository.insertFestivalImage(vo);
+			} else {
+				if(file.getSize()==0) {
+					
+				} else {
+					vo.setImage(fileBytes);
+					vo.setThumbnail(fileBytes);
+					festivalService.updateFestivalImage(vo);
+
+				}
+				
 			}
-			vo.setImage(fileBytes);
 			festivalService.updateFestival(vo);
+			
+			
+			
 			redirectAttributes.addFlashAttribute("message", "완료");
 		}catch(RuntimeException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
@@ -306,20 +337,23 @@ public class FestivalController {
 
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
-			vo.setOrganizationCode(organizationCode);
-			vo.setStartDate(titleyear2);
-			List<FestivalVO> selectYearTitleList = festivalService.selectYearTitleList(vo);
-			return selectYearTitleList;	
+		vo.setOrganizationCode(organizationCode);
+		vo.setStartDate(titleyear2);
+		List<FestivalVO> selectYearTitleList = festivalService.selectYearTitleList(vo);
+		return selectYearTitleList;	
 	}
 	
 	/* =====================================================selectYearFestival====================================================== */	
 	@GetMapping("/selectYearFestival")
 	@ResponseBody
 	public List<FestivalVO> selectYearFestival(FestivalVO vo,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
-
-			vo.setFestivalCode(festivalCode);
-			List<FestivalVO> selectYearTitleList = festivalService.selectYearFestival(vo);
-			return selectYearTitleList;	
+			
+		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
+		int organizationCode = adminVO.getOrganizationCode();
+		vo.setOrganizationCode(organizationCode);
+		vo.setFestivalCode(festivalCode);
+		List<FestivalVO> selectYearTitleList = festivalService.selectYearFestival(vo);
+		return selectYearTitleList;	
 	}
 	/* =====================================================festivalSearch====================================================== */	
 	@GetMapping("/festivalSearch")

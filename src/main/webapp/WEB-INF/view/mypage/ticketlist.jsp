@@ -13,16 +13,15 @@
 .card-horizontal {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.25rem;
 }
 
 .card-horizontal-image {
-  width: 140px;
-  height: 210px;
+  width: 8.75rem;
+  height: 13.125rem;
   overflow: hidden;
-  border-radius: 4px 0 0 4px;
+  border-radius: 0.25rem 0 0 0.25rem;
 }
 
 .card-horizontal-image img {
@@ -33,16 +32,16 @@
 
 .card-horizontal-content {
   flex: 1;
-  padding: 10px;
+  padding: 0.625rem;
 }
 
 .card-horizontal-content h5 {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 1.25rem;
+  margin-bottom: 0.625rem;
 }
 
 .card-horizontal-content p {
-  font-size: 16px;
+  font-size: 1rem;
   color: #777;
 }
 
@@ -62,8 +61,8 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid" >
 			<c:forEach var="fes" items="${selectTicketList}" varStatus="stat">
-			<div class="card mb-3" style="max-width: 540px; ">
-				<div class="card-horizontal" style="cursor: pointer; max-width: 540px; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
+			<div class="card mb-3" style="max-width: 33.75rem; ">
+				<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
 					<div class="endday" data-endDate="${fes.endDate}" data-entDate="${fes.entranceTime}" data-cpuDate="${fes.couponUseTime}" style="background-origin : padding-box">
 					</div>
 					<div class="card-horizontal-image">
@@ -146,7 +145,7 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
   var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
   var result = ""; // 결과값 받을 변수 선언
   console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
-  if (((entDateParam == 1) && (cpuDateParam == 1)) && (betweenTimeDay < 0)) { // 사용 완료
+  if (((entDateParam != 0) && (cpuDateParam != 0))) { // 사용 완료
     result = 0;
   } else if (((entDateParam == 0) || (cpuDateParam == 0)) && (betweenTimeDay >= 0)) { // 기간 만료
     result = 1;
@@ -170,11 +169,11 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     	if(result == 0){
     		
     		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");
-    		img.setAttribute("style","width: 50px; position: absolute; top : 5px; left : 5px;");
+    		img.setAttribute("style","width: 6rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
     		$(this).append(img);
     	} else if(result == 1){
     		img.setAttribute("src", "<c:url value='/resources/img/기간만료.png'/>");
-    		img.setAttribute("style","width: 50px; position: absolute; top : 5px; left : 5px;");
+    		img.setAttribute("style","width: 6rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
     		$(this).append(img);
     	} else{
     		

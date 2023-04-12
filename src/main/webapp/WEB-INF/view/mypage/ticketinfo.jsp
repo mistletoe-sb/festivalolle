@@ -10,7 +10,7 @@
 				height: 100%;
 				}
 			#btn-ent{
-				border-radius: 20px
+				border-radius: 1.25rem
 			}
 
 	</style>
@@ -28,7 +28,7 @@
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid">
-				<div class="card mb-3" style="max-width: 540px; ">
+				<div class="card mb-3" style="max-width: 33.75rem; ">
 					<div class="row g-0">
 						<div class="col-md-4">
 							<c:choose>
@@ -42,25 +42,33 @@
 						</div>
 						<div class="col-md-8">
 							<div class="card-body">
-								<div>
-									<div style ="float:left;">
-										<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
+								<div class = "layout_bottom_line">
+									<div>
+										<div style ="float:left;">
+											<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
+										</div>
+										<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
+											<%-- <input type="button" id="btn-ent" class="btn btn-warning btn-sm" value="입장권" onclick="location.href='<c:url value='/myticket'/>'" />  --%>
+										</div>
 									</div>
-									<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
-										<%-- <input type="button" id="btn-ent" class="btn btn-warning btn-sm" value="입장권" onclick="location.href='<c:url value='/myticket'/>'" />  --%>
+									<div style ="clear:both;">
+										<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
 									</div>
 								</div>
-								<div style ="clear:both;">
-									<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
+								<div class = "layout_bottom_line">
 									<p class="card-text"><small class="text-muted">
 										구매 일자 : ${adminfestivalinfo.purchaseTime}<br>
 										구매자 이름 : ${adminfestivalinfo.name}<br>
 										전화번호 : ${adminfestivalinfo.mobile}</small>
 									</p>
+								</div>
+								<div class = "layout_bottom_line">
 									<p class="card-text"><small class="text-muted">
 										입장권 사용 일자 : ${adminfestivalinfo.entranceTime}<br>
 										할인권 사용 일자 : ${adminfestivalinfo.couponUseTime}<br></small>
 									</p>
+								</div>
+								<div class = "layout_bottom_line">
 									<p class="card-text"><small class="text-muted">
 										금액 : ${adminfestivalinfo.fee}원<br>
 										수량 : ${adminfestivalinfo.headCount}개<br>
@@ -71,7 +79,8 @@
 						</div>
 					</div>
 				</div>
-		</div>
+			</div>
+
 
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
@@ -84,9 +93,9 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
   var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
   var result = ""; // 결과값 받을 변수 선언
   console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
-  if (((entDateParam !== "미사용") && (cpuDateParam !== "미사용")) && (betweenTimeDay < 0)) { // 사용 완료
+  if (betweenTimeDay <= 0) { // 사용 완료
     result = 0;
-  } else if (((entDateParam == "미사용") || (cpuDateParam == "미사용")) && (betweenTimeDay >= 0)) { // 기간 만료
+  } else if (betweenTimeDay > 0) { // 기간 만료
     result = 1;
   } else {
     result = 2;
@@ -105,13 +114,13 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     	var result = endToday(endDateParam, entDateParam, cpuDateParam);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
     	console.log(result)
     	if(result == 0){
-    		
+    		$(this).append('<input type="button" style="background-color:#F15600; border-color:#F15600;" id="btn-ent" class="btn btn-primary btn-sm" value="입장권" onclick="location.href='+"'<c:url value='/myticket'/>'"+'" />' );
 
     	} else if(result == 1){
 
 
     	} else{
-    		 $(this).append('<input type="button" style="background-color:#F15600; border-color:#F15600;" id="btn-ent" class="btn btn-primary btn-sm" value="입장권" onclick="location.href='+"'<c:url value='/myticket'/>'"+'" />' );
+    		 
     	}
     	
     });

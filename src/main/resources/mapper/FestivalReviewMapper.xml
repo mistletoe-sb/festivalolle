@@ -9,8 +9,17 @@
 	
 	<!-- 축제 리뷰 전체 리스트 출력 -->
 	<select id="festivalReviewList" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
-		select * from V_REVIEW_LIST where organization_code = #{organizationCode}
-		ORDER BY write_date ASC
+		select * from V_REVIEW_LIST 
+		<choose> 
+			<when test='festivalCode != 0'>
+				WHERE FESTIVAL_CODE = #{festivalCode}
+				AND ORGANIZATION_CODE = #{organizationCode}
+			</when>
+			<otherwise>
+				WHERE ORGANIZATION_CODE = #{organizationCode}
+			</otherwise>
+		</choose>
+		ORDER BY write_date desc
 	</select>
 	
 	<!-- 축제 리뷰 리스트 전체 수  -->
@@ -67,9 +76,9 @@
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
-			SELECT DISTINCT TITLE, festival_code
-			FROM V_REVIEW_LIST
-			WHERE WRITE_DATE like  #{writeDate} and organization_code = #{organizationCode}
+			SELECT  DISTINCT festival_code, TITLE 
+            FROM V_REVIEW_LIST
+            WHERE WRITE_DATE like #{writeDate} and organization_code = #{organizationCode}
 		]]>
 	</select>	
 	
@@ -79,7 +88,8 @@
 		<![CDATA[
 			SELECT DISTINCT *
 			FROM V_REVIEW_LIST
-			WHERE festival_code = #{festivalCode}
+			WHERE festival_code = #{festivalCode} and organization_code = #{organizationCode}
+			ORDER BY write_date desc
 		]]>
 	</select>	
 		

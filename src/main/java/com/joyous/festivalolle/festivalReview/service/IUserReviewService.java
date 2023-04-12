@@ -13,5 +13,6 @@ public interface IUserReviewService {
 	// 해당 축제에 본인이 작성한 리뷰 조회
 	ViewFestivalReviewVO selectMyFestivalReviewInFestivalInfo(int festivalCode, int memberCode);
 	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
-	List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, int memberCode);
+	List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, int memberCode,
+														int lastReviewCode, int perPage);
 }

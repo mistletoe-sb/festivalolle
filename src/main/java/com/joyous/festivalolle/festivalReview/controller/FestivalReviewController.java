@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
-import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.festivalReview.service.FestivalReviewService;
 
@@ -27,18 +26,24 @@ public class FestivalReviewController {
 		FestivalReviewService festivalReviewService;
 		
 		@GetMapping("/list")
-		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session){
+		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session, String festivalCode){
 			 AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-			    if (adminVO == null) {
-			        // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-			        return "admin/login";
-			    }
-			    int organizationCode = adminVO.getOrganizationCode();
-			    reviewVO.setOrganizationCode(organizationCode);
-			    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
-			    model.addAttribute("reviewList", reviewList);
-			    System.out.println("reviewList");
-			    return "adminreview/review";
+			    	if(festivalCode == null) {
+				    int organizationCode = adminVO.getOrganizationCode();
+				    reviewVO.setOrganizationCode(organizationCode);
+				    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+				    model.addAttribute("reviewList", reviewList);
+				    System.out.println("reviewList1");
+				    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode x
+				    }else {
+				    	int organizationCode = adminVO.getOrganizationCode();
+					    reviewVO.setOrganizationCode(organizationCode);
+					    reviewVO.setFestivalCode(Integer.parseInt(festivalCode));
+					    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+					    model.addAttribute("reviewList", reviewList);
+					    System.out.println("reviewList2");
+					    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode o
+				    }
 		}//리뷰 리스트 페이지-기본 출력: 전체리뷰
 		
 		@ResponseBody
@@ -124,7 +129,9 @@ public class FestivalReviewController {
 		    	@GetMapping("/selectYearReview")
 		    	@ResponseBody
 		    	public List<V_ReviewListVO> selectYearFestival(V_ReviewListVO reviewVO,Model model, HttpSession session, @RequestParam("festivalCode") int festivalCode)  {				
-
+		    		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
+					int organizationCode = adminVO.getOrganizationCode();
+					reviewVO.setOrganizationCode(organizationCode);
 		    		reviewVO.setFestivalCode(festivalCode);
 		    			List<V_ReviewListVO> selectYearTitleList = festivalReviewService.selectYearReview(reviewVO);
 		    			return selectYearTitleList;	

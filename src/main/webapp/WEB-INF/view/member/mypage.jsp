@@ -1,7 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
+
+
+
 <html>
+
+<style>
+.mypagemenu{
+	width:90%; 
+	height : 2.0rem;
+	margin: auto; 
+	border-bottom: 0.1rem solid #C4C4C4; 
+	margin-bottom: 0.7rem; 
+	padding-bottom: 0.3rem;
+	
+}
+.mypageimg{
+	width:1.5rem;
+	margin-right : 0.5rem;
+}
+</style>
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,31 +39,49 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>		
 		<%-- 내용 삽입 --%>
 		
-		<div class="content title">
-		
-		
+		<div class="content title" style="width:90%; margin: auto; margin-top: 3rem; margin-bottom: 3rem;">
 		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
-		
-		<div class="icon">
-		<%-- <img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket"> --%>
 		</div>
-		<a href="<c:url value='/mypage/ticketlist'/>">구매 내역</a>
 		
-		<div class="icon">
-		<%-- <img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰"> --%>
+		<div style="width:80%;  margin: auto;" >
+			<div class="mypagemenu" onclick="location.href='<c:url value='/mypage/ticketlist'/>'">
+				<div>
+					<div class="icon" style="float:left;">
+						<img class="mypageimg" src="<c:url value='/resources/img/icon/ticket.png'/>" alt="ticket">
+					</div>
+					<div style="float:left;">
+						<h5 style="margin:0">구매 내역</h5>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+			<div style="clear:both;" class="mypagemenu" onclick="location.href='<c:url value='/mypage/reviewlist'/>'">
+				<div class="icon" style="float:left;">
+					<img class="mypageimg" src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
+				</div>
+				<div style="float:left;">
+					<h5 style="margin:0">나의 리뷰</h5>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+			<div class="mypagemenu" onclick="location.href='<c:url value='/mypage/ticketlist'/>'">
+				<div class="icon" style="float:left;">
+					<img class="mypageimg" src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
+				</div>
+				<div style="float:left;">
+					<h5 style="margin:0">북마크</h5>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+			<div class="mypagemenu" onclick="location.href='<c:url value='/mypage/ticketlist'/>'">
+				<div class="icon" style="float:left;">
+					<img class="mypageimg" src="<c:url value='/resources/img/icon/mypage.png'/>" href=" " alt="mypage">
+				</div>
+				<div style="float:left;">
+					<h5 style="margin:0">회원 정보</h5>
+				</div>
+			</div>
 		</div>
-		<a href="<c:url value='/mypage/reviewlist'/>">나의 리뷰</a>
-		
-		<div class="icon">
-		<%-- <img src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크"> --%>
-		</div>
-		<a href="forgot-password.html">북마크</a>
-		
-		<div class="icon">
-		<%-- <img src="<c:url value='/resources/img/icon/mypage.png'/>" href=" " alt="mypage"> --%>
-		</div>
-		<a href="forgot-password.html">회원 정보</a>
-		
 		
 		<br>
 		<br>

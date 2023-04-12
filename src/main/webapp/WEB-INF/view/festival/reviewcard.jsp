@@ -26,7 +26,7 @@
 			</div>
 			<div class="review_btn_layout">							
 				<p class="card-text">신고</p>
-				<input type="hidden" value="${review.festivalReviewCode}">
+				<input type="hidden" class="review_code" value="${review.festivalReviewCode}">
 			</div>
 		</div>
 	</div>

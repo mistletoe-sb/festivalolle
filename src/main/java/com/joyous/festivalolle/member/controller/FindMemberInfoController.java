@@ -69,23 +69,44 @@ public class FindMemberInfoController {
 	    return "redirect:/login";
 	}//비밀번호 변경
 	
-	@GetMapping(value="/secession")
+	@GetMapping(value="/withdrawal")
 	public String secessionMembership(HttpSession session) {
-		return view_pos + "unactivemember";
+		return view_pos + "withdrawal";
 	}//회원탈퇴 페이지
 	
-	@PostMapping(value="/secession")
-	public String unactiveMember(String password, String status, HttpSession session, 
+	@GetMapping(value="/withdrawalmodal")
+	public String withdrawal(HttpSession session){
+		return  view_pos + "withdrawalalert";
+	}
+	
+	@PostMapping(value="/withdrawal")
+	public String withdrawal(HttpSession session, String password,
 			Model model, RedirectAttributes redirectattribute) {
+		MemberVO memberVO = (MemberVO)session.getAttribute("loginUser");
+		int status = memberVO.getStatus();
 		boolean findAcount = memberService.findMember(password);
 		if(findAcount) {
 			MemberVO resultPassword = memberService.unactiveMember(password, status);
 			model.addAttribute("resultPassword", resultPassword);
-			return view_pos + "모달창";
+			return "redirect:/withdrawalmodal";
 		}else {
 			String message = "입력하신 정보가 계정과 일치하지 않습니다.";
 			redirectattribute.addFlashAttribute("message" , message);
-			return "redirect:/secession";
+			return "redirect:/withdrawal";
 		}		
-	}//탈퇴계정 확인 및 회원탈퇴
+	}//탈퇴계정 확인 및 회원탈퇴 modal
+	
+	//비밀번호 수정- 마이페이지
+		@GetMapping(value="/changepw")
+		public String getChangePw(HttpSession session) {
+			return view_pos + "changepw";
+		}// 비밀번호 수정 페이지
+		
+		@PostMapping(value="/changepw")
+		public String postChangePw(@RequestParam("password") String password, HttpSession session, Model model) {
+		    String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
+		    MemberVO resultPw = memberService.updatePassword(password, id);
+		    model.addAttribute("resultPw", resultPw);
+		    return "redirect:/login";
+		}//비밀번호 변경
 }

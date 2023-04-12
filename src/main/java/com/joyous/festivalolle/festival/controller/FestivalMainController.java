@@ -10,19 +10,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.festival.model.FestivalMainVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festival.service.IFestivalMainService;
+import com.joyous.festivalolle.util.constant.PageValue;
 import com.joyous.festivalolle.util.constant.SelectFilter;
+import com.joyous.festivalolle.util.status.AjaxResponseStatus;
 
 // 홈페이지(메인)에 출력되는 축제 리스트 관리
 // 작성자 : 이수봉
@@ -34,11 +40,11 @@ public class FestivalMainController {
 	private static Logger logger = LoggerFactory.getLogger(FestivalMainController.class);	// logger 객체
 	
 	// 홈화면에 표시할 축제 리스트 정보 조회하여 데이터 전달
-	@GetMapping(value="/home")
+	@GetMapping(value={"/", "/home"})
 	public String selectFestivalMainList(Model model) {
-		int recommend = 7;
+		int recommend = 7;	// 추천 목록에 표시할 수
 		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
-		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList();
+		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
 		// 뷰에 표시할 이미지 binary 데이터 추출
 		List<byte[]> recommendListImages = new ArrayList<byte[]>();
 		List<byte[]> defaultListImages = new ArrayList<byte[]>();
@@ -58,6 +64,47 @@ public class FestivalMainController {
 				convertByteArrayToString(defaultListImages));	// 기본 목록에 표시할 이미지 목록
 		model.addAttribute("recommend", recommend);				// 추천 개수
 		return "mobilehome";
+	}
+	
+	// 페이징 처리된 축제 목록 조회(스크롤이 bottom에 다다르면 Ajax 통신하여 자동 로딩)
+	@PostMapping(value={"/home/more", "/festival/list/more", "/festival/search/more", "/festival/calendar/more"})
+	@ResponseBody
+	public Map<String, Object> selectPagingList(@RequestBody Map<String, Object> paramData, HttpServletRequest request) {
+		String lastFestivalCodeData = (String)paramData.get("lastFestivalCode");
+		int lastFestivalCode = (lastFestivalCodeData!=null)?Integer.parseInt(lastFestivalCodeData):0;	// 마지막으로 조회된 축제 코드
+		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
+		List<FestivalMainVO> festivalMainVOList = null;
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		String mappingValue = request.getServletPath();		// 요청된 URL 참조
+		switch (mappingValue) {
+			case "/home/more":		// 홈화면 페이징 처리
+				festivalMainVOList = festivalMainService.selectFestivalMainList(lastFestivalCode, PageValue.PER_PAGE);
+				break;
+			case "/festival/search/more":	// 검색화면 페이징 처리
+				festivalMainVOList = festivalMainService.selectFestivalSearchList((String)paramData.get("keyword"),
+																				lastFestivalCode, PageValue.PER_PAGE);
+				break;
+			case "/festival/calendar/more":		// 축제일정화면 페이징 처리
+				
+				break;
+	
+			default:
+				break;
+		}
+		// 목록이 비어있지 않으면 이미지 추출
+		if(festivalMainVOList != null) {
+			List<byte[]> images = new ArrayList<byte[]>();
+			for(FestivalMainVO vo : festivalMainVOList) {
+				images.add(vo.getImage());
+			}
+			responseData.put("fesList", festivalMainVOList);
+			responseData.put("fesImages", convertByteArrayToString(images));
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
+		} else {
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
+		}
+		responseData.put("dataClass", "festival");
+		return responseData;
 	}
 	
 	// 축제 상세 정보 조회하여 데이터 전달
@@ -123,27 +170,30 @@ public class FestivalMainController {
 	}
 	
 	// 축제 검색 목록 조회
-	@GetMapping(value="festival/search")
+	@GetMapping(value="/festival/search")
 	public String selectFestivalSearchList(String keyword, Model model) {
-		List<FestivalMainVO> searchList = festivalMainService.selectFestivalSearchList(keyword);
+		List<FestivalMainVO> originSearchList = festivalMainService.selectFestivalSearchList(keyword, 0, PageValue.PER_PAGE);
+		List<FestivalMainVO> searchList = new ArrayList<FestivalMainVO>();
+		int originSize = originSearchList.size();
+		for(int i = 0; i < PageValue.PER_PAGE; i++) {
+			if(i < originSize) {
+				searchList.add(originSearchList.get(i));
+			} else {
+				break;
+			}
+		}
 		// 뷰에 표시할 이미지 binary 데이터 추출
 		List<byte[]> searchListImages = new ArrayList<byte[]>();
 		for(FestivalMainVO vo : searchList) {
 			searchListImages.add(vo.getImage());
 		}
+		model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
+		model.addAttribute("keyword", keyword);			// 검색한 키워드
 		model.addAttribute("searchList", searchList);	// 검색 목록
 		model.addAttribute("searchListImages", convertByteArrayToString(searchListImages));	// 검색 목록에 표시할 이미지 목록
 		return "festival/festivalsearch";
 	}
 	
-	/*
-	 * // D-Day 계산 메서드(util로 옮기는 것 고려) public String getDday(String startDate) {
-	 * LocalDate fromDate = LocalDate.now(); // 현재 날짜 LocalDate toDate =
-	 * LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE); // 축제 시작일자
-	 * logger.info("d-day: " + ChronoUnit.DAYS.between(fromDate, toDate)); // 두 날짜 간
-	 * 차이 계산하여 반환 return Long.toString(ChronoUnit.DAYS.between(fromDate, toDate)); }
-	 */
-
 	// 축제 상태 표시 메시지 반환 메서드
 	public String getFestivalStatus(FestivalVO festivalVO) {
 		// 축제 상태(진행 중, 진행 예정, 종료)에 따라 표시할 메시지 반환
