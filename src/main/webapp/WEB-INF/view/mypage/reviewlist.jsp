@@ -11,7 +11,7 @@
 		  unicode-bidi: bidi-override;
 		  width: max-content;
 		  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-		  -webkit-text-stroke-width: 1px;
+		  -webkit-text-stroke-width: 0.0625rem;
 		  -webkit-text-stroke-color: #C7C7C7;
 		}
 		 
@@ -25,7 +25,7 @@
 		  left: 0;
 		  overflow: hidden;
 		  -webkit-text-fill-color: #F15600;
-		  -webkit-text-stroke-width: 1px;
+		  -webkit-text-stroke-width: 0.0625rem;
 		  -webkit-text-stroke-color: #F15600;
 		}
 		 
@@ -50,7 +50,7 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid">
 			<c:forEach var="fes" items="${selectReviewtList}" varStatus="stat">
-				<div class="card mb-3" style="max-width: 540px; " >
+				<div class="card mb-3" style="max-width: 33.75rem; " >
 					<div class="row g-0">
 						<div class="col-md-8">
 							<div class="card-body">

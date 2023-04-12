@@ -213,7 +213,7 @@ public class FestivalController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 		}
-		return view_pos + "adminfestivallist";
+		return "redirect:/admin/festivallist";
 	}
 	
 	/* =====================================================adminfestivalupdateform====================================================== */	

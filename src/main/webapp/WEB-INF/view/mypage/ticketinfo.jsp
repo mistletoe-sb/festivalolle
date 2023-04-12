@@ -10,7 +10,7 @@
 				height: 100%;
 				}
 			#btn-ent{
-				border-radius: 20px
+				border-radius: 1.25rem
 			}
 
 	</style>
@@ -28,7 +28,7 @@
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid">
-				<div class="card mb-3" style="max-width: 540px; ">
+				<div class="card mb-3" style="max-width: 33.75rem; ">
 					<div class="row g-0">
 						<div class="col-md-4">
 							<c:choose>

@@ -17,10 +17,10 @@
                 <div id="nadasim" style ="float:right;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
-							<button style ="margin-left : 4px" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
+							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
 						</c:when>
 						<c:otherwise>
-							<button style ="margin-left : 4px" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
+							<button style ="margin-left : 0.25rem" type="button" id="bigonggaebtn" class="btn btn-outline-secondary" >비공개 하기</button>
 						</c:otherwise>
 						
 					</c:choose>	
@@ -82,12 +82,12 @@
 				<c:choose>
 					<c:when test="${img == '1'}">
 						<th scope="col">
-							<img style="width: 500px;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
+							<img style="width: 31.25rem;" id="preview-image" class="rounded-4" src="<c:url value='/resources/img/null_png.png'/>">
 						</th>
 					</c:when>
 					<c:otherwise>
 						<th scope="col">
-							<img style="display: block; width: 500px;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+							<img style="display: block; width: 31.25rem;" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 						</th>
 					</c:otherwise>
 				</c:choose>
@@ -104,14 +104,14 @@
 		</table>
 </div>
 			<fieldset>
-			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 20px">
+			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 1.25rem">
                 <div id="nadasim1" style ="float:right;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
-							<button style ="margin-left : 4px" type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>
+							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>
 						</c:when>
 						<c:otherwise>
-							<button style ="margin-left : 4px" type="button" id="bigonggaebtn1" class="btn btn-outline-secondary" >비공개 하기</button>
+							<button style ="margin-left : 0.25rem" type="button" id="bigonggaebtn1" class="btn btn-outline-secondary" >비공개 하기</button>
 						</c:otherwise>
 						
 					</c:choose>	
@@ -150,8 +150,8 @@ function addButtonListeners() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
             $("#nadasim1").empty();
-            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
-            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
+            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
             addButtonListeners();
             swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
         }
@@ -177,8 +177,8 @@ function addButtonListeners() {
             // AJAX 요청이 완료된 후 실행될 코드
             $("#nadasim").empty();
             $("#nadasim1").empty();
-            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
-            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
+            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
             addButtonListeners();
             swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
         }
@@ -204,8 +204,8 @@ function addButtonListeners() {
 	            // AJAX 요청이 완료된 후 실행될 코드
 	            $("#nadasim").empty();
 	            $("#nadasim1").empty();
-	            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
-	            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
+	            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>");
+	            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>");
 	            addButtonListeners();
 	            swal('비공개 전환!', "축제가 비공개 처리 됐습니다.", 'info');
 	        }
@@ -231,8 +231,8 @@ function addButtonListeners() {
 	            // AJAX 요청이 완료된 후 실행될 코드
 	            $("#nadasim").empty();
 	            $("#nadasim1").empty();
-	            $("#nadasim").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
-	            $("#nadasim1").append("<button style ='margin-left : 4px' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
+	            $("#nadasim").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn' class='btn btn-outline-secondary' >비공개 하기</button>");
+	            $("#nadasim1").append("<button style ='margin-left : 0.25rem' type='button' id='bigonggaebtn1' class='btn btn-outline-secondary' >비공개 하기</button>");
 	            addButtonListeners();
 	            swal('공개 전환!', "축제 비공개가 해제 됐습니다.", 'info');
 	        }
