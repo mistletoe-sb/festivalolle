@@ -72,5 +72,44 @@
 	WHERE  password = #{password} 
 		]]>
 	</select>
+	
+	
+	<!-- ======================================================================================= -->
+	<select id="countMember2" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM member 
+			WHERE member_code = #{memberCode} and password = #{password} 
+		]]>
+	</select>
+	
+	<!-- ======================================================================================= -->
+	<select id="selectMember" parameterType="int" resultType="com.joyous.festivalolle.member.model.MemberVO">
+		<![CDATA[
+			SELECT *
+			FROM member 
+			WHERE member_code = #{memberCode} 
+		]]>
+	</select>
+	
+	<!-- ======================================================================================= -->
+	<update id="updateMember" parameterType="com.joyous.festivalolle.member.model.MemberVO">
+		<![CDATA[
+			UPDATE member 
+			SET 
+				name = #{name},
+				mobile = #{mobile}
+ 			WHERE member_code = #{memberCode}
+		]]>
+	</update>
+	
+	<!-- ======================================================================================= -->
+	<update id="updatePassword2">
+		<![CDATA[
+			UPDATE member 
+			SET password = #{password}
+ 			WHERE member_code = #{memberCode}
+		]]>
+	</update>
 </mapper>
 	

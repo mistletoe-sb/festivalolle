@@ -75,4 +75,29 @@ public class MemberService implements IMemberService {
 		 }
 	}//회원탈퇴용 계정조회- 작성자: 이혜성
 	
+	
+	
+	//=========================================================================================
+	@Override
+	public int countMember(int memberCode, String password) {
+		int countMember = memberRepository.countMember2(memberCode, password);
+		
+		return countMember;
+	}
+
+	@Override
+	public MemberVO selectMember(int memberCode) {
+		MemberVO selectMember = memberRepository.selectMember(memberCode);
+		return selectMember;
+	}
+
+	@Override
+	public void updateMember(MemberVO memberVO) {
+		memberRepository.updateMember(memberVO);
+	}
+
+	@Override
+	public void updatePassword(int memberCode, String password) {
+		memberRepository.updatePassword2(memberCode, password);
+	}
 }

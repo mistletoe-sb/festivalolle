@@ -169,11 +169,11 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     	if(result == 0){
     		
     		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");
-    		img.setAttribute("style","width: 6rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
+    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; left : 0.3125rem;");
     		$(this).append(img);
     	} else if(result == 1){
     		img.setAttribute("src", "<c:url value='/resources/img/기간만료.png'/>");
-    		img.setAttribute("style","width: 6rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
+    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; left : 0.3125rem;");
     		$(this).append(img);
     	} else{
     		

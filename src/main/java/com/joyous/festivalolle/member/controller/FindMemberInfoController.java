@@ -1,5 +1,7 @@
 package com.joyous.festivalolle.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.member.service.IMemberService;
 
@@ -16,6 +21,7 @@ import com.joyous.festivalolle.member.service.IMemberService;
 public class FindMemberInfoController {
 	
 	private String view_pos = "member/";		// 뷰 저장 위치
+	private String mypage_view_pos = "mypage/";		// 뷰 저장 위치
 	   
 	@Autowired
 	private IMemberService memberService;
@@ -93,20 +99,86 @@ public class FindMemberInfoController {
 			String message = "입력하신 정보가 계정과 일치하지 않습니다.";
 			redirectattribute.addFlashAttribute("message" , message);
 			return "redirect:/withdrawal";
-		}		
+		}	
 	}//탈퇴계정 확인 및 회원탈퇴 modal
 	
 	//비밀번호 수정- 마이페이지
-		@GetMapping(value="/changepw")
-		public String getChangePw(HttpSession session) {
-			return view_pos + "changepw";
-		}// 비밀번호 수정 페이지
+	@GetMapping(value="/changepw")
+	public String getChangePw(HttpSession session) {
+		return view_pos + "changepw";
+	}// 비밀번호 수정 페이지
 		
-		@PostMapping(value="/changepw")
-		public String postChangePw(@RequestParam("password") String password, HttpSession session, Model model) {
-		    String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
-		    MemberVO resultPw = memberService.updatePassword(password, id);
-		    model.addAttribute("resultPw", resultPw);
-		    return "redirect:/login";
-		}//비밀번호 변경
+	@PostMapping(value="/changepw")
+	public String postChangePw(@RequestParam("password") String password, HttpSession session, Model model) {
+		String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
+		MemberVO resultPw = memberService.updatePassword(password, id);
+		model.addAttribute("resultPw", resultPw);
+		return "redirect:/login";
+	}//비밀번호 변경
+	
+
+	//=============================================================================================
+		@GetMapping(value="/memberauthentication")
+		public String memberAuthentication(HttpSession session) {
+			return mypage_view_pos + "memberauthentication";
+		}
+		//=============================================================================================
+		@GetMapping("/countmember")
+		@ResponseBody
+		public int countMember(HttpSession session, @RequestParam("password") String password) {				
+
+			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+			int memberCode = memberVO.getMemberCode();
+			int countMember = memberService.countMember(memberCode,password);
+			
+			return countMember;	
+		}
+		//=============================================================================================
+		@GetMapping(value="/profilemenu")
+		public String profileMenu(HttpSession session) {
+			return mypage_view_pos + "profilemenu";
+		}
+		//=============================================================================================		
+		@GetMapping(value="/memberupdateform")
+		public String memberUpdateForm(HttpSession session, Model model) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+			int memberCode = memberVO.getMemberCode();
+			model.addAttribute("memberVO", memberVO);
+			
+			return mypage_view_pos + "memberupdate";
+		}
+		//=============================================================================================		
+		@PostMapping(value="/memberupdate")
+		public String memberUpdate(HttpSession session, Model model, MemberVO vo) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+			int memberCode = memberVO.getMemberCode();
+			vo.setMemberCode(memberCode);
+			memberService.updateMember(vo);
+			session.invalidate();
+			return "redirect:/login";
+		}
+		
+		//=============================================================================================	
+		@GetMapping("/passwordupdateform")
+		public String passwordUpdateForm(HttpSession session) {
+			return mypage_view_pos + "passwordupdate";
+		}
+		
+		//=============================================================================================		
+		@PostMapping(value="/passwordupdate")
+		public String passwordUpdate(HttpSession session, Model model, MemberVO vo) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+			int memberCode = memberVO.getMemberCode();
+			String password = vo.getPassword();
+			memberService.updatePassword(memberCode,password);
+			session.invalidate();
+			return "redirect:/login";
+		}
+		
+		//=============================================================================================	
+		@GetMapping("/secessionmemberform")
+		public String secessionMemberform(HttpSession session) {
+			return mypage_view_pos + "secessionmember";
+		}
+	
 }
