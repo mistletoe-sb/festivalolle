@@ -21,7 +21,6 @@
 				<h3>"${keyword}"에 대한<br>검색결과 : ${resultCount}건</h3>
 			</div>
 			<c:forEach var="fes" items="${searchList}" varStatus="stat">
-				<c:set var="img" value="${searchListImages[stat.index]}"/>
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
 		</div>

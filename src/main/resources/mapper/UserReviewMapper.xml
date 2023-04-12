@@ -36,7 +36,7 @@
 		<![CDATA[
 			SELECT * FROM
 			(SELECT festival_review_code, ticket.member_code AS member_code,
-			write_date, content, rating, id
+			write_date, content, rating, status, id
 			FROM festivalolle.v_festival_review
 			RIGHT OUTER JOIN festivalolle.ticket
 			ON ticket.festival_code = v_festival_review.festival_code
