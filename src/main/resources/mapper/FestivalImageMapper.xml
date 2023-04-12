@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper의 namespace와 Interface 경로 동일하게 설정 >> mapper 후보로 등록 -->
+<mapper namespace="com.joyous.festivalolle.festivalimage.repository.IFestivalImageRepository">
+
+	<!-- 축제 이미지 조회 -->
+	<select id="selectFestivalImage" parameterType="int" resultType="com.joyous.festivalolle.festivalimage.model.FestivalImageVO">
+		<![CDATA[
+			SELECT festival_image_code, festival_code, file_name, image 
+			FROM festivalolle.festival_image
+			WHERE festival_code = #{festivalCode}
+		]]>
+	</select>
+</mapper>

@@ -55,8 +55,9 @@ public class UserReviewService implements IUserReviewService {
 
 	// 해당 축제의 리뷰 목록 조회(본인 리뷰 제외)
 	@Override
-	public List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, int memberCode) {
-		return userReviewRepository.selectFestivalReviewList(festivalCode, memberCode);
+	public List<ViewFestivalReviewVO> selectFestivalReviewList(int festivalCode, int memberCode,
+																int lastReviewCode, int perPage) {
+		return userReviewRepository.selectFestivalReviewList(festivalCode, memberCode, lastReviewCode, perPage);
 	}
 
 }
