@@ -140,4 +140,25 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 북마크 리스트 조회 -->
+	<select id="selectBookmarkList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT festival_code, title, state_name, city_name, image, rating
+			FROM (SELECT bookmark_code, fes.festival_code, title,
+       					 state_name, city_name, image, rating 
+				  FROM festivalolle.v_festival_main fes
+				  JOIN (SELECT bookmark_code, festival_code
+						FROM festivalolle.bookmark
+						WHERE member_code = #{memberCode}) bm
+				  ON fes.festival_code = bm.festival_code
+				  ORDER BY bookmark_code DESC) result
+		]]>
+		<where>
+			<if test="lastFestivalCode != 0">
+				<![CDATA[bookmark_code < #{lastBookmarkCode}]]>
+			</if>
+			<![CDATA[AND ROWNUM <= #{perPage}]]>
+		</where>
+	</select>
 </mapper>

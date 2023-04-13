@@ -1012,6 +1012,15 @@ textarea::placeholder, input::placeholder {
 	margin: 0vmin;
 }
 
+/* 북마크 목록에 보이는 북마크 이미지 */
+.mybookmark {
+	position: absolute;
+	top: 2.5vmin;
+	right: 2.5vmin;
+	width: 14vmin;
+	height: 14vmin;
+}
+
 /* sweet modal 디자인 변경 */
 .swal-icon:first-child {
 	margin-top: 15px !important;

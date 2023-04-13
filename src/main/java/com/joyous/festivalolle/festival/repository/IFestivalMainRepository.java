@@ -30,4 +30,8 @@ public interface IFestivalMainRepository {
 	List<FestivalMainVO> selectFestivalSearchList(@Param("keyword") String keyword, 
 												@Param("lastFestivalCode") int lastFestivalCode,
 												@Param("perPage") int perPage);
+	// 북마크 목록 조회
+	List<FestivalMainVO> selectBookmarkList(@Param("memberCode") int memberCode,
+											@Param("lastBookmarkCode") int lastBookmarkCode,
+											@Param("perPage") int perPage);
 }
