@@ -65,9 +65,6 @@
 		</div>
 		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
 		<div class="default_list_2x_layout">
-			<div>
-				<h3>주차별 보기</h3>
-			</div>
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>

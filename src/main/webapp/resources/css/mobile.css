@@ -924,7 +924,7 @@ textarea::placeholder, input::placeholder {
 }
 .select_space {
 	position: fixed;
-	top: 7.5vmax;
+	top: 7.8vmax;
 	left: 0px;
 	width: 100%;
 	height: 6vmax;
@@ -940,6 +940,7 @@ textarea::placeholder, input::placeholder {
 	padding-bottom: 1vmin;
 	align-items: center;
 	font-weight: normal;
+	font-size: smaller;
 }
 .horizontal_menu {
 	height: 4vmax;
@@ -951,6 +952,7 @@ textarea::placeholder, input::placeholder {
 	align-items: center;
 	justify-content: start;
 	text-align: center;
+	border-bottom: 0.0625rem solid #EBEBEB;
 }
 .horizontal_menu_item {
 	width: 16.6vmin;
@@ -959,7 +961,7 @@ textarea::placeholder, input::placeholder {
 .horizontal_menu_item p {
 	display: inline-block;
 	margin-bottom: 0px;
-	height: 85%;
+	height: 90%;
 	border-bottom: none;
 	font-size: smaller;
 }
@@ -975,8 +977,8 @@ textarea::placeholder, input::placeholder {
 	appearance: none;			/* 화살표 없애기 */
 }
 #separate_select {
-	width: 0.1rem;
-	height: 70%;
+	width: 0.13rem;
+	height: 55%;
 	margin-right: 0.625rem;
 	margin-left: 0.3125rem;
 	border-radius: 2rem;
