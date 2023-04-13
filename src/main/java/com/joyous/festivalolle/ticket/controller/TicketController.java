@@ -1,27 +1,20 @@
 package com.joyous.festivalolle.ticket.controller;
 
-import java.util.HashMap;
-
 //작성자: 이혜성
 //관리자- 구매자 관리 컨트롤러
 
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.joyous.festivalolle.admin.model.AdminVO;
-import com.joyous.festivalolle.admin.model.PagingVO;
 import com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO;
 import com.joyous.festivalolle.ticket.service.TicketService;
 
@@ -29,8 +22,6 @@ import com.joyous.festivalolle.ticket.service.TicketService;
 @RequestMapping("/admin/ticket") 
 public class TicketController {
 
-//	private final Logger logger = LoggerFactory.getLogger(TicketController.class);
-	
 	@Autowired
 	TicketService ticketService;
 	
@@ -55,7 +46,6 @@ public class TicketController {
 					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode o
 			}
 	}
-	
 
     @ResponseBody
     @GetMapping("/search")
@@ -93,7 +83,6 @@ public class TicketController {
 			List<V_ticketBuyerListVO> selectYearBuyer = ticketService.selectYearBuyer(buyerListVO);
 			return selectYearBuyer;	
 	}
-	
     	
 	//-------------------test controller-------------------------------------------
 	@GetMapping("/test")
