@@ -135,6 +135,12 @@ public class FestivalMainController {
 	// 축제 일정 조회 페이지로 이동
 	@GetMapping(value="/festival/calendar")
 	public String selectFestivalCalendarList(Model model) {
+		
+		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
+		// 뷰에 표시할 데이터를 model 통해 전달
+		model.addAttribute("defaultList", defaultList);
+		
+		/*
 		int month = LocalDate.now().getMonthValue();
 		// 기본 페이지에 로드할 데이터 조회(현재 월, 전체 지역)
 		List<FestivalMainVO> festivalMainVOList = festivalMainService
@@ -150,6 +156,7 @@ public class FestivalMainController {
 		model.addAttribute("weekDataImages", 
 				convertByteArrayToString(weekDataImages));	// 주차 별 축제 이미지 목록
 		model.addAttribute("nowMonth", month);				// 현재 월
+		*/
 		return "festival/festivalcalendar";
 	}
 	

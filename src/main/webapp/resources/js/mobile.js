@@ -43,14 +43,26 @@ $(document).ready(function(){
 		setTimeout(function(){
 			$('.search_input[name="keyword"]').focus();
 		}, 700);
+		$(document).on('mouseup touchend', function (e){
+			var container = $('.top_menu');
+			if(container.has(e.target).length === 0){
+				$('.search_box').css('animation', 'close_search 0.7s ease-out');
+				setTimeout(function(){
+					$('.search_top').attr('hidden', true);			
+					$('.normal_top').attr('hidden', false);
+				}, 550);
+			}
+		});
 	});
-	$('.search_close').on('click', function(){
-		$('.search_box').css('animation', 'close_search 0.7s ease-out');
-		setTimeout(function(){
-			$('.search_top').attr('hidden', true);			
-			$('.normal_top').attr('hidden', false);
-		}, 550);
-	});
+	/*$('.search_input').on('blur', function(){
+		if($('.search_btn :focus').length == 0){
+			$('.search_box').css('animation', 'close_search 0.7s ease-out');
+			setTimeout(function(){
+				$('.search_top').attr('hidden', true);			
+				$('.normal_top').attr('hidden', false);
+			}, 550);			
+		}
+	});*/
 	
 	// 페이지 내 이동 이벤트 바인딩
 	moveToIndex();
