@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-
+ <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
 
 
 <html>
@@ -99,6 +99,7 @@
 					<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
 				</div>
 			</div>
+			<div style="clear:both;"></div>
 			<div class="mypagemenu" onclick="location.href='<c:url value='/logout'/>'">
 				<div class="icon" style="float:left;">
 					<img class="mypageimg" src="<c:url value='/resources/img/icon/logout.png'/>" href=" " alt="mypage">
