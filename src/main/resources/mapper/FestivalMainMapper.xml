@@ -155,7 +155,7 @@
 				  ORDER BY bookmark_code DESC) result
 		]]>
 		<where>
-			<if test="lastFestivalCode != 0">
+			<if test="lastBookmarkCode != 0">
 				<![CDATA[bookmark_code < #{lastBookmarkCode}]]>
 			</if>
 			<![CDATA[AND ROWNUM <= #{perPage}]]>

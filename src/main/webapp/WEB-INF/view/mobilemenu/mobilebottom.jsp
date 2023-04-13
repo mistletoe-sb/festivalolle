@@ -7,7 +7,7 @@
 </div>
 <div class="bottom_empty"></div>
 <div class="bottom_menu">
-	<div onclick="location.href='<c:url value="/home"/>'">
+	<div id="homeBtn" onclick="location.href='<c:url value="/home"/>'">
 		<%-- <img src="<c:url value='/resources/img/icon/home.png'/>" alt="home"> --%>
 		<i class="fas fa-home fa-lg" style="color: #848484;"></i>
 		<p>홈</p>

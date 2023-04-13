@@ -186,15 +186,17 @@ $(document).ready(function(){
 			var fesNum = $('.fes_code').val();
 			requestCheckBookmark(fesNum, root);
 			requestChangeBookmark(root);
-		}else{
-			var fesCard = $('.festival_card_container');
-			// 각 축제마다 북마크 이미지 삽입
-			$.each(fesCard, function(index, item){
-				var fesNum = $(item).children('.festival_code').val();
-				printBookmark(fesNum, item, root);
-			});
-			requestChangeBookmark(root);
 		}
+	}
+	// 북마크 목록 초기 설정
+	if($('title').text() == '북마크'){
+		var fesCard = $('.festival_card_container');
+		// 각 축제마다 북마크 이미지 삽입
+		$.each(fesCard, function(index, item){
+			var fesNum = $(item).children('.festival_code').val();
+			printBookmark(fesNum, item, root);
+		});
+		requestChangeBookmark(root);
 	}
 	
 	// 입장권 구매 모달 창 이벤트 바인딩
@@ -398,6 +400,16 @@ $(document).ready(function(){
 			}
 		}
 	});
+	// 홈 화면 로딩 이미지 이벤트
+	if($('#festivalolle').length){
+		//$('#festivalolle').css('animation', 'now_loading 2s linear');
+		setTimeout(function(){
+			$('#festivalolle').remove();			
+		}, 2000);
+	}
+	$('#homeBtn').on('click', function(){
+		$('body').append('<div id="festivalolle"><img src="' + root + '/resources/img/festivalolle.png" alt="festivalolle"></div>');
+	});
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -573,7 +585,8 @@ function requestCheckBookmark(festivalCode, pageRoot){
 
 // 북마크 추가, 취소 이벤트 바인딩 함수
 function requestChangeBookmark(pageRoot){
-	$('.bookmarkAction').on('click', function(){
+	$('.bookmarkAction').on('click', function(e){
+		e.stopPropagation();
 		if($(this).children('.bookmark_code').length){
 			var bookmarkCode = $(this).children('.bookmark_code').val();
 			// 북마크 된 상태이면 북마크 취소 실행

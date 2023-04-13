@@ -66,4 +66,10 @@ public class FestivalMainService implements IFestivalMainService {
 		return festivalMainRepository.selectFestivalSearchList(keyword, lastFestivalCode, perPage);
 	}
 
+	// 북마크 목록 조회
+	@Override
+	public List<FestivalMainVO> selectBookmarkList(int memberCode, int lastBookmarkCode, int perPage) {
+		return festivalMainRepository.selectBookmarkList(memberCode, lastBookmarkCode, perPage);
+	}
+
 }

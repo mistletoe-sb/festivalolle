@@ -7,6 +7,7 @@
 		<title>축제올래</title>
 	</head>
 	<body>
+		<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>
 		<div class="recommend_list_layout">
@@ -71,7 +72,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="horizontal_container" style="overflow-x: overlay;width:100vmin;display:flex;">
+			<div class="horizontal_container">
 				<div class="horizontal_empty"></div>
 				<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 					<%@ include file="festival/festivalcard.jsp"%>
@@ -86,14 +87,14 @@
 				</div>
 			</div>
 		</div>
-		<script>
+		<!-- <script>
 			//document.getElementById("loading-overlay").style.display = "block";
 			
 			
 			$(document).setTimeout(function(){
 			  document.getElementById("loading-overlay").style.display = "none";
 			}, 3000);
-		</script>
+		</script> -->
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

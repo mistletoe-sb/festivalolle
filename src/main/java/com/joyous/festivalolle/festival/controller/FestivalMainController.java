@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.joyous.festivalolle.festival.model.FestivalMainVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festival.service.IFestivalMainService;
+import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.util.constant.PageValue;
 import com.joyous.festivalolle.util.constant.SelectFilter;
 import com.joyous.festivalolle.util.status.AjaxResponseStatus;
@@ -265,6 +267,20 @@ public class FestivalMainController {
 		model.addAttribute("keyword", keyword);			// 검색한 키워드
 		model.addAttribute("searchList", searchList);	// 검색 목록
 		return "festival/festivalsearch";
+	}
+	
+	// 북마크 목록 조회
+	@GetMapping(value="/bookmark/list")
+	public String selectBookmarkList(Model model, HttpSession session) {
+		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
+		
+		// 세션 null 체크
+		if(loginUser != null) {
+			model.addAttribute("defaultList", festivalMainService.selectBookmarkList(loginUser.getMemberCode(), 0, PageValue.PER_PAGE));
+			return "mypage/bookmarklist";
+		} else {
+			return "member/gologin";
+		}
 	}
 	
 	// 축제 상태 표시 메시지 반환 메서드
