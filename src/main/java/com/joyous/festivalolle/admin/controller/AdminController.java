@@ -73,9 +73,9 @@ public class AdminController {
 	
 	@PostMapping(value="/admin")
 	@ResponseBody
-	public String login(String id, String pw, HttpSession session, Model model, Locale locale) {		
+	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();
-		adminVO = adminService.adminLogin(id, pw);
+		adminVO = adminService.adminLogin(id, password);
 		logger.info(id);
 	
 		if(adminVO != null) {
