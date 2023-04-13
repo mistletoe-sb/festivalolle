@@ -10,3 +10,4 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 <script src="<c:url value='/resources/js/mobile.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/mobile_info.css'/>"/>

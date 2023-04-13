@@ -12,6 +12,7 @@
 		<script src="<c:url value='/resources/js/mobile.js'/>"></script> --%>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b65446e66b6e8b6a52d46722fe1fb6f&libraries=services"></script>
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
