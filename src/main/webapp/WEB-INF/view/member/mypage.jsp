@@ -44,6 +44,7 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>		
 		<%-- 내용 삽입 --%>
 		
+		
 		<div class="content title" style="width:90%; margin: auto; margin-top: 3rem; margin-bottom: 3rem;">
 		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
 		</div>
@@ -108,6 +109,7 @@
 				<div class="icon" style="float:right;">
 					<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
 				</div>
+		
 			</div>
 		</div>
 		
