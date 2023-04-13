@@ -41,18 +41,29 @@ public class FestivalMainService implements IFestivalMainService {
 //		return festivalMainRepository.selectFestivalCalendarList(month);
 //	}
 
-	// 선택한 달에 선택한 지역 축제 리스트 정보 조회(지역 선택 안 할 시 해당 월의 전체 축제 리스트)
+//	// 선택한 달에 선택한 지역 축제 리스트 정보 조회(지역 선택 안 할 시 해당 월의 전체 축제 리스트)
+//	@Override
+//	public List<FestivalMainVO> selectFestivalCalendarList(String month, String location) {
+//		return festivalMainRepository.selectFestivalCalendarList(month, location);
+//	}
+
+	// 기간 및 지역 선택하여 축제 리스트 정보 조회
 	@Override
-	public List<FestivalMainVO> selectFestivalCalendarList(String month, String location) {
-		return festivalMainRepository.selectFestivalCalendarList(month, location);
+	public List<FestivalMainVO> selectFestivalScheduleList(String periodStart, String periodEnd, String location,
+														int lastFestivalCode, int perPage) {
+		return festivalMainRepository.selectFestivalScheduleList(periodStart, periodEnd, location, lastFestivalCode, perPage);
 	}
 
+	// 해당 기간에 축제가 진행되는 지역 조회
+	@Override
+	public List<String> selectFestivalLocationList(String periodStart, String periodEnd) {
+		return festivalMainRepository.selectFestivalLocationList(periodStart, periodEnd);
+	}
+	
 	// 축제 검색 목록 조회
 	@Override
 	public List<FestivalMainVO> selectFestivalSearchList(String keyword, int lastFestivalCode, int perPage) {
 		return festivalMainRepository.selectFestivalSearchList(keyword, lastFestivalCode, perPage);
 	}
-
-
 
 }

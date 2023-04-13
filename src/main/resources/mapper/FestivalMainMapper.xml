@@ -55,17 +55,59 @@
             <![CDATA[AND state_name = #{location}]]>
 		</if>
 	</select> -->
-	<!-- 축제 기간 및 지역별 조회 -->
-	<select id="selectFestivalCalendarList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+	
+	<!-- 해당 기간에 축제가 진행되는 지역 조회 -->
+	<select id="selectFestivalLocationList" resultType="string">
 		<![CDATA[
-			SELECT * FROM festivalolle.v_festival_main 
+			SELECT state_name 
+			FROM festivalolle.v_festival_main 
 			WHERE status != 0
-			AND (start_date LIKE #{month} || '-__'
-            OR end_date LIKE #{month} || '-__')
+			AND(start_date < #{periodEnd})
+			AND(end_date > #{periodStart})
+			GROUP BY state_name
+		]]>
+	</select>
+	
+	<!-- 축제 기간 및 지역별 조회 -->
+	<select id="selectFestivalScheduleList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT festival_code, title, state_name, city_name, image, rating
+			FROM (SELECT ROWNUM AS rnum, fes.*
+				  FROM (SELECT festival_code, title, state_name, city_name, image, rating
+				  		FROM festivalolle.v_festival_main
+				  		WHERE status != 0
+			            AND(start_date < #{periodEnd})
+			            AND(end_date > #{periodStart})
 		]]>
 		<if test="location != null">
-            <![CDATA[AND state_name = #{location}]]>
+			<![CDATA[	AND state_name = #{location}]]>
 		</if>
+		<![CDATA[
+			            ORDER BY end_date) fes
+				  )
+		]]>
+		<where>
+			<if test="lastFestivalCode != 0">
+			<![CDATA[
+					  rnum > (SELECT rn 
+							  FROM (SELECT ROWNUM AS rn, festival_code
+									FROM (SELECT festival_code
+										  FROM festivalolle.v_festival_main
+										  WHERE status != 0
+							              AND(start_date < #{periodEnd})
+							              AND(end_date > #{periodStart})
+			]]>
+				<if test="location != null">
+					<![CDATA[			  AND state_name = #{location}]]>
+				</if>
+			<![CDATA[
+										  ORDER BY end_date) f
+									)
+							  WHERE festival_code = #{lastFestivalCode})
+			]]>
+			</if>
+		<![CDATA[AND ROWNUM <= #{perPage}]]>
+		</where>
 	</select>
 
 	<!-- 축제 검색 -->
