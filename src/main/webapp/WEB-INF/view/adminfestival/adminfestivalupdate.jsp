@@ -420,6 +420,12 @@ function validatePhoneNumber(phone) {
 const regex = /^[0-9-]{0,20}$/;
 if (!regex.test(phone)) {
 	  swal('입력 오류!', "숫자와 하이픈(-)포함 최대 20자 까지 가능합니다.", 'warning');
+	  swal({
+	   //   title: "이용 가능한 티켓이 없습니다!",
+	      text: "이용 가능한 티켓이 없습니다!",
+	      icon: "info",
+	      buttons: false,
+	    })
   return false;
 }
 return true;

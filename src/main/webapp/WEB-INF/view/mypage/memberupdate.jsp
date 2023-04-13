@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
 <!DOCTYPE html>
 <html>
 <style>
@@ -168,6 +169,7 @@
 			    				    
 			    if(name_overlap_check == 'false'){   
 			    	swal('인증실패!', "이름을 확인해주세요!", 'warning');
+			    	
 			    	return false;	
 			    } else if (phoneNumber_overlap_check == 'false'){
 			    	swal('인증실패!', "전화번호를 확인 해주세요!", 'warning');
