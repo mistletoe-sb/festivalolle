@@ -38,7 +38,7 @@
 				<select class="select_calendar_btn" id="select_month" name="monthSelector">
 					<c:forEach var="month" begin="1" end="12">
 						<c:choose>
-							<c:when test="${month == 4}">
+							<c:when test="${month == nowMonth}">
 								<option value="${month}" selected>${month}월</option>
 							</c:when>
 							<c:otherwise>
@@ -50,18 +50,33 @@
 				</select>
 				<div id="separate_select"></div>
 				<select class="select_calendar_btn" id="select_location" name="locationSelector">
-					<option value="전체" selected>전체</option>
-					<option value="지역1" selected>지역1</option>
-					<option value="지역2" selected>지역2</option>
-					<option value="지역3" selected>지역3</option>
+					<option value="전국" selected>전국</option>
+					<c:forEach var="location" items="${locationList}" varStatus="stat">
+						<option value="${location}">${location}</option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
 		<%-- 주차 선택 --%>
-		<div class="horizontal_container horizontal_menu">
-			<div class="horizontal_menu_item"><p>1주차</p></div>
-			<div class="horizontal_menu_item"><p>2주차</p></div>
-			<div class="horizontal_menu_item"><p class="selected_week">3주차</p></div>
+		<div class="horizontal_container horizontal_menu" id="week_menu">
+			<c:forEach var="week" items="${weekData}" varStatus="stat">
+				<c:choose>
+					<c:when test="${stat.index == 0}">
+						<div class="horizontal_menu_item">
+							<p class="selected_week">${stat.index + 1}주차</p>
+							<input type="hidden" class="week_start" value="${week[0]}">
+							<input type="hidden" class="week_end" value="${week[1]}">
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="horizontal_menu_item">
+							<p>${stat.index + 1}주차</p>
+							<input type="hidden" class="week_start" value="${week[0]}">
+							<input type="hidden" class="week_end" value="${week[1]}">
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</div>
 		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
 		<div class="default_list_2x_layout">

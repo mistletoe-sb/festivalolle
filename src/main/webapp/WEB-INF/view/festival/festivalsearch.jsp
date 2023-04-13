@@ -16,7 +16,7 @@
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<%-- 검색된 목록 출력할 레이아웃 --%>
-		<div class="default_list_layout">
+		<div class="default_list_2x_layout">
 			<div>
 				<h3>"${keyword}"에 대한<br>검색결과 : ${resultCount}건</h3>
 			</div>

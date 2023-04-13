@@ -28,11 +28,4 @@
 			AND festival_code = #{festivalCode}
 		]]>
 	</select>
-	
-	<select id="selectBookmarkList" parameterType="int" resultType="com.joyous.festivalolle.bookmark.model.BookmarkVO">
-		<![CDATA[
-			SELECT * FROM festivalolle.bookmark
-			WHERE member_code = #{memberCode}
-		]]>
-	</select>
 </mapper>

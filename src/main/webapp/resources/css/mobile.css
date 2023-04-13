@@ -208,6 +208,8 @@ textarea::placeholder, input::placeholder {
 }
 .default_list_layout h3, .default_list_2x_layout h3, .default_horizontal_layout h3 {
 	margin-bottom: 2vmax;
+	padding-left: 1vmin;
+	border-left: 0.3rem solid #F15600;
 	font-weight: bold;
 	font-size: 1.1875rem;
 }
@@ -1008,6 +1010,15 @@ textarea::placeholder, input::placeholder {
 	font-size: 1.25rem;
 	font-weight: bold;
 	margin: 0vmin;
+}
+
+/* 북마크 목록에 보이는 북마크 이미지 */
+.mybookmark {
+	position: absolute;
+	top: 2.5vmin;
+	right: 2.5vmin;
+	width: 14vmin;
+	height: 14vmin;
 }
 
 /* sweet modal 디자인 변경 */

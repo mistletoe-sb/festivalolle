@@ -1,7 +1,6 @@
 package com.joyous.festivalolle.bookmark.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -113,25 +112,5 @@ public class BookmarkController {
 		}
 		
 		return data;
-	}
-	
-	// 내 북마크 목록 조회
-	@GetMapping("/list")
-	@ResponseBody
-	public List<BookmarkVO> selectBookmarkList(HttpSession session) {
-		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
-		// 세션 null 체크
-		if(loginUser != null) {
-			try {
-				return bookmarkService.selectBookmarkList(loginUser.getMemberCode());
-			} catch (Exception e) {
-				logger.info(e.getMessage());
-				e.printStackTrace();
-			}
-		} else {
-			logger.info("session is not found");
-		}
-		
-		return null;
 	}
 }

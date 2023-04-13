@@ -1,7 +1,5 @@
 package com.joyous.festivalolle.bookmark.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,11 +39,4 @@ public class BookmarkService implements IBookmarkService {
 	public BookmarkVO selectBookmark(int memberCode, int festivalCode) {
 		return bookmarkRepository.selectBookmark(memberCode, festivalCode);
 	}
-
-	// 내 북마크 목록 조회
-	@Override
-	public List<BookmarkVO> selectBookmarkList(int memberCode) {
-		return bookmarkRepository.selectBookmarkList(memberCode);
-	}
-
 }
