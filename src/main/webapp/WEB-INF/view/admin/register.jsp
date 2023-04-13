@@ -35,7 +35,7 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">관리자 계정 등록</h1>
                             </div>
                             
                             <%-- action="<c:url value='admin/register'/>" method="post"  --%>
@@ -110,11 +110,9 @@
                                 <hr>                                
                             </form>
                             <hr>
+                
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="<c:url value='/admin'/>">이미 계정을 가지고 계신가요? 로그인하세요!</a>
                             </div>
                         </div>
                     </div>

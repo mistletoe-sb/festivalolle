@@ -39,12 +39,12 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-2">비밀번호를 잊으셨나요?</h1>
-                                        <p class="mb-4">아래에 이메일 주소를 입력하세요.
+                                        <p class="mb-4">아래에 전화번호를 입력하세요.
                                             비밀번호를 재설정할 수 있는 링크를 보내드립니다!</p>
                                     </div>
                                     <form class="user">
@@ -59,10 +59,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">새로운 계정을 만드세요!</a>
+                                        <a class="small" href="<c:url value='/admin/toregister'/>">새로운 계정을 만드세요!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="login.html">이미 계정을 가지고 계신가요? 로그인하세요!</a>
+                                        <a class="small" href="<c:url value='/admin'/>">이미 계정을 가지고 계신가요? 로그인하세요!</a>
                                     </div>
                                 </div>
                             </div>

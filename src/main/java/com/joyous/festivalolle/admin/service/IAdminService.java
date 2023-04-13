@@ -20,6 +20,9 @@ public interface IAdminService {
 	//관리자 등록: 기관 코드 가져오기
 	int organizationCode(String organizationName);
 	
+	//아이디 찾기
+	String findId(String name, String telephone);
+	
 	//시스템 관리자: 가입 승인 관리
 	List<AdminVO> getAdminList();
 	

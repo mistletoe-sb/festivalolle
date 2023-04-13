@@ -43,6 +43,7 @@ public class AdminController {
 	}
 	
 	//관리자 로그인
+	/*
 	@PostMapping(value="/admin")
 	public String login(String id, String password, HttpSession session, Model model, Locale locale) {		
 		AdminVO adminVO = new AdminVO();
@@ -68,6 +69,45 @@ public class AdminController {
 		}
 		return "admin";
 	}
+	*/
+	
+	@PostMapping(value="/admin")
+	@ResponseBody
+	public String login(String id, String pw, HttpSession session, Model model, Locale locale) {		
+		AdminVO adminVO = new AdminVO();
+		adminVO = adminService.adminLogin(id, pw);
+		logger.info(id);
+	
+		if(adminVO != null) {
+			logger.info("vo 받아옴");
+			int adminType = adminVO.getStatus();
+			if(adminType == 0) {
+				session.setAttribute("loginAdmin", adminVO);		//관리자타입 0번: 시스템 관리자
+				return "admin0";			
+			} else if(adminType == 2) {				
+				session.setAttribute("loginAdmin", adminVO);		//관리자타입 2번: 일반관리자		
+				return "admin2";
+			} else if(adminType == 3) {								//관리자타입 3번: 입장권 관리자
+				session.setAttribute("loginAdmin", adminVO);					
+				return "admin3";
+			} else if(adminType == 4) {								//관리자타입 4번: 쿠폰 사용 관리자
+				session.setAttribute("loginAdmin", adminVO);					
+				return "admin4";
+			}
+		} else {
+			logger.info("로그인 실패");
+			return "fail";
+		}
+		return "fail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//로그아웃
 	@GetMapping(value="/admin/logout")
@@ -83,6 +123,23 @@ public class AdminController {
 	public String findId(Locale locale) {
 		return "admin/findid";
 	}
+	
+	//아이디 찾기 ajax
+	@PostMapping(value="/admin/findid")
+	@ResponseBody
+	public String findId(String name, String telephone, AdminVO adminVO, Locale locale, Model model) {
+		String matchId = adminService.findId(name, telephone);
+		model.addAttribute("matchId", matchId);
+		return (matchId == null)? "fail" : matchId;
+	}
+	
+	//아이디 찾기 결과
+	@GetMapping(value="/admin/idresult")
+	public String idResult(Locale locale) {
+		return "admin/idresult";
+	}
+	
+	
 	
 	//비밀번호 변경 페이지로 이동
 	@GetMapping(value="/admin/forgotpassword")
