@@ -19,6 +19,7 @@
 	    <link
 	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	        rel="stylesheet">
+	        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	    <!-- Custom styles for this template-->
 	    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
@@ -52,7 +53,7 @@
 			
 <c:if test= "${message != null && message != ''}">
    <script>
-     alert("${message}");
+   swal('입력오류!', "${message}", 'error');
    </script>
 </c:if>
 <script type="text/javascript">

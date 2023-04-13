@@ -108,7 +108,7 @@ document.addEventListener('keydown', function(event) {
 	        });
 	      },
  	       error:function(){ 
- 	    	  swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error1'); 
+ 	    	  swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
  	       }//end error    
  	    }); 
  	}); 
@@ -128,7 +128,7 @@ document.addEventListener('keydown', function(event) {
             });
         },
         error: function() {
-        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error2');
+        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error');
         }
     });
 
@@ -180,7 +180,7 @@ document.addEventListener('keydown', function(event) {
  	           },
  	           error: function() {
  	               // AJAX 요청이 실패한 경우 에러 처리
- 	        	  swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error3');
+ 	        	  swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error');
  	           }
  	       });
  	   });
@@ -209,7 +209,7 @@ document.addEventListener('keydown', function(event) {
  	       	       });
  	       	     },
  	        	 error:function(){ 
- 	        		swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error4'); 
+ 	        		swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
  	        	 }
  	        });
  	    });

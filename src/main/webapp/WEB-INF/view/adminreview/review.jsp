@@ -110,7 +110,7 @@ $(document).ready(function() {
 	        });
 	      },
 			error : function getReportedList() {
-				swal('출력오류!', "신고리뷰목록을 불러오는데 실패했습니다.", 'error1');
+				swal('출력오류!', "신고리뷰목록을 불러오는데 실패했습니다.", 'error');
 			}
 	    });
 	  });
@@ -136,7 +136,7 @@ $(document).ready(function() {
 		        });
 		      },
 		      error : function() {
-		    	  swal('출력오류!', "리뷰목록을 불러오는데 실패했습니다.", 'error2');
+		    	  swal('출력오류!', "리뷰목록을 불러오는데 실패했습니다.", 'error');
 		      }
 		    });
 		  });
@@ -166,7 +166,7 @@ $(document).ready(function() {
 	        });
 	      },
 			error : function() {
-				swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error3');		
+				swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error');		
 			}
 	    });
 	  });
@@ -187,7 +187,7 @@ $(document).ready(function() {
 	            });
 	        },
 	        error: function() {
-	        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error4');
+	        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error');
 	        }
 	    });
 		
@@ -239,7 +239,7 @@ $(document).ready(function() {
 		        },
 		        error: function() {
 		            // AJAX 요청이 실패한 경우 에러 처리
-		        	swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error5');
+		        	swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error');
 		        }
 		    });
 		});
@@ -269,7 +269,7 @@ $(document).ready(function() {
 		    	     });
 		    	  	},
 		    		error : function getReportedList() {
-		    			swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error6');			
+		    			swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error');			
 		    		}
 		        });
 		    });
