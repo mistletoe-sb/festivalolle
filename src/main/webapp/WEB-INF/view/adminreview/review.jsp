@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<div class="container-fluid">
 	
@@ -79,6 +80,14 @@
 	</div>
 	
 <script type="text/javascript">
+
+document.addEventListener('keydown', function(event) {
+	  if (event.key === 'Enter') {
+	    event.preventDefault();
+	    document.querySelector('#reviewSearch').click();
+	  }
+	});
+
 $(document).ready(function() {
 	  $("#reportedReview").on('click',function getReportedList() {
 	    $("#contents").empty();
@@ -101,7 +110,7 @@ $(document).ready(function() {
 	        });
 	      },
 			error : function getReportedList() {
-				alert('error1');			
+				swal('출력오류!', "신고리뷰목록을 불러오는데 실패했습니다.", 'error');
 			}
 	    });
 	  });
@@ -127,7 +136,7 @@ $(document).ready(function() {
 		        });
 		      },
 		      error : function() {
-		        alert('error2');
+		    	  swal('출력오류!', "리뷰목록을 불러오는데 실패했습니다.", 'error');
 		      }
 		    });
 		  });
@@ -157,7 +166,7 @@ $(document).ready(function() {
 	        });
 	      },
 			error : function() {
-				alert('error3');			
+				swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error');		
 			}
 	    });
 	  });
@@ -178,8 +187,7 @@ $(document).ready(function() {
 	            });
 	        },
 	        error: function() {
-	            // AJAX 요청이 실패한 경우 에러 처리
-	            alert('error4');
+	        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error');
 	        }
 	    });
 		
@@ -231,7 +239,7 @@ $(document).ready(function() {
 		        },
 		        error: function() {
 		            // AJAX 요청이 실패한 경우 에러 처리
-		            alert('error5');
+		        	swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error');
 		        }
 		    });
 		});
@@ -261,7 +269,7 @@ $(document).ready(function() {
 		    	     });
 		    	  	},
 		    		error : function getReportedList() {
-		    		alert('error6');			
+		    			swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error');			
 		    		}
 		        });
 		    });

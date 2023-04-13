@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <div class="container-fluid">
 <div class="card shadow mb-4">
 	<div class="card-header py-3">

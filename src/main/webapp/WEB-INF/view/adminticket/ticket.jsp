@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
-
+ 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
 	<div class="container-fluid">
 	<div class="card shadow mb-4">
@@ -73,6 +74,14 @@
 			</div>
 			
 <script type="text/javascript">
+
+document.addEventListener('keydown', function(event) {
+	  if (event.key === 'Enter') {
+	    event.preventDefault();
+	    document.querySelector('#buyerSearch').click();
+	  }
+	});
+
  $(document).ready(function() {
  	/* --- 검색 --- */ 
  	$('#buyerSearch').on('click', function(){ 
@@ -99,7 +108,7 @@
 	        });
 	      },
  	       error:function(){ 
-	          alert("error1"); 
+ 	    	  swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
  	       }//end error    
  	    }); 
  	}); 
@@ -119,8 +128,7 @@
             });
         },
         error: function() {
-            // AJAX 요청이 실패한 경우 에러 처리
-            alert('error2');
+        	swal('검색창오류!', "연도별 축제목록을 불러오는데 실패했습니다.", 'error');
         }
     });
 
@@ -172,7 +180,7 @@
  	           },
  	           error: function() {
  	               // AJAX 요청이 실패한 경우 에러 처리
- 	               alert('error3');
+ 	        	  swal('검색창오류!', "연도별 축제를 불러오는데 실패했습니다.", 'error');
  	           }
  	       });
  	   });
@@ -201,7 +209,7 @@
  	       	       });
  	       	     },
  	        	 error:function(){ 
- 	       	     alert("error4"); 
+ 	        		swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
  	        	 }
  	        });
  	    });

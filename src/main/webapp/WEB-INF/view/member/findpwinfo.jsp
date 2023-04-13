@@ -15,12 +15,13 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
 		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		 <!-- Custom fonts for this template-->
 	    <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
 	    <link
 	        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	        rel="stylesheet">
-
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	    <!-- Custom styles for this template-->
 	    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
 	</head>
@@ -87,9 +88,9 @@ $(document).ready(function() {
 		$("#dupChekAlert").focus().val();
 		return false;
 	  }else if(pw == pwChk){
-	    alert("비밀번호가 변경되었습니다.");
+	    swal('확인완료!', "비밀번호가 변경되었습니다.", 'success');
 	  }else{
-		alert("비밀번호가 동일하지 않습니다.");
+		swal('변경실패!', "비밀번호가 동일하지 않습니다.", 'warning');
 		 $("#newPassword").val('');
 		 $("#dupChek").val('');
 		 return false;
