@@ -43,7 +43,7 @@
 	    <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
 	</head>
 	<body>
-	<%-- 내용 작성:이혜성 --%>
+
 	<%@ include file="../mobilemenu/mobiletop.jsp"%>
 
 			<div class = "box">
@@ -51,13 +51,10 @@
 			<div class="mb-3">
 				<label for="exampleFormControlTextarea1" class="form-label">반드시 확인 해주세요!</label>
 				<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" style="height: 10rem; font-size : 0.86rem" disabled>
-1. 탈퇴를 진행하시려면 비밀번호를 재확인 하여야 
-   합니다. 
-2. 탈퇴 이후 게시물 삭제가 불가능하니 민감한 정보는 
-   미리 삭제 후 탈퇴해주시기 바랍니다. 
+1. 탈퇴를 진행하시려면 비밀번호를 재확인 하여야 합니다. 
+2. 탈퇴 이후 게시물 삭제가 불가능하니 민감한 정보는 미리 삭제 후 탈퇴해주시기 바랍니다. 
 3. 탈퇴 이후 해당 계정으로는 재가입이 불가능합니다. 
-4. 추가 문의 사항은 탈퇴 이전 관리자에게 문의 
-   바랍니다.
+4. 추가 문의 사항은 탈퇴 이전 관리자에게 문의 바랍니다.
 				</textarea>
 			</div>
 			<form class="user" name="changepwfrm" > 

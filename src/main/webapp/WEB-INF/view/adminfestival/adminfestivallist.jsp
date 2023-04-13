@@ -54,7 +54,6 @@ input[type=radio]:checked#btnradio1+label:after {
 		<div>
 			
 		</div>
-		
 		<a></a>
 		<div class="card shadow mb-4">
             <div class="card-header py-3">
