@@ -1,7 +1,7 @@
 package com.joyous.festivalolle.ticket.repository;
 
 import java.util.List;
-import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO;
 
@@ -11,12 +11,10 @@ import com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO;
 public interface ITicketRepository {
 	
 	List<V_ticketBuyerListVO> ticketBuyerList(V_ticketBuyerListVO buyerList); //구매자 목록 출력
-	List<V_ticketBuyerListVO> searchBuyer( // 검색 기능
+	int totalBuyerCount(); //구매자 목록의 행 수
+	List<V_ticketBuyerListVO> searchBuyer(		// 검색 기능
 			@Param("organizationCode") int organizationCode,@Param("buyerKeyword") String buyerKeyword, @Param("tableBox") String tableBox);
-	List<V_ticketBuyerListVO> selectYearTitleList(V_ticketBuyerListVO buyerList); // 연도별 타이틀
+	List<V_ticketBuyerListVO> selectYearTitleList(V_ticketBuyerListVO buyerList);		// 연도별 타이틀
 	List<V_ticketBuyerListVO> selectYearBuyer(V_ticketBuyerListVO buyerListVO);
-	
-//	int totalBuyerCount(int organizationCode, String buyerKeyword); //구매자 목록의 행 수
-//	public List<V_ticketBuyerListVO> selectBoard(Map<String,Object> map); // 페이징 처리 게시글 조회
 
 }
