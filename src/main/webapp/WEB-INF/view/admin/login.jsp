@@ -46,8 +46,13 @@
                                         <h1 class="h4 text-gray-900 mb-4">축제올래 관리자</h1>
                                     </div>
                                     <hr>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
                                     <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
-                                    	
+                                    		
 	                                        <div class="form-group">
 	                                            <input type="text" class="form-control form-control-user"
 	                                            	name="id"
@@ -60,15 +65,17 @@
 	                                                id="login_pw_admin" placeholder="비밀번호">
 	                                        </div>
                                         
-                                        <!-- <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a> -->
-                                        <!-- <a href="javascript:loginfrm.submit();" class="btn btn-primary btn-user btn-block">로그인</a> -->
+                                        
                                         <input id="adminLogin-btn" class="btn btn-primary btn-user btn-block" value="로그인" />
                                         
                                        
                                     </form>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
                                     <hr>
+                                    
                                     <div class="text-center">
                                    		<a class="small" href="<c:url value='/admin/findid'/>">아이디를 잊으셨나요?</a><br>
                                         <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br>
@@ -90,14 +97,7 @@
     <script>
  	 //로그인 실행
 	$('#adminLogin-btn').click(function(){
-		//로그인 실행
-		//var emailchk = $('#email_login_overlap_check').val();
-		//var pwchk = $('#pw_login_overlap_check').val();
-		//console.log(emailchk);
-		//console.log(pwchk);
-	
-			//console.log(emailchk);
-			//console.log(pwchk);
+		
 			var id = $('#login_id_admin').val();	
 			var password = $('#login_pw_admin').val();
 			console.log(id);

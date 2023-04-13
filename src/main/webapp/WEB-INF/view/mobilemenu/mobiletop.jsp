@@ -4,8 +4,10 @@
 <div class="top_empty" id="top">
 	<input id="rootContext" type="hidden" value="${pageContext.request.contextPath}">
 </div>
-<div class="top_menu">
-	<div class="normal_top">
+<div class="top_menu" >
+<div class="top-image">
+
+	<div class="normal_top">		
 		<div class="page_title">
 			<p></p>
 		</div>
@@ -25,3 +27,5 @@
 		</div>
 	</div>
 </div>
+</div>
+

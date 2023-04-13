@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.top-image {
+	
+	
+	background-image: url("../img/mobileicon/topimage.jpg");	
+	background-size: cover;
+	height:8vmax;
+	width: 100%;
+	
+	background-repeat: no-repeat;
+	/* position:fixed;
+	right:10px;
+	bottom:10px; */
+	
+}
+
+.loading-image{
+	z-index: 1000;
+	height: 100%;
+	width: 100%;
+}

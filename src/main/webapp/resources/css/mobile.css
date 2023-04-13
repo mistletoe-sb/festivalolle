@@ -841,7 +841,7 @@ textarea::placeholder, input::placeholder {
 	height: 8vmax;
 	z-index: 100;
 	/* background-color: #F15600; */
-	background-color: #FFFFFF;	
+	/* background-color: #FFFFFF; */	
 	box-shadow: 0rem 0.125rem 0.25rem 0rem #0000001A;
 }
 .top_menu > div {

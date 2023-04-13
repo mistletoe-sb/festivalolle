@@ -25,11 +25,35 @@
 	width:1.2rem;
 	margin-right : 0.5rem;
 }
+
+
+#loading {
+ width: 100%;   
+ height: 100%;   
+ top: 0px;
+ left: 0px;
+ position: fixed;   
+ display: block;   
+ opacity: 0.7;   
+ background-color: #fff;   
+ z-index: 99;   
+ text-align: center; }  
+ 
+#loading-image {   
+ position: absolute;   
+ top: 50%;   
+ left: 50%;  
+ z-index: 100; } 
+
+
+
+
 </style>
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>마이 페이지</title>
+		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
@@ -114,6 +138,13 @@
 		</div>
 		
 		
+		<%-- <div id="loading"><img id="loading-image" src="<c:url value='/resources/img/mobileicon/festivalolle.png'/>" alt="Loading..." /></div> --%>
+		
+		<script type="text/javascript">
+			$(window).load(function() {     
+			    $('#loading').hide();   
+			   }); 
+			</script>
 		
 		<%-- 내용 끝 --%>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>

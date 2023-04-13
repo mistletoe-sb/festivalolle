@@ -86,6 +86,14 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			//document.getElementById("loading-overlay").style.display = "block";
+			
+			
+			$(document).setTimeout(function(){
+			  document.getElementById("loading-overlay").style.display = "none";
+			}, 3000);
+		</script>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>
