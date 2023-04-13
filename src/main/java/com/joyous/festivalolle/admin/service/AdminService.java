@@ -41,6 +41,12 @@ public class AdminService implements IAdminService {
 		return adminRepository.organizationCode(organizationName);
 	}
 	
+	//아이디 찾기
+	@Override
+	public String findId(String name, String telephone) {
+		return adminRepository.findId(name, telephone);
+	}
+	
 	//시스템 관리자: 가입 승인 관리
 	@Override
 	public List<AdminVO> getAdminList() {

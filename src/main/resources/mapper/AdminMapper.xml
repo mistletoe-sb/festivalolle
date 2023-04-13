@@ -69,6 +69,14 @@
 		</where>
 	</select>
 	
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="String" resultType="String">
+		SELECT id FROM admin WHERE name = #{name} AND telephone = #{telephone}
+	</select>
+	
+	
+	
+	
 	<!-- 관리자 등록 페이지: 기관명으로 기관 코드 가져오기 -->
 	<select id="organizationCode" resultType="int">
 		<![CDATA[

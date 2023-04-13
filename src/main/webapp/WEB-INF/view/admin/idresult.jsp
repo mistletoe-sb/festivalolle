@@ -50,38 +50,22 @@
                                         <h1 class="h4 text-gray-900 mb-2">아이디 찾기</h1>                                        
                                     </div>
                                     <hr>
-                                    <div id="findid-hide">
-	                                    <form class="user">
-	                                        <div class="form-group">
-	                                            <input type="text" class="form-control form-control-user"
-	                                                id="findid_name" 
-	                                                placeholder="이름">
-	                                                
-	                                        </div>
-	                                        <div class="form-group">
-	                                            <input type="text" class="form-control form-control-user"
-	                                                id="findid_tel" type="tel" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required
-	                                                placeholder="연락처 010-0000-0000">
-	                                        </div>
-	                                        <a id="findid-btn" class="btn btn-primary btn-user btn-block">
-	                                            확인
-	                                        </a>
-	                                    </form>
-                                    </div>
                                     
-                                    <div id="findid-result" hidden="true">
+                                    
+                                    <div class="findid-result">
 	                                    <form class="user">
 	                                        <div class="text-center">
-		                                       <!-- <h5 class="h5 text-gray-900 mb-2">고객님의 정보와 일치하는 아이디 입니다.</h5>     -->                                    
-		                                    	<h5 class="h5 text-gray-900 mb-2"><label id ="id-result"></label></h5>
+		                                       <h5 class="h5 text-gray-900 mb-2">고객님의 정보와 일치하는 아이디 입니다.</h5>                                        
+		                                    	<h5 class="h5 text-gray-900 mb-2">${matchId.id }</h5>
 		                                    </div>
 		                                    <hr>
-	                                        <a href="<c:url value='/admin'/>" class="btn btn-primary btn-user btn-block">
+	                                        <a href="<c:url value='/admin/login'/>" class="btn btn-primary btn-user btn-block">
 	                                            로그인
 	                                        </a>
-	                                        <a href="<c:url value='/admin/forgotpassword'/>" class="btn btn-primary btn-user btn-block">
+	                                        <a href="<c:url value='/admin/changepw'/>" class="btn btn-primary btn-user btn-block">
 	                                            비밀번호 변경
 	                                        </a>
+	                                        
 	                                    </form>
                                     </div>
     
@@ -142,9 +126,9 @@
 						if(data == 'fail'){
 							swal('', "가입된 관리자 계정이 없습니다.", 'warning')																				
 						} else {
-							console.log('이상' + data);
+							console.log(data);
 							$("#findid-hide").hide();
-							$('#findid-result').attr('hidden', false);
+							$('#findid-result').show();
 							$('#id-result').text(data);
 							
 						} 								
