@@ -1,51 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
- <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
 <!DOCTYPE html>
 <html>
 	<head>
-	
-	<style type="text/css">
-		.star-ratings {
-		  color: #aaa9a9; 
-		  position: relative;
-		  unicode-bidi: bidi-override;
-		  width: max-content;
-		  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-		  -webkit-text-stroke-width: 0.0625rem;
-		  -webkit-text-stroke-color: #C7C7C7;
-		}
-		 
-		.star-ratings-fill {
-		  color: #F15600;
-		  padding: 0;
-		  position: absolute;
-		  z-index: 1;
-		  display: flex;
-		  top: 0;
-		  left: 0;
-		  overflow: hidden;
-		  -webkit-text-fill-color: #F15600;
-		  -webkit-text-stroke-width: 0.0625rem;
-		  -webkit-text-stroke-color: #F15600;
-		}
-		 
-		.star-ratings-base {
-		  z-index: 0;
-		  padding: 0;
-		}
-	</style>
-
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 		<title>리뷰 리스트</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
-		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
+		<style type="text/css">
+			.star-ratings {
+			  color: #aaa9a9; 
+			  position: relative;
+			  unicode-bidi: bidi-override;
+			  width: max-content;
+			  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+			  -webkit-text-stroke-width: 0.0625rem;
+			  -webkit-text-stroke-color: #C7C7C7;
+			}
+			 
+			.star-ratings-fill {
+			  color: #F15600;
+			  padding: 0;
+			  position: absolute;
+			  z-index: 1;
+			  display: flex;
+			  top: 0;
+			  left: 0;
+			  overflow: hidden;
+			  -webkit-text-fill-color: #F15600;
+			  -webkit-text-stroke-width: 0.0625rem;
+			  -webkit-text-stroke-color: #F15600;
+			}
+			 
+			.star-ratings-base {
+			  z-index: 0;
+			  padding: 0;
+			}
+		</style>
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 <title>회원 로그인</title>
 </head>
 <body>

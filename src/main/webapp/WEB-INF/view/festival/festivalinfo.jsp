@@ -5,14 +5,7 @@
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 		<title>상세정보</title>
-		<%-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>" />
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script src="<c:url value='/resources/js/mobile.js'/>"></script> --%>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4b65446e66b6e8b6a52d46722fe1fb6f&libraries=services"></script>
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-		
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>

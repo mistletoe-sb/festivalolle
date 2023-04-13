@@ -11,7 +11,7 @@
 		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
 		<div class="default_list_2x_layout">
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-				<%@ include file="festivalcard.jsp"%>
+				<%@ include file="../festival/festivalcard.jsp"%>
 			</c:forEach>
 		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>

@@ -1,68 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
- <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
-
-
 <html>
-
-<style>
-.mypagemenu{
-	width:90%; 
-	height : 2.0rem;
-	margin: auto; 
-	border-bottom: 0.1rem solid #C4C4C4; 
-	margin-bottom: 0.7rem; 
-	padding-bottom: 0.3rem;
-	margin-top: 0.5rem;
-	
-}
-.mypageimg{
-	width:1.5rem;
-	margin-right : 0.5rem;
-}
-.mypageimg2{
-	width:1.2rem;
-	margin-right : 0.5rem;
-}
-
-
-#loading {
- width: 100%;   
- height: 100%;   
- top: 0px;
- left: 0px;
- position: fixed;   
- display: block;   
- opacity: 0.7;   
- background-color: #fff;   
- z-index: 99;   
- text-align: center; }  
- 
-#loading-image {   
- position: absolute;   
- top: 50%;   
- left: 50%;  
- z-index: 100; } 
-
-
-
-
-</style>
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>마이 페이지</title>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile_member.css'/>"/>
-		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script src="<c:url value='/resources/js/mobile.js'/>"></script>
-		
+		<title>마이 페이지</title>
+		<style>
+		.mypagemenu{
+			width:90%; 
+			height : 2.0rem;
+			margin: auto; 
+			border-bottom: 0.1rem solid #C4C4C4; 
+			margin-bottom: 0.7rem; 
+			padding-bottom: 0.3rem;
+			margin-top: 0.5rem;
+		}
+		.mypageimg{
+			width:1.5rem;
+			margin-right : 0.5rem;
+		}
+		.mypageimg2{
+			width:1.2rem;
+			margin-right : 0.5rem;
+		}
+		#loading {
+		 width: 100%;   
+		 height: 100%;   
+		 top: 0px;
+		 left: 0px;
+		 position: fixed;   
+		 display: block;   
+		 opacity: 0.7;   
+		 background-color: #fff;   
+		 z-index: 99;   
+		 text-align: center; }  
+		#loading-image {   
+		 position: absolute;   
+		 top: 50%;   
+		 left: 50%;  
+		 z-index: 100; } 
+		</style>
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>		
@@ -100,7 +77,7 @@
 				</div>
 			</div>
 			<div style="clear:both;"></div>
-			<div class="mypagemenu" onclick="location.href='<c:url value='/mypage/ticketlist'/>'">
+			<div class="mypagemenu" onclick="location.href='<c:url value='/bookmark/list'/>'">
 				<div class="icon" style="float:left;">
 					<img class="mypageimg" src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
 				</div>
@@ -141,11 +118,11 @@
 		
 		<%-- <div id="loading"><img id="loading-image" src="<c:url value='/resources/img/mobileicon/festivalolle.png'/>" alt="Loading..." /></div> --%>
 		
-		<script type="text/javascript">
+		<%-- <script type="text/javascript">
 			$(window).load(function() {     
 			    $('#loading').hide();   
 			   }); 
-			</script>
+			</script> --%>
 		
 		<%-- 내용 끝 --%>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
