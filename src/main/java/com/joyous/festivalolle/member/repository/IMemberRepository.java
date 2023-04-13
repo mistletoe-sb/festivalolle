@@ -14,4 +14,11 @@ public interface IMemberRepository {
 	MemberVO updatePassword(@Param("password") String password, @Param("id") String id); //비밀번호 변경- 작성자: 이혜성
 	MemberVO unactiveMember(@Param("password") String password, @Param("status") int status); //회원탈퇴- 작성자: 이혜성
 	int findMember(@Param("password") String password); //회원탈퇴용 계정정보 조회- 작성자: 이혜성
+	
+	//=========================================================================================
+	int countMember2(@Param("memberCode") int memberCode, @Param("password") String password);
+	MemberVO selectMember(int memberCode);
+	void updateMember(MemberVO memberVO);
+	void updatePassword2(@Param("memberCode") int memberCode, @Param("password") String password);
+	void updateStatus(int memberCode);
 }	
