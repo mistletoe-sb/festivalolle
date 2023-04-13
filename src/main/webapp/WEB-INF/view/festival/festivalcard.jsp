@@ -6,13 +6,12 @@
 	<input type="hidden" class="festival_code" value="${fes.festivalCode}">
 	<div class="card">
 		<div class="ratio">
-			<%-- <img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image"> --%>				  	
 			<%-- <img src="data:image:jpg;base64,${img}" class="card-img-top" alt="${fes.festivalCode}">	 --%>			  	
 			<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-img-top" alt="${fes.festivalCode}">				  	
 		</div>
 		<div class="card-body">
 			<div class="festival_title">
-				<p class="card-text">
+				<p class="card-text text-truncate">
 					${fes.title}
 				</p>
 			</div>

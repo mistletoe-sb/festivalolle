@@ -5,13 +5,6 @@
 	<head>
 		<%@ include file="mobilemenu/mobileinclude.jsp"%>
 		<title>축제올래</title>
-		<%-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
-		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
-		<script src="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="<c:url value='/resources/js/jquery-3.6.3.min.js'/>"></script>
-		<script src="<c:url value='/resources/js/mobile.js'/>"></script> --%>
 	</head>
 	<body>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
@@ -19,16 +12,18 @@
 		<div class="recommend_list_layout">
 			<div id="recommend_carousel" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-indicators">
-					<c:forEach var="item" items="${recommendList}" varStatus="page">
-						<c:choose>
-							<c:when test='${page.index == 0}'>
-								<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}" class="active" aria-current="true"></button>
-							</c:when>
-							<c:otherwise>
-								<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}"></button>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
+					<div class="indicator_background">
+						<c:forEach var="item" items="${recommendList}" varStatus="page">
+							<c:choose>
+								<c:when test='${page.index == 0}'>
+									<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}" class="active" aria-current="true"></button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" data-bs-target="#recommend_carousel" data-bs-slide-to="${page.index}"></button>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</div>
 				</div>
 				<div class="carousel-inner">
 					<c:forEach var="fes" items="${recommendList}" varStatus="stat">
@@ -56,27 +51,41 @@
 			</div>
 		</div>
 		<%-- 기본목록(진행 중인 축제) 출력할 레이아웃 --%>
-		<div class="default_list_layout">
+		<%-- <div class="default_list_layout">
 			<div>
 				<h3>진행 중인 축제</h3>
 			</div>
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 				<%@ include file="festival/festivalcard.jsp"%>
 			</c:forEach>
-		</div>
-		<%-- <div class="default_horizontal_layout">
+		</div> --%>
+		<div class="default_horizontal_layout">
 			<div class="category_title">
 				<h3>이번 주 HOT 축제</h3>
+				<div class="goto_list">
+					<div class="icon_layout">
+						<p>전체보기</p>
+					</div>
+					<div class="icon_layout">
+						<img src="<c:url value='/resources/img/icon/back.png'/>" alt="goto">
+					</div>
+				</div>
 			</div>
 			<div class="horizontal_container" style="overflow-x: overlay;width:100vmin;display:flex;">
+				<div class="horizontal_empty"></div>
 				<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-					<c:set var="img" value="${defaultListImages[stat.index]}"/>
-						<div style="width: 84vmin;">
-							<%@ include file="festival/festivalcard.jsp"%>
-						</div>
+					<%@ include file="festival/festivalcard.jsp"%>
 				</c:forEach>
+				<div class="goto_list horizontal_goto">
+					<div class="icon_layout black_circle">
+						<img src="<c:url value='/resources/img/icon/back.png'/>" alt="goto">
+					</div>
+					<div class="icon_layout">
+						<p>전체보기</p>
+					</div>
+				</div>
 			</div>
-		</div> --%>
+		</div>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>
