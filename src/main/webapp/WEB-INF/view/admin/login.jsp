@@ -41,7 +41,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">축제올래 관리자</h1>
                                     </div>
                                     <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
                                     	
@@ -63,22 +63,15 @@
                                         <!-- <a href="javascript:loginfrm.submit();" class="btn btn-primary btn-user btn-block">로그인</a> -->
                                         <input type="submit" id="login_btn" class="btn btn-primary btn-user btn-block" value="로그인" />
                                         
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                       
                                     </form>
                                     <hr>
                                     <div class="text-center">
+                                   		<a class="small" href="findid.jsp">아이디를 잊으셨나요?</a>
                                         <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br>
-                                        <a class="small" href="findid.jsp">아이디를 잊으셨나요?</a>
+                              			<a class="small" href="<c:url value='/admin/toregister'/>">관리자 등록</a>          
                                     </div>
-                                    <div class="text-center">
-                                        <a class="small" href="<c:url value='/admin/toregister'/>">관리자 등록</a>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -90,6 +83,16 @@
         </div>
 
     </div>
+    
+    <script>
+    	
+    
+    
+    </script>
+
+
+
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>

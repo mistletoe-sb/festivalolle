@@ -192,7 +192,7 @@
 					console.log(data);
 					if(data == 'ok'){
 						//window.location.replace("<c:url value='/admin/login'/>");
-						window.location.href = "<c:url value='/admin/login'/>";
+						window.location.href = "<c:url value='/admin'/>";
 						alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
 					} else {
 						alert("신청 불가");

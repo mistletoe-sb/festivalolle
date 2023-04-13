@@ -128,7 +128,7 @@
 								window.location.replace("/festivalolle/home");																				
 							} else {
 								$('#loginAlert').modal();
-								
+								swal('', "아이디, 비밀번호를 확인해주세요.", 'warning');
 								//alert("아이디, 비밀번호를 확인해주세요.");	
 							}//end if								
 						},//end success
@@ -142,7 +142,8 @@
 		
 		</script>
 		
-		
+		<!-- alert -->
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
 		<%-- 내용 끝 --%>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
