@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<%-- 검색된 목록 출력할 레이아웃 --%>
+		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
 		<div class="default_list_2x_layout">
 			<div>
 				<h3>${title}</h3>

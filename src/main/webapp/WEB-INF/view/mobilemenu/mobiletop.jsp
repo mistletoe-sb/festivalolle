@@ -14,9 +14,9 @@
 		</div>	
 	</div>
 	<div class="search_top" hidden="true">
-		<div class="search_close">
+		<%-- <div class="search_close">
 			<img src="<c:url value='/resources/img/icon/back.png'/>" alt="close">
-		</div>
+		</div> --%>
 		<div class="search_box">
 			<form action="<c:url value='/festival/search'/>" method="get">
 				<input type="search" name="keyword" class="search_input" placeholder="검색어를 입력하세요">
