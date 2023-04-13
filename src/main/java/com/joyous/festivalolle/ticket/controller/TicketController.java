@@ -56,51 +56,6 @@ public class TicketController {
 			}
 	}
 	
-//	//페이징처리
-//	  @PostMapping(value="/ticketlist")	  
-//	  @ResponseBody 
-//	  public Map<String, Object> ticketPaging(String nowPage, String cntPerPage, int organizationCode, String buyerKeyword, PagingVO vo, Locale locale) {
-//		  
-//		  Map<String,Object> map = new HashMap<String,Object>();	//매퍼에 넘겨줄 map
-//		  Map<String, Object> result = new HashMap<String, Object>();	//DB에서 검색해 온 결과 담아줄 result	 
-//		  int total = ticketService.totalBuyerCount(organizationCode, buyerKeyword);
-//		  
-//		  if (nowPage == null && cntPerPage == null) {
-//		  		nowPage = "1";
-//		  		cntPerPage = "10";
-//		  	} else if (nowPage == null) {
-//		  		nowPage = "1";
-//		  	} else if (cntPerPage == null) { 
-//		  		cntPerPage = "10";
-//		  	}
-//		  
-//		  	vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-//		  	//model.addAttribute("paging", vo);
-//		  	//model.addAttribute("viewAll", ticketService.selectBoard(vo));
-//		  	//return "system/adminlist2";
-//		  
-//		  //List<buyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
-//		  //searchList = ticketService.searchBuyer(buyerKeyword);
-//		  
-//		  logger.info("컨트롤러에서 받음" + buyerKeyword);		 
-//		  map.put("start", vo.getStart());
-//		  map.put("end", vo.getEnd());
-//		  map.put("buyerKeyword", buyerKeyword);
-//		  
-//		  
-//		  List<V_ticketBuyerListVO> viewAll = ticketService.selectBoard(map);
-//	      result.put("viewAll",  viewAll);
-//	      result.put("startPage", vo.getStartPage());
-//	      result.put("cntPerPage", vo.getCntPerPage());
-//	      result.put("endPage", vo.getEndPage());
-//	      logger.info(Integer.toString(vo.getEndPage()));
-//	      result.put("nowPage", vo.getNowPage());
-//	      result.put("lastPage", vo.getLastPage());
-//	
-//	  
-//	  
-//		  return result; 
-//	  }
 
     @ResponseBody
     @GetMapping("/search")
