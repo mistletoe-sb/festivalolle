@@ -99,6 +99,7 @@
 					<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
 				</div>
 			</div>
+			<div style="clear:both;"></div>
 			<div class="mypagemenu" onclick="location.href='<c:url value='/logout'/>'">
 				<div class="icon" style="float:left;">
 					<img class="mypageimg" src="<c:url value='/resources/img/icon/logout.png'/>" href=" " alt="mypage">

@@ -169,7 +169,7 @@
 			    				    
 			    if(name_overlap_check == 'false'){   
 			    	swal('인증실패!', "이름을 확인해주세요!", 'warning');
-			    	swal('인증실패!', "구매한 티켓이 없습니다.", 'info');
+			    	
 			    	return false;	
 			    } else if (phoneNumber_overlap_check == 'false'){
 			    	swal('인증실패!', "전화번호를 확인 해주세요!", 'warning');
