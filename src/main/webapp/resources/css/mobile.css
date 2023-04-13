@@ -89,7 +89,7 @@ body {
 textarea {
 	resize: none !important;
 }
-textarea::placeholder {
+textarea::placeholder, input::placeholder {
 	font-style: italic;
 }
 /* 문단 형태의 텍스트 */
@@ -151,12 +151,12 @@ textarea::placeholder {
 }
 
 /* 기본 축제 목록 레이아웃 */
-.default_list_layout {
+.default_list_layout, .default_list_2x_layout {
 	width: 100%;
-	padding: 0vmin 8.3vmin;
+	padding: 0vmin 4.15vmin;
 	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
 }
-.default_list_layout h3 {
+.default_list_layout h3, .default_list_2x_layout h3 {
 	margin-bottom: 4.05vmax;
 	font-weight: bold;
 	font-size: 1.25rem;
@@ -345,14 +345,25 @@ textarea::placeholder {
 	padding: 2.7vmax 3.5vmin 0.3vmax 3.5vmin;
 	box-shadow: 0rem 0rem 0.25rem #00000016;
 }
-.modal_body_content, .modal_body_btn_layout {
-	width: 100%;
-	height: 9vmax;
-}
 .modal_body_content {
 	display: flex;
+	width: 100%;
+	height: 6.5vmax;
 	justify-content: center;
-	padding: 1.35vmax 0vmin;
+	padding: 0.4vmax 0vmin;
+}
+.modal_hint_content {
+	display: flex;
+	width: 100%;
+	height: 3vmax;
+	align-items: start;
+	justify-content: center; 
+}
+.modal_hint_content p {
+	font-weight: 550;
+	font-size: 0.75rem;
+	color: red;
+	margin-bottom: 0vmax;
 }
 .modal_body_btn {
 	justify-content: center !important;
@@ -370,6 +381,7 @@ textarea::placeholder {
 .modal_body_content_main {
 	width: 35%;
 	height: 100%;
+	overflow-x: hidden;
 }
 .modal_body_content_sub {
 	width: 10%;
@@ -536,10 +548,50 @@ textarea::placeholder {
 	font-weight: bold;
 }
 .festival_card_container .card_rating {
+	float: right;
+	display: flex;
+	width: 20%;
+	min-width: 12.5vmin;
+}
+/* 축제 목록 2x(가로 2개) 출력 시의 카드 폼(세로 방향) CSS */
+.default_list_2x_layout .festival_card_container {
+	display: inline-block;
+	width: 48%;
+	cursor: pointer;
+	margin: 1% 0.5%;
+	font-size: 0.875rem;
+	font-weight: 800;
+}
+.default_list_2x_layout .festival_card_container .card {
+	/* border: 0.1rem solid #F2F2F2; */
+	border-radius: 0rem;
+}
+.default_list_2x_layout .festival_card_container .card-body {
+	border-bottom-left-radius: 0rem;
+	border-bottom-right-radius: 0rem;
+	/* box-shadow: 0rem 0.125rem 0.125rem #00000016; */
+}
+.default_list_2x_layout .festival_card_container .card-img-top {
+	border-top-left-radius: 0rem;
+	border-top-right-radius: 0rem;
+}
+
+.default_list_2x_layout .festival_card_container .festival_location {
+	width: 50%;
+}
+/*
+.default_list_2x_layout .rating_img {
+	width: 2.5vmin;
+}
+.default_list_2x_layout .rating_txt {
+	width: 3.7vmin;
+} */
+/*
+.festival_card_container .card_rating {
 	float: left;
 	display: flex;
 	width: 20%;
-}
+} */
 
 /* 리뷰 출력할 카드 폼 CSS */
 .review_card_container {
@@ -571,15 +623,32 @@ textarea::placeholder {
 	width: 10%;
 	height: 100%;
 }
-.review_body > .rating_layout {
+.review_body > .review_sub {
+	display: flex;
+	width: 100%;
+	height: 2.16vmax;
 	margin-bottom: 1.35vmax;
+	align-items: center;
 }
-.review_body > .rating_layout > .rating_img {
+.review_body > .review_sub > .rating_layout {
+	width: 20.3vmin;
+	min-width: 20.3vmin;
+}
+.review_body > .review_sub > .day_for_write {
+	display: flex;
+	margin-top: 0.4vmax;
+	margin-left: 0.83vmin;
+}
+.review_body > .review_sub > .day_for_write > p {
+	color: gray;
+	margin-bottom: 0vmax;
+}
+.review_body > .review_sub > .rating_layout > .rating_img {
 	width: 4vmin;
 	height: 2.16vmax;
 	text-align: center;
 }
-.review_body > .rating_layout > .rating_img img {
+.review_body > .review_sub > .rating_layout > .rating_img img {
 	width: 100%;
 	height: 100%;
 	vertical-align: middle;
@@ -588,6 +657,18 @@ textarea::placeholder {
 	width: 100%;
 	min-height: 8vmax;
 	border: none;
+}
+.review_blind {
+	color: red;
+	font-style: italic;
+}
+#writeCount {
+	width: 100%;
+	text-align: right;
+}
+#writeCount p {
+	color: gray;
+	margin-bottom: 0vmax;
 }
 
 /* 아이콘 + 텍스트가 배치되는 레이아웃*/

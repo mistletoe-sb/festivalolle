@@ -8,7 +8,7 @@
 		<div class="ratio">
 			<%-- <img src="<c:url value='/resources/img/${fes.fileName}'/>" class="card-img-top" alt="image"> --%>				  	
 			<%-- <img src="data:image:jpg;base64,${img}" class="card-img-top" alt="${fes.festivalCode}">	 --%>			  	
-			<img src="#" class="card-img-top" alt="${fes.festivalCode}">				  	
+			<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-img-top" alt="${fes.festivalCode}">				  	
 		</div>
 		<div class="card-body">
 			<div class="festival_title">

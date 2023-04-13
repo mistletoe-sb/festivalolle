@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>축제검색</title>
+		<title>${title}</title>
 		<%-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9.1.1/swiper-bundle.min.css" />
 		<link rel="stylesheet" href="<c:url value='/resources/css/mobile.css'/>"/>
@@ -16,15 +16,15 @@
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<%-- 검색된 목록 출력할 레이아웃 --%>
-		<div class="default_list_layout">
+		<div class="default_list_2x_layout">
 			<div>
-				<h3>"${keyword}"에 대한<br>검색결과 : ${resultCount}건</h3>
+				<h3>${title}</h3>
+				<input type="hidden" id="category" value="${category}">
 			</div>
-			<c:forEach var="fes" items="${searchList}" varStatus="stat">
+			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
 		</div>
-		<input type="hidden" id="searched" value="${keyword}">
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

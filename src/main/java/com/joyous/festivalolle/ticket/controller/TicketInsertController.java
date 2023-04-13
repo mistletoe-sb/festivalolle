@@ -36,7 +36,7 @@ public class TicketInsertController {
 				logger.info(e.getMessage());
 				e.printStackTrace();
 			}
-			return "redirect:/home";
+			return "redirect:/myticket";
 		} else {			
 			return "redirect:/login";
 		}

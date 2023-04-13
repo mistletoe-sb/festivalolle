@@ -45,25 +45,34 @@ public class FestivalMainController {
 		int recommend = 7;	// 추천 목록에 표시할 수
 		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
 		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-		// 뷰에 표시할 이미지 binary 데이터 추출
-		List<byte[]> recommendListImages = new ArrayList<byte[]>();
-		List<byte[]> defaultListImages = new ArrayList<byte[]>();
-		for(FestivalMainVO vo : recommendList) {
-			recommendListImages.add(vo.getImage());
-		}
-		for(FestivalMainVO vo : defaultList) {
-			defaultListImages.add(vo.getImage());
-		}
 		
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("recommendList", recommendList);		// 추천 목록
-		model.addAttribute("recommendListImages", 
-				convertByteArrayToString(recommendListImages));	// 추천 목록에 표시할 이미지 목록
 		model.addAttribute("defaultList", defaultList);			// 기본 목록
-		model.addAttribute("defaultListImages", 
-				convertByteArrayToString(defaultListImages));	// 기본 목록에 표시할 이미지 목록
 		model.addAttribute("recommend", recommend);				// 추천 개수
 		return "mobilehome";
+	}
+	
+	// 카테고리에 따라 축제 리스트 정보 조회하여 데이터 전달
+	@GetMapping(value="/festival/list")
+	public String selectFestivalList(@RequestParam(value="category") int category, 
+									@RequestParam(value="title") String title, Model model) {
+		List<FestivalMainVO> defaultList = null;
+		// 카테고리에 따라 조회할 정보 선택
+		switch(category) {
+			case 1:
+				defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+		}
+		// 뷰에 표시할 데이터를 model 통해 전달
+		model.addAttribute("defaultList", defaultList);
+		model.addAttribute("title", title);
+		model.addAttribute("category", category);
+		return "festival/festivallist";
 	}
 	
 	// 페이징 처리된 축제 목록 조회(스크롤이 bottom에 다다르면 Ajax 통신하여 자동 로딩)
@@ -182,15 +191,9 @@ public class FestivalMainController {
 				break;
 			}
 		}
-		// 뷰에 표시할 이미지 binary 데이터 추출
-		List<byte[]> searchListImages = new ArrayList<byte[]>();
-		for(FestivalMainVO vo : searchList) {
-			searchListImages.add(vo.getImage());
-		}
 		model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
 		model.addAttribute("keyword", keyword);			// 검색한 키워드
 		model.addAttribute("searchList", searchList);	// 검색 목록
-		model.addAttribute("searchListImages", convertByteArrayToString(searchListImages));	// 검색 목록에 표시할 이미지 목록
 		return "festival/festivalsearch";
 	}
 	

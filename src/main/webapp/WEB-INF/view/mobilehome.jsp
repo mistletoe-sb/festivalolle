@@ -38,9 +38,7 @@
 								<div class="carousel-item active" data-bs-interval="8000">
 									<div class="d-block w-100 recommend_div"
 									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
-										<%-- <img src="data:image:jpg;base64,${img}" class="recommend_img" alt="loading failed">	 --%>			  	
-										<%-- <img src="<c:url value='/image/${fes.festivalCode}'/>" class="recommend_img" alt="${fes.festivalCode}">	 --%>			  	
-										<img src="#" class="recommend_img" alt="${fes.festivalCode}">				  	
+										<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="recommend_img" alt="${fes.festivalCode}">				  	
 									</div>
 								</div>
 							</c:when>
@@ -48,8 +46,7 @@
 								<div class="carousel-item" data-bs-interval="8000">
 									<div class="d-block w-100 recommend_div"
 									onclick="location.href='<c:url value="/festival/info?festivalCode=${fes.festivalCode}"/>'">
-										<%-- <img src="data:image:jpg;base64,${img}" class="recommend_img" alt="${fes.festivalCode}"> --%>				  	
-										<img src="#" class="recommend_img" alt="${fes.festivalCode}">				  	
+										<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="recommend_img" alt="${fes.festivalCode}">				  	
 									</div>
 								</div>							
 							</c:otherwise>
@@ -64,7 +61,6 @@
 				<h3>진행 중인 축제</h3>
 			</div>
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-				<c:set var="img" value="${defaultListImages[stat.index]}"/>
 				<%@ include file="festival/festivalcard.jsp"%>
 			</c:forEach>
 		</div>

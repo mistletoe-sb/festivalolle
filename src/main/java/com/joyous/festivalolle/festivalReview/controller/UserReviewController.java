@@ -24,7 +24,7 @@ import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.util.constant.PageValue;
 import com.joyous.festivalolle.util.status.AjaxResponseStatus;
 
-// 사용자 화면 리뷰 insert(작성)/update(신고 및 신고 해제)/delete(삭제) 관리
+// 사용자 화면 리뷰 insert(작성)/update(신고)/delete(삭제) 관리
 @Controller
 @RequestMapping("/review")
 public class UserReviewController {
@@ -38,7 +38,7 @@ public class UserReviewController {
 	@ResponseBody
 	public Boolean insertFestivalReview(@RequestBody FestivalReviewVO festivalReviewVO, HttpSession session) {
 		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
-		
+		//logger.info(festivalReviewVO.getContent());
 		// 세션 null 체크
 		if(loginUser != null) {
 			festivalReviewVO.setMemberCode(loginUser.getMemberCode());		// 회원 코드 참조
