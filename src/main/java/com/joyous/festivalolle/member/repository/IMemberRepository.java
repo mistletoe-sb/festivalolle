@@ -20,4 +20,5 @@ public interface IMemberRepository {
 	MemberVO selectMember(int memberCode);
 	void updateMember(MemberVO memberVO);
 	void updatePassword2(@Param("memberCode") int memberCode, @Param("password") String password);
+	void updateStatus(int memberCode);
 }	

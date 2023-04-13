@@ -180,5 +180,15 @@ public class FindMemberInfoController {
 		public String secessionMemberform(HttpSession session) {
 			return mypage_view_pos + "secessionmember";
 		}
+		
+		//=============================================================================================	
+		@GetMapping("/updateStatus")
+		public String updateStatus(HttpSession session) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("loginUser"); 
+			int memberCode = memberVO.getMemberCode();
+			memberService.updateStatus(memberCode);
+			session.invalidate();
+			return "redirect:/login";
+		}
 	
 }

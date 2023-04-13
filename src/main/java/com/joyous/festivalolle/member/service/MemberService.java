@@ -100,4 +100,10 @@ public class MemberService implements IMemberService {
 	public void updatePassword(int memberCode, String password) {
 		memberRepository.updatePassword2(memberCode, password);
 	}
+
+	@Override
+	public void updateStatus(int memberCode) {
+		memberRepository.updateStatus(memberCode);
+		
+	}
 }

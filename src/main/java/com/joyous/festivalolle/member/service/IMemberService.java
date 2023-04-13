@@ -21,4 +21,5 @@ public interface IMemberService {
 	MemberVO selectMember(int memberCode);
 	void updateMember(MemberVO memberVO);
 	void updatePassword(int memberCode, String password);
+	void updateStatus(int memberCode);
 }

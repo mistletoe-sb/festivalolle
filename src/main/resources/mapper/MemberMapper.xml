@@ -111,5 +111,14 @@
  			WHERE member_code = #{memberCode}
 		]]>
 	</update>
+	
+		<!-- ======================================================================================= -->
+	<update id="updateStatus" parameterType="int">
+		<![CDATA[
+			UPDATE member 
+			SET status = 1
+ 			WHERE member_code = #{memberCode}
+		]]>
+	</update>
 </mapper>
 	
