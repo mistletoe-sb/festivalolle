@@ -20,6 +20,14 @@
     font-weight: 800;
     src: url('../font/NanumSquareRoundEB.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'happiness';
+    src: url('../font/Happiness-Sans-Title.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'noto-sans';
+    src: url('../font/NotoSansKR-Thin.otf') format('opentype');
+}
 
 /* fadeIn, fadeOut 애니메이션 스타일 정의 */
 /* 아래에서 위로 나타나는 애니메이션 스타일 */
@@ -73,7 +81,8 @@
 body {
 	position: relative;
 	background: #FFFFFF;
-	font-family: 'nanum' !important;
+	/* font-family: 'nanum' !important; */
+	font-family: 'noto-sans';
 	font-size: 16px;
 	color: #191919;
 	-ms-overflow-style: none;
@@ -234,8 +243,9 @@ textarea::placeholder, input::placeholder {
 	margin-bottom: 2vmax;
 	padding-left: 1vmin;
 	border-left: 0.3rem solid #F15600;
+	font-family: 'happiness';
 	font-weight: bold;
-	font-size: 1.1875rem;
+	font-size: 1.125rem;
 }
 
 /* 축제 상세 페이지 레이아웃 */
@@ -247,6 +257,7 @@ textarea::placeholder, input::placeholder {
 	margin-bottom: 2.7vmax;
 }
 .festival_info_sub_title h3 {
+	font-family: 'happiness' !important;
 	font-weight: bold !important;
 	font-size: 1.125rem;
 	display: inline-block;
@@ -263,6 +274,7 @@ textarea::placeholder, input::placeholder {
 	margin-bottom: 0.5vmax;
 }
 #fes_info_title h3 {
+	font-family: 'happiness' !important;
 	font-size: 1.1875rem;
 }
 #fes_title {
@@ -333,6 +345,9 @@ textarea::placeholder, input::placeholder {
 /* 상세 정보 메뉴(북마크, 입장권 구매, 리뷰)*/
 .festival_info_menu_container {
 	padding: 0vmax 3.5vmin;
+	font-size: 0.9rem;
+	/* font-weight: bold; */
+	font-family: 'noto-sans' !important;
 }
 .festival_info_menu {
 	width: 83vmin;
@@ -892,9 +907,10 @@ textarea::placeholder, input::placeholder {
 	width: 68% !important;
 	text-align: left !important;
 	margin-left: 10vmin;
+	font-family: 'happiness' !important;
 }
 .page_title > p {
-	font-size: 1.25rem;
+	font-size: 1.3rem;
 	font-weight: bold;
 	color: #191919;
 	margin: 0vmin;
