@@ -24,4 +24,7 @@ public interface IFestivalMainService {
 	List<FestivalMainVO> selectFestivalSearchList(String keyword, int lastFestivalCode, int perPage);
 	// 북마크 목록 조회
 	List<FestivalMainVO> selectBookmarkList(int memberCode, int lastBookmarkCode, int perPage);
+	// 이번주 HOT 축제 조회
+	List<FestivalMainVO> selectFestivalHotList(String periodStart, String periodEnd,
+											int lastFestivalCode, int perPage);
 }

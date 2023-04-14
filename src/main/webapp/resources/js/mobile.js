@@ -312,7 +312,8 @@ $(document).ready(function(){
 			var scrollTop = $(window).scrollTop();		// scroll top
 			var viewportHeight = $(window).height();	// viewport height
 			var scrollHeight = $(document).height();	// available scroll height
-			if(scrollTop + viewportHeight >= scrollHeight){	// 스크롤이 바닥에 다다를 시
+			var menuHeight = $('.bottom_menu').height();	// bottom menu height
+			if(scrollTop + viewportHeight + menuHeight >= scrollHeight){	// 스크롤이 바닥에 다다를 시
 				var pageTitle = $('title').text();		// 페이지 타이틀
 				var requestUrl = '';										// 요청 URL
 				var paramData = {};	// 요청 데이터
@@ -337,11 +338,14 @@ $(document).ready(function(){
 						paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':$('.review_code').last().val()};
 						appendPoint = $('.review_list_layout');
 						break;
+					/*case '북마크':
+						break;*/
 					default:
 						isAjaxPossible = false;
 						break;
 				}
-				if(isMoreData && isAjaxPossible){					
+				if(isMoreData && isAjaxPossible){	
+					console.log('possible');				
 					// AJAX 호출
 					$.ajax({
 						url: requestUrl, 			// 요청 URL
@@ -405,7 +409,7 @@ $(document).ready(function(){
 		//$('#festivalolle').css('animation', 'now_loading 2s linear');
 		setTimeout(function(){
 			$('#festivalolle').remove();			
-		}, 2000);
+		}, 1000);
 	}
 	$('#homeBtn').on('click', function(){
 		$('body').append('<div id="festivalolle"><img src="' + root + '/resources/img/festivalolle.png" alt="festivalolle"></div>');

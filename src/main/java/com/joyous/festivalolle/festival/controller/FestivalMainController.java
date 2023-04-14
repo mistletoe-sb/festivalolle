@@ -44,7 +44,7 @@ public class FestivalMainController {
 	// 홈화면에 표시할 축제 리스트 정보 조회하여 데이터 전달
 	@GetMapping(value={"/", "/home"})
 	public String selectFestivalMainList(Model model) {
-		int recommend = 7;	// 추천 목록에 표시할 수
+		int recommend = PageValue.RECOMMEND;	// 추천 목록에 표시할 수
 		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
 		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
 		
@@ -62,12 +62,12 @@ public class FestivalMainController {
 		List<FestivalMainVO> defaultList = null;
 		// 카테고리에 따라 조회할 정보 선택
 		switch(category) {
-			case 1:
+			case 1:		// 이번주 HOT 축제
 				defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
 				break;
-			case 2:
+			case 2:		// 이달의 축제
 				break;
-			case 3:
+			case 3:		// COMING SOON(다음주 축제)
 				break;
 		}
 		// 뷰에 표시할 데이터를 model 통해 전달
@@ -88,9 +88,9 @@ public class FestivalMainController {
 		Map<String, Object> responseData = new HashMap<String, Object>();
 		String mappingValue = request.getServletPath();		// 요청된 URL 참조
 		switch (mappingValue) {
-			case "/home/more":		// 홈화면 페이징 처리
+			/*case "/home/more":		// 홈화면 페이징 처리
 				festivalMainVOList = festivalMainService.selectFestivalMainList(lastFestivalCode, PageValue.PER_PAGE);
-				break;
+				break;*/
 			case "/festival/search/more":	// 검색화면 페이징 처리
 				festivalMainVOList = festivalMainService.selectFestivalSearchList((String)paramData.get("keyword"),
 																				lastFestivalCode, PageValue.PER_PAGE);
@@ -253,17 +253,22 @@ public class FestivalMainController {
 	// 축제 검색 목록 조회
 	@GetMapping(value="/festival/search")
 	public String selectFestivalSearchList(String keyword, Model model) {
-		List<FestivalMainVO> originSearchList = festivalMainService.selectFestivalSearchList(keyword, 0, PageValue.PER_PAGE);
 		List<FestivalMainVO> searchList = new ArrayList<FestivalMainVO>();
-		int originSize = originSearchList.size();
-		for(int i = 0; i < PageValue.PER_PAGE; i++) {
-			if(i < originSize) {
-				searchList.add(originSearchList.get(i));
-			} else {
-				break;
+		// 검색 키워드가 빈 값이 아니면
+		if(!keyword.equals("")) {
+			List<FestivalMainVO> originSearchList = festivalMainService.selectFestivalSearchList(keyword, 0, PageValue.PER_PAGE);
+			int originSize = originSearchList.size();
+			for(int i = 0; i < PageValue.PER_PAGE; i++) {
+				if(i < originSize) {
+					searchList.add(originSearchList.get(i));
+				} else {
+					break;
+				}
 			}
+			model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
+		} else {
+			model.addAttribute("resultCount", 0);	// 검색된 결과 수			
 		}
-		model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
 		model.addAttribute("keyword", keyword);			// 검색한 키워드
 		model.addAttribute("searchList", searchList);	// 검색 목록
 		return "festival/festivalsearch";
@@ -336,6 +341,7 @@ public class FestivalMainController {
 		}
 	}
 	
+	// LocalDate 타입 주차 데이터를 String 타입으로 일괄 변환
 	public String[][] getStringWeekOfMonth(LocalDate[][] weekData) {
 		String[][] stringWeekData = new String[weekData.length][2];
 		for(int i = 0; i < weekData.length; i++) {
@@ -344,6 +350,16 @@ public class FestivalMainController {
 		}
 		return stringWeekData;
 	}
+	/*
+	// 선택한 달의 첫 날, 마지막 날 계산
+	public LocalDate[] getFirstAndLastDayOfMonth(int month) {
+		String selectedMonth = getMonth(month);		// 해당 월을 yyyy-MM 포맷 문자열로 변환
+		// 해당 월의 첫 날 계산
+		LocalDate startDayOfFirstWeek = LocalDate.parse(selectedMonth + "-01");
+		// 해당 월의 마지막 날 계산
+		LocalDate endDayOfLastWeek = LocalDate.parse(selectedMonth + "-" + startDayOfFirstWeek.lengthOfMonth());
+		LocalDate[] data = new LocalDate[2];
+	}*/
 	
 	// 선택한 달의 각 주차 시작일, 종료일 계산(util로 옮기는 것 고려)
 	public LocalDate[][] getWeekOfMonth(int month) {

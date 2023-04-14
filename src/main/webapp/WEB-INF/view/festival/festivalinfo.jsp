@@ -279,7 +279,7 @@
 			var geoCoder = new kakao.maps.services.Geocoder();	// 주소-좌표 변환 객체 생성
 			
 			// 검색 키워드
-			var keyword = '전남 순천시 국가정원1호길 47';
+			var keyword = '${fesInfo[0].address}';
 			//var fesAddress = ${fesInfo[0].address};
 			
 			// 주소로 좌표 검색

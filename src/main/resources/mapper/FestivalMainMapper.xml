@@ -23,7 +23,7 @@
 		</where>
 	</select>
 	
-	<!-- 추천 목록 조회 -->
+	<!-- 추천 목록 조회(평점 + 입장객 수 가중평균) -->
 	<select id="selectFestivalRecommendList" parameterType="int" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
 		<![CDATA[
 			SELECT * FROM 
@@ -152,6 +152,7 @@
 						FROM festivalolle.bookmark
 						WHERE member_code = #{memberCode}) bm
 				  ON fes.festival_code = bm.festival_code
+				  WHERE status != 0
 				  ORDER BY bookmark_code DESC) result
 		]]>
 		<where>
@@ -160,5 +161,38 @@
 			</if>
 			<![CDATA[AND ROWNUM <= #{perPage}]]>
 		</where>
+	</select>
+	
+	<!-- 이번주 HOT 축제 목록 조회 -->
+	<select id="selectFestivalHotList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT festival_code, title, state_name, city_name, image, rating
+			FROM (SELECT ROWNUM rnum, fes.* 
+				  FROM (SELECT festival_code, title, state_name, city_name, image, rating
+						FROM festivalolle.v_festival_main 
+						WHERE status = 1
+						AND visitors != 0
+						AND(start_date < #{periodEnd})
+			            AND(end_date > #{periodStart})
+						ORDER BY visitors DESC) fes
+				  )
+		]]>	
+			<where>
+				<if test="lastFestivalCode != 0">
+					<![CDATA[
+						rnum > (SELECT rn
+								FROM (SELECT ROWNUM rn, festival_code
+									  FROM (SELECT festival_code
+											FROM festivalolle.v_festival_main 
+											WHERE status = 1
+											AND visitors != 0
+											AND(start_date < #{periodEnd})
+			            					AND(end_date > #{periodStart})
+											ORDER BY visitors DESC) f)
+								WHERE festival_code = #{lastFestivalCode})
+					]]>
+				</if>
+				<![CDATA[AND ROWNUM <= #{perPage}]]>
+			</where>
 	</select>
 </mapper>

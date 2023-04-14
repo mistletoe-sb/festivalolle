@@ -34,4 +34,9 @@ public interface IFestivalMainRepository {
 	List<FestivalMainVO> selectBookmarkList(@Param("memberCode") int memberCode,
 											@Param("lastBookmarkCode") int lastBookmarkCode,
 											@Param("perPage") int perPage);
+	// 이번주 HOT 축제 조회
+	List<FestivalMainVO> selectFestivalHotList(@Param("periodStart") String periodStart,
+											@Param("periodEnd") String periodEnd,
+											@Param("lastFestivalCode") int lastFestivalCode,
+											@Param("perPage") int perPage);
 }

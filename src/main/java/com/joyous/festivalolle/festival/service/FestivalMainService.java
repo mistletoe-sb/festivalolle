@@ -72,4 +72,11 @@ public class FestivalMainService implements IFestivalMainService {
 		return festivalMainRepository.selectBookmarkList(memberCode, lastBookmarkCode, perPage);
 	}
 
+	// 이번주 HOT 축제 조회
+	@Override
+	public List<FestivalMainVO> selectFestivalHotList(String periodStart, String periodEnd,
+													int lastFestivalCode, int perPage) {
+		return festivalMainRepository.selectFestivalHotList(periodStart, periodEnd, lastFestivalCode, perPage);
+	}
+
 }
