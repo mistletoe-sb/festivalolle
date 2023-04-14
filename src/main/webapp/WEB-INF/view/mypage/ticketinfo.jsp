@@ -36,7 +36,7 @@
 								<div class = "layout_bottom_line">
 									<div>
 										<div style ="float:left;">
-											<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>'">${adminfestivalinfo.title}</h5>
+											<h5 id="title-btn" class="card-title" style="cursor: pointer;" >${adminfestivalinfo.title}</h5>
 										</div>
 										<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
 											<%-- <input type="button" id="btn-ent" class="btn btn-warning btn-sm" value="입장권" onclick="location.href='<c:url value='/myticket'/>'" />  --%>
@@ -114,6 +114,19 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     		 
     	}
     	
+    });
+    
+    /* 비공개 유무 */
+    $('#title-btn').on("click",function() {
+
+        var status = ${adminfestivalinfo.status};
+        if(status == 0) {
+        	swal('비공개 페이지', "비공개 처리된 축제입니다."+status, 'info');
+        	
+        } else {
+        	location.href = "<c:url value='/festival/info?festivalCode=${adminfestivalinfo.festivalCode}'/>";
+        }
+        
     });
 	</script>
 	

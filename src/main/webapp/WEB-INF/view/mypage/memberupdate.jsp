@@ -51,14 +51,14 @@
 									<div class="mypagemenu">
 										<input type="text" class="form-control form-control-user" name="name" id="join_name" placeholder="이름을 입력 하세요." required pattern="[A-Za-z가-힣]+" value="${memberVO.name}">
 										<label class="ChkLabel" id="name_msg"></label>
-										<input id="name_reg_check" type="hidden" value="false">
-										<input id="name_overlap_check" type="hidden" value="false">
+										<input id="name_reg_check" type="hidden" value="true">
+										<input id="name_overlap_check" type="hidden" value=""true"">
 									</div>
 									<div class="mypagemenu" >
 										<input type="text" class="form-control form-control-user" id="join_telephone" name="mobile" placeholder="연락처를 입력하세요." type="tel" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required value="${memberVO.mobile}">
 										<label class="ChkLabel" id="phoneNumber_msg"></label>
-										<input id="phoneNumber_reg_check" type="hidden" value="false">
-										<input id="phoneNumber_overlap_check" type="hidden" value="false">	
+										<input id="phoneNumber_reg_check" type="hidden" value=""true"">
+										<input id="phoneNumber_overlap_check" type="hidden" value=""true"">	
 									</div>
 									<div class="mypagemenu" style=" bottom:2.0rem;">
 										<input type="submit" onclick="join_btn_action()" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="수정하기" />                       											
@@ -158,9 +158,7 @@
 			    	swal('인증실패!', "전화번호를 확인 해주세요!", 'warning');
 			    	return false;	
 			    } else {	
-			    	swal('수정완료!', "회원 정보가 수정 됐습니다! 재로그인 해주세요!", 'success').then(function() {
 				    	return true;
-			    	});
 			    }
 			    
 			    

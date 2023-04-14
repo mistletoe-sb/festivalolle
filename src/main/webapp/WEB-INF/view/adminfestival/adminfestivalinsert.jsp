@@ -16,7 +16,7 @@ width: 31.25rem;
 			<div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">축제 등록</h6>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input id="submit-button" type="submit" class="btn btn-primary" value='등록하기'>
+					<input type="submit" class="btn btn-primary submit-button" value='등록하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
             </div>
@@ -92,7 +92,7 @@ width: 31.25rem;
 		</table>
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input id="submit-button1" type="submit" class="btn btn-primary" value='등록하기'>
+					<input type="submit" class="btn btn-primary submit-button" value='등록하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
 			</fieldset>
@@ -494,7 +494,7 @@ $("#submit-button").on("click", function(event) {
 	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');
 	  }
 	});	
-$("#submit-button1").on("click", function(event) {
+$(".submit-button").on("click", function(event) {
 	  // 이벤트 전파 막기
 	  event.preventDefault();
 

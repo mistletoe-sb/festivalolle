@@ -112,10 +112,8 @@ function join_btn_action(){
 	      	$('#pwchk').focus();  
 	    	
 	    	return false;	
-	    } else {
-	    	swal('수정완료!', "비밀번호가 번경 됐습니다! 재로그인 해주세요!", 'success').then(function() {
+	    } else 
 		    	return true;
-	    	});
 	    }
 	  });
 	}
