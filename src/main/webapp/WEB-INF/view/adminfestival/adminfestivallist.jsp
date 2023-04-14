@@ -66,24 +66,29 @@ input[type=radio]:checked#btnradio1+label:after {
 				<div>
 					<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 					<!-- Topbar Search -->
-					<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-						<div class="input-group" style ="float:left; width:100px;">
-							<select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example">
-								<option value="title">축제명</option>
-								<option value="admin_name">작성자</option>
-							</select>
-						</div>
-						<div style ="float:left;">
-							<div style ="float:left;  ">
-								<input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:2.5rem;">
+				
+					<div style="display:flex; height:2.5rem;">
+						<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" >
+							<div class="input-group" style ="width:100px; float:left; height:100%; ">
+								<select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="height:100%;">
+									<option value="title">축제명</option>
+									<option value="admin_name">작성자</option>
+								</select>
 							</div>
-							<div class="input-group-append" style ="float:left;  margin:0;">
-								<button class="btn btn-primary" type="button" id="festivalSearch">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
-							</div>
-						</div>
-					</form> 
+							
+							
+							<div class="input-group" style ="float:left;  height:100%;">
+									<input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:100%;">
+								
+								<div class="input-group-append" style ="float:left;  margin:0;">
+									<button class="btn btn-primary" type="button" id="festivalSearch">
+										<i class="fas fa-search fa-sm"></i>
+									</button>
+								</div>
+							</div>				
+						</form> 
+					</div>
+					
 					<div>
 						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right; width:6.25rem;">
 						

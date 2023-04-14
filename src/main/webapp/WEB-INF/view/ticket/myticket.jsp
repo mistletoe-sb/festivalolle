@@ -260,7 +260,7 @@
 			console.log(memberCode);
 			console.log(ticketCode);
 			
-			var url = "http://192.168.230.199:8080/festivalolle/qrreader/";
+			var url = "http://192.168.0.38:8080/festivalolle/qrreader/";
 				url += memberCode + "/";
 				url += ticketCode;
 				
