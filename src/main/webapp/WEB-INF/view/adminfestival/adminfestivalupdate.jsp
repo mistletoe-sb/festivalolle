@@ -466,7 +466,7 @@ $("#submit-button").on("click", function(event) {
 	  // 결과 확인 후 전송 또는 알림 출력
 	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
 	    // 모든 유효성 검사를 통과한 경우, 전송
-	    swal('축제 등록!', "축제가 등록되었습니다!", 'success');
+	    swal('수정 완료!', "수정 사항이 저장되었습니다.", 'success');
 	    $("#my-form").submit();
 	  } else {
 	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
