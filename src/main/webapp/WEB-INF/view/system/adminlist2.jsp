@@ -22,28 +22,26 @@
             
             	
             	<!-- Topbar Search -->
-	            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-	                  <div class="input-group">
-	                        <input type="text" class="form-control bg-light border-0 small" id="searchKeyword" placeholder="Search for..."
-	                            aria-label="Search" aria-describedby="basic-addon2">
-	                        <div class="input-group-append">
-	                            <button class="btn btn-primary" type="button" id="adminSearch">
-	                                <i class="fas fa-search fa-sm"></i>
-	                            </button>
-	                        </div>
-	                    </div>
-	              </form>  
-	              <input type="hidden" id="searchInput" value="" />   
+           <!--  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                  <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" id="searchKeyword" placeholder="검색어를 입력하세요."
+                            aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="adminSearch">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+              </form>  --> 
+	               
 	        	            
 						
 			<div>
 				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 					<!-- Topbar Search -->
-					<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-						
-						
+					<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">												
 						<div class="input-group">
-								<input type="text" class="form-control bg-light border-0 small" id="searchKeyword" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:2.5rem;">
+								<input type="text" class="form-control bg-light border-0 small" id="searchKeyword" placeholder="검색어를 입력하세요." aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:2.5rem;">
 							
 							<div class="input-group-append" style ="float:left;  margin:0;">
 								<button class="btn btn-primary" type="button" id="adminSearch">
@@ -52,7 +50,7 @@
 							</div>
 						</div>
 					</form> 
-
+					 <input type="hidden" id="searchInput" value="" /> 
 					</nav>
 				</div>
 						
@@ -278,12 +276,12 @@
 						console.log("data: " + viewAll);						
 						html += '<tr><td>';						
 						if (value.status == 1){
-							html += '<a href="#" class="btn btn-warning btn-icon-split">';
-							html += '<span class="text">승인 대기</span></a>';
+							html += '<a class="btn btn-warning btn-icon-split" cursor:default;>';
+							html += '<span class="text" style="cursor: default">승인 대기</span></a>';
 						} else if(value.status == 2){
-							html += '<a href="#" class="btn btn-success btn-icon-split">';
-							html += '<span class="text">승인 완료</span></a>';
-						}					
+							html += '<a class="btn btn-success btn-icon-split" cursor:default;>';
+							html += '<span class="text" style="cursor: default">승인 완료</span></a>';
+						}
 						
 						html += '</td><td><a class="dropdown-item adminDetail" href="#" data-toggle="modal" data-target="#adminDetailModal" id="adminDetail">'
 						html += value.id;
@@ -292,7 +290,7 @@
 						html += '</td><td>' + value.telephone;
 						html += '</td><td>' + value.requestTime;
 						html += '</td><td>' + value.approveTime;
-						html += '</td></tr>';						
+						html += '</td></tr>';			
 					});					
 					html += '</tbody></table>';					
 					html += '<nav aria-label="Page navigation example" style="display: block; text-align: center;">';
