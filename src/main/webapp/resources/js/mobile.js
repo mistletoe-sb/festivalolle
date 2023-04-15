@@ -21,6 +21,7 @@ $(document).ready(function(){
 		$('.loading_img').attr('hidden', true);
 	});
 	
+	/*
 	// bottom메뉴 클릭 시 누른 듯한 효과 부여(mousedown/mouseup, touchstart/touchend)
 	$('.bottom_menu>div').on('mousedown', function(){
 		$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
@@ -34,6 +35,7 @@ $(document).ready(function(){
 	$('.bottom_menu>div').on('touchend', function(){
 		$(this).css('box-shadow', 'none');
 	});
+	*/
 	
 	// top메뉴 검색 버튼 이벤트
 	$('#search_btn').on('click', function(){
@@ -54,25 +56,69 @@ $(document).ready(function(){
 			}
 		});
 	});
-	/*$('.search_input').on('blur', function(){
-		if($('.search_btn :focus').length == 0){
-			$('.search_box').css('animation', 'close_search 0.7s ease-out');
-			setTimeout(function(){
-				$('.search_top').attr('hidden', true);			
-				$('.normal_top').attr('hidden', false);
-			}, 550);			
-		}
-	});*/
 	
 	// 페이지 내 이동 이벤트 바인딩
-	moveToIndex();
+	if($('.index_menu')){
+		moveToIndex();		
+	}
 	
-	// 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
-	//calendar_event();
+	// 축제 일정 화면 이벤트 바인딩
 	week_event(root);
 	
 	// 이미지 로드
 	imageLoad(root);
+	
+	// 메인 화면 카테고리별 축제 목록 출력(Ajax 요청)
+	if($('.default_horizontal_layout>.category_title').length){
+		// 출력할 카테고리 개수
+		var categoryTitle = $('.default_horizontal_layout>.category_title');
+		$.each(categoryTitle, function(index, item){
+			var category = index + 1;
+			// AJAX 호출
+			$.ajax({
+				url: root + '/categorylist',	// 요청 URL
+				type: 'GET', 					// GET 방식으로 요청
+				data: {category: category},		// 서버로 보낼 데이터
+				dataType: 'json',
+				success: function(data){
+					// 응답 데이터 분류
+					var fesList = data.fesList;		// 축제 목록
+					var fesImages = data.fesImages;	// 축제 이미지 목록
+					if(data.dataStatus == 'NORMAL_TRUE'){	// 조회된 데이터가 있는 경우
+						// 전체보기 클릭 시 이동할 URL(onclick 속성값)
+						var onClickAttr = "location.href='" + root + '/festival/list?category=' + category + '&title=' + $(item).children('h3').text() + "'";
+						// 카테고리 컨테이너 생성
+						var appendHTML = '<div class="goto_list" onclick="' + onClickAttr + '">';
+						appendHTML += '<div class="icon_layout"><p>전체보기</p></div>';
+						appendHTML += '<div class="icon_layout"><img src="' + root + '/resources/img/icon/arrow.png" alt="goto"></div>';
+						appendHTML += '</div>'
+						$(item).append(appendHTML);
+						var categoryContainer = '<div class="horizontal_container">';
+						categoryContainer += '<div class="horizontal_empty"></div>';
+						// 축제 목록
+						$.each(fesList, function(i, fes){
+							categoryContainer += printFestivalCard(fes, fesImages[i], root);
+						});
+						categoryContainer += '<div class="goto_list horizontal_goto" onclick="' + onClickAttr + '">';
+						categoryContainer += '<div class="icon_layout black_circle">';
+						categoryContainer += '<img src="' + root + '/resources/img/icon/arrow.png" alt="goto">';
+						categoryContainer += '</div>';
+						categoryContainer += '<div class="icon_layout"><p>전체보기</p></div></div></div>';
+						$(item).after(categoryContainer);						
+					}else{	// 조회된 데이터가 없는 경우
+						var categoryContainer = '<div class="horizontal_container">';
+						categoryContainer += '<div class="horizontal_empty"></div>';
+						categoryContainer += '<div><h4>축제가 없습니다.</h4></div></div>';
+						$(item).after(categoryContainer);
+					}
+				},
+				error: function(){
+					// AJAX 요청이 실패한 경우 에러 처리
+					console.log('데이터를 불러오는데 실패했습니다.');
+				}
+			});
+		});
+	}
 	
 	// 축제 일정 조회 Ajax(요소 존재 시 이벤트 바인딩)
 	if($('#select_month').length){
@@ -96,8 +142,6 @@ $(document).ready(function(){
 					var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
 					var fesList = data.fesList;					// 축제 목록
 					var fesImages = data.fesImages;				// 축제 이미지 목록
-					//var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-					//var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
 					if(locationList != null){
 						// 데이터 출력할 요소 비우기
 						$('#week_menu').empty();
@@ -121,16 +165,11 @@ $(document).ready(function(){
 							$("#select_location").append('<option value="' + item + '">' + item + '</option>');
 						});
 					}
-					//$('#calendar_list_layout').empty();		// 데이터 출력할 요소 비우기
-					// 각 주차 별 축제 목록 출력
-					//$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 					$('.default_list_2x_layout').empty();
 					$.each(fesList, function(index, item){
 						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], root));
-						//console.log(item.festivalCode);
 					});
 					// 이벤트 바인딩
-					//calendar_event();
 					week_event(root);
 				},
 				error: function(){
@@ -157,20 +196,12 @@ $(document).ready(function(){
 				dataType: 'json',
 				success: function(data){
 					// 응답 데이터 분류
-					//var weekData = data.weekData;				// 각 주차별 축제 목록(Map<Integer, List<FestivalMainVO>>)
-					//var weekDataImages = data.weekDataImages;	// 각 주차별 축제 이미지 목록(Map<Integer, String[]>)
 					var fesList = data.fesList;					// 축제 목록
 					var fesImages = data.fesImages;				// 축제 이미지 목록
-					//$('#calendar_list_layout').empty();			// 데이터 출력할 요소 비우기
-					// 각 주차 별 축제 목록 출력
-					//$('#calendar_list_layout').append(printCalendar(month, weekData, weekDataImages, root));
 					$('.default_list_2x_layout').empty();
 					$.each(fesList, function(index, item){
 						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], root));
-						//console.log(item.festivalCode);
 					});
-					// 이벤트 바인딩
-					//calendar_event();
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -324,6 +355,13 @@ $(document).ready(function(){
 						paramData = {'lastFestivalCode':$('.festival_code').last().val()};
 						appendPoint = $('.default_list_layout');
 						break;*/
+					case '이번 주 HOT':
+					case '이 달의 축제':
+					case 'COMING SOON':
+						requestUrl = root + '/festival/list/more';
+						paramData = {'lastFestivalCode':$('.festival_code').last().val(), 'category':$('#category').val()};
+						appendPoint = $('.default_list_2x_layout');
+						break;
 					case '축제검색':
 						requestUrl = root + '/festival/search/more';
 						paramData = {'lastFestivalCode':$('.festival_code').last().val(), 'keyword':$('#searched').val()};
@@ -798,6 +836,7 @@ function timeForToday(value){
 
 // 리뷰 카드 내 버튼 이벤트 등록
 function review_btn_event(pageRoot){
+	var reviewMaxLength = 100;
 	// 로그인 하지 않은 상태에서 등록 버튼 클릭 시
 	if($('.review_login').length){
 		$('.review_login').off('click').on('click', function(){
@@ -818,7 +857,7 @@ function review_btn_event(pageRoot){
 			if(rating >= 1 && rating <= 5){	// 평점이 정상적으로 선택된 경우
 				var festivalCode = $('input[name="festivalCode"]').val();
 				var content = $('.write_area').val();
-				if(content.length <= 100){	// 리뷰 내용이 100자 이내인 경우
+				if(content.length <= reviewMaxLength){	// 리뷰 내용이 100자 이내인 경우
 					if(content == '' || content.length == 0){
 						content = ' ';
 					}
@@ -854,7 +893,7 @@ function review_btn_event(pageRoot){
 						}
 					});
 				}else{	// 리뷰 내용이 100자를 초과하는 경우
-					swal({text: "리뷰는 100자 이내로 작성해야 합니다.", icon: "warning", button: "확인"})
+					swal({text: "리뷰는 " + reviewMaxLength + "자 이내로 작성해야 합니다.", icon: "warning", button: "확인"})
 					.then(function(){
 						$('.write_area').focus();
 					});
@@ -959,13 +998,15 @@ function review_btn_event(pageRoot){
 			var content = $('.write_area').val();
 			// 글자 수 표시
 			if(content.length == 0 || content == ''){
-				$('#writeCount p').text('0/100자');
+				$('#writeCount p').text('0/' + reviewMaxLength + '자');
 			}else{
-				$('#writeCount p').text(content.length + '/100자');
+				$('#writeCount p').text(content.length + '/' + reviewMaxLength + '자');
 			}
 			// 글자 수 제한(100자 이내)
-			if(content.length > 100){
-				swal({text: "리뷰는 100자 이내로 작성해야 합니다.", icon: "warning", button: "확인"})
+			if(content.length > reviewMaxLength){
+				$('.write_area').val(content.substring(0, reviewMaxLength));
+				$('#writeCount p').text($('.write_area').val().length + '/' + reviewMaxLength + '자');
+				swal({text: "리뷰는 " + reviewMaxLength + "자 이내로 작성해야 합니다.", icon: "warning", button: "확인"})
 				.then(function(){
 					$('.write_area').focus();
 				});

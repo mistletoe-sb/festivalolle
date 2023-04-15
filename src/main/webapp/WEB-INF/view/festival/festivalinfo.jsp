@@ -43,19 +43,19 @@
 				</div>
 			</div>
 			<div>
-				<div class="icon_layout rating_img">
-					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-				</div>
-				<div class="icon_layout rating_txt">							
-					<p>${fesInfo[0].rating}</p>
-				</div>
-			</div>
-			<div>
 				<div class="icon_layout place_img">
 					<img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소">
 				</div>
 				<div class="icon_layout place_txt">							
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
+				</div>
+			</div>
+			<div>
+				<div class="icon_layout rating_img">
+					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
+				</div>
+				<div class="icon_layout rating_txt">							
+					<p>${fesInfo[0].rating}</p>
 				</div>
 			</div>
 			<div id="carouselFestivalInfoImage" class="carousel slide" data-bs-ride="carousel">
@@ -109,7 +109,7 @@
 					</div>
 					<div class="icon_layout">
 						<a class="link_anchor reviewIndex">
-							<img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
+							<img src="<c:url value='/resources/img/icon/review_icon.png'/>" alt="리뷰">
 							<br>리뷰
 						</a>
 					</div>
