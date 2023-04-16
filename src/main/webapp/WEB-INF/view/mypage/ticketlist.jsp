@@ -50,7 +50,7 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<div class="container-fluid" >
+		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectTicketList}" varStatus="stat">
 			<div class="card mb-3" style="max-width: 33.75rem; ">
 				<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
@@ -75,7 +75,7 @@
 							${fes.title}
 						</h5>
 						<p class="card-text">
-							유효기간 : ${fes.startDate} ~ ${fes.endDate}
+							유효기간 : <br>${fes.startDate} ~ ${fes.endDate}
 						</p>
 						<p class="card-text">
 							<small class="text-muted">

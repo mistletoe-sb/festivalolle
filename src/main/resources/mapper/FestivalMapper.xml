@@ -7,13 +7,62 @@
 
 
 <!-- ================================================ 축제 리스트 총 갯수=================================================== -->	
-<select id="countFestival" parameterType="int" resultType="int">
+<select id="countFestival"  resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) 
 			FROM FESTIVAL
 			WHERE organization_code = #{organizationCode}
 		]]>
+		
+		<choose>
+			<when test="tableBoxInput == 'title'">
+				<![CDATA[and title LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="tableBoxInput == 'admin_name'">
+				<![CDATA[and admin_name LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="titleListInput != ''">
+				<![CDATA[and festival_code = #{titleListInput}]]>
+			</when>
+			<when test="radioInput != ''">
+				<![CDATA[and status = #{radioInput}]]>
+			</when>
+		</choose>
+		
+		<![CDATA[ORDER BY register_date DESC]]>
 				
+	</select>
+
+
+<!-- ================================================ 페이징: 리스트 가져오기 =================================================== -->		
+		<!-- 페이징: 리스트 가져오기 -->	
+	<select id="selectBoard" parameterType="Map" resultType="com.joyous.festivalolle.festival.model.FestivalVO">
+		<![CDATA[	
+		SELECT * FROM (
+			SELECT ROWNUM RN, A.* 
+			FROM (
+				SELECT * 
+		        FROM FESTIVAL
+		        WHERE organization_code = #{organizationCode}
+		 ]]>
+		<choose>
+			<when test="tableBoxInput == 'title'">
+				<![CDATA[and title LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="tableBoxInput == 'admin_name'">
+				<![CDATA[and admin_name LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="titleListInput != ''">
+				<![CDATA[and festival_code = #{titleListInput}]]>
+			</when>
+			<when test="radioInput != ''">
+				<![CDATA[and status = #{radioInput}]]>
+			</when>
+		</choose>
+		
+		<![CDATA[
+			ORDER BY register_date DESC) A)
+							WHERE RN BETWEEN #{start} AND #{end}]]>
 	</select>
 
 <!-- ================================================ 축제 리스트 =================================================== -->	

@@ -14,11 +14,27 @@
 				#btn-ent{
 					border-radius: 1.25rem
 				}
+				.layout_bottom_line {
+					margin-bottom: 1rem;
+    				padding-bottom: 1rem;
+				}
+				p {
+					color: #777;
+				}
+				.btn-sm {
+					--bs-btn-padding-y: 0.15rem;
+    				--bs-btn-padding-x: 0.7rem;
+				}
+				.mypageimg2{
+					width:1rem;
+					margin-right : 0.5rem;
+				}
+				
 		</style>
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<div class="container-fluid">
+		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 				<div class="card mb-3" style="max-width: 33.75rem; ">
 					<div class="row g-0">
 						<div class="col-md-4">
@@ -27,43 +43,50 @@
 										<img id="preview-image" class="img-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
 								</c:when>
 								<c:otherwise>
-										<img id="preview-image" class="img-thumbnail" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+										<img id="preview-image"  class="img-thumbnail" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 								</c:otherwise>
 							</c:choose>
 						</div>
 						<div class="col-md-8">
-							<div class="card-body">
+							<div class="card-body card-horizontal-content">
 								<div class = "layout_bottom_line">
-									<div>
+									<div id="title-btn" >
 										<div style ="float:left;">
-											<h5 id="title-btn" class="card-title" style="cursor: pointer;" >${adminfestivalinfo.title}</h5>
+											<h5  class="card-title" style="cursor: pointer;" ><b>${adminfestivalinfo.title}</b></h5>
 										</div>
-										<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
-											<%-- <input type="button" id="btn-ent" class="btn btn-warning btn-sm" value="입장권" onclick="location.href='<c:url value='/myticket'/>'" />  --%>
+										<div class="icon" style="float:right;">
+											<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
 										</div>
+										
 									</div>
 									<div style ="clear:both;">
-										<p class="card-text">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
+										<p class="card-text" style ="font-size:0.9rem">유효기간 : ${adminfestivalinfo.startDate} ~ ${adminfestivalinfo.endDate}</p>
 									</div>
 								</div>
 								<div class = "layout_bottom_line">
-									<p class="card-text"><small class="text-muted">
+									<h6 id="title-btn" class="card-title"><b>구매 정보</b></h6>
+									<p class="card-text" style ="font-size:0.9rem">
 										구매 일자 : ${adminfestivalinfo.purchaseTime}<br>
 										구매자 이름 : ${adminfestivalinfo.name}<br>
-										전화번호 : ${adminfestivalinfo.mobile}</small>
+										전화번호 : ${adminfestivalinfo.mobile}
 									</p>
 								</div>
 								<div class = "layout_bottom_line">
-									<p class="card-text"><small class="text-muted">
+									<div class="entrance" style ="float:right;" data-endDate="${adminfestivalinfo.endDate}" data-entDate="${adminfestivalinfo.entranceTime}" data-cpuDate="${adminfestivalinfo.couponUseTime}">
+										</div>
+									<h6 id="title-btn" class="card-title"><b>입장권 정보</b></h6>
+									
+									<p class="card-text" style ="font-size:0.9rem">
 										입장권 사용 일자 : ${adminfestivalinfo.entranceTime}<br>
-										할인권 사용 일자 : ${adminfestivalinfo.couponUseTime}<br></small>
+										할인권 사용 일자 : ${adminfestivalinfo.couponUseTime}<br>
 									</p>
 								</div>
-								<div class = "layout_bottom_line">
-									<p class="card-text"><small class="text-muted">
+								<div >
+									<h6 id="title-btn" class="card-title"><b>결제 정보</b></h6>
+									<p class="card-text" style ="font-size:0.9rem">
 										금액 : ${adminfestivalinfo.fee}원<br>
 										수량 : ${adminfestivalinfo.headCount}개<br>
-										총 결제금액 : ${adminfestivalinfo.fee * adminfestivalinfo.headCount}원</small>
+										총 결제금액 : ${adminfestivalinfo.fee * adminfestivalinfo.headCount}원
 									</p>
 								</div>
 							</div>

@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ include file="../admintop.jsp" %>
-
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-
 td, th {
 	padding: 0.75rem;
     vertical-align: top;
     border: 0.0625rem solid #e3e6f0 !important;
 }
-/*
-   [type="radio"] {
+/*   [type="radio"] {
   border-radius:20px;
   vertical-align: middle;
   position: absolute;
@@ -92,69 +91,63 @@ input[type=radio]:checked#btnradio1+label:after {
 						</form> 
 					</div>
 					
-					<div  style="margin-left:47rem; display:flex; height:2.5rem;">
-					<div style ="float:right;">
-						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:6.25rem;">
+					<div>
+						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right; width:6.25rem;">
 						
 						</select>
 					</div>
-						<div style ="float:right;">
-							<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;">
+						<div>
+							<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right; width:15.625rem;">
 							
 							</select>
 							<input type="hidden" id="titleListInput" value="" />
-						</div>
 						</div>
 					</nav>
 				</div>
                 <div class="table-responsive">
 
-	
+			<div class="btn-group " id="radiostatus" role="group" aria-label="Basic radio toggle button group" style = "margin-left : 0.25rem;">
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "">
-			  <label  for="btnradio1">전체</label>
+			  <label class="btn btn-outline-primary" for="btnradio1">전체</label>
 			
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value = "0">
-			  <label  for="btnradio2">비공개</label>
+			  <label class="btn btn-outline-secondary" for="btnradio2">비공개</label>
 			
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value = "1">
-			  <label  for="btnradio3">진행중</label>
+			  <label class="btn btn-outline-success" for="btnradio3">진행중</label>
 			    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value = "2">
-			  <label  for="btnradio4">진행예정</label>
+			  <label class="btn btn-outline-primary" for="btnradio4">진행예정</label>
 			    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value = "3">
-			  <label  for="btnradio5">진행완료</label>
+			  <label class="btn btn-outline-warning" for="btnradio5">진행완료</label>
 			
 				<input type="hidden" id="radioInput" value="" />
-
+			</div>
 			
 			
 	
 			<button style="float:right" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivalinsertform'/>'">축제 추가</button>
-			<div class="table-responsive" style = "height:43rem !important;">
-			<table class="table-bordered" id="dataTable" style="text-align:center; width:100%;  cellspacing:0" >
+			<table class="table-bordered" id="dataTable" style="text-align:center; width:100%; cellspacing:0" >
 		            <thead style="text-align:center">
 		              <tr>
-		                <th scope="col" style="width : 10%">진행상태</th>
+		                <th scope="col">진행상태</th>
 		                <th scope="col">축제명</th>
 		                <th scope="col">작성자</th>
 		                <th scope="col">등록일자</th>
-		                <th scope="col" style="width : 10%"></th>
-		                <th scope="col" style="width : 10%"></th>
+		                <th scope="col"></th>
+		                <th scope="col"></th>
 		              </tr>
 		            </thead>
 		            <tbody id = "myList" style="text-align:center">
 		            
 		            </tbody>
 		        </table>
-		        </div >
-				<div style="text-align: center;">
-				  <div style="display: inline-block;">
-				    <nav aria-label='Page navigation example'>
-				      <ul id="myPage" class='pagination'>
-				        <!-- 내용 추가 -->
-				      </ul>
-				    </nav>
-				  </div>
-				</div>
+		        <div >
+		        	<nav aria-label='Page navigation example' style='display: block; text-align: center;'>
+		        		<ul id = "myPage" class='pagination'>
+		        		
+		        		</ul>
+		        	</nav>
+		        </div>
 
 		    </div>
             </div>

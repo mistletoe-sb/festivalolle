@@ -11,7 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +48,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.admin.model.PagingVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festival.repository.IFestivalRepository;
 import com.joyous.festivalolle.festival.service.IFestivalService;
@@ -65,26 +69,22 @@ public class FestivalController {
 
 	private String loginAdmin = "loginAdmin";
 	
-	private int paging = 10;
+	private String paging = "10";
 /* =====================================================festivallist====================================================== */	
 	@GetMapping("/festivallist")
 
-	public String festivalList(@RequestParam(value="nowPage", required=false, defaultValue="1") int nowPage, Model model, HttpSession session) throws Exception {
+	public String festivalList(Model model, HttpSession session) throws Exception {
 
 		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
 		int organizationCode = adminVO.getOrganizationCode();
-		int festivalCount = festivalService.countFestival(organizationCode);
 		List<FestivalVO> festivalList = festivalService.selectFestivalList(organizationCode);
-		int totalPage = festivalService.countTotalPage(organizationCode, paging);
-		model.addAttribute("festivalcount", festivalCount);
 		model.addAttribute("festivallist", festivalList);
-		model.addAttribute("totalPage", totalPage);
 
 		return view_pos + "adminfestivallist";
 	}
 
 /* =====================================================statusfestivallist====================================================== */		
-	@GetMapping("/statusfestivallist")
+	/*	@GetMapping("/statusfestivallist")
 	@ResponseBody
 	public List<FestivalVO> selectFestivalList(@RequestParam(value="nowPage", required=false, defaultValue="1") int nowPage, Model model, HttpSession session) {				
 
@@ -95,7 +95,7 @@ public class FestivalController {
 		int totalPage = festivalService.countTotalPage(organizationCode, paging);
 		return festivalList;		
 	}
-
+ */	
 /* =====================================================festivastatusllist====================================================== */		
 	@GetMapping("/festivastatusllist")
 	@ResponseBody
@@ -450,5 +450,65 @@ public class FestivalController {
 			festivalService.updateFestivalStatus(vo);
 		}
 	}
+	
+	/* =====================================================festivallistpaging====================================================== */	
+
+	  //페이징처리
+	  @PostMapping(value="/festivallistpaging")	  
+	  @ResponseBody 
+	  public Map<String, Object> adminPaging(HttpSession session, String nowPage, String cntPerPage, String radioInput, String titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
+		  
+		  AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
+		int organizationCode = adminVO.getOrganizationCode();
+		  Map<String,Object> map = new HashMap<String,Object>();	//매퍼에 넘겨줄 map
+		  Map<String, Object> result = new HashMap<String, Object>();	//DB에서 검색해 온 결과 담아줄 result	 
+		  int total = festivalService.countFestival(organizationCode,radioInput, titleListInput, tableBoxInput, searchInput);
+		  
+		  
+		  if (nowPage == null && cntPerPage == null) {
+		  		nowPage = "1";
+		  		cntPerPage = paging;
+		  	} else if (nowPage == null) {
+		  		nowPage = "1";
+		  	} else if (cntPerPage == null) { 
+		  		cntPerPage = paging;
+		  	}
+		  
+		  	
+		  
+		  logger.info("^ total"+total);
+		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
+		  logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
+		  	vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		  	//model.addAttribute("paging", vo);
+		  	//model.addAttribute("viewAll", adminService.selectBoard(vo));
+		  	//return "system/adminlist2";
+		  	
+		  
+		  //List<AdminVO> adminList = adminService.getAdminList();
+		  //adminList = adminService.adminSearch(keyword);
+		  	 
+		  map.put("start", vo.getStart());
+		  map.put("end", vo.getEnd());
+		  map.put("organizationCode", organizationCode);
+		  map.put("radioInput", radioInput);
+		  map.put("titleListInput", titleListInput);
+		  map.put("tableBoxInput", tableBoxInput);
+		  map.put("searchInput", searchInput);
+		  
+		  
+		  List<FestivalVO> viewAll = festivalService.selectMapFestivalList(map);
+	      result.put("viewAll",  viewAll);
+	      result.put("startPage", vo.getStartPage());
+	      result.put("cntPerPage", vo.getCntPerPage());
+	      result.put("endPage", vo.getEndPage());
+	      logger.info(Integer.toString(vo.getEndPage()));
+	      result.put("nowPage", vo.getNowPage());
+	      result.put("lastPage", vo.getLastPage());
+	
+	  
+	  
+		  return result; 
+	  }
 
 }
