@@ -7,7 +7,9 @@
 		<title>축제올래</title>
 	</head>
 	<body>
-		<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
+		<c:if test="${not empty isInit}">
+			<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
+		</c:if>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>
 		<div class="recommend_list_layout">

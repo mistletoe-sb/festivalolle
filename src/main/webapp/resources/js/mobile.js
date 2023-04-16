@@ -89,7 +89,7 @@ $(document).ready(function(){
 						var onClickAttr = "location.href='" + root + '/festival/list?category=' + category + '&title=' + $(item).children('h3').text() + "'";
 						// 카테고리 컨테이너 생성
 						var appendHTML = '<div class="goto_list" onclick="' + onClickAttr + '">';
-						appendHTML += '<div class="icon_layout"><p>전체보기</p></div>';
+						appendHTML += '<div class="icon_layout"><p>더보기</p></div>';
 						appendHTML += '<div class="icon_layout"><img src="' + root + '/resources/img/icon/arrow.png" alt="goto"></div>';
 						appendHTML += '</div>'
 						$(item).append(appendHTML);
@@ -103,7 +103,7 @@ $(document).ready(function(){
 						categoryContainer += '<div class="icon_layout black_circle">';
 						categoryContainer += '<img src="' + root + '/resources/img/icon/arrow.png" alt="goto">';
 						categoryContainer += '</div>';
-						categoryContainer += '<div class="icon_layout"><p>전체보기</p></div></div></div>';
+						categoryContainer += '<div class="icon_layout"><p>더보기</p></div></div></div>';
 						$(item).after(categoryContainer);						
 					}else{	// 조회된 데이터가 없는 경우
 						var categoryContainer = '<div class="horizontal_container">';
@@ -376,14 +376,17 @@ $(document).ready(function(){
 						paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':$('.review_code').last().val()};
 						appendPoint = $('.review_list_layout');
 						break;
-					/*case '북마크':
-						break;*/
+					case '북마크':
+						requestUrl = root + '/bookmark/list/more';
+						paramData = {'lastBookmarkCode':$('.bookmark_code').last().val()};
+						appendPoint = $('.default_list_2x_layout');
+						break;
 					default:
 						isAjaxPossible = false;
 						break;
 				}
 				if(isMoreData && isAjaxPossible){	
-					console.log('possible');				
+					//console.log('possible');				
 					// AJAX 호출
 					$.ajax({
 						url: requestUrl, 			// 요청 URL
@@ -405,7 +408,15 @@ $(document).ready(function(){
 									$.each(fes, function(index, item){
 										appendPoint.append(printFestivalCard(item, fesImages[index], root));
 										//console.log(item.festivalCode);
+										if(data.dataOption == 'bookmark'){	// 옵션이 북마크인 경우
+											var fesCard = $('.festival_card_container').last();
+											// 북마크 이미지 삽입
+											printBookmark(item.festivalCode, fesCard, root);
+										}
 									});
+									if(data.dataOption == 'bookmark'){	// 옵션이 북마크인 경우
+										requestChangeBookmark(root);	// 북마크 이벤트 바인딩
+									}
 									if(fes.length == 0){
 										console.log('조회할 데이터가 없습니다.');
 										isMoreData = false;
@@ -447,11 +458,11 @@ $(document).ready(function(){
 		//$('#festivalolle').css('animation', 'now_loading 2s linear');
 		setTimeout(function(){
 			$('#festivalolle').remove();			
-		}, 1000);
+		}, 2000);
 	}
-	$('#homeBtn').on('click', function(){
+	/*$('#homeBtn').on('click', function(){
 		$('body').append('<div id="festivalolle"><img src="' + root + '/resources/img/festivalolle.png" alt="festivalolle"></div>');
-	});
+	});*/
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩
@@ -538,14 +549,20 @@ function printFestivalCard(fes, img, pageRoot){
 	appendHTML += '<div class="card-body">';
 	appendHTML += '<div class="festival_title">';
 	appendHTML += '<p class="card-text text-truncate">' + fes.title + '</p></div>';
-	appendHTML += '<div class="festival_location">';
-	appendHTML += '<p class="card-text">' + fes.stateName + ' ' + fes.cityName + '</p></div>';
-	appendHTML += '<div class="icon_layout rating_img">';
+	appendHTML += '<div class="festival_sub"><div class="festival_location">';
+	appendHTML += '<p class="card-text text-truncate">' + fes.stateName + ' ' + fes.cityName + '</p></div>';
+	appendHTML += '<div class="card_rating"><div class="icon_layout rating_img">';
 	appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="평점">';
+	//appendHTML += '<i class="fa-solid fa-star" style="color: #f15600;"></i>';
 	appendHTML += '</div>';
 	appendHTML += '<div class="icon_layout rating_txt">';
-	appendHTML += '<p class="card-text">' + parseFloat(fes.rating).toFixed(1) + '</p>';
-	appendHTML += '</div></div></div></div>';
+	var rating = parseFloat(fes.rating).toFixed(1);
+	if(rating == 0){
+		appendHTML += '<p class="card-text">평점없음</p>';		
+	}else{
+		appendHTML += '<p class="card-text">' + rating + '</p>';		
+	}
+	appendHTML += '</div></div></div></div></div></div>';
 	return appendHTML;
 }
 
@@ -876,10 +893,12 @@ function review_btn_event(pageRoot){
 								swal({text: "리뷰 등록이 완료되었습니다.", icon: "success", button: "확인"});
 								requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
 								var prevCount = parseInt($('.review_count').text());	// 리뷰 등록 전 리뷰 수
-								var prevRating = parseInt($('.rating_txt p').text());	// 리뷰 등록 전 평점
+								var prevRating = parseFloat($('.rating_value').val());	// 리뷰 등록 전 평점
 								var currentCount = prevCount + 1;			// 리뷰 등록 후 리뷰 수
 								var currentRating = parseFloat(((prevCount * prevRating)) + rating)/currentCount;
-								$('.rating_txt p').text(currentRating.toFixed(1));
+								currentRating = currentRating.toFixed(1);
+								$('.rating_txt p').text(currentRating);
+								$('.rating_value').val(currentRating);
 								$('.review_count').text(currentCount);
 							}else{
 								console.log('리뷰 등록에 실패했습니다.');
@@ -961,10 +980,17 @@ function review_btn_event(pageRoot){
 						swal({text: "삭제가 완료되었습니다.", icon: "success", button: "확인"});
 						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
 						var prevCount = parseInt($('.review_count').text());	// 리뷰 삭제 전 리뷰 수
-						var prevRating = parseInt($('.rating_txt p').text());	// 리뷰 삭제 전 평점
+						var prevRating = parseFloat($('.rating_value').val());	// 리뷰 삭제 전 평점
 						var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
-						var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
-						$('.rating_txt p').text(currentRating.toFixed(1));
+						if(currentCount == 0){	// 리뷰 수가 0개가 된 경우
+							$('.rating_txt p').text('평점없음');
+							$('.rating_value').val(0.0);
+						}else{
+							var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
+							currentRating = currentRating.toFixed(1);
+							$('.rating_txt p').text(currentRating);
+							$('.rating_value').val(currentRating);
+						}
 						$('.review_count').text(currentCount);
 					}else{
 						console.log('리뷰 삭제에 실패했습니다.');

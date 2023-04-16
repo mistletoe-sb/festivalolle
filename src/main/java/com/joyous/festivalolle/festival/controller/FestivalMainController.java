@@ -44,11 +44,14 @@ public class FestivalMainController {
 	
 	// 홈화면에 표시할 축제 리스트 정보 조회하여 데이터 전달
 	@GetMapping(value={"/", "/home"})
-	public String selectFestivalMainList(Model model) {
+	public String selectFestivalMainList(Model model, HttpServletRequest request) {
 		int recommend = PageValue.RECOMMEND;	// 추천 목록에 표시할 수
 		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
 		//List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-		
+		String mappingValue = request.getServletPath();		// 요청된 URL 참조
+		if(mappingValue.equals("/")) {
+			model.addAttribute("isInit", true);
+		}
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("recommendList", recommendList);		// 추천 목록
 		//model.addAttribute("defaultList", defaultList);			// 기본 목록
@@ -126,7 +129,6 @@ public class FestivalMainController {
 																						location, lastFestivalCode, PageValue.PER_PAGE);
 				}
 				break;
-	
 			default:
 				break;
 		}
@@ -143,6 +145,39 @@ public class FestivalMainController {
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
 		}
 		responseData.put("dataClass", "festival");
+		return responseData;
+	}
+	
+	// 페이징 처리된 북마크 축제 목록 조회(스크롤이 bottom에 다다르면 Ajax 통신하여 자동 로딩)
+	@PostMapping(value="/bookmark/list/more")
+	@ResponseBody
+	public Map<String, Object> selectPagingList(@RequestBody Map<String, Object> paramData, HttpSession session) {
+		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
+		List<FestivalMainVO> festivalMainVOList = null;
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
+		String lastBookmarkCodeData = (String)paramData.get("lastBookmarkCode");
+		int lastBookmarkCode = (lastBookmarkCodeData!=null)?Integer.parseInt(lastBookmarkCodeData):0;	// 마지막으로 조회된 북마크 코드
+		// 세션 null 체크
+		if(loginUser != null) {
+			festivalMainVOList = festivalMainService.selectBookmarkList(loginUser.getMemberCode(), lastBookmarkCode, PageValue.PER_PAGE);
+			// 목록이 비어있지 않으면 이미지 추출
+			if(festivalMainVOList != null && festivalMainVOList.size() != 0) {
+				List<byte[]> images = new ArrayList<byte[]>();
+				for(FestivalMainVO vo : festivalMainVOList) {
+					images.add(vo.getImage());
+				}
+				responseData.put("fesList", festivalMainVOList);
+				responseData.put("fesImages", convertByteArrayToString(images));
+				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
+			} else {
+				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
+			}
+		} else {
+			responseData.put("dataStatus", AjaxResponseStatus.NOT_SESSION);
+		}
+		responseData.put("dataClass", "festival");
+		responseData.put("dataOption", "bookmark");
 		return responseData;
 	}
 	
@@ -165,11 +200,6 @@ public class FestivalMainController {
 	// 축제 일정 조회 페이지로 이동
 	@GetMapping(value="/festival/calendar")
 	public String selectFestivalCalendarList(Model model) {
-		/*
-		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-		// 뷰에 표시할 데이터를 model 통해 전달
-		model.addAttribute("defaultList", defaultList);
-		*/
 		int month = LocalDate.now().getMonthValue();	// 현재 월
 		LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
 		
@@ -188,49 +218,9 @@ public class FestivalMainController {
 		model.addAttribute("nowMonth", month);		// 현재 월
 		model.addAttribute("weekData", getStringWeekOfMonth(weekData));	// 주차 정보(해당 주차 시작일, 종료일)
 		
-		/*
-		int month = LocalDate.now().getMonthValue();
-		// 기본 페이지에 로드할 데이터 조회(현재 월, 전체 지역)
-		List<FestivalMainVO> festivalMainVOList = festivalMainService
-				.selectFestivalCalendarList(getMonth(month), null);
-		// model 설정
-		model.addAttribute("locationList", getStateList(festivalMainVOList));	// 지역 목록
-		model.addAttribute("festivalList", festivalMainVOList);					// 표시할 축제 목록
-		// 주차 별 축제 정보
-		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
-		// 주차 별 축제 이미지 목록 추출
-		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
-		model.addAttribute("weekData", weekData);			// 주차 별 축제 목록
-		model.addAttribute("weekDataImages", 
-				convertByteArrayToString(weekDataImages));	// 주차 별 축제 이미지 목록
-		*/
 		return "festival/festivalcalendar";
 	}
-	/*
-	// 선택된 월, 지역 축제 일정 조회하여 데이터 전달(지역 선택 안 되었을 시 선택된 월의 전체 축제 조회)
-	@GetMapping(value="/festival/calendar/select")
-	@ResponseBody
-	public Map<String, Object> selectFestivalCalendarList(Model model, @RequestParam(value="month") int month,
-			@RequestParam(value="location", required = false, defaultValue = "전국") String location) {
-		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
-		List<FestivalMainVO> festivalMainVOList = null;
-		Map<String, Object> responseData = new HashMap<String, Object>();
-		// 조회한 축제 목록(지역 선택 안 할 경우 전체 지역 선택으로 간주)
-		if(location.equals(SelectFilter.ALL_LOCATION)) {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), null);
-			responseData.put("locationList", getStateList(festivalMainVOList));		// 지역 목록을 ajax응답에 저장
-		} else {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
-		}
-		// 주차 별 축제 정보
-		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
-		// 주차 별 축제 이미지 목록 추출
-		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
-		// ajax 응답 데이터 생성(주차(week) 정보 + 주차 별 축제 이미지 목록)
-		responseData.put("weekData", weekData);
-		responseData.put("weekDataImages", convertByteArrayToString(weekDataImages));
-		return responseData;
-	}*/
+	
 	// 선택된 월, 지역 축제 일정 조회하여 데이터 전달(지역 선택 안 되었을 시 선택된 월의 전체 축제 조회)
 	@GetMapping(value="/festival/calendar/select")
 	@ResponseBody

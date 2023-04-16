@@ -264,7 +264,10 @@ textarea::placeholder, input::placeholder {
 	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
 }
 .default_list_2x_layout {
-	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 100vmin;
 	padding: 0vmin 4.15vmin;
 	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
 }
@@ -648,7 +651,8 @@ textarea::placeholder, input::placeholder {
 	border-radius: 1rem;
 }
 .festival_card_container .card-body {
-	padding-top: 1.1vmax;
+	padding-top: 1.35vmax;
+	padding-bottom: 1.75vmax;
 	border-bottom-left-radius: 1rem;
 	border-bottom-right-radius: 1rem;
 	box-shadow: 0rem 0.125rem 0.125rem #00000016;
@@ -666,25 +670,36 @@ textarea::placeholder, input::placeholder {
 .festival_card_container .festival_title {
 	font-weight: bold;
 }
+.festival_card_container .festival_sub {
+	width: 100%;
+	height: 2.7vmax;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+}
 .festival_card_container .festival_location {
+	display: flex;
 	float: left;
-	width: 80%;
+	width: auto;
+	max-width: 50%;
+	height: 100%;
 	text-align: left;
 	font-size: 0.75rem;
-	/* font-weight: bold; */
+	align-items: center;
 }
 .festival_card_container .card_rating {
 	float: left;
 	display: flex;
-	width: 20%;
+	width: 50%;
+	height: 100%;
 	min-width: 12.5vmin;
 	font-size: 0.75rem;
-	/* font-weight: bold; */
+	justify-content: start;
 }
 /* 축제 목록 2x(가로 2개) 출력 시의 카드 폼(세로 방향) CSS */
 .default_list_2x_layout .festival_card_container {
-	width: 48%;
-	margin: 1% 0.5%;
+	width: 49%;
+	margin: 1% 0%;
 }
 .default_list_2x_layout .festival_card_container .card {
 	/* border: 0.1rem solid #F2F2F2; */
@@ -700,14 +715,19 @@ textarea::placeholder, input::placeholder {
 	border-top-left-radius: 0rem;
 	border-top-right-radius: 0rem;
 }
-.default_list_2x_layout .festival_card_container .festival_location {
+/* .default_list_2x_layout .festival_card_container .festival_location {
 	width: auto;
-	/* margin-right: 1.5vmin; */
-}
+	max-width: 50%;
+} */
+/* .default_list_2x_layout .festival_card_container .card_rating {
+	width: 50%;
+	justify-content: start;
+} */
 .default_list_2x_layout .rating_img img {
 	width: 60%;
 	height: 60%;
-	margin-top: 9%;
+	vertical-align: top;
+	margin-top: 0.21875rem;
 }
 .default_list_2x_layout .rating_txt p {
 	text-align: left;
@@ -724,12 +744,6 @@ textarea::placeholder, input::placeholder {
 }
 .default_horizontal_layout .festival_card_container .card-img-top {
 	min-height: 100%;
-}
-.default_horizontal_layout .festival_card_container .festival_location {
-	width: auto;
-}
-.default_horizontal_layout .festival_card_container .card_rating {
-	float: right;
 }
 
 /* 리뷰 출력할 카드 폼 CSS */
@@ -824,16 +838,20 @@ textarea::placeholder, input::placeholder {
 	text-align: right;
 }
 .rating_img img {
-	width: 80%;
-	height: 80%;
+	width: 60%;
+	height: 60%;
 	vertical-align: top;
+	margin-top: 0.21875rem;
 }
 .rating_txt {
-	width: 7.5vmin;
-	height: 2.7vmax;
+	display: flex;
+	max-width: 15vmin;
+	min-width: 7.5vmin;
+	height: 100%;
+	margin-left: 0.7vmin;
 	letter-spacing: 0.0625rem;
-	text-align: center;
-	margin-left: 0.6vmin;
+	text-align: left;
+	align-items: center;
 }
 
 /* 페이지 상단으로 가는 버튼 */
