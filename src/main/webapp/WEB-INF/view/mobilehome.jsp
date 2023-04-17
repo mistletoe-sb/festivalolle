@@ -7,7 +7,9 @@
 		<title>축제올래</title>
 	</head>
 	<body>
-		<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
+		<c:if test="${not empty isInit}">
+			<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
+		</c:if>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>
 		<div class="recommend_list_layout">
@@ -28,7 +30,6 @@
 				</div>
 				<div class="carousel-inner">
 					<c:forEach var="fes" items="${recommendList}" varStatus="stat">
-						<c:set var="img" value="${recommendListImages[stat.index]}"/>
 						<c:choose>
 							<c:when test='${stat.index == 0}'>
 								<div class="carousel-item active" data-bs-interval="8000">
@@ -51,50 +52,22 @@
 				</div>
 			</div>
 		</div>
-		<%-- 기본목록(진행 중인 축제) 출력할 레이아웃 --%>
-		<%-- <div class="default_list_layout">
-			<div>
-				<h3>진행 중인 축제</h3>
-			</div>
-			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-				<%@ include file="festival/festivalcard.jsp"%>
-			</c:forEach>
-		</div> --%>
+		<%-- 카테고리별 축제 목록 출력할 레이아웃 --%>
 		<div class="default_horizontal_layout">
 			<div class="category_title">
-				<h3>이번 주 HOT 축제</h3>
-				<div class="goto_list">
-					<div class="icon_layout">
-						<p>전체보기</p>
-					</div>
-					<div class="icon_layout">
-						<img src="<c:url value='/resources/img/icon/back.png'/>" alt="goto">
-					</div>
-				</div>
-			</div>
-			<div class="horizontal_container">
-				<div class="horizontal_empty"></div>
-				<c:forEach var="fes" items="${defaultList}" varStatus="stat">
-					<%@ include file="festival/festivalcard.jsp"%>
-				</c:forEach>
-				<div class="goto_list horizontal_goto">
-					<div class="icon_layout black_circle">
-						<img src="<c:url value='/resources/img/icon/back.png'/>" alt="goto">
-					</div>
-					<div class="icon_layout">
-						<p>전체보기</p>
-					</div>
-				</div>
+				<h3>이번 주 HOT</h3>
 			</div>
 		</div>
-		<!-- <script>
-			//document.getElementById("loading-overlay").style.display = "block";
-			
-			
-			$(document).setTimeout(function(){
-			  document.getElementById("loading-overlay").style.display = "none";
-			}, 3000);
-		</script> -->
+		<div class="default_horizontal_layout">
+			<div class="category_title">
+				<h3>이 달의 축제</h3>
+			</div>
+		</div>
+		<div class="default_horizontal_layout">
+			<div class="category_title">
+				<h3>COMING SOON</h3>
+			</div>
+		</div>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>
 	</body>
 </html>

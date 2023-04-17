@@ -15,17 +15,27 @@
 					${fes.title}
 				</p>
 			</div>
-			<div class="festival_location">							
-				<p class="card-text">
-					${fes.stateName} ${fes.cityName}
-				</p>
-			</div>
-			<div class="card_rating">
-			    <div class="icon_layout rating_img">
-					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
+			<div class="festival_sub">
+				<div class="festival_location">							
+					<p class="card-text text-truncate">
+						${fes.stateName} ${fes.cityName}
+					</p>
 				</div>
-				<div class="icon_layout rating_txt">							
-					<p class="card-text">${fes.rating}</p>
+				<div class="card_rating">
+				    <div class="icon_layout rating_img">
+						<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+						<i class="fas fa-star" style="color: #f15600;"></i>
+					</div>
+					<div class="icon_layout rating_txt">
+						<c:choose>
+							<c:when test="${fes.rating == 0}">
+								<p class="card-text">평점없음</p>
+							</c:when>
+							<c:otherwise>
+								<p class="card-text">${fes.rating}</p>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 package com.joyous.festivalolle.festival.controller;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -43,33 +44,47 @@ public class FestivalMainController {
 	
 	// 홈화면에 표시할 축제 리스트 정보 조회하여 데이터 전달
 	@GetMapping(value={"/", "/home"})
-	public String selectFestivalMainList(Model model) {
-		int recommend = 7;	// 추천 목록에 표시할 수
+	public String selectFestivalMainList(Model model, HttpServletRequest request) {
+		int recommend = PageValue.RECOMMEND;	// 추천 목록에 표시할 수
 		List<FestivalMainVO> recommendList = festivalMainService.selectFestivalRecommendList(recommend);
-		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-		
+		//List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
+		String mappingValue = request.getServletPath();		// 요청된 URL 참조
+		if(mappingValue.equals("/")) {
+			model.addAttribute("isInit", true);
+		}
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("recommendList", recommendList);		// 추천 목록
-		model.addAttribute("defaultList", defaultList);			// 기본 목록
-		model.addAttribute("recommend", recommend);				// 추천 개수
+		//model.addAttribute("defaultList", defaultList);			// 기본 목록
 		return "mobilehome";
+	}
+	
+	// 홈화면에 표시할 카테고리별 축제 리스트 정보 조회하여 데이터 전달
+	@GetMapping(value="/categorylist")
+	@ResponseBody
+	public Map<String, Object> selectCategoryList(int category) {
+		List<FestivalMainVO> defaultList = selectFestivalListByCategory(category, 0, PageValue.RECOMMEND);
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		// 목록이 비어있지 않으면 이미지 추출
+		if(defaultList != null && defaultList.size() != 0) {
+			List<byte[]> images = new ArrayList<byte[]>();
+			for(FestivalMainVO vo : defaultList) {
+				images.add(vo.getImage());
+			}
+			responseData.put("fesList", defaultList);
+			responseData.put("fesImages", convertByteArrayToString(images));
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
+		} else {
+			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
+		}
+		return responseData;
 	}
 	
 	// 카테고리에 따라 축제 리스트 정보 조회하여 데이터 전달
 	@GetMapping(value="/festival/list")
 	public String selectFestivalList(@RequestParam(value="category") int category, 
 									@RequestParam(value="title") String title, Model model) {
-		List<FestivalMainVO> defaultList = null;
-		// 카테고리에 따라 조회할 정보 선택
-		switch(category) {
-			case 1:
-				defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-		}
+		// 해당 카테고리의 축제 목록 조회
+		List<FestivalMainVO> defaultList = selectFestivalListByCategory(category, 0, PageValue.PER_PAGE);
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("defaultList", defaultList);
 		model.addAttribute("title", title);
@@ -88,12 +103,19 @@ public class FestivalMainController {
 		Map<String, Object> responseData = new HashMap<String, Object>();
 		String mappingValue = request.getServletPath();		// 요청된 URL 참조
 		switch (mappingValue) {
-			case "/home/more":		// 홈화면 페이징 처리
+			/*case "/home/more":		// 홈화면 페이징 처리
 				festivalMainVOList = festivalMainService.selectFestivalMainList(lastFestivalCode, PageValue.PER_PAGE);
+				break;*/
+			case "/festival/list/more":		// 카테고리별 축제목록화면 페이징 처리
+				int category = Integer.parseInt((String)paramData.get("category"));
+				festivalMainVOList = selectFestivalListByCategory(category, lastFestivalCode, PageValue.PER_PAGE);
 				break;
 			case "/festival/search/more":	// 검색화면 페이징 처리
-				festivalMainVOList = festivalMainService.selectFestivalSearchList((String)paramData.get("keyword"),
-																				lastFestivalCode, PageValue.PER_PAGE);
+				String keyword = (String)paramData.get("keyword");
+				if(!keyword.equals("")) {
+					festivalMainVOList = festivalMainService.selectFestivalSearchList(keyword, lastFestivalCode,
+																					PageValue.PER_PAGE);					
+				}
 				break;
 			case "/festival/calendar/more":		// 축제일정화면 페이징 처리
 				String periodStart = (String)paramData.get("periodStart");
@@ -107,12 +129,11 @@ public class FestivalMainController {
 																						location, lastFestivalCode, PageValue.PER_PAGE);
 				}
 				break;
-	
 			default:
 				break;
 		}
 		// 목록이 비어있지 않으면 이미지 추출
-		if(festivalMainVOList != null) {
+		if(festivalMainVOList != null && festivalMainVOList.size() != 0) {
 			List<byte[]> images = new ArrayList<byte[]>();
 			for(FestivalMainVO vo : festivalMainVOList) {
 				images.add(vo.getImage());
@@ -124,6 +145,39 @@ public class FestivalMainController {
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
 		}
 		responseData.put("dataClass", "festival");
+		return responseData;
+	}
+	
+	// 페이징 처리된 북마크 축제 목록 조회(스크롤이 bottom에 다다르면 Ajax 통신하여 자동 로딩)
+	@PostMapping(value="/bookmark/list/more")
+	@ResponseBody
+	public Map<String, Object> selectPagingList(@RequestBody Map<String, Object> paramData, HttpSession session) {
+		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
+		List<FestivalMainVO> festivalMainVOList = null;
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		MemberVO loginUser = (MemberVO)session.getAttribute("loginUser");	// 세션에서 로그인 회원 정보 참조
+		String lastBookmarkCodeData = (String)paramData.get("lastBookmarkCode");
+		int lastBookmarkCode = (lastBookmarkCodeData!=null)?Integer.parseInt(lastBookmarkCodeData):0;	// 마지막으로 조회된 북마크 코드
+		// 세션 null 체크
+		if(loginUser != null) {
+			festivalMainVOList = festivalMainService.selectBookmarkList(loginUser.getMemberCode(), lastBookmarkCode, PageValue.PER_PAGE);
+			// 목록이 비어있지 않으면 이미지 추출
+			if(festivalMainVOList != null && festivalMainVOList.size() != 0) {
+				List<byte[]> images = new ArrayList<byte[]>();
+				for(FestivalMainVO vo : festivalMainVOList) {
+					images.add(vo.getImage());
+				}
+				responseData.put("fesList", festivalMainVOList);
+				responseData.put("fesImages", convertByteArrayToString(images));
+				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
+			} else {
+				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
+			}
+		} else {
+			responseData.put("dataStatus", AjaxResponseStatus.NOT_SESSION);
+		}
+		responseData.put("dataClass", "festival");
+		responseData.put("dataOption", "bookmark");
 		return responseData;
 	}
 	
@@ -146,11 +200,6 @@ public class FestivalMainController {
 	// 축제 일정 조회 페이지로 이동
 	@GetMapping(value="/festival/calendar")
 	public String selectFestivalCalendarList(Model model) {
-		/*
-		List<FestivalMainVO> defaultList = festivalMainService.selectFestivalMainList(0, PageValue.PER_PAGE);	// 최초 목록 조회(0 input 시)
-		// 뷰에 표시할 데이터를 model 통해 전달
-		model.addAttribute("defaultList", defaultList);
-		*/
 		int month = LocalDate.now().getMonthValue();	// 현재 월
 		LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
 		
@@ -169,49 +218,9 @@ public class FestivalMainController {
 		model.addAttribute("nowMonth", month);		// 현재 월
 		model.addAttribute("weekData", getStringWeekOfMonth(weekData));	// 주차 정보(해당 주차 시작일, 종료일)
 		
-		/*
-		int month = LocalDate.now().getMonthValue();
-		// 기본 페이지에 로드할 데이터 조회(현재 월, 전체 지역)
-		List<FestivalMainVO> festivalMainVOList = festivalMainService
-				.selectFestivalCalendarList(getMonth(month), null);
-		// model 설정
-		model.addAttribute("locationList", getStateList(festivalMainVOList));	// 지역 목록
-		model.addAttribute("festivalList", festivalMainVOList);					// 표시할 축제 목록
-		// 주차 별 축제 정보
-		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
-		// 주차 별 축제 이미지 목록 추출
-		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
-		model.addAttribute("weekData", weekData);			// 주차 별 축제 목록
-		model.addAttribute("weekDataImages", 
-				convertByteArrayToString(weekDataImages));	// 주차 별 축제 이미지 목록
-		*/
 		return "festival/festivalcalendar";
 	}
-	/*
-	// 선택된 월, 지역 축제 일정 조회하여 데이터 전달(지역 선택 안 되었을 시 선택된 월의 전체 축제 조회)
-	@GetMapping(value="/festival/calendar/select")
-	@ResponseBody
-	public Map<String, Object> selectFestivalCalendarList(Model model, @RequestParam(value="month") int month,
-			@RequestParam(value="location", required = false, defaultValue = "전국") String location) {
-		// 데이터 저장할 변수 선언(축제 목록>List / ajax응답>HashMap)
-		List<FestivalMainVO> festivalMainVOList = null;
-		Map<String, Object> responseData = new HashMap<String, Object>();
-		// 조회한 축제 목록(지역 선택 안 할 경우 전체 지역 선택으로 간주)
-		if(location.equals(SelectFilter.ALL_LOCATION)) {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), null);
-			responseData.put("locationList", getStateList(festivalMainVOList));		// 지역 목록을 ajax응답에 저장
-		} else {
-			festivalMainVOList = festivalMainService.selectFestivalCalendarList(getMonth(month), location);
-		}
-		// 주차 별 축제 정보
-		Map<Integer, List<FestivalMainVO>> weekData = getFestivalListEachWeek(festivalMainVOList, month);
-		// 주차 별 축제 이미지 목록 추출
-		Map<Integer, List<byte[]>> weekDataImages = getImageBinaryDataList(weekData);
-		// ajax 응답 데이터 생성(주차(week) 정보 + 주차 별 축제 이미지 목록)
-		responseData.put("weekData", weekData);
-		responseData.put("weekDataImages", convertByteArrayToString(weekDataImages));
-		return responseData;
-	}*/
+	
 	// 선택된 월, 지역 축제 일정 조회하여 데이터 전달(지역 선택 안 되었을 시 선택된 월의 전체 축제 조회)
 	@GetMapping(value="/festival/calendar/select")
 	@ResponseBody
@@ -253,17 +262,22 @@ public class FestivalMainController {
 	// 축제 검색 목록 조회
 	@GetMapping(value="/festival/search")
 	public String selectFestivalSearchList(String keyword, Model model) {
-		List<FestivalMainVO> originSearchList = festivalMainService.selectFestivalSearchList(keyword, 0, PageValue.PER_PAGE);
 		List<FestivalMainVO> searchList = new ArrayList<FestivalMainVO>();
-		int originSize = originSearchList.size();
-		for(int i = 0; i < PageValue.PER_PAGE; i++) {
-			if(i < originSize) {
-				searchList.add(originSearchList.get(i));
-			} else {
-				break;
+		// 검색 키워드가 빈 값이 아니면
+		if(!keyword.equals("")) {
+			List<FestivalMainVO> originSearchList = festivalMainService.selectFestivalSearchList(keyword, 0, PageValue.PER_PAGE);
+			int originSize = originSearchList.size();
+			for(int i = 0; i < PageValue.PER_PAGE; i++) {
+				if(i < originSize) {
+					searchList.add(originSearchList.get(i));
+				} else {
+					break;
+				}
 			}
+			model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
+		} else {
+			model.addAttribute("resultCount", 0);	// 검색된 결과 수			
 		}
-		model.addAttribute("resultCount", originSearchList.size());	// 검색된 결과 수
 		model.addAttribute("keyword", keyword);			// 검색한 키워드
 		model.addAttribute("searchList", searchList);	// 검색 목록
 		return "festival/festivalsearch";
@@ -281,6 +295,35 @@ public class FestivalMainController {
 		} else {
 			return "member/gologin";
 		}
+	}
+	
+	// 카테고리에 따라 조회할 축제 목록 선택
+	public List<FestivalMainVO> selectFestivalListByCategory(int category, int lastFestivalCode, int perPage) {
+		List<FestivalMainVO> defaultList = null;
+		// 카테고리에 따라 조회할 정보 선택
+		switch(category) {
+			case 1:		// 이번주 HOT 축제
+				LocalDate startDayOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).minusDays(1);		// 이번 주의 첫날 계산(일요일)
+				LocalDate endDayOfWeek = startDayOfWeek.plusDays(6);								// 이번 주의 마지막날 계산(토요일)
+				defaultList = festivalMainService.selectFestivalHotList(startDayOfWeek.toString(),
+																		endDayOfWeek.toString(),
+																		lastFestivalCode, perPage);
+				break;
+			case 2:		// 이달의 축제
+				LocalDate[] startAndEndDayOfMonth = getStartAndEndDayOfMonth(LocalDate.now().getMonthValue());
+				defaultList = festivalMainService.selectFestivalScheduleList(startAndEndDayOfMonth[0].toString(),
+																			startAndEndDayOfMonth[1].toString(),
+																			null, lastFestivalCode, perPage);
+				break;
+			case 3:		// COMING SOON(다음주 축제)
+				LocalDate startDayOfNextWeek = LocalDate.now().with(DayOfWeek.SUNDAY);	// 다음 주의 첫날 계산(일요일)
+				LocalDate endDayOfNextWeek = startDayOfNextWeek.plusDays(6);			// 다음 주의 마지막날 계산(토요일)
+				defaultList = festivalMainService.selectFestivalScheduleList(startDayOfNextWeek.toString(),
+																			endDayOfNextWeek.toString(),
+																			null, lastFestivalCode, perPage);
+				break;
+		}
+		return defaultList;
 	}
 	
 	// 축제 상태 표시 메시지 반환 메서드
@@ -336,6 +379,7 @@ public class FestivalMainController {
 		}
 	}
 	
+	// LocalDate 타입 주차 데이터를 String 타입으로 일괄 변환
 	public String[][] getStringWeekOfMonth(LocalDate[][] weekData) {
 		String[][] stringWeekData = new String[weekData.length][2];
 		for(int i = 0; i < weekData.length; i++) {
@@ -345,13 +389,24 @@ public class FestivalMainController {
 		return stringWeekData;
 	}
 	
-	// 선택한 달의 각 주차 시작일, 종료일 계산(util로 옮기는 것 고려)
-	public LocalDate[][] getWeekOfMonth(int month) {
+	// 선택한 달의 첫 날, 마지막 날 계산
+	public LocalDate[] getStartAndEndDayOfMonth(int month) {
 		String selectedMonth = getMonth(month);		// 해당 월을 yyyy-MM 포맷 문자열로 변환
 		// 해당 월의 첫 날 계산
-		LocalDate startDayOfFirstWeek = LocalDate.parse(selectedMonth + "-01");
+		LocalDate startDayOfMonth = LocalDate.parse(selectedMonth + "-01");
 		// 해당 월의 마지막 날 계산
-		LocalDate endDayOfLastWeek = LocalDate.parse(selectedMonth + "-" + startDayOfFirstWeek.lengthOfMonth());
+		LocalDate endDayOfMonth = LocalDate.parse(selectedMonth + "-" + startDayOfMonth.lengthOfMonth());
+		LocalDate[] data = new LocalDate[2];
+		data[0] = startDayOfMonth;
+		data[1] = endDayOfMonth;
+		return data;
+	}
+	
+	// 선택한 달의 각 주차 시작일, 종료일 계산(util로 옮기는 것 고려)
+	public LocalDate[][] getWeekOfMonth(int month) {
+		LocalDate[] startAndEndDayOfMonth = getStartAndEndDayOfMonth(month);	// 선택한 달의 시작일, 종료일 계산
+		LocalDate startDayOfFirstWeek = startAndEndDayOfMonth[0];	// 해당 월의 첫 날
+		LocalDate endDayOfLastWeek = startAndEndDayOfMonth[1];		// 해당 월의 마지막 날
 		// 선택된 월의 각 주차 시작일 목록 추출(각 주차는 일요일~월요일 기준)
 		List<LocalDate> startDateOfWeekList = new ArrayList<LocalDate>();
 		startDateOfWeekList.add(startDayOfFirstWeek);

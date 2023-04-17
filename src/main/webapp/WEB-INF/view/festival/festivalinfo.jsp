@@ -39,23 +39,32 @@
 					<h3>${fesInfo[0].title}</h3>
 				</div>
 				<div id="fes_status">
-					<button class="btn btn-secondary d-day_info">${statusMsg}</button>
-				</div>
-			</div>
-			<div>
-				<div class="icon_layout rating_img">
-					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-				</div>
-				<div class="icon_layout rating_txt">							
-					<p>${fesInfo[0].rating}</p>
+					<button id="fesStat_${fesInfo[0].status}" class="btn btn-secondary d-day_info">${statusMsg}</button>
 				</div>
 			</div>
 			<div>
 				<div class="icon_layout place_img">
-					<img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소">
+					<%-- <img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소"> --%>
+					<i class="fas fa-map-marker"></i>
 				</div>
 				<div class="icon_layout place_txt">							
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
+				</div>
+			</div>
+			<div class="card_rating">
+			    <div class="icon_layout rating_img">
+					<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+					<i class="fas fa-star" style="color: #f15600;"></i>
+				</div>
+				<div class="icon_layout rating_txt">
+					<c:choose>
+						<c:when test="${fesInfo[0].rating == 0}">
+							<p class="card-text">평점없음</p>
+						</c:when>
+						<c:otherwise>
+							<p class="card-text">${fesInfo[0].rating}</p>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 			<div id="carouselFestivalInfoImage" class="carousel slide" data-bs-ride="carousel">
@@ -109,7 +118,7 @@
 					</div>
 					<div class="icon_layout">
 						<a class="link_anchor reviewIndex">
-							<img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
+							<img src="<c:url value='/resources/img/icon/review_icon.png'/>" alt="리뷰">
 							<br>리뷰
 						</a>
 					</div>
@@ -192,12 +201,23 @@
 					<div class="icon_layout">							
 						<p>전체 평점</p>
 					</div>
-					<div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
+					<div class="card_rating">
+					    <div class="icon_layout rating_img">
+							<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+							<i class="fas fa-star" style="color: #f15600;"></i>
+						</div>
+						<div class="icon_layout rating_txt">
+							<c:choose>
+								<c:when test="${fesInfo[0].rating == 0}">
+									<p class="card-text">평점없음</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text">${fesInfo[0].rating}</p>
+								</c:otherwise>
+							</c:choose>
+						</div>
 					</div>
-					<div class="icon_layout rating_txt">							
-						<p>${fesInfo[0].rating}</p>
-					</div>
+					<input type="hidden" class="rating_value" value="${fesInfo[0].rating}">
 				</div>
 				<div class="review_list_layout">
 					<c:choose>
@@ -279,7 +299,7 @@
 			var geoCoder = new kakao.maps.services.Geocoder();	// 주소-좌표 변환 객체 생성
 			
 			// 검색 키워드
-			var keyword = '전남 순천시 국가정원1호길 47';
+			var keyword = '${fesInfo[0].address}';
 			//var fesAddress = ${fesInfo[0].address};
 			
 			// 주소로 좌표 검색

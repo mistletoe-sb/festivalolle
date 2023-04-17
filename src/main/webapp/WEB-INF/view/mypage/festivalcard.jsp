@@ -21,13 +21,15 @@
 					${fes.stateName} ${fes.cityName}
 				</p>
 			</div>
-		    <div class="icon_layout rating_img">
-				<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-			</div>
-			<div class="icon_layout rating_txt">							
-				<p class="card-text">
-					${fes.rating}
-				</p>
+			<div class="card_rating">
+			    <div class="icon_layout rating_img">
+					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
+				</div>
+				<div class="icon_layout rating_txt">							
+					<p class="card-text">
+						${fes.rating}
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>
