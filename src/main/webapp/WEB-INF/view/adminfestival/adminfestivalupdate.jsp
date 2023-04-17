@@ -26,7 +26,7 @@ width: 31.25rem;
                 	<h6 class="m-0 font-weight-bold text-primary">축제 수정</h6>
                 </div>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
-					<input id="submit-button" type="submit" class="btn btn-primary" value='저장하기'>
+					<input type="submit" class="btn btn-primary submit-button" value='저장하기'>
 					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 				</div>
             </div>
@@ -117,7 +117,7 @@ width: 31.25rem;
 			<fieldset>
 			
 			<div class="d-grid gap-2 d-md-block" style ="float:right;">
-				<input id="submit-button1" type="submit" class="btn btn-primary" value='저장하기' >
+				<input type="submit" class="btn btn-primary submit-button" value='저장하기' >
 				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 			</div>
 
@@ -444,7 +444,7 @@ if (description.trim().length > 1000) {
 return true;
 }
 	
-$("#submit-button").on("click", function(event) {
+$(".submit-button").on("click", function(event) {
 	  // 이벤트 전파 막기
 	  event.preventDefault();
 
@@ -465,9 +465,10 @@ $("#submit-button").on("click", function(event) {
 	console.log(isDescriptionValid);
 	  // 결과 확인 후 전송 또는 알림 출력
 	  if (isTitleValid && isAddressValid && isStartDateValid && isEndDateValid && isFeeValid && isPhoneNumberValid && isDescriptionValid) {
-	    // 모든 유효성 검사를 통과한 경우, 전송
-	    swal('수정 완료!', "수정 사항이 저장되었습니다.", 'success');
-	    $("#my-form").submit();
+		// 모든 유효성 검사를 통과한 경우, 전송
+		    swal('수정 완료!', "수정 정보가 저장 되었습니다!", 'success').then(function() {
+		    	$("#my-form").submit();
+			});
 	  } else {
 	    // 유효성 검사를 통과하지 못한 경우, 알림 출력
 	    swal('입력 오류!', "입력하신 정보를 다시 확인해주세요.", 'error');

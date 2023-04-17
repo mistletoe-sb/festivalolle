@@ -2,6 +2,7 @@ package com.joyous.festivalolle.festival.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ public class FestivalService implements IFestivalService {
 
 	
 	@Override
-	public int countFestival(int organizationCode) {
-		return festivalRepository.countFestival(organizationCode);
+	public int countFestival(int organizationCode, String radioInput, String titleListInput, String tableBoxInput, String searchInput) {
+		return festivalRepository.countFestival(organizationCode, radioInput, titleListInput, tableBoxInput, searchInput);
 	}
-
+/*
 	@Override
 	public int countTotalPage(int organizationCode, int pageLimit) {
 		int totalRecord = this.countFestival(organizationCode);
@@ -42,28 +43,12 @@ public class FestivalService implements IFestivalService {
 		}
 		return totalPage;
 	}
+	*/
 
 	@Override
-	public List<FestivalVO> selectFestivalList(int organizationCode , int pageLimit, int nowPage) {
+	public List<FestivalVO> selectMapFestivalList(Map<String,Object> map) {
 		
-		int totalRecord = this.countFestival(organizationCode);
-		int beforeFestivalCount = (nowPage - 1) * pageLimit;
-		int indexFestivalCount = beforeFestivalCount + 1;
-				
-		List<FestivalVO> totalFestivalList = festivalRepository.selectFestivalList(organizationCode);
-		
-		List<FestivalVO> resultFestivalList = new ArrayList<FestivalVO>(pageLimit);
-		
-		while(true) {
-			if(indexFestivalCount < (beforeFestivalCount + pageLimit) && indexFestivalCount <= totalRecord) {	// index값이 총 게시글수보다 작고 출력될 게시글 번호+9보다 작을 때까지 indexBoardCount에 +1하여 while문 진행
-				resultFestivalList.add(totalFestivalList.get(indexFestivalCount-1));
-				indexFestivalCount++;
-			} else {
-				break;	// index값이 게시글 번호+9에 도달하면 while문 탈출.
-			}
-		}
-		
-		return resultFestivalList;
+		return festivalRepository.selectBoard(map);
 	}
 	
 	@Override

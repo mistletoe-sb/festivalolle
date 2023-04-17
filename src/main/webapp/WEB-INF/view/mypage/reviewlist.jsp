@@ -38,7 +38,7 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<div class="container-fluid">
+		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectReviewtList}" varStatus="stat">
 				<div class="card mb-3" style="max-width: 33.75rem; " >
 					<div class="row g-0">
@@ -74,7 +74,7 @@
 											<p class="card-text" style="color: red;">블라인드 처리된 리뷰 입니다.<small class="text-muted"></small></p>
 										</c:when>
 										<c:otherwise>
-											<p class="card-text"><small class="text-muted">${fes.content}</small></p>
+											<p class="card-text">${fes.content}</p>
 										</c:otherwise>
 									</c:choose>
 								</div>

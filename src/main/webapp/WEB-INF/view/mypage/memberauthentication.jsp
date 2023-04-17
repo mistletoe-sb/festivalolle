@@ -61,10 +61,8 @@ $("#pass_btn").on("click", function(event) {
         dataType: "json",
         success: function(data) {
         	if(data==1){
-        		swal('인증완료!', "계정인증이 완료 됐습니다!", 'success').then(function() {
         		    // 확인 버튼을 눌렀을 때 처리할 내용
         		    location.href = "<c:url value='/profilemenu'/>";
-        		});
         	} else if (data ==0) {
         		swal('인증실패!', "비밀번호를 다시 확인 해주세요!", 'warning');
         		

@@ -154,8 +154,7 @@ public class FindMemberInfoController {
 			int memberCode = memberVO.getMemberCode();
 			vo.setMemberCode(memberCode);
 			memberService.updateMember(vo);
-			session.invalidate();
-			return "redirect:/login";
+			return view_pos+"mypage";
 		}
 		
 		//=============================================================================================	
