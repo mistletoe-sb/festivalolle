@@ -55,17 +55,23 @@
 		<%-- 카테고리별 축제 목록 출력할 레이아웃 --%>
 		<div class="default_horizontal_layout">
 			<div class="category_title">
-				<h3>이번 주 HOT</h3>
+				<div>
+					<h3>이번 주 HOT</h3>
+				</div>
 			</div>
 		</div>
 		<div class="default_horizontal_layout">
 			<div class="category_title">
-				<h3>이 달의 축제</h3>
+				<div>
+					<h3>이 달의 축제</h3>
+				</div>
 			</div>
 		</div>
 		<div class="default_horizontal_layout">
 			<div class="category_title">
-				<h3>COMING SOON</h3>
+				<div>
+					<h3>COMING SOON</h3>
+				</div>
 			</div>
 		</div>
 		<%@ include file="mobilemenu/mobilebottom.jsp"%>

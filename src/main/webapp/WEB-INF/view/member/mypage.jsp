@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>마이 페이지</title>
+		<title>마이페이지</title>
 		<style>
 		.mypagemenu{
 			width:90%; 

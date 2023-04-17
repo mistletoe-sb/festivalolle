@@ -2,8 +2,9 @@
  * 모바일(사용자) 화면에서 사용하는 js파일
  */
 $(document).ready(function(){
-	var root = $('#rootContext').val();					// context root
-	$('.page_title > p').text($('title').text());		// 페이지 제목을 top메뉴에 출력
+	var root = $('#rootContext').val();			// context root
+	var pageTitle = $('title').text();			// 페이지 타이틀
+	$('.page_title > p').text(pageTitle);		// 페이지 제목을 top메뉴에 출력
 	
 	// 페이지 이동 시 로딩 시작
 	$(window).on('beforeunload', function(){
@@ -21,21 +22,29 @@ $(document).ready(function(){
 		$('.loading_img').attr('hidden', true);
 	});
 	
-	/*
+	$('.bottom_menu>div').on('click', function(){
+		if($('.selected_bottom_menu').length){
+			$('.selected_bottom_menu').attr('class', '');
+		}
+		$(this).attr('class', 'selected_bottom_menu');
+	});
 	// bottom메뉴 클릭 시 누른 듯한 효과 부여(mousedown/mouseup, touchstart/touchend)
-	$('.bottom_menu>div').on('mousedown', function(){
-		$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
+	/*$('.bottom_menu>div').on('mousedown', function(){
+		//$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
+		$(this).attr('class', 'selected_bottom_menu');
 	});
 	$('.bottom_menu>div').on('mouseup', function(){
-		$(this).css('box-shadow', 'none');
+		//$(this).css('box-shadow', 'none');
+		$(this).attr('class', '');
 	});
 	$('.bottom_menu>div').on('touchstart', function(){
-		$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
+		//$(this).css('box-shadow', '3px 3px 2px 1px #0000001A inset');
+		$(this).attr('class', 'selected_bottom_menu');
 	});
 	$('.bottom_menu>div').on('touchend', function(){
-		$(this).css('box-shadow', 'none');
-	});
-	*/
+		//$(this).css('box-shadow', 'none');
+		$(this).attr('class', '');
+	});*/
 	
 	// top메뉴 검색 버튼 이벤트
 	$('#search_btn').on('click', function(){
@@ -56,6 +65,37 @@ $(document).ready(function(){
 			}
 		});
 	});
+	// top메뉴 뒤로가기 버튼 이벤트 및 bottom 메뉴 클릭 효과 설정
+	var isDefaultBack = true;
+	switch(pageTitle){
+		case '축제올래':
+			isDefaultBack = false;
+			$('#back_button').attr('hidden', true);
+			$('#homeBtn').attr('class', 'selected_bottom_menu');
+			break;
+		case '축제일정':
+			isDefaultBack = false;
+			$('#back_button').attr('hidden', true);
+			$('#calendarQuick').attr('class', 'selected_bottom_menu');
+			break;
+		case '입장권':
+			$('#ticketQuick').attr('class', 'selected_bottom_menu');
+			break;
+		case '북마크':
+			$('#bookmarkQuick').attr('class', 'selected_bottom_menu');
+			break;
+		case '로그인':
+		case '마이페이지':
+			$('#mypageQuick').attr('class', 'selected_bottom_menu');
+			break;
+		default:
+			break;
+	}
+	if(isDefaultBack){
+		$('#back_button').on('click', function(){
+			history.back();				
+		});		
+	}
 	
 	// 페이지 내 이동 이벤트 바인딩
 	if($('.index_menu')){
@@ -71,8 +111,9 @@ $(document).ready(function(){
 	// 메인 화면 카테고리별 축제 목록 출력(Ajax 요청)
 	if($('.default_horizontal_layout>.category_title').length){
 		// 출력할 카테고리 개수
-		var categoryTitle = $('.default_horizontal_layout>.category_title');
+		var categoryTitle = $('.default_horizontal_layout .category_title');
 		$.each(categoryTitle, function(index, item){
+			$(item).children().prepend('<div class="title_label"></div>');
 			var category = index + 1;
 			// AJAX 호출
 			$.ajax({
@@ -86,11 +127,12 @@ $(document).ready(function(){
 					var fesImages = data.fesImages;	// 축제 이미지 목록
 					if(data.dataStatus == 'NORMAL_TRUE'){	// 조회된 데이터가 있는 경우
 						// 전체보기 클릭 시 이동할 URL(onclick 속성값)
-						var onClickAttr = "location.href='" + root + '/festival/list?category=' + category + '&title=' + $(item).children('h3').text() + "'";
+						var onClickAttr = "location.href='" + root + '/festival/list?category=' + category + '&title=' + $(item).children().children('h3').text() + "'";
 						// 카테고리 컨테이너 생성
 						var appendHTML = '<div class="goto_list" onclick="' + onClickAttr + '">';
 						appendHTML += '<div class="icon_layout"><p>더보기</p></div>';
-						appendHTML += '<div class="icon_layout"><img src="' + root + '/resources/img/icon/arrow.png" alt="goto"></div>';
+						//appendHTML += '<div class="icon_layout"><img src="' + root + '/resources/img/icon/arrow.png" alt="goto"></div>';
+						appendHTML += '<div class="icon_layout"><i class="fa-solid fa-angle-right"></i></div>';
 						appendHTML += '</div>'
 						$(item).append(appendHTML);
 						var categoryContainer = '<div class="horizontal_container">';
@@ -101,7 +143,8 @@ $(document).ready(function(){
 						});
 						categoryContainer += '<div class="goto_list horizontal_goto" onclick="' + onClickAttr + '">';
 						categoryContainer += '<div class="icon_layout black_circle">';
-						categoryContainer += '<img src="' + root + '/resources/img/icon/arrow.png" alt="goto">';
+						//categoryContainer += '<img src="' + root + '/resources/img/icon/arrow.png" alt="goto">';
+						categoryContainer += '<i class="fa-solid fa-angle-right"></i>';
 						categoryContainer += '</div>';
 						categoryContainer += '<div class="icon_layout"><p>더보기</p></div></div></div>';
 						$(item).after(categoryContainer);						
@@ -339,13 +382,15 @@ $(document).ready(function(){
 	var isMoreData = true;	// 불러올 데이터가 더 있는지 여부
 	var isAjaxPossible = true;	// Ajax 통신 가능한 상태인지(중복 데이터 로딩 방지)
 	$(window).on('scroll',function(){
+		if($('.index_menu').length){
+			scrollPositionCheck();
+		}
 		if(isMoreData && isAjaxPossible){
 			var scrollTop = $(window).scrollTop();		// scroll top
 			var viewportHeight = $(window).height();	// viewport height
 			var scrollHeight = $(document).height();	// available scroll height
 			var menuHeight = $('.bottom_menu').height();	// bottom menu height
 			if(scrollTop + viewportHeight + menuHeight >= scrollHeight){	// 스크롤이 바닥에 다다를 시
-				var pageTitle = $('title').text();		// 페이지 타이틀
 				var requestUrl = '';										// 요청 URL
 				var paramData = {};	// 요청 데이터
 				var appendPoint;	// 축제 목록을 추가할 지점
@@ -553,12 +598,12 @@ function printFestivalCard(fes, img, pageRoot){
 	appendHTML += '<p class="card-text text-truncate">' + fes.stateName + ' ' + fes.cityName + '</p></div>';
 	appendHTML += '<div class="card_rating"><div class="icon_layout rating_img">';
 	//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="평점">';
-	appendHTML += '<i class="fas fa-star" style="color: #f15600;"></i>';
+	appendHTML += '<i class="fa-solid fa-star fill_star"></i>';
 	appendHTML += '</div>';
 	appendHTML += '<div class="icon_layout rating_txt">';
 	var rating = parseFloat(fes.rating).toFixed(1);
 	if(rating == 0){
-		appendHTML += '<p class="card-text">평점없음</p>';		
+		appendHTML += '<p class="card-text no_rating">평점없음</p>';		
 	}else{
 		appendHTML += '<p class="card-text">' + rating + '</p>';		
 	}
@@ -628,10 +673,12 @@ function requestCheckBookmark(festivalCode, pageRoot){
 			);
 			var selectorEl = '.fes_code[value="'+festivalCode+'"]';
 			if(isBookmark){
-				$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon.png');
+				//$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon.png');
+				$(selectorEl).prev().css('color', '#F15600');
 				$(selectorEl).after('<input type="hidden" class="bookmark_code" value="' + bookmarkVO.bookmarkCode +'">');
 			}else{
-				$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');						
+				//$(selectorEl).prev().attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');						
+				$(selectorEl).prev().css('color', '#848484');						
 			}
 			
 		},
@@ -661,7 +708,8 @@ function requestChangeBookmark(pageRoot){
 							// NORMAL_TRUE 시
 							console.log('북마크 취소 완료');
 							$(this).children('.bookmark_code').remove();	// 요소 제거
-							$(this).children('.bookmark_img').attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');
+							//$(this).children('.bookmark_img').attr('src', pageRoot + '/resources/img/icon/bookmark_icon_empty.png');
+							$(this).children('.bookmark_img').css('color', '#848484');
 						}.bind(this),
 						function(){
 							// ERROR 시
@@ -759,7 +807,8 @@ function printMyReview(myReview, pageRoot){
 			appendHTML += '<div class="rating_layout">';
 			for(var i = 1; i <= 5; i++){
 				appendHTML += '<div class="icon_layout rating_img rating_clickable">';
-				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + i + '">';
+				//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + i + '">';
+				appendHTML += '<i class="fa-solid fa-star empty_star"></i>';
 				appendHTML += '</div>';
 			}
 			appendHTML += '</div></div>';
@@ -775,12 +824,14 @@ function printMyReview(myReview, pageRoot){
 			appendHTML += '<div class="rating_layout">';
 			for(var i = 1; i <= myReview.rating; i++){
 				appendHTML += '<div class="icon_layout rating_img">';
-				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="fill">';
+				//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="fill">';
+				appendHTML += '<i class="fa-solid fa-star fill_star"></i>';
 				appendHTML += '</div>';
 			}
 			for(var j = myReview.rating + 1; j <= 5; j++){
 				appendHTML += '<div class="icon_layout rating_img">';
-				appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="empty">';
+				//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="empty">';
+				appendHTML += '<i class="fa-solid fa-star empty_star"></i>';
 				appendHTML += '</div>';
 			}
 			appendHTML += '</div>';		
@@ -813,12 +864,14 @@ function printReview(item, pageRoot){
 	appendHTML += '<div class="rating_layout">';
 	for(var i = 1; i <= item.rating; i++){
 		appendHTML += '<div class="icon_layout rating_img">';
-		appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+		appendHTML += '<i class="fa-solid fa-star fill_star"></i>';		
 		appendHTML += '</div>';
 	}
 	for(var j = item.rating + 1; j <= 5; j++){
 		appendHTML += '<div class="icon_layout rating_img">';
-		appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+		appendHTML += '<i class="fa-solid fa-star empty_star"></i>';
 		appendHTML += '</div>';
 	}
 	appendHTML += '</div>';
@@ -900,6 +953,9 @@ function review_btn_event(pageRoot){
 								$('.rating_txt p').text(currentRating);
 								$('.rating_value').val(currentRating);
 								$('.review_count').text(currentCount);
+								if(prevCount == 0){
+									$('.rating_txt p').attr('class', 'card-text');
+								}
 							}else{
 								console.log('리뷰 등록에 실패했습니다.');
 								swal({text: "리뷰가 정상적으로 등록되지 못했습니다.", icon: "error", button: "확인"});
@@ -984,6 +1040,7 @@ function review_btn_event(pageRoot){
 						var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
 						if(currentCount == 0){	// 리뷰 수가 0개가 된 경우
 							$('.rating_txt p').text('평점없음');
+							$('.rating_txt p').attr('class', 'card-text no_rating');
 							$('.rating_value').val(0.0);
 						}else{
 							var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
@@ -1008,6 +1065,11 @@ function review_btn_event(pageRoot){
 	// 평점 부여 이벤트
 	if($('.rating_clickable').length){
 		$('.rating_clickable').off('click').on('click', function(){
+			$(this).prevAll().children('i').attr('class', 'fa-solid fa-star fill_star rating_check');
+			$(this).children('i').attr('class', 'fa-solid fa-star fill_star rating_check');
+			$(this).nextAll().children('i').attr('class', 'fa-solid fa-star empty_star');
+			$('#my_review .rating_layout').css('outline', 'none');
+			/* 리소스 이미지 사용할 경우
 			$(this).prevAll().children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon.png');
 			$(this).prevAll().children('img').attr('class', 'rating_check');
 			$(this).children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon.png');
@@ -1015,6 +1077,7 @@ function review_btn_event(pageRoot){
 			$(this).nextAll().children('img').attr('src', pageRoot + '/resources/img/icon/rating_icon_empty.png');
 			$(this).nextAll().children('img').attr('class', '');
 			$('#my_review .rating_layout').css('outline', 'none');
+			*/
 		});
 	}
 	// 리뷰 작성란 이벤트
@@ -1068,6 +1131,40 @@ function moveToIndex(){
 		var offset = $('#review').offset(); //선택한 태그의 위치를 반환
         $('html').animate({scrollTop : offset.top - margin_space}, 0);
 	});
+}
+
+// 상세페이지 인덱스 메뉴 스크롤 위치에 따른 이벤트
+function scrollPositionCheck(){
+	function selectedStyle(element){
+		if($('#selected_menu').length){
+			$('#selected_menu').attr('id', '');
+		}
+		$(element).attr('id', 'selected_menu');
+		console.log('this position');
+	}
+	var scrolltop = $(window).scrollTop();		// Scroll Top
+	var margin_space = $(window).height()*0.13;
+	var menuPos = $('#menu').offset().top-margin_space;
+	var infoPos = $('#info').offset().top-margin_space;
+	var foodPos = $('#food').offset().top-margin_space;
+	var reviewPos = $('#review').offset().top-margin_space;
+	switch(scrolltop){
+		case 0:
+			selectedStyle($('.topIndex').parent('td'));
+			break;
+		case menuPos:
+			selectedStyle($('.menuIndex').parent('td'));
+			break;
+		case infoPos:
+			selectedStyle($('.infoIndex').parent('td'));
+			break;
+		case foodPos:
+			selectedStyle($('.foodIndex').parent('td'));
+			break;
+		case reviewPos:
+			selectedStyle($('.reviewIndex').parent('td'));
+			break;
+	}
 }
 
 // 해당 요소가 화면에 보이는지 확인
