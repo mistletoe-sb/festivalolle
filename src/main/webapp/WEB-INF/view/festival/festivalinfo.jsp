@@ -44,7 +44,8 @@
 			</div>
 			<div>
 				<div class="icon_layout place_img">
-					<img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소">
+					<%-- <img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소"> --%>
+					<i class="fas fa-map-marker"></i>
 				</div>
 				<div class="icon_layout place_txt">							
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
@@ -52,8 +53,8 @@
 			</div>
 			<div class="card_rating">
 			    <div class="icon_layout rating_img">
-					<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-					<!-- <i class="fa-solid fa-star" style="color: #f15600;"></i> -->
+					<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+					<i class="fas fa-star" style="color: #f15600;"></i>
 				</div>
 				<div class="icon_layout rating_txt">
 					<c:choose>
@@ -202,8 +203,8 @@
 					</div>
 					<div class="card_rating">
 					    <div class="icon_layout rating_img">
-							<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-							<!-- <i class="fa-solid fa-star" style="color: #f15600;"></i> -->
+							<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+							<i class="fas fa-star" style="color: #f15600;"></i>
 						</div>
 						<div class="icon_layout rating_txt">
 							<c:choose>

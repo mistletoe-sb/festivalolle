@@ -290,7 +290,6 @@ textarea::placeholder, input::placeholder {
 }
 .festival_info_sub_title h3 {
 	font-family: 'happiness' !important;
-	/* font-weight: bold !important; */
 	font-size: 1.125rem;
 	display: inline-block;
 	margin-bottom: 0vmax;
@@ -299,16 +298,24 @@ textarea::placeholder, input::placeholder {
 }
 .d-day_info {
 	display: inline-block;
-	/* font-weight: bold !important; */
-	padding: 0.125rem 0.75rem !important;
+	height: 100%;
+	font-size: 0.8125rem;
+	font-weight: 600 !important;
+	padding: 0.0225rem 0.5rem !important;
+	border: none;
+	background-color: #8A8A8A;
+}
+#fesStat_1 {
+	background-color: #24A150;
 }
 #fes_info_title {
 	display: flex;
+	height: 3.0797vmax;
 	align-items: center;
 	margin-bottom: 0.5vmax;
 }
 #fes_info_title h3 {
-	font-family: 'happiness' !important;
+	/* font-family: 'happiness' !important; */
 	font-size: 1.1875rem;
 }
 #fes_title {
@@ -687,7 +694,7 @@ textarea::placeholder, input::placeholder {
 	font-size: 0.75rem;
 	align-items: center;
 }
-.festival_card_container .card_rating {
+.festival_card_container .card_rating, .festival_info_layout .card_rating {
 	float: left;
 	display: flex;
 	width: 50%;
@@ -830,6 +837,9 @@ textarea::placeholder, input::placeholder {
 }
 .icon_layout img {
 	object-fit: contain;
+}
+.icon_layout p {
+	margin-bottom: 0px;
 }
 /* 평점 아이콘 + 텍스트 */
 .rating_img {

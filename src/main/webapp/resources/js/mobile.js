@@ -552,8 +552,8 @@ function printFestivalCard(fes, img, pageRoot){
 	appendHTML += '<div class="festival_sub"><div class="festival_location">';
 	appendHTML += '<p class="card-text text-truncate">' + fes.stateName + ' ' + fes.cityName + '</p></div>';
 	appendHTML += '<div class="card_rating"><div class="icon_layout rating_img">';
-	appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="평점">';
-	//appendHTML += '<i class="fa-solid fa-star" style="color: #f15600;"></i>';
+	//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="평점">';
+	appendHTML += '<i class="fas fa-star" style="color: #f15600;"></i>';
 	appendHTML += '</div>';
 	appendHTML += '<div class="icon_layout rating_txt">';
 	var rating = parseFloat(fes.rating).toFixed(1);

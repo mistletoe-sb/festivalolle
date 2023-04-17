@@ -23,8 +23,8 @@
 				</div>
 				<div class="card_rating">
 				    <div class="icon_layout rating_img">
-						<img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점">
-						<!-- <i class="fa-solid fa-star" style="color: #f15600;"></i> -->
+						<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
+						<i class="fas fa-star" style="color: #f15600;"></i>
 					</div>
 					<div class="icon_layout rating_txt">
 						<c:choose>
