@@ -11,9 +11,7 @@
 					width: 100%;
 					height: 100%;
 					}
-				#btn-ent{
-					border-radius: 1.25rem
-				}
+
 				.layout_bottom_line {
 					margin-bottom: 1rem;
     				padding-bottom: 1rem;
@@ -50,7 +48,7 @@
 						<div class="col-md-8">
 							<div class="card-body card-horizontal-content">
 								<div class = "layout_bottom_line">
-									<div id="title-btn" >
+									<div id="title-btn" style ="width:100%;">
 										<div style ="float:left;">
 											<h5  class="card-title" style="cursor: pointer;" ><b>${adminfestivalinfo.title}</b></h5>
 										</div>

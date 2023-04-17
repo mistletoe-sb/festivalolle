@@ -92,7 +92,7 @@ input[type=radio]:checked#btnradio1+label:after {
 						</form> 
 					</div>
 					
-					<div  style="margin-left:47rem; display:flex; height:2.5rem;">
+					<div  style=" display:flex; height:2.5rem;">
 					<div style ="float:right;">
 						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:6.25rem;">
 						
