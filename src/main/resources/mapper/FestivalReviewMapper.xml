@@ -8,34 +8,50 @@
 <!-- 작성자: 이혜성 -->
 	
 	<!-- 축제 리뷰 전체 리스트 출력 -->
-	<select id="festivalReviewList" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
-		select * from V_REVIEW_LIST 
-		<choose> 
-			<when test='festivalCode != 0'>
-				WHERE FESTIVAL_CODE = #{festivalCode}
-				AND ORGANIZATION_CODE = #{organizationCode}
-			</when>
-			<otherwise>
-				WHERE ORGANIZATION_CODE = #{organizationCode}
-			</otherwise>
-		</choose>
-		ORDER BY write_date desc
+	 <select id="festivalReviewList" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT * FROM V_REVIEW_LIST
+				<choose>
+			      	<when test='festivalCode != 0'>
+				      	WHERE ORGANIZATION_CODE = #{organizationCode}
+				       	AND FESTIVAL_CODE = #{festivalCode}
+			      	</when>
+			      	<otherwise>
+			      		WHERE ORGANIZATION_CODE = #{organizationCode}
+			      	</otherwise>
+			    </choose>
+    				ORDER BY write_date DESC)A)WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<!-- 축제 리뷰 리스트 전체 수  -->
 	<select id="totalFestivalReviewCount" parameterType="int" resultType="int"> 
-		select*count from V_REVIEW_LIST where organization_code = #{organizationCode}
+		<![CDATA[
+			SELECT * count FROM V_REVIEW_LIST 
+			WHERE organization_code = #{organizationCode}
+		]]>
+		<if test= "reviewKeyword != null">
+			<![CDATA[
+				AND id LIKE '%'|| #{reviewKeyword} || '%'
+				OR content LIKE '%'|| #{reviewKeyword} || '%'
+				OR title LIKE '%'|| #{reviewKeyword} || '%'
+			]]>
+		</if>
 	</select>
 
 	<!-- 특정 1개의 축제 리뷰 - review_code 기준 -->
 	<select id="selectReview" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
-	    select * from V_REVIEW_LIST where festival_review_code = #{festivalReviewCode}
+	    SELECT * FROM V_REVIEW_LIST WHERE festival_review_code = #{festivalReviewCode}
 	</select>
 	
 	<!-- 축제 리뷰 출력- 신고된 리뷰 상태 기준 -->
 	<select id="selectReport" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO"> 
-		select * from V_REVIEW_LIST where status = 1 and  organization_code = #{organizationCode}
-		ORDER BY write_date desc
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT * FROM V_REVIEW_LIST 
+				WHERE status = 1 
+				AND  organization_code = #{organizationCode}
+				ORDER BY write_date DESC)A)WHERE RN BETWEEN #{start} AND #{end})
 	</select>
 		
 	<!-- 신고된 리뷰 블라인드 처리 -->
@@ -51,46 +67,49 @@
 		<!-- 리뷰 검색: 아이디, 내용, 축제명으로 검색  -->
 	<select id="searchReview" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
-			SELECT * 
-			FROM V_REVIEW_LIST
-			where organization_code = #{organizationCode}
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT * FROM V_REVIEW_LIST
+				WHERE (organization_code = #{organizationCode}
 		]]>
 			<choose>
 				<when test="tableBox == 'id'">
-					<![CDATA[and id LIKE '%'|| #{reviewKeyword} || '%']]>
+					<![CDATA[AND id LIKE '%'|| #{reviewKeyword} || '%']]>
 				</when>
 				<when test="tableBox == 'content'">
-					<![CDATA[and content LIKE '%'|| #{reviewKeyword} || '%']]>
+					<![CDATA[AND content LIKE '%'|| #{reviewKeyword} || '%']]>
 				</when>
 				<when test="tableBox == 'title'">
-					<![CDATA[and title LIKE '%'|| #{reviewKeyword} || '%']]>
+					<![CDATA[AND title LIKE '%'|| #{reviewKeyword} || '%']]>
 				</when>
 				<otherwise>
-					<![CDATA[and title LIKE ' ']]>
+					<![CDATA[AND title LIKE ' ']]>
 				</otherwise>
 			</choose>
-		<![CDATA[ORDER BY write_date desc]]>
+		<![CDATA[ORDER BY write_date DESC)A)WHERE RN BETWEEN #{start} AND #{end})]]]>
 	</select>
 	
 	<!-- 연별 리뷰 리스트 -->	
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
-			SELECT  DISTINCT festival_code, TITLE 
-            FROM V_REVIEW_LIST
-            WHERE WRITE_DATE like #{writeDate} and organization_code = #{organizationCode}
+			SELECT * FROM 
+				(SELECT ROWNUM RN, A.* FROM 
+					(SELECT  DISTINCT TITLE, festival_code
+	            	FROM V_REVIEW_LIST
+	           		WHERE (write_date like #{writeDate} and organization_code = #{organizationCode})   
+						ORDER BY TITLE, festival_code)A)WHERE RN BETWEEN #{start} AND #{end}
 		]]>
 	</select>	
 	
 	<!-- 연별 리뷰 -->	
 
 	<select id="selectYearReview" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
-		<![CDATA[
-			SELECT DISTINCT *
-			FROM V_REVIEW_LIST
-			WHERE festival_code = #{festivalCode} and organization_code = #{organizationCode}
-			ORDER BY write_date desc
-		]]>
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT DISTINCT *FROM V_REVIEW_LIST
+				WHERE (festival_code = #{festivalCode} and organization_code = #{organizationCode})
+				ORDER BY write_date DESC)A)WHERE RN BETWEEN #{start} AND #{end}
 	</select>	
 		
 </mapper>

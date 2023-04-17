@@ -9,58 +9,75 @@
 
 	<!-- 구매자 전체 리스트 출력 -->
 	<select id="ticketBuyerList" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
-		select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
-		nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
-		FROM V_TICKET_BUYER_LIST
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
+				FROM V_TICKET_BUYER_LIST
 		<choose> 
 			<when test='festivalCode != 0'>
-				WHERE FESTIVAL_CODE = #{festivalCode}
+				WHERE (FESTIVAL_CODE = #{festivalCode}
 				AND ORGANIZATION_CODE = #{organizationCode}
 			</when>
 			<otherwise>
-				WHERE ORGANIZATION_CODE = #{organizationCode}
+				WHERE (ORGANIZATION_CODE = #{organizationCode}
 			</otherwise>
 		</choose>
-		ORDER BY purchase_time desc
+		ORDER BY purchase_time desc)A)WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
 	<!-- 구매자 리스트 전체 수  -->
-	<select id="totalBuyerCount" parameterType="int" resultType="int"> 
-		select*count from v_ticket_buyer_list where organization_code = #{organizationCode}
+	<select id="totalBuyerCount" parameterType="String" resultType="int"> 
+		<![CDATA[
+			SELECT * count FROM  v_ticket_buyer_list 
+			WHERE organization_code = #{organizationCode}
+		]]>
+		<if test= "buyerKeyword != null">
+			<![CDATA[
+				AND id LIKE '%'|| #{buyerKeyword} || '%'
+				OR name LIKE '%'|| #{buyerKeyword} || '%'
+				OR mobile LIKE '%'|| #{buyerKeyword} || '%'
+			]]>
+		</if>
 	</select>
 	
 	<!-- 구매자 검색: 아이디, 이름, 휴대폰번호로 검색  -->
 	<select id="searchBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
-			nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
-			FROM V_TICKET_BUYER_LIST
-			where organization_code = #{organizationCode}
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
+				FROM V_TICKET_BUYER_LIST
+				WHERE (organization_code = #{organizationCode}
 		]]>
 			<choose>
 				<when test="tableBox == 'id'">
-					<![CDATA[and id LIKE '%'|| #{buyerKeyword} || '%']]>
+					<![CDATA[AND id LIKE '%'|| #{buyerKeyword} || '%']]>
 				</when>
 				<when test="tableBox == 'name'">
-					<![CDATA[and name LIKE '%'|| #{buyerKeyword} || '%']]>
+					<![CDATA[AND name LIKE '%'|| #{buyerKeyword} || '%']]>
 				</when>
 				<when test="tableBox == 'mobile'">
-					<![CDATA[and mobile LIKE '%'|| #{buyerKeyword} || '%']]>
+					<![CDATA[AND mobile LIKE '%'|| #{buyerKeyword} || '%']]>
 				</when>
 				<otherwise>
-					<![CDATA[and name LIKE ' ']]>
+					<![CDATA[AND name LIKE ' ']]>
 				</otherwise>
 			</choose>
-		<![CDATA[ORDER BY purchase_time desc]]>
+		<![CDATA[ORDER BY purchase_time DESC, FESTIVAL_CODE, ORGANIZATION_CODE)A)WHERE RN BETWEEN #{start} AND #{end})]]>
 	</select>
 	
 	<!-- 구매자 구매일 따른 연별 리스트 -->	
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT  DISTINCT TITLE, festival_code
-            FROM V_TICKET_BUYER_LIST
-            WHERE purchase_time like #{purchaseTime} and organization_code = #{organizationCode}
+			SELECT * FROM 
+				(SELECT ROWNUM RN, A.* FROM 
+					(SELECT  DISTINCT TITLE, festival_code
+	            	FROM V_TICKET_BUYER_LIST
+	           		WHERE (purchase_time like #{purchaseTime} and organization_code = #{organizationCode})   
+						A)WHERE RN BETWEEN #{start} AND #{end}
 		]]>
 	</select>	
 	
@@ -68,10 +85,14 @@
 
 	<select id="selectYearBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
-			nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
-			FROM V_TICKET_BUYER_LIST
-			WHERE festival_code = #{festivalCode} and organization_code = #{organizationCode}
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* FROM 
+				(SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
+				FROM V_TICKET_BUYER_LIST
+				WHERE (festival_code = #{festivalCode} and organization_code = #{organizationCode})   
+					ORDER BY TITLE, festival_code) A)
+						WHERE RN BETWEEN #{start} AND #{end}
 		]]>
 	</select>	
 		
