@@ -1,6 +1,7 @@
 package com.joyous.festivalolle.ticket.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class TicketService implements ITicketService {
 	}
 
 	@Override
-	public int totalBuyerCount() {
-		return ticketRepository.totalBuyerCount(); //구매자 목록의 행 수;
+	public int totalBuyerCount(String titleListInput, String tableBoxInput, String buyerKeyword) {
+		return ticketRepository.totalBuyerCount(titleListInput, tableBoxInput, buyerKeyword); //구매자 목록의 행 수;
 	}
 
 
@@ -39,5 +40,10 @@ public class TicketService implements ITicketService {
 
 	public List<V_ticketBuyerListVO> selectYearBuyer(V_ticketBuyerListVO buyerListVO) {
 		return ticketRepository.selectYearBuyer(buyerListVO);
+	}
+
+	@Override
+	public List<V_ticketBuyerListVO> selectBoard(Map<String, Object> map) {
+		return ticketRepository.selectBoard(map);
 	}
 }

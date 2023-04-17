@@ -17,5 +17,7 @@ public class V_ticketBuyerListVO {
 	private String couponUseTime;	//쿠폰사용일시
 	private int organizationCode;	//기관코드
 	private String title;			//축제명
+	private String startDate;			// 시작일자
+	private String endDate;				// 종료일자
 	
 }

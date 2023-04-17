@@ -4,6 +4,8 @@ package com.joyous.festivalolle.festivalReview.service;
 //축제 리뷰 서비스
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
@@ -49,6 +51,7 @@ public class FestivalReviewService implements IFestivalReviewService {
 	
 	@Override
 	public List<V_ReviewListVO> searchReview(int organizationCode, String reviewKeyword, String tableBox){
+		
 		return reviewRepository.searchReview(organizationCode,reviewKeyword, tableBox);
 	}
 
@@ -65,11 +68,22 @@ public class FestivalReviewService implements IFestivalReviewService {
 		return reviewRepository.selectYearReview(reviewVO);
 	}
 
-//	@Override
-//	public int totalFestivalReviewCount() {
-//		
-//		return reviewRepository.totalFestivalReviewCount();
-//	}
+
+	@Override
+	public int totalFestivalReviewCount(int organizationCode, String radioInput, String titleListInput,
+			String tableBoxInput, String reviewKeyword) {
+
+		return reviewRepository.totalFestivalReviewCount(organizationCode, radioInput, titleListInput, tableBoxInput, reviewKeyword);
+	}
+
+
+	@Override
+	public List<V_ReviewListVO> selectBoard(Map<String, Object> map) {
+
+		return reviewRepository.selectBoard(map);
+	}
+
+
 
 	
 }

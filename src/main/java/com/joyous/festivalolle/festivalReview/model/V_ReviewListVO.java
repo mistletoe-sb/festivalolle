@@ -17,4 +17,6 @@ public class V_ReviewListVO {
 	private String title;			//축제명
 	private int organizationCode;	//기관코드
 	private int memberCode;			//회원코드
+	private String startDate;		// 시작일자
+	private String endDate;			// 종료일자
 }

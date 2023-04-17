@@ -9,21 +9,19 @@
 
 	<!-- 구매자 전체 리스트 출력 -->
 	<select id="ticketBuyerList" parameterType="int" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
-		SELECT * FROM 
-			(SELECT ROWNUM RN, A.* FROM 
-				(select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
 				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
 				FROM V_TICKET_BUYER_LIST
 		<choose> 
 			<when test='festivalCode != 0'>
-				WHERE (FESTIVAL_CODE = #{festivalCode}
+				WHERE FESTIVAL_CODE = #{festivalCode}
 				AND ORGANIZATION_CODE = #{organizationCode}
 			</when>
 			<otherwise>
-				WHERE (ORGANIZATION_CODE = #{organizationCode}
+				WHERE ORGANIZATION_CODE = #{organizationCode}
 			</otherwise>
 		</choose>
-		ORDER BY purchase_time desc)A)WHERE RN BETWEEN #{start} AND #{end}
+		ORDER BY purchase_time DESC
 	</select>
 	
 	<!-- 구매자 리스트 전체 수  -->
@@ -44,12 +42,10 @@
 	<!-- 구매자 검색: 아이디, 이름, 휴대폰번호로 검색  -->
 	<select id="searchBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-		SELECT * FROM 
-			(SELECT ROWNUM RN, A.* FROM 
-				(SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
 				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
 				FROM V_TICKET_BUYER_LIST
-				WHERE (organization_code = #{organizationCode}
+				WHERE organization_code = #{organizationCode}
 		]]>
 			<choose>
 				<when test="tableBox == 'id'">
@@ -62,22 +58,21 @@
 					<![CDATA[AND mobile LIKE '%'|| #{buyerKeyword} || '%']]>
 				</when>
 				<otherwise>
-					<![CDATA[AND name LIKE ' ']]>
+					<![CDATA[AND id LIKE ' '
+							 OR name LIKE ' '
+							 OR mobile LIKE ' ']]>
 				</otherwise>
 			</choose>
-		<![CDATA[ORDER BY purchase_time DESC, FESTIVAL_CODE, ORGANIZATION_CODE)A)WHERE RN BETWEEN #{start} AND #{end})]]>
+		<![CDATA[ORDER BY purchase_time DESC]]>
 	</select>
 	
 	<!-- 구매자 구매일 따른 연별 리스트 -->	
 
 	<select id="selectYearTitleList" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-			SELECT * FROM 
-				(SELECT ROWNUM RN, A.* FROM 
-					(SELECT  DISTINCT TITLE, festival_code
-	            	FROM V_TICKET_BUYER_LIST
-	           		WHERE (purchase_time like #{purchaseTime} and organization_code = #{organizationCode})   
-						A)WHERE RN BETWEEN #{start} AND #{end}
+			SELECT  DISTINCT TITLE, festival_code
+	            FROM V_TICKET_BUYER_LIST
+	           	WHERE purchase_time like #{purchaseTime} and organization_code = #{organizationCode}   
 		]]>
 	</select>	
 	
@@ -85,16 +80,40 @@
 
 	<select id="selectYearBuyer" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[
-		SELECT * FROM 
-			(SELECT ROWNUM RN, A.* FROM 
-				(SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+			SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
 				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
 				FROM V_TICKET_BUYER_LIST
-				WHERE (festival_code = #{festivalCode} and organization_code = #{organizationCode})   
-					ORDER BY TITLE, festival_code) A)
-						WHERE RN BETWEEN #{start} AND #{end}
+				WHERE festival_code = #{festivalCode} and organization_code = #{organizationCode}   
+				ORDER BY TITLE, festival_code
 		]]>
-	</select>	
+	</select>
 		
+	<!-- 페이징 -->	
+	<select id="selectBoard" parameterType="Map" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
+		<![CDATA[	
+		SELECT * FROM 
+			(SELECT ROWNUM RN, A.* 
+			FROM 
+				(SELECT * 
+		        FROM V_TICKET_BUYER_LIST
+		        WHERE organization_code = #{organizationCode}
+		 ]]>
+		<choose>
+			<when test="tableBoxInput == 'id'">
+				<![CDATA[and id LIKE '%'|| #{buyerKeyword} || '%']]>
+			</when>
+			<when test="tableBoxInput == 'name'">
+				<![CDATA[and name LIKE '%'|| #{buyerKeyword} || '%']]>
+			</when>
+			<when test="tableBox == 'mobile'">
+				<![CDATA[AND mobile LIKE '%'|| #{buyerKeyword} || '%']]>
+			</when>
+			<when test="titleListInput != ''">
+				<![CDATA[and festival_code = #{buyerKeyword}]]>
+			</when>
+		</choose>
+		<![CDATA[
+			ORDER BY register_date DESC) A)WHERE RN BETWEEN #{start} AND #{end}]]>
+	</select>
 </mapper>
 	
