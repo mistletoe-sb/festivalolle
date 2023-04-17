@@ -77,6 +77,10 @@
 									<input id="email_overlap_check" type="hidden" value="false">
                                 </div>
                                 <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="register_name"
+                                        placeholder="담당자명" required>
+                                </div>
+                                <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="organization_name"
                                         placeholder="기관명" list="organizationSearch" autocomplete="off" required>
                                     <datalist id="organizationSearch">
@@ -96,13 +100,7 @@
                                     
                                     <input type="hidden" name="organizationCode" id="organization_code" value="" required/>
                                 </div>
-                                <div class="form-group">
-                                	<input class="form-control form-control-user" id="register_address" placeholder="기관 주소지" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="register_name"
-                                        placeholder="담당자명" required>
-                                </div>
+                                
                                 
                                 <a class="btn btn-primary btn-user btn-block" id="registerAdmin">
                                     관리자 가입 신청
