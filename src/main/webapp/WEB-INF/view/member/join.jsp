@@ -20,7 +20,7 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>		
 		<%-- 내용 삽입 --%>
 		<!--  <div class="container">-->
-			
+
 
 	        <!-- Outer Row -->
 	        <!--  <div class="row justify-content-center">-->
@@ -33,7 +33,7 @@
 							<div class="row">
 								<div class="col-lg-7">
 	                                <div class="p-5">
-				
+										<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">
 										<form class="user" action="<c:url value='/join'/>" method="post" name="joinfrm" id="joinMember_btn" >                                                             
 											 
 											<div class="form-group">
@@ -65,7 +65,7 @@
 											</div> 
 											<div class="form-group">
 			                                   <input type="text" class="form-control form-control-user" name="name"
-			                                   		id="join_name" placeholder="담당자명" required>
+			                                   		id="join_name" placeholder="이름" required>
 			                               </div>
 											<div class="form-group">
 			                                    <input type="text" class="form-control form-control-user" id="join_telephone" name="mobile"

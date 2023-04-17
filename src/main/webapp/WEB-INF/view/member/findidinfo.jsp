@@ -20,7 +20,7 @@
 		<%-- 내용 작성:이혜성 --%>
 		<div class="p-5">
 		<%--축제올래 로고 이미지 --%>
-		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
+		<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">
 		
 		<h6 class="text-center">고객님의 정보와 일치하는 아이디입니다.</h6><br>
 			<form class="user" name="idinfofrm" action="./idinfo" method="GET"> 

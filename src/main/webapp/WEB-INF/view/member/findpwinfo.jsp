@@ -17,7 +17,7 @@
 		<%-- 내용 작성: 이혜성 --%>
 		<div class="p-5">
 		<%--축제올래 로고 이미지 --%>
-		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
+		<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">
 		
 		<h6 class="text-center">새로운 비밀번호로 재설정해주세요.</h6><br>
 			<form class="user" name="updatepwfrm" action="./updatepw" method="POST"> 
