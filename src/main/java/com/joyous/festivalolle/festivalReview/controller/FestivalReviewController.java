@@ -1,16 +1,23 @@
 package com.joyous.festivalolle.festivalReview.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joyous.festivalolle.admin.model.AdminVO;
+import com.joyous.festivalolle.admin.model.PagingVO;
+import com.joyous.festivalolle.festival.model.FestivalVO;
 import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 import com.joyous.festivalolle.festivalReview.service.FestivalReviewService;
 
@@ -137,6 +144,63 @@ public class FestivalReviewController {
 		    			return selectYearTitleList;	
 		    	}
 		   
+		    	  //페이징처리
+//		  	  @PostMapping(value="/reviewpaging")	  
+//		  	  @ResponseBody 
+//		  	  public Map<String, Object> adminPaging(HttpSession session, String nowPage, String cntPerPage, String radioInput, String titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
+//		  		  
+//		  		  AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
+//		  		int organizationCode = adminVO.getOrganizationCode();
+//		  		  Map<String,Object> map = new HashMap<String,Object>();	//매퍼에 넘겨줄 map
+//		  		  Map<String, Object> result = new HashMap<String, Object>();	//DB에서 검색해 온 결과 담아줄 result	 
+//		  		  int total = festivalService.countFestival(organizationCode,radioInput, titleListInput, tableBoxInput, searchInput);
+//		  		  
+//		  		  
+//		  		  if (nowPage == null && cntPerPage == null) {
+//		  		  		nowPage = "1";
+//		  		  		cntPerPage = paging;
+//		  		  	} else if (nowPage == null) {
+//		  		  		nowPage = "1";
+//		  		  	} else if (cntPerPage == null) { 
+//		  		  		cntPerPage = paging;
+//		  		  	}
+//		  		  
+//		  		  	
+//		  		  
+//		  		  logger.info("^ total"+total);
+//		  		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
+//		  		  logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
+//		  		  	vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+//		  		  	//model.addAttribute("paging", vo);
+//		  		  	//model.addAttribute("viewAll", adminService.selectBoard(vo));
+//		  		  	//return "system/adminlist2";
+//		  		  	
+//		  		  
+//		  		  //List<AdminVO> adminList = adminService.getAdminList();
+//		  		  //adminList = adminService.adminSearch(keyword);
+//		  		  	 
+//		  		  map.put("start", vo.getStart());
+//		  		  map.put("end", vo.getEnd());
+//		  		  map.put("organizationCode", organizationCode);
+//		  		  map.put("radioInput", radioInput);
+//		  		  map.put("titleListInput", titleListInput);
+//		  		  map.put("tableBoxInput", tableBoxInput);
+//		  		  map.put("searchInput", searchInput);
+//		  		  
+//		  		  
+//		  		  List<FestivalVO> viewAll = festivalService.selectMapFestivalList(map);
+//		  	      result.put("viewAll",  viewAll);
+//		  	      result.put("startPage", vo.getStartPage());
+//		  	      result.put("cntPerPage", vo.getCntPerPage());
+//		  	      result.put("endPage", vo.getEndPage());
+//		  	      logger.info(Integer.toString(vo.getEndPage()));
+//		  	      result.put("nowPage", vo.getNowPage());
+//		  	      result.put("lastPage", vo.getLastPage());
+//		  	
+//		  	  
+//		  	  
+//		  		  return result; 
+		  	  }
 	        
 	  // ---------------------------test controller -------------------------  
 			@GetMapping("/test")
