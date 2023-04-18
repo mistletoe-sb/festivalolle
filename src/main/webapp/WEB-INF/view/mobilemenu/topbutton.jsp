@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <div class="icon_layout to_top_btn">
 	<a class="link_anchor" href="#top">
-		<img src="<c:url value='/resources/img/icon/back.png'/>" alt="top">
+		<%-- <img src="<c:url value='/resources/img/icon/back.png'/>" alt="top"> --%>
+		<i class="fa-solid fa-angle-up"></i>
 		<br>TOP
 	</a>
 </div>

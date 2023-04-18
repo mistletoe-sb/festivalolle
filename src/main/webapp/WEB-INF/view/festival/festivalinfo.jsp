@@ -14,7 +14,7 @@
 			<table>
 				<tr>
 					<td>
-						<a class="link_anchor" href="#top">TOP</a>
+						<a class="link_anchor topIndex" href="#top">TOP</a>
 					</td>
 					<td>
 						<a class="link_anchor menuIndex">개 요</a>
@@ -23,7 +23,7 @@
 						<a class="link_anchor infoIndex">상세정보</a>
 					</td>
 					<td>
-						<a class="link_anchor foodIndex">주변업체</a>
+						<a class="link_anchor foodIndex">주변맛집</a>
 					</td>
 					<td>
 						<a class="link_anchor reviewIndex">리 뷰</a>
@@ -34,7 +34,9 @@
 		<div class="index_menu_empty"></div>
 		<%-- 축제 상세정보 출력할 레이아웃 --%>
 		<div class="festival_info_layout">
+		<!-- <i class="fas fa-utensils fa-3x"></i><br><br><br><br> -->
 			<div class="festival_info_sub_title" id="fes_info_title">
+				<div class="title_label"></div>
 				<div id="fes_title">
 					<h3>${fesInfo[0].title}</h3>
 				</div>
@@ -42,24 +44,24 @@
 					<button id="fesStat_${fesInfo[0].status}" class="btn btn-secondary d-day_info">${statusMsg}</button>
 				</div>
 			</div>
-			<div>
+			<div id="festival_info_place">
 				<div class="icon_layout place_img">
 					<%-- <img src="<c:url value='/resources/img/icon/place_icon.png'/>" alt="장소"> --%>
-					<i class="fas fa-map-marker"></i>
+					<i class="fa-solid fa-location-dot"></i>
 				</div>
 				<div class="icon_layout place_txt">							
 					<p>${fesInfo[0].stateName} ${fesInfo[0].cityName}</p>
 				</div>
 			</div>
-			<div class="card_rating">
+			<div id="festival_info_rating" class="card_rating">
 			    <div class="icon_layout rating_img">
 					<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
-					<i class="fas fa-star" style="color: #f15600;"></i>
+					<i class="fa-solid fa-star fill_star"></i>
 				</div>
 				<div class="icon_layout rating_txt">
 					<c:choose>
 						<c:when test="${fesInfo[0].rating == 0}">
-							<p class="card-text">평점없음</p>
+							<p class="card-text no_rating">평점없음</p>
 						</c:when>
 						<c:otherwise>
 							<p class="card-text">${fesInfo[0].rating}</p>
@@ -105,26 +107,29 @@
 					<div class="festival_info_menu_empty"></div>
 					<div class="icon_layout">
 						<a class="link_anchor bookmarkAction">
-							<img class="bookmark_img" src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크">
+							<%-- <img class="bookmark_img" src="<c:url value='/resources/img/icon/bookmark_icon_empty.png'/>" alt="북마크"> --%>
+							<i class="fa-solid fa-heart bookmark_img"></i>
 							<input type="hidden" class="fes_code" value="${fesInfo[0].festivalCode}">
 							<br>북마크
 						</a>
 					</div>
 					<div class="icon_layout">
 						<a class="link_anchor" id="ticketModal">
-							<img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="구매">
+							<%-- <img src="<c:url value='/resources/img/icon/ticket.png'/>" alt="구매"> --%>
+							<i class="fa-solid fa-ticket buy_ticket"></i>
 							<br>구매
 						</a>
 					</div>
 					<div class="icon_layout">
 						<a class="link_anchor reviewIndex">
-							<img src="<c:url value='/resources/img/icon/review_icon.png'/>" alt="리뷰">
+							<%-- <img src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰"> --%>
+							<i class="fa-solid fa-star empty_star"></i>
 							<br>리뷰
 						</a>
 					</div>
 					<div class="festival_info_menu_empty"></div>
 				</div>
-				<div class="multi_line_text">
+				<div class="multi_line_text introduce_layout">
 					<p>${fesInfo[0].detail}</p>
 				</div>
 				<div class="tag_layout">
@@ -133,22 +138,23 @@
 			</div>
 			<div class="layout_bottom_line" id="info">
 				<div class="festival_info_sub_title">
+					<div class="title_label"></div>
 					<h3>상세정보</h3>
 				</div>
 				<div>
 					<table class="detail_info">
 						<tr>
-							<th scope="row">기간</th>
+							<th scope="row"><i class="fa-solid fa-calendar fes_period"></i></th>
 							<td>${fesInfo[0].startDate} ~ ${fesInfo[0].endDate}</td>
 						</tr>
 						<tr>
-							<th scope="row">주소</th>
+							<th scope="row"><i class="fa-solid fa-location-dot fes_place"></i></th>
 							<td>${fesInfo[0].address}</td>
 						</tr>
 						<tr>
-							<th scope="row">요금</th>
+							<th scope="row"><i class="fa-solid fa-won-sign fes_fee"></i></th>
 							<c:choose>
-								<c:when test='${fesInfo[0].fee == 0}'>
+								<c:when test="${fesInfo[0].fee == 0}">
 									<td>무료</td>
 								</c:when>
 								<c:otherwise>
@@ -157,15 +163,22 @@
 							</c:choose>
 						</tr>
 						<tr>
-							<th scope="row">URL</th>
-							<td>${fesInfo[0].url}</td>
+							<th scope="row"><i class="fa-solid fa-globe fes_url"></i></th>
+							<td>
+								<c:choose>
+									<c:when test="${fesInfo[0].url != '-' && fesInfo[0].url != ''}">
+										<a href="${fesInfo[0].url}" target="_blank">${fesInfo[0].url}</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 						<tr>
-							<th scope="row">담당기관</th>
+							<th scope="row"><i class="fa-solid fa-building fes_org"></i></th>
 							<td>${fesInfo[0].organizationName}</td>
 						</tr>
 						<tr>
-							<th scope="row">문의</th>
+							<th scope="row"><i class="fa-solid fa-phone fes_tel"></i></th>
 							<td>${fesInfo[0].telephone}</td>
 						</tr>
 					</table>
@@ -173,6 +186,7 @@
 			</div>
 			<div class="layout_bottom_line" id="food">
 				<div class="festival_info_sub_title">
+					<div class="title_label"></div>
 					<h3>위치</h3>
 				</div>
 				<div>
@@ -181,7 +195,8 @@
 					</div>
 				</div>
 				<div class="festival_info_sub_title">
-					<h3>주변 음식점</h3>
+					<div class="title_label"></div>
+					<h3>주변 맛집</h3>
 				</div>
 				<div>
 					<div class="map_wrap" id="food_list_layout">
@@ -189,27 +204,28 @@
 					        <hr><hr>
 					        <ul id="placesList"></ul>
 					    </div>
-				        <a id="more_result" href="#" target="_blank">>> 더 많은 검색 결과를 보고 싶나요?</a>
+				        <a id="more_result" class="link_anchor" href="#" target="_blank">더보기 <img src="<c:url value='/resources/img/icon/arrow.png'/>" alt="arrow"></a>
 					</div>
 				</div>
 			</div>
 			<div class="layout_bottom_line" id="review">
-				<div class="festival_info_sub_title">
-					<h3>축제 리뷰 <span class="review_count">${fesInfo[0].reviewCount}</span>개</h3>
-				</div>
-				<div>
-					<div class="icon_layout">							
+				<div id="review_info" class="festival_info_sub_title">
+					<div class="title_label"></div>
+					<div id="review_info_main">
+						<h3>축제 리뷰 <span class="review_count">${fesInfo[0].reviewCount}</span>개</h3>
+					</div>
+					<div id="review_info_sub" class="icon_layout">							
 						<p>전체 평점</p>
 					</div>
 					<div class="card_rating">
 					    <div class="icon_layout rating_img">
 							<%-- <img src="<c:url value='/resources/img/icon/rating_icon.png'/>" alt="평점"> --%>
-							<i class="fas fa-star" style="color: #f15600;"></i>
+							<i class="fa-solid fa-star fill_star"></i>
 						</div>
 						<div class="icon_layout rating_txt">
 							<c:choose>
 								<c:when test="${fesInfo[0].rating == 0}">
-									<p class="card-text">평점없음</p>
+									<p class="card-text no_rating">평점없음</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text">${fesInfo[0].rating}</p>
@@ -409,6 +425,7 @@
 							'</div>';
 				itemStr += '<a class="kakaolink link_anchor" href="' + place.place_url + '" target="_blank">';
 				itemStr += '<img src="' + imgPath + '" alt="#"></a>';
+				//itemStr += '<i class="fa-solid fa-utensils"></i>';
 				el.innerHTML = itemStr;
 				el.className = 'item';
 				

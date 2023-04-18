@@ -8,11 +8,12 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
+		<div class="default_title_layout">
+			<div class="title_label"></div>
+			<h3>"${keyword}"에 대한 검색결과 : ${resultCount}건</h3>
+		</div>
 		<%-- 검색된 목록 출력할 레이아웃 --%>
-		<div class="default_list_2x_layout">
-			<div>
-				<h3>"${keyword}"에 대한<br>검색결과 : ${resultCount}건</h3>
-			</div>
+		<div class="default_list_2x_layout no_margin_top">
 			<c:forEach var="fes" items="${searchList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
