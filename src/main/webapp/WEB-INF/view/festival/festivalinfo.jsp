@@ -327,9 +327,10 @@
 						map: mapView,
 						position: coords
 					});
+					var content = '<div class="festival_marker">${fesInfo[0].title}</div>'
 					// 장소 설명 표시 객체 생성
 					var info = new kakao.maps.InfoWindow({
-						content: '<div class="festival_marker">${fesInfo[0].title}</div>'
+						content: content
 						, zIndex: 1
 					});
 					// info window 마커 위에 표시

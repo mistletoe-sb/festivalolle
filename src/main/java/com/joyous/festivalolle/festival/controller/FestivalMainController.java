@@ -32,6 +32,7 @@ import com.joyous.festivalolle.member.model.MemberVO;
 import com.joyous.festivalolle.util.constant.PageValue;
 import com.joyous.festivalolle.util.constant.SelectFilter;
 import com.joyous.festivalolle.util.status.AjaxResponseStatus;
+import com.joyous.festivalolle.util.status.FestivalStatus;
 
 // 홈페이지(메인)에 출력되는 축제 리스트 관리
 // 작성자 : 이수봉
@@ -122,10 +123,12 @@ public class FestivalMainController {
 				String periodEnd = (String)paramData.get("periodEnd");
 				String location = (String)paramData.get("location");
 				if(location.equals(SelectFilter.ALL_LOCATION)) {
-					festivalMainVOList = festivalMainService.selectFestivalScheduleList(periodStart, periodEnd,
+					festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+																						periodStart, periodEnd,
 																						null, lastFestivalCode, PageValue.PER_PAGE);
 				} else {
-					festivalMainVOList = festivalMainService.selectFestivalScheduleList(periodStart, periodEnd,
+					festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+																						periodStart, periodEnd,
 																						location, lastFestivalCode, PageValue.PER_PAGE);
 				}
 				break;
@@ -200,11 +203,21 @@ public class FestivalMainController {
 	// 축제 일정 조회 페이지로 이동
 	@GetMapping(value="/festival/calendar")
 	public String selectFestivalCalendarList(Model model) {
-		int month = LocalDate.now().getMonthValue();	// 현재 월
+		LocalDate today = LocalDate.now();		// 현재 일자
+		int month = today.getMonthValue();		// 현재 월
+		int week = 0;							// 현재 주차
 		LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
 		
 		LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
 		LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
+		
+		// 현재 주차 계산
+		for(int i = 0; i < weekData.length; i++) {
+			if(today.compareTo(weekData[i][0]) >= 0 && today.compareTo(weekData[i][1]) <= 0) {
+				week = i;
+				break;
+			}
+		}
 		
 		// 지역 목록
 		model.addAttribute("locationList", 
@@ -212,10 +225,12 @@ public class FestivalMainController {
 															endDayOfMonth.toString()));
 		// 표시할 축제 목록
 		model.addAttribute("defaultList",
-				festivalMainService.selectFestivalScheduleList(weekData[0][0].toString(),
-															weekData[0][1].toString(),
+				festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+															weekData[week][0].toString(),
+															weekData[week][1].toString(),
 															null, 0, PageValue.PER_PAGE));					
 		model.addAttribute("nowMonth", month);		// 현재 월
+		model.addAttribute("nowWeek", week);		// 현재 주차
 		model.addAttribute("weekData", getStringWeekOfMonth(weekData));	// 주차 정보(해당 주차 시작일, 종료일)
 		
 		return "festival/festivalcalendar";
@@ -236,7 +251,8 @@ public class FestivalMainController {
 			
 			LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
 			LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
-			festivalMainVOList = festivalMainService.selectFestivalScheduleList(startDayOfMonth.toString(),
+			festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+																				startDayOfMonth.toString(),
 																				endDayOfMonth.toString(),
 																				null, 0, PageValue.PER_PAGE);
 			responseData.put("weekData", getStringWeekOfMonth(weekData));
@@ -244,10 +260,12 @@ public class FestivalMainController {
 							festivalMainService.selectFestivalLocationList(startDayOfMonth.toString(),
 																		endDayOfMonth.toString()));		// 지역 목록을 ajax응답에 저장
 		} else if(location.equals(SelectFilter.ALL_LOCATION)) {
-			festivalMainVOList = festivalMainService.selectFestivalScheduleList(periodStart, periodEnd,
+			festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+																				periodStart, periodEnd,
 																				null, 0, PageValue.PER_PAGE);
 		} else {
-			festivalMainVOList = festivalMainService.selectFestivalScheduleList(periodStart, periodEnd,
+			festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
+																				periodStart, periodEnd,
 																				location, 0, PageValue.PER_PAGE);
 		}
 		List<byte[]> images = new ArrayList<byte[]>();
@@ -302,23 +320,21 @@ public class FestivalMainController {
 		List<FestivalMainVO> defaultList = null;
 		// 카테고리에 따라 조회할 정보 선택
 		switch(category) {
-			case 1:		// 이번주 HOT 축제
+			case 1:		// 이번 주 HOT 축제
 				LocalDate startDayOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).minusDays(1);		// 이번 주의 첫날 계산(일요일)
 				LocalDate endDayOfWeek = startDayOfWeek.plusDays(6);								// 이번 주의 마지막날 계산(토요일)
 				defaultList = festivalMainService.selectFestivalHotList(startDayOfWeek.toString(),
 																		endDayOfWeek.toString(),
 																		lastFestivalCode, perPage);
 				break;
-			case 2:		// 이달의 축제
-				LocalDate[] startAndEndDayOfMonth = getStartAndEndDayOfMonth(LocalDate.now().getMonthValue());
-				defaultList = festivalMainService.selectFestivalScheduleList(startAndEndDayOfMonth[0].toString(),
-																			startAndEndDayOfMonth[1].toString(),
-																			null, lastFestivalCode, perPage);
+			case 2:		// 축제 NOW(현재 진행 중인 축제)
+				defaultList = festivalMainService.selectFestivalMainList(lastFestivalCode, perPage);
 				break;
-			case 3:		// COMING SOON(다음주 축제)
+			case 3:		// COMING SOON(다음 주에 시작되는 축제)
 				LocalDate startDayOfNextWeek = LocalDate.now().with(DayOfWeek.SUNDAY);	// 다음 주의 첫날 계산(일요일)
 				LocalDate endDayOfNextWeek = startDayOfNextWeek.plusDays(6);			// 다음 주의 마지막날 계산(토요일)
-				defaultList = festivalMainService.selectFestivalScheduleList(startDayOfNextWeek.toString(),
+				defaultList = festivalMainService.selectFestivalScheduleList(FestivalStatus.SCHEDULED.ordinal(),
+																			startDayOfNextWeek.toString(),
 																			endDayOfNextWeek.toString(),
 																			null, lastFestivalCode, perPage);
 				break;

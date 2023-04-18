@@ -40,7 +40,7 @@
 			</div>
 			<div class="carousel-inner">
 				<c:forEach var="ticket" items="${myticketList}" varStatus="stat">
-					<c:set var="img" value="${myticketImages[stat.index]}"/>
+					<%-- <c:set var="img" value="${myticketImages[stat.index]}"/> --%>
 					<c:choose>
 						<c:when test='${stat.index == 0}'>
 							<div class="carousel-item active" data-bs-interval="8000">
@@ -50,14 +50,15 @@
 									<div class="festival_card_container">
 										<div class="card">
 											<div class="ratio">
-												<c:choose>								
+												<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-img-top" alt="${ticket.festivalCode}">
+												<%-- <c:choose>								
 													<c:when test='${img != null}'>																		  	
 														<img src="data:image:jpg;base64,${img}" class="card-img-top" alt="loading failed">				  	
 													</c:when>
 													<c:otherwise>																	  	
 														<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="no image">				  	
 													</c:otherwise>
-												</c:choose>
+												</c:choose> --%>
 											</div>
 											<div class="card-body myticket-content">
 												<div class="myticket">							
@@ -108,14 +109,15 @@
 									<div class="festival_card_container">
 										<div class="card">
 											<div class="ratio">
-												<c:choose>								
+												<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-img-top" alt="${ticket.festivalCode}">
+												<%-- <c:choose>								
 													<c:when test='${img != null}'>																		  	
 														<img src="data:image:jpg;base64,${img}" class="card-img-top" alt="loading failed">				  	
 													</c:when>
 													<c:otherwise>																	  	
 														<img src="<c:url value='/resources/img/festest3.jpg'/>" class="card-img-top" alt="no image">				  	
 													</c:otherwise>
-												</c:choose>
+												</c:choose> --%>
 											</div>
 											<div class="card-body">
 												<div class="myticket">							
