@@ -34,7 +34,7 @@
 								<div class="col-lg-6">
 	                                <div class="p-5">
 										<%--축제올래 로고 이미지 --%>
-										<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">										
+										<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">										
 											
 										<form class="user">	
 											<div class="text-center">

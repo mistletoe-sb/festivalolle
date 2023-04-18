@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>마이 페이지</title>
+		<title>마이페이지</title>
 		<style>
 		.mypagemenu{
 			width:90%; 
@@ -47,7 +47,7 @@
 		
 		
 		<div class="content title" style="width:90%; margin: auto; margin-top: 3rem; margin-bottom: 3rem;">
-		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
+		<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">
 		</div>
 		
 		<div style="width:80%;  margin: auto;" >
@@ -67,7 +67,7 @@
 			<div style="clear:both;"></div>
 			<div style="clear:both;" class="mypagemenu" onclick="location.href='<c:url value='/mypage/reviewlist'/>'">
 				<div class="icon" style="float:left;">
-					<img class="mypageimg" src="<c:url value='/resources/img/icon/rating_icon_empty.png'/>" alt="리뷰">
+					<img class="mypageimg" src="<c:url value='/resources/img/icon/review_icon.png'/>" alt="리뷰">
 				</div>
 				<div style="float:left;">
 					<h5 style="margin:0">나의리뷰</h5>

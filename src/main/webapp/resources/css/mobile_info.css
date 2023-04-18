@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* 
 .top-image {
 	
 	
@@ -9,9 +10,9 @@
 	width: 100%;
 	
 	background-repeat: no-repeat;
-	/* position:fixed;
+	position:fixed;
 	right:10px;
-	bottom:10px; */
+	bottom:10px; 
 	
 }
 
@@ -20,3 +21,4 @@
 	height: 100%;
 	width: 100%;
 }
+*/

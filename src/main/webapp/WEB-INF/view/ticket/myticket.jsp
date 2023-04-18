@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>이용권</title>
+		<title>입장권</title>
 		<script type="text/javascript" src="https://jsonip.com"></script>
 		
 		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>

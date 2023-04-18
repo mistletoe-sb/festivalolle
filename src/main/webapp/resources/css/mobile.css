@@ -104,7 +104,7 @@
 /* 공통 적용 */
 body {
 	position: relative;
-	background: #FFFFFF;
+	background: #F9F9F9;
 	/* font-family: 'nanum' !important; */
 	font-family: 'noto-sans' !important;
 	font-weight: normal;
@@ -211,8 +211,17 @@ textarea::placeholder, input::placeholder {
 .category_title, .horizontal_empty {
 	margin-left: 4.15vmin;
 }
-.category_title h3 {
-	float: left;
+.category_title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 2.92vmax;
+	margin-bottom: 2vmax;
+}
+.category_title > div:first-child {
+	display: flex;
+	align-items: center;
+	height: 100%;
 }
 .category_title .goto_list {
 	float: right;
@@ -234,6 +243,9 @@ textarea::placeholder, input::placeholder {
 	width: 0.7rem;
 	height: 0.7rem;
 }
+.goto_list i {
+	color: #848484;
+}
 .goto_list p {
 	margin-bottom: 0vmax;
 	margin-right: 0.125rem;
@@ -253,11 +265,19 @@ textarea::placeholder, input::placeholder {
 	margin-bottom: 0.125rem;
 	justify-content: center;
 	align-items: center;
-	border: 0.0833rem solid #191919;
+	border: 0.084rem solid #848484;
 	border-radius: 50%;
 }
 
 /* 기본 축제 목록 레이아웃 */
+.default_title_layout {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 2.92vmax;
+	padding: 0vmin 4.15vmin;
+	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
+}
 .default_list_layout {
 	width: 100%;
 	padding: 0vmin 8.3vmin;
@@ -271,21 +291,35 @@ textarea::placeholder, input::placeholder {
 	padding: 0vmin 4.15vmin;
 	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
 }
-.default_list_layout h3, .default_list_2x_layout h3, .default_horizontal_layout h3 {
-	margin-bottom: 2vmax;
+.no_margin_top {
+	margin-top: 0vmax !important;
+}
+.default_list_layout h3, .default_list_2x_layout h3, .default_horizontal_layout h3, .default_title_layout h3 {
+	margin-bottom: 0vmax;
 	padding-left: 1vmin;
-	border-left: 0.3rem solid #F15600;
+	/* border-left: 0.3rem solid #F15600; */
 	font-family: 'happiness';
-	/* font-weight: bold; */
 	font-size: 1.125rem;
+}
+.title_label {
+	background-color: #F15600;
+	border: none;
+	border-radius: 1rem;
+	width: 0.25rem;
+	height: 80%;
+	margin-top: 0.0625rem;
+	margin-right: 0.125rem;
 }
 
 /* 축제 상세 페이지 레이아웃 */
 .festival_info_layout {
 	padding: 0vmax 5vmin;
-	/* font-weight: 800; */
 }
 .festival_info_sub_title {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 2.92vmax;
 	margin-bottom: 2.7vmax;
 }
 .festival_info_sub_title h3 {
@@ -294,7 +328,7 @@ textarea::placeholder, input::placeholder {
 	display: inline-block;
 	margin-bottom: 0vmax;
 	padding-left: 1vmin;
-	border-left: 0.3rem solid #F15600;
+	/* border-left: 0.3rem solid #F15600; */
 }
 .d-day_info {
 	display: inline-block;
@@ -312,7 +346,7 @@ textarea::placeholder, input::placeholder {
 	display: flex;
 	height: 3.0797vmax;
 	align-items: center;
-	margin-bottom: 0.5vmax;
+	margin-bottom: 1.5vmax;
 }
 #fes_info_title h3 {
 	/* font-family: 'happiness' !important; */
@@ -328,10 +362,33 @@ textarea::placeholder, input::placeholder {
 }
 #fes_status {
 	display: flex;
-	width: 34vmin;
+	min-width: 12vmin;
+	max-width: 34vmin;
 	height: 100%;
 	text-align: left;
 	align-items: center;
+}
+#festival_info_place {
+	display: flex;
+	margin-left: 2vmin;
+}
+#festival_info_place .place_img {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#festival_info_place p {
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+#festival_info_rating {
+	margin-left: 1.5vmin;
+	margin-bottom: 1vmax;
+}
+#festival_info_rating p {
+	font-size: 0.8125rem;
+	font-weight: 500;
+	padding-left: 0.09375rem;
 }
 .layout_bottom_line {
 	border-bottom: 0.0625rem solid #C4C4C4;
@@ -355,21 +412,25 @@ textarea::placeholder, input::placeholder {
 	height: 5vmax;
 	z-index: 10;
 	background-color: #FFFFFF;
+	border-bottom: 0.0625rem solid #EBEBEB;
 }
 .index_menu table {
 	width: 100%;
 	height: 100%;
 	text-align: center;
-	/* font-weight: bold; */
-	font-size: 0.875rem;
 }
 .index_menu td {
 	width: 20%;
 	height: 100%;
-	border-width: 0rem 0.0625rem 0.0625rem 0.0625rem;
+	font-size: 0.91rem;
+	border: none;
+	/* border-width: 0rem 0.0625rem 0.0625rem 0.0625rem;
 	border-style: solid;
 	border-color: #EBEBEB;
-	border-collapse: collapse;
+	border-collapse: collapse; */
+}
+#selected_menu {
+	border-bottom: 0.2rem solid #F15600 !important;
 }
 /* 이미지 */
 .festival_info_layout .carousel {
@@ -405,6 +466,9 @@ textarea::placeholder, input::placeholder {
 	width: 5%;
 	height: 100%;
 }
+.festival_info_menu i {
+	font-size: 1.4rem;
+}
 .festival_info_menu .icon_layout {
 	float: left;
 	width: 30%;
@@ -419,26 +483,36 @@ textarea::placeholder, input::placeholder {
 	height: 50%;
 	margin-bottom: 0.095rem;
 }
+/* 축제설명 및 태그 */
+.introduce_layout {
+	margin-bottom: 3.378vmax;
+	margin-top: 4.054vmax;
+	font-size: 0.875rem;
+	text-align: justify;
+}
+.tag_layout {
+	margin-bottom: 3.378vmax;
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
 /* 상세정보 출력 테이블 */
 .detail_info {
 	width: 100%;
-	background-color: #F5F5F5;
+	/* background-color: #F5F5F5; */
 }
 .detail_info th, .detail_info td {
 	height: 4.45vmax;
 	vertical-align: top;
-	padding-top: 1.4vmin;
 }
 .detail_info th {
-	width: 20%;
-	padding-left: 1.4vmin;
-	/* font-weight: 800; */
+	width: 10%;
+	padding-top: 0.65vmin;
+	text-align: center;
 }
 .detail_info td {
 	width: 80%;
-	padding-left: 2.7vmin;
-	padding-right: 1.4vmin;
-	/* font-weight: bold; */
+	padding: 1.4vmin 1.4vmin 0vmin 1vmin;
+	font-size: 0.875rem;
 	word-break: break-all;
 }
 /* 입장권 구매 모달 창 */
@@ -449,7 +523,7 @@ textarea::placeholder, input::placeholder {
 	left: 5vmin;
 	bottom: -55vmax;
 	/* bottom: 8vmax; */	
-	/* font-weight: 800; */
+	font-weight: 600;
 	color: #5B5B5B;
 	z-index: 1;
 	background-color: #FFFFFF;
@@ -550,6 +624,7 @@ textarea::placeholder, input::placeholder {
 	position: relative;
 	width: 100%;
 	/* height: 68vmax; */
+	margin-bottom: 3.378vmax;
 }
 #kakaomap {
 	width: 100%;
@@ -575,7 +650,7 @@ textarea::placeholder, input::placeholder {
 }
 #placesList .item {
 	position: relative;
-	border-bottom: 0.0625rem solid #888888;
+	border-bottom: 0.0625rem solid #C4C4C4;
 	overflow: hidden;
 	cursor: pointer;
 	min-height: 8.7vmax;
@@ -597,12 +672,12 @@ textarea::placeholder, input::placeholder {
 	width: 20%;
 	display: flex;
 	padding: 1.35vmax 0vmin 1.35vmax 2.7vmin;
-	align-items: start;
+	align-items: center;
 	justify-content: center;
 }
 #placesList .item .kakaolink img {
-	width: 9vmin;
-	height: 9vmin;
+	width: 7.25vmin;
+	height: 7.25vmin;
 	object-fit: contain;
 }
 #placesList .food_info h5 {
@@ -641,6 +716,26 @@ textarea::placeholder, input::placeholder {
 	margin-top: 1.35vmax;
 	text-align: center;
 	color: #191919;
+}
+#more_result img {
+	width: 2.8vmin;
+	height: 2.8vmin;
+	object-fit: contain;
+	vertical-align: baseline;
+}
+/* 리뷰 정보 */
+#review_info #review_info_main {
+	width: 40%;
+}
+#review_info #review_info_sub {
+	display: flex;
+	width: auto;
+	font-size: 0.9375rem;
+	margin-right: 0.1875rem;
+}
+#review_info .card_rating {
+	width: 20%;
+	font-size: 0.875rem;
 }
 
 /* 축제 목록 출력 시의 카드 폼(세로 방향) CSS */
@@ -791,12 +886,14 @@ textarea::placeholder, input::placeholder {
 	align-items: center;
 }
 .review_body > .review_sub > .rating_layout {
-	width: 20.3vmin;
-	min-width: 20.3vmin;
+	/* width: 20.3vmin;
+	min-width: 20.3vmin; */
+	width: 18.75vmin;
+	min-width: 18.75vmin;
 }
 .review_body > .review_sub > .day_for_write {
 	display: flex;
-	margin-top: 0.4vmax;
+	/* margin-top: 0.4vmax; */
 	margin-left: 0.83vmin;
 }
 .review_body > .review_sub > .day_for_write > p {
@@ -804,7 +901,8 @@ textarea::placeholder, input::placeholder {
 	margin-bottom: 0vmax;
 }
 .review_body > .review_sub > .rating_layout > .rating_img {
-	width: 4vmin;
+	/* width: 4vmin; */
+	width: 3.5vmin;
 	height: 2.16vmax;
 	text-align: center;
 }
@@ -863,6 +961,10 @@ textarea::placeholder, input::placeholder {
 	text-align: left;
 	align-items: center;
 }
+.no_rating {
+	color: #848484;
+	font-size: 0.6875rem;
+}
 
 /* 페이지 상단으로 가는 버튼 */
 .to_top_btn {
@@ -875,13 +977,18 @@ textarea::placeholder, input::placeholder {
 	border-radius: 50%;
 	background-color: #EBEBEBB3;
 	font-size: 0.75rem;
-	/* font-weight: 800; */
+	font-weight: 600;
+	color: #646464;
 	text-align: center;
 }
 .to_top_btn img {
 	width: 45%;
 	height: 45%;
 	transform: rotate(90deg);
+}
+.to_top_btn i {
+	font-size: 1rem;
+	margin-top: 0.125rem;
 }
 
 /* 모바일 하단 메뉴바 */
@@ -894,7 +1001,7 @@ textarea::placeholder, input::placeholder {
 	height: 8vmax;
 	padding-top: 1vmax;
 	z-index: 100;
-	background-color: white;
+	background-color: #FFFFFF;
 	box-shadow: 0rem -0.125rem 0.25rem 0rem #0000001A;
 }
 .bottom_menu > div {
@@ -917,6 +1024,9 @@ textarea::placeholder, input::placeholder {
 	height: 9vmax;
 	width: 100%;
 }
+.selected_bottom_menu i, .selected_bottom_menu p {
+	color: #F15600 !important;
+}
 /* 로딩 이미지 */
 .loading_img {
 	display: flex;
@@ -931,6 +1041,37 @@ textarea::placeholder, input::placeholder {
 }
 
 /* 모바일 상단 메뉴바 */
+#back_button {
+	position: fixed;
+	z-index: 102;
+	top: 1.65vmax;
+	left: 0px;
+	width: 35px;
+	height: 35px;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.3rem;
+}
+.top-image {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background-image: url("../img/mobileicon/topimage.jpg");	
+	background-size: cover;
+	height: 8vmax;
+	width: 100%;
+	background-repeat: no-repeat;	
+}
+.top-image::before {
+	content: "";
+	opacity: 0.3;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: #FFFFFF;
+}
 .top_empty {
 	width: 100%;
 	height: 8vmax;
@@ -947,21 +1088,30 @@ textarea::placeholder, input::placeholder {
 	box-shadow: 0rem 0.125rem 0.25rem 0rem #0000001A;
 }
 .top_menu > div {
-	padding-top: 2vmax;
+	padding-top: 1.5vmax;
 }
 /* 일반 상태 */
 .normal_top {
 	display: flex;
+	position: relative;
+	z-index: 101;
 }
 .normal_top > div {
-	height: 5vmax;
-	width: 16%;
+	display: flex;
+	align-items: start;
+	height: 100%;
+	width: 6vmin;
 	text-align: center;
 }
 .normal_top img {
 	object-fit: contain;
+	box-shadow: 0.06rem 0.06rem 0.15rem #808080;
 	height: 80%;
 	width: 60%;
+}
+.normal_top i {
+	color: #191919;
+	text-shadow: 0.1rem 0.1rem 0.125rem #FFFFFF;
 }
 .page_title {
 	width: 68% !important;
@@ -970,14 +1120,21 @@ textarea::placeholder, input::placeholder {
 	font-family: 'happiness' !important;
 }
 .page_title > p {
-	font-size: 1.3rem;
-	/* font-weight: bold; */
+	font-size: 1.5rem;
+	text-shadow: 0.1rem 0.1rem 0.125rem #FFFFFF;
 	color: #191919;
 	margin: 0vmin;
+}
+#search_btn {
+	font-size: 1.3rem;
+	margin-left: 8.3vmin;
+	margin-top: 0.75vmax
 }
 /* 검색 활성 상태 */
 .search_top {
 	display: flex;
+	position: relative;
+	z-index: 101;
 	padding-left: 5.5vmin;
 	padding-right: 5.5vmin;
 	text-align: left;
@@ -1115,17 +1272,57 @@ textarea::placeholder, input::placeholder {
 
 /* 북마크 목록에 보이는 북마크 이미지 */
 .mybookmark {
+	display: flex;
 	position: absolute;
-	top: 2.5vmin;
-	right: 2.5vmin;
+	top: 1.5vmin;
+	right: 1.5vmin;
 	width: 8vmin;
 	height: 8vmin;
 	z-index: 1;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
 }
 .mybookmark img {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}
+
+/* 폰트어썸 아이콘 색상 설정 */
+.bottom_menu i {
+	color: #848484;
+	font-size: 1.25rem;
+}
+.festival_info_menu .empty_star {
+	color: #848484;
+}
+.empty_star {
+	color: #B8B8B8;
+}
+.fill_star {
+	color: #F15600;
+}
+.buy_ticket {
+	color: #848484;
+}
+.fes_period {
+	color: #E84A6A;
+}
+.fes_place {
+	color: #2380C7;
+}
+.fes_fee {
+	color: #D8AD13;
+}
+.fes_url {
+	color: #126D35;
+}
+.fes_org {
+	color: #A25907;
+}
+.fes_tel {
+	color: #CB6D15;
 }
 
 /* sweet modal 디자인 변경 */

@@ -16,7 +16,7 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="p-5">
 		<%--축제올래 로고 이미지 --%>
-		<img src="<c:url value='/resources/img/mobile/festivalollelogo_mobile.png'/>" class="card-img-top" alt="축제올래 로고">
+		<img src="<c:url value='/resources/img/mobile/festivalollelogo.png'/>" class="card-img-top" alt="축제올래 로고">
 			
 				<div>
 					<h6 class="text-center">회원정보의 전화번호를 입력해주세요.</h6><br>
@@ -40,7 +40,7 @@
 			
 <c:if test= "${message != null && message != ''}">
    <script>
-   swal('입력오류!', "${message}", 'error');
+   swal('', "${message}", 'warning');
    </script>
 </c:if>
 <script type="text/javascript">

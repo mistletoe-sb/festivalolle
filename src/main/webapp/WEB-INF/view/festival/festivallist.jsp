@@ -8,12 +8,13 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
+		<div class="default_title_layout">
+			<div class="title_label"></div>
+			<h3>${title}</h3>
+			<input type="hidden" id="category" value="${category}">
+		</div>
 		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
-		<div class="default_list_2x_layout">
-			<div>
-				<h3>${title}</h3>
-				<input type="hidden" id="category" value="${category}">
-			</div>
+		<div class="default_list_2x_layout no_margin_top">
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
