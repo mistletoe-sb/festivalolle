@@ -14,6 +14,11 @@
 		</div>
 		<%-- 검색된 목록 출력할 레이아웃 --%>
 		<div class="default_list_2x_layout no_margin_top">
+			<c:if test="${resultCount == 0}">
+				<div class="no_result">
+					<img src="<c:url value='/resources/img/mobile/search_none.png'/>" alt="none">
+				</div>
+			</c:if>
 			<c:forEach var="fes" items="${searchList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>

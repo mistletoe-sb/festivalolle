@@ -151,7 +151,8 @@ $(document).ready(function(){
 					}else{	// 조회된 데이터가 없는 경우
 						var categoryContainer = '<div class="horizontal_container">';
 						categoryContainer += '<div class="horizontal_empty"></div>';
-						categoryContainer += '<div><h4>축제가 없습니다.</h4></div></div>';
+						//categoryContainer += '<div><h4>축제가 없습니다.</h4></div></div>';
+						categoryContainer += '<div class="no_result"><img src="' + root + '/resources/img/mobile/festival_none.png" alt="none"></div></div>';
 						$(item).after(categoryContainer);
 					}
 				},
