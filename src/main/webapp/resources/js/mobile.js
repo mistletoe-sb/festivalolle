@@ -571,7 +571,8 @@ function week_event(pageRoot){
 // 북마크 이미지 요소 생성
 function printBookmark(fesNum, item, pageRoot){
 	var appendHTML = '<div class="mybookmark bookmarkAction">';
-	appendHTML += '<img class="bookmark_img" src="' + pageRoot + '/resources/img/icon/bookmark_icon.png" alt="북마크">';
+	//appendHTML += '<img class="bookmark_img" src="' + pageRoot + '/resources/img/icon/bookmark_icon.png" alt="북마크">';
+	appendHTML += '<i class="fa-solid fa-heart bookmark_img"></i>';
 	appendHTML += '<input type="hidden" class="fes_code" value="' + fesNum + '">';
 	appendHTML += '</div>';
 	$(item).append(appendHTML);

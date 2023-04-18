@@ -1272,12 +1272,16 @@ textarea::placeholder, input::placeholder {
 
 /* 북마크 목록에 보이는 북마크 이미지 */
 .mybookmark {
+	display: flex;
 	position: absolute;
-	top: 2.5vmin;
-	right: 2.5vmin;
+	top: 1.5vmin;
+	right: 1.5vmin;
 	width: 8vmin;
 	height: 8vmin;
 	z-index: 1;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
 }
 .mybookmark img {
 	width: 100%;
