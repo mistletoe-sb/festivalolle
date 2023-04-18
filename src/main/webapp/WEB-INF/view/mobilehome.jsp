@@ -63,7 +63,7 @@
 		<div class="default_horizontal_layout">
 			<div class="category_title">
 				<div>
-					<h3>이 달의 축제</h3>
+					<h3>축제 NOW</h3>
 				</div>
 			</div>
 		</div>

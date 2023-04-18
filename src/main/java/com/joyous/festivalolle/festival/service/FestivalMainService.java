@@ -49,9 +49,10 @@ public class FestivalMainService implements IFestivalMainService {
 
 	// 기간 및 지역 선택하여 축제 리스트 정보 조회
 	@Override
-	public List<FestivalMainVO> selectFestivalScheduleList(String periodStart, String periodEnd, String location,
-														int lastFestivalCode, int perPage) {
-		return festivalMainRepository.selectFestivalScheduleList(periodStart, periodEnd, location, lastFestivalCode, perPage);
+	public List<FestivalMainVO> selectFestivalScheduleList(int status, String periodStart, String periodEnd,
+														String location, int lastFestivalCode, int perPage) {
+		return festivalMainRepository.selectFestivalScheduleList(status, periodStart, periodEnd,
+																location, lastFestivalCode, perPage);
 	}
 
 	// 해당 기간에 축제가 진행되는 지역 조회
