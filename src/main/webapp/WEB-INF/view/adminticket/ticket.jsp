@@ -19,12 +19,14 @@
                  <option value="name">이름</option>
                  <option value="mobile">전화번호</option>
                  </select>
+                 <input type="hidden" id="tableBoxInput" value="" />
                    </div>
                    <div style ="float:left;">
                    <div style ="float:left;">
                      <input type="text" class="form-control bg-light border-0 small" id="buyerKeyword" placeholder="검색"
                      aria-label="Search" aria-describedby="basic-addon2">
                    </div>
+                    <input type="hidden" id="searchInput" value="" />
                     <div class="input-group-append" style ="float:left;">
                       <button class="btn btn-primary" type="button" id="buyerSearch">
                       	<i class="fas fa-search fa-sm"></i>
@@ -37,6 +39,7 @@
          	</div> 
           	<div>
          	<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right"></select>
+         	<input type="hidden" id="titleListInput" value="" />
 			</div>
          	</nav>
           	
@@ -69,10 +72,19 @@
 					</tbody>
 				</table>
 			</div>
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+				   <nav aria-label='Page navigation example'>
+				   		<ul id="myPage" class='pagination'>
+				        <!-- 내용 추가 -->
+				      	</ul>
+				   </nav>
+				</div>
 			</div>
-			</div>
-			</div>
-			
+		</div>
+		</div>
+		</div>
+			<%@ include file="../adminfooter.jsp" %>
 <script type="text/javascript">
 
 document.addEventListener('keydown', function(event) {
@@ -83,35 +95,7 @@ document.addEventListener('keydown', function(event) {
 	});
 
  $(document).ready(function() {
- 	/* --- 검색 --- */ 
- 	$('#buyerSearch').on('click', function(){ 
- 	    var buyerKeyword = $('#buyerKeyword').val(); 
-	    var tableBox = $("#tableBox").val(); 
- 	    $("#contents").empty(); 
- 	    $.ajax({ 
- 	       url: "./search", 
- 	       type: "GET", 
- 	       data: {buyerKeyword : buyerKeyword, 
- 	          tableBox : tableBox}, 
- 	          dataType: "json", 
-	      	success : function(data) {
-	        $.each(data, function(index,ticketList) { //데이터의 각 항목에 대해 반복
-	          var row = $('<tr></tr>')
-	          row.append($('<td></td>').text(ticketList.id));
-	          row.append($('<td></td>').text(ticketList.name));
-	          row.append($('<td></td>').text(ticketList.mobile));
-	          row.append($('<td></td>').text(ticketList.purchaseTime));
-	          row.append($('<td></td>').text(ticketList.entranceTime));
-	          row.append($('<td></td>').text(ticketList.couponUseTime));
-	          row.append($('<td></td>').text(ticketList.title));
-	          $("#contents").append(row); //각 행을 $("#contents")에 추가
-	        });
-	      },
- 	       error:function(){ 
- 	    	  swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
- 	       }//end error    
- 	    }); 
- 	}); 
+	 
  	/* --- 연도별 타이틀 호출 --- */
 	$("#titleList").empty();
     var titleyear = $(this).val();
@@ -184,41 +168,101 @@ document.addEventListener('keydown', function(event) {
  	           }
  	       });
  	   });
-	    
- 	    /* --- 연도별 축제 선택시 구매자 출력 --- */
- 	    $('#titleList').change(function() {
- 	       $("#contents").empty();
- 	        var festivalCode = $(this).val();
- 	     // AJAX 호출
- 	        $.ajax({
- 	            url: './selectYearBuyer', // 서버에서 데이터를 가져올 경로
- 	            type: 'GET', // GET 방식으로 요청
- 	            data: { festivalCode: festivalCode }, // 서버로 보낼 데이터
- 	            dataType: "json",
- 	            success: function(data) {
- 	       	     $.each(data, function(index,ticketList) { //데이터의 각 항목에 대해 반복
- 	       	       var row = $('<tr></tr>')
- 	       	       row.append($('<td></td>').text(ticketList.id));
- 	       	       row.append($('<td></td>').text(ticketList.name));
- 	       	       row.append($('<td></td>').text(ticketList.mobile));
- 	       	       row.append($('<td></td>').text(ticketList.purchaseTime));
- 	       	       row.append($('<td></td>').text(ticketList.entranceTime));
- 	       	       row.append($('<td></td>').text(ticketList.couponUseTime));
- 	       	   	   row.append($('<td></td>').text(ticketList.title));
- 	       	       $("#contents").append(row); //각 행을 $("#contents")에 추가
- 	       	       });
- 	       	     },
- 	        	 error:function(){ 
- 	        		swal('출력오류!', "검색한 구매자목록을 불러오는데 실패했습니다.", 'error'); 
- 	        	 }
- 	        });
- 	    });
- 	});
 
+		/* --- 연도별 축제 선택시 축제 출력 --- */
+		$('#titleList').change(function() {
+			$('#tableBoxInput').val("");
+			$('#searchInput').val(""); 
+			$("#contents").empty();
+			$("#myPage").empty();
+		    var festivalCode = $(this).val();
+		    $("#titleListInput").val(festivalCode);
+		    getPage();
+		});
+
+		/* --- 구매자 검색 --- */
+		$("#buyerSearch").on('click', function(){
+		    var buyerKeyword = $("#buyerKeyword").val();
+		    var tableBox = $("#tableBox").val();
+		    $('#titleListInput').val("0");
+		    $("#contents").empty();
+		    $("#myPage").empty();
+		    $("#tableBoxInput").val(tableBox);
+		    $("#searchInput").val(buyerKeyword);
+		    getPage();
+		 });
+ 	    
+ 	//페이징 처리		
+	function getPage(nowPage) {
+	$("#contents").empty();
+	$("#myPage").empty();
+		var titleListInput = $('#titleListInput').val();
+		var tableBoxInput = $('#tableBoxInput').val();
+		var searchInput = $('#searchInput').val();
+		console.log(titleListInput);
+		console.log(tableBoxInput);
+		console.log(searchInput);
+		$.ajax({
+			url: "./ticketpaging",
+			type: "get",
+			data: {
+					nowPage : nowPage, 
+					titleListInput :titleListInput,
+					tableBoxInput :tableBoxInput,
+					searchInput :searchInput
+					},
+					success: function(data){	
+						console.log("페이징 처리 된 리스트 가져옴!");					
+		              	var startPage = data.startPage;
+		              	var cntPerPage = data.cntPerPage;
+		              	var endPage = data.endPage;
+		              	var nowPage = data.nowPage;
+		              	var lastPage = data.lastPage;
+		              	var viewAll = data.viewAll;
+		              	$.each(viewAll, function(index,item) { //데이터의 각 항목에 대해 반복
+		   	       	       var row = $('<tr></tr>')
+		   	       	       row.append($('<td></td>').text(item.id));
+		   	       	       row.append($('<td></td>').text(item.name));
+		   	       	       row.append($('<td></td>').text(item.mobile));
+		   	       	       row.append($('<td></td>').text(item.purchaseTime));
+		   	       	       row.append($('<td></td>').text(item.entranceTime));
+		   	       	       row.append($('<td></td>').text(item.couponUseTime));
+		   	       	   	   row.append($('<td></td>').text(item.title));
+		   	       	       $("#contents").append(row); //각 행을 $("#contents")에 추가
+		   	       	   }); 
+
+						if (startPage != 1){
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage'>&lt;</a></li>");
+						} 
+						if(nowPage != 1) {
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage' href='javascript:getPage(" + startPage + ")'>First</a></li>");
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage' href='javascript:getPage(" + (nowPage-1) + ")'> < </a></li>");
+						}
+						for (var num = startPage; num <= endPage; num++) {
+							if (num == nowPage) {
+								$("#myPage").append("<li class='page-item'><a class='page-link nowPage'><b>" + num + "</b></a></li>");
+							} else {
+								$("#myPage").append("<li class='page-item'><a class='page-link nowPage' href='javascript:getPage(" + num + ")'> "+ num + "</a></li>");		
+							}
+						}
+						if (nowPage != endPage) {
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage' href='javascript:getPage(" + (nowPage+1) + ")'> > </a></li>");
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage' href='javascript:getPage(" + endPage + ")'>End</a></li>");
+						}
+						if (endPage != lastPage) {
+							$("#myPage").append("<li class='page-item'><a class='page-link nowPage'>&gt;</a></li>");
+						}	
+					},//end success
+					error:function(){
+						swal('출력오류!', "검색한 리뷰목록을 불러오는데 실패했습니다.", 'error');
+					}//end error	
+				});			
+	 	}
+ });
 </script>
 
 
 
 
 
- <%@ include file="../adminfooter.jsp" %>
+ 
