@@ -79,7 +79,7 @@ public class NaverSENS2 {
 		}
 	 */
 	@SuppressWarnings("unchecked")
-	public void sendSMS(String tel, String rand) {
+	public void sendSMS(String tel, String numStr) {
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
@@ -106,7 +106,7 @@ public class NaverSENS2 {
 	    //bodyJson.put("countryCode","82");					// Optional, 국가 전화번호, (default: 82)
 	    bodyJson.put("from","01076133655");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
 	    //bodyJson.put("subject","");						// Optional, 기본 메시지 제목, LMS, MMS에서만 사용 가능
-	    bodyJson.put("content", "인증번호: " + rand);	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
+	    bodyJson.put("content", "[축제올래] 인증번호[" + numStr + "]를 입력해 주세요.");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 	    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
 	    
 	    //String body = bodyJson.toJSONString();

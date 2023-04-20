@@ -47,16 +47,61 @@
                                         <p class="mb-4">아래에 전화번호를 입력하세요.
                                             비밀번호를 재설정할 수 있는 링크를 보내드립니다!</p>
                                     </div>
-                                    <form class="user">
+                                    
+                                   <!--  <form class="user">
                                         <div class="form-group">
                                             <input class="form-control form-control-user"
                                                 id="telephone"
-                                                placeholder="전화번호를 입력하세요."/>
+                                                placeholder="전화번호를 입력하세요."/>                                       
                                         </div>
                                         <a id="sendMessage" class="btn btn-primary btn-user btn-block">
                                            비밀번호 재설정: 문자보내기
                                         </a>
-                                    </form>
+                                    </form> -->
+                                    
+                                    
+                                    
+                                    <form class="user">
+                                    
+	                                    <div class="form-group row">
+			                                    <div class="form-group">
+			                                        <input class="form-control form-control-user"
+			                                                id="telephone"
+			                                                placeholder="전화번호를 입력하세요"/>			                                    
+			                                    </div>
+			                                    <div class="col-sm-6">
+			                                        <a id="sendMessage" class="btn btn-primary btn-user btn-block">
+			                                           인증번호 받기
+			                                        </a>
+			                                    </div>		                                   		                                    
+	                                	</div> 
+	                                	<div class="form-group row">
+	                                	<div class="form-group">
+	                                            <input class="form-control form-control-user"
+	                                                id="telephone"
+	                                                placeholder="인증번호를 입력하세요"/>	                                        
+	                                    </div>
+	                                    	<div class="col-sm-6">
+	                                    	<a id="sendMessage" class="btn btn-primary btn-user btn-block">
+			                                           유효시간
+			                                        
+			                                	<span class="time"></span></a>
+			                                </div>
+	                                    
+                               	 		</div>
+                               	 	</form>
+                                
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <!-- <div>
+									  <span>타이머</span><span class="time"></span>
+									</div> -->
+
+
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="<c:url value='/admin/toregister'/>">새로운 계정을 만드세요!</a>
@@ -132,8 +177,142 @@
 															
 											
 		})//end function
+		
+		
+		
+		
+		var timer = null;
+		var isRunning = false;
+
+		$("#sendMessage").on("click", function() {
+		  var display = $(".time");
+		  // 유효시간 설정
+		  var leftSec = 120;
+
+		  // 버튼 클릭 시 시간 연장
+		  if (isRunning){
+		    clearInterval(timer);
+		    display.html("");
+		    startTimer(leftSec, display);
+		  }else{
+		  	startTimer(leftSec, display);
+		  }
+		});
+		    
+		function startTimer(count, display) {  
+		  var minutes, seconds;
+		  timer = setInterval(function () {
+		    minutes = parseInt(count / 60, 10);
+		    seconds = parseInt(count % 60, 10);
+
+		    minutes = minutes < 10 ? "0" + minutes : minutes;
+		    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+		    display.html(minutes + ":" + seconds);
+
+		    // 타이머 끝
+		    if (--count < 0) {
+		      clearInterval(timer);
+		      alert("시간초과");
+		      display.html("시간초과");
+		      $("button").attr("disabled", true);
+		      isRunning = false;
+		    }
+		  }, 1000);
+		  isRunning = true;
+		}
     
     </script>
+    <script>
+
+var timer = null;
+var isRunning = false;
+$(function(){
+
+	    $("#sendMessage").click(function(e){
+    	var display = $('.time');
+    	var leftSec = 180;
+    	// 남은 시간
+    	// 이미 타이머가 작동중이면 중지
+    	if (isRunning){
+    		clearInterval(timer);
+    		display.html("");
+    		startTimer(leftSec, display);
+    	}else{
+    	startTimer(leftSec, display);
+    		
+    	}
+    });
+})
+
+    
+function startTimer(count, display) {
+            
+    		var minutes, seconds;
+            timer = setInterval(function () {
+            minutes = parseInt(count / 60, 10);
+            seconds = parseInt(count % 60, 10);
+     
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+     
+            display.html(minutes + ":" + seconds);
+     
+            // 타이머 끝
+            if (--count < 0) {
+    	     clearInterval(timer);
+    	     alert("시간초과");
+    	     display.html("시간초과");
+    	     $('.btn_chk').attr("disabled","disabled");
+    	     isRunning = false;
+            }
+        }, 1000);
+             isRunning = true;
+}
+
+
+</script>
+
+<script>
+/*
+// 타이머 구현_daldal
+function $ComTimer(){
+    //prototype extend
+}
+
+$ComTimer.prototype = {
+    comSecond : ""
+    , fnCallback : function(){}
+    , timer : ""
+    , domId : ""
+    , fnTimer : function(){
+        var m = Math.floor(this.comSecond / 60) + ": " + (this.comSecond % 60);	// 남은 시간 계산
+        this.comSecond--;					// 1초씩 감소
+        console.log(m);
+        this.domId.innerText = m;
+        if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+            clearInterval(this.timer);		// 타이머 해제
+            alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.");
+            window.close();
+            window.opener.location = "/index.do"
+        }
+    }
+    ,fnStop : function(){
+        clearInterval(this.timer);
+    }
+}
+
+var AuthTimer = new $ComTimer()
+
+AuthTimer.comSecond = 180; // 제한 시간
+
+AuthTimer.fnCallback = function(){alert("다시인증을 시도해주세요.")}; // 제한 시간 만료 메세지
+
+AuthTimer.timer =  setInterval(function(){AuthTimer.fnTimer()},1000); 
+
+AuthTimer.domId = document.getElementById("timer"); 
+*/
+</script>
     
     
     

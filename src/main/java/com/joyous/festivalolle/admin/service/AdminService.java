@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.joyous.festivalolle.admin.controller.NaverSENS;
+import com.joyous.festivalolle.admin.controller.NaverSENSXXX;
 import com.joyous.festivalolle.admin.controller.NaverSENS2;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.admin.model.PagingVO;
@@ -83,8 +83,7 @@ public class AdminService implements IAdminService {
 		return adminRepository.overlapChk(adminVO);
 	}
 
-	
-	
+		
 	//난수 생성
 	public String sendRandomMessage(String tel) {
 	    NaverSENS2 sens = new NaverSENS2();
@@ -101,16 +100,12 @@ public class AdminService implements IAdminService {
 	    return numStr;
 	}
 	
-	//시스템 관리자 adminlist 전체 수(Pagination)	
-	//@Override 
-	//public List<AdminVO> getList(AdminVO searchVO) { return
-	//adminRepository.getList(searchVO); }
-	 
+	public int insertVerifNum(String tel, String numStr) {
+		return adminRepository.insertVerifNum(tel, numStr);
+	}
+	
+	
 
-	/*@Override
-	public int getListCnt(AdminVO searchVO) {
-		return adminRepository.getListCnt(searchVO);
-	}*/
 	
 	// adminlist 전체 수 총 갯수
 	public int countBoard(String keyword) {
@@ -118,9 +113,6 @@ public class AdminService implements IAdminService {
 	}
 
 	// 페이징 처리 게시글 조회
-	//public List<AdminVO> selectBoard(PagingVO vo){
-	//	return adminRepository.selectBoard(vo);
-	//}
 	public List<AdminVO> selectBoard(Map<String,Object> map) {
 		return adminRepository.selectBoard(map);
 		

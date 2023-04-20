@@ -17,7 +17,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 @Component
-public class QrCodeView implements AbstractView {
+public class QrCodeViewXXX implements AbstractView {
 
 	@Override
 	public DocumentView getDocument() {
