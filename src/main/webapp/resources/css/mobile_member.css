@@ -24,49 +24,60 @@
   text-decoration: underline;
 }
 
-.myticket {
-	display: inline-block;
-	width: 100%;
-	text-align: left;
-}
-
-.qrdesc {
-	width: 54%;
-	float: left;
-}
-
-.qr-container {
-	width: 45%;
-	height: 100%;
-	float: left;
-	text-align: center;
-}
-
-.qr {
-	width: 100%;
-	height: 100%;
-}
-
+/* QR 인식용 입장권 카드(세로 form) 스타일 */
 .myticket_form {
 	width: 100vmin;
-	height: 80vmax;
-	padding-top: 3vmax;
-	padding-bottom: 6vmax;
-	margin: 2.7vmax 0vmin;
+	height: 84vmax;
+	padding-top: 1vmax;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
 	display: flex;
-	/* box-shadow: 0vw 0.15625rem 0.125rem 0vw #0000001A; */
 }
-
 .myticket-content {
-	
+	padding-bottom: 0vmin !important;
+	box-shadow: 0rem 0.225rem 0.225rem #00000016 !important;
+}
+.myticket {
+	width: 100%;
+	text-align: left;
+}
+.ticket_title {
+	border-bottom: 0.084rem solid #E0E0E0;
+	padding-bottom: 0.9375rem;
+}
+.qr-content {
+	display: flex;
+	height: 17vmax;
+	align-items: center;
+	justify-content: space-between;
+}
+.qrdesc {
+	width: 54%;
+}
+.qr-container {
+	display: flex;
+	width: 46%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+.qrResult {
+	width: 100%;
+	height: 100%;
+}
+.qr {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
-.qr-content {
-	height: 15vmax;
-}	
+
+
+
+
+
 
 
 

@@ -268,7 +268,7 @@
 				<img src="<c:url value='/resources/img/icon/back.png'/>" alt="close">
 			</div>
 			<div class="ticket_modal_body">
-				<form id="ticketInsert" action="<c:url value='/ticket/insert'/>" method="post">
+				<form id="ticketInsert" action="<c:url value='/ticket/insert/${fesInfo[0].status}'/>" method="post">
 					<div class="modal_body_content">
 						<div class="modal_body_content_title">입장인원</div>
 						<div class="modal_body_content_main">

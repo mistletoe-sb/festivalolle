@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -80,6 +81,11 @@
 		</div>
 		<%-- 축제 목록 출력할 레이아웃(2xN) --%>
 		<div class="default_list_2x_layout">
+			<c:if test="${fn:length(defaultList) == 0}">
+				<div class="no_result">
+					<img src="<c:url value='/resources/img/mobile/festival_none.png'/>" alt="none">
+				</div>
+			</c:if>
 			<c:forEach var="fes" items="${defaultList}" varStatus="stat">
 				<%@ include file="festivalcard.jsp"%>
 			</c:forEach>
