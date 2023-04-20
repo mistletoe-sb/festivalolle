@@ -381,7 +381,7 @@ public class FestivalMainController {
 		// 1~9월의 경우
 		if(month >= 1 && month <= 9) {
 			return today.getYear() + "-0" + month;
-		} else if(month == 13) {	// 10~12월의 경우
+		} else if(month >=10 && month <= 12) {	// 10~12월의 경우
 			return today.getYear() + "-" + month;
 		} else if(month == 13) {	// 이듬해 1월의 경우
 			return (today.getYear() + 1) + "-0" + (month - 12);
@@ -415,6 +415,7 @@ public class FestivalMainController {
 		LocalDate[] data = new LocalDate[2];
 		data[0] = startDayOfMonth;
 		data[1] = endDayOfMonth;
+		//logger.info("월 시작, 종료일:" + startDayOfMonth + "/" + endDayOfMonth);
 		return data;
 	}
 	
@@ -442,7 +443,7 @@ public class FestivalMainController {
 			int currentSize = startDateOfWeekList.size();	// 현재 리스트 사이즈
 			LocalDate startDayOfNextWeek = startDateOfWeekList.get(currentSize - 1).plusWeeks(1);	// 다음 주차의 시작일
 			// 시작일이 현재 월에 포함될 경우 리스트에 추가
-			if(startDayOfNextWeek.getMonthValue() == month) {
+			if(startDayOfNextWeek.getMonthValue() == startDayOfFirstWeek.getMonthValue()) {
 				startDateOfWeekList.add(startDayOfNextWeek);
 			} else {
 				isCurrentMonth = false;		// 반복문 종료 조건
@@ -460,6 +461,7 @@ public class FestivalMainController {
 				weekOfMonth[i][1] = endDayOfLastWeek;								// 마지막 주차의 종료일				
 			}
 		}
+		//logger.info("count of week:" + week);
 		return weekOfMonth;
 	}
 	

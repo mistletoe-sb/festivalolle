@@ -220,10 +220,16 @@ $(document).ready(function(){
 						});
 					}
 					$('.default_list_2x_layout').empty();
-					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, root));
-						imageLoad(item.festivalCode, root);
-					});
+					if(fesList.length == 0){
+						var appendHTML = '<div class="no_result">';
+						appendHTML += '<img src="' + root + '/resources/img/mobile/festival_none.png" alt="none"></div>';
+						$('.default_list_2x_layout').append(appendHTML);
+					}else{
+						$.each(fesList, function(index, item){
+							$('.default_list_2x_layout').append(printFestivalCard(item, root));
+							imageLoad(item.festivalCode, root);
+						});
+					}
 					// 이벤트 바인딩
 					week_event(root);
 				},
@@ -254,10 +260,16 @@ $(document).ready(function(){
 					var fesList = data.fesList;					// 축제 목록
 					//var fesImages = data.fesImages;				// 축제 이미지 목록
 					$('.default_list_2x_layout').empty();
-					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, root));
-						imageLoad(item.festivalCode, root);
-					});
+					if(fesList.length == 0){
+						var appendHTML = '<div class="no_result">';
+						appendHTML += '<img src="' + root + '/resources/img/mobile/festival_none.png" alt="none"></div>';
+						$('.default_list_2x_layout').append(appendHTML);
+					}else{
+						$.each(fesList, function(index, item){
+							$('.default_list_2x_layout').append(printFestivalCard(item, root));
+							imageLoad(item.festivalCode, root);
+						});
+					}
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -340,20 +352,34 @@ $(document).ready(function(){
 		// 입장권 생성
 		$('#ticket_submit').on('click', function(){
 			var inputValue = $('#headCount').val();	// 입력된 값
-			if(inputValue != ''){
-				var inputNum = parseInt(inputValue);
-				if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 submit
-					$('#ticketInsert').submit();
-					//closeModal();
+			var status = $('#fes_status>button').attr('id').replace('fesStat_','');
+			//console.log(status);
+			if(status == 0){
+				swal({text: "비공개 처리된 축제입니다.\n구매를 취소하고, 홈화면으로 이동합니다.", icon: "warning", button: "확인"})
+				.then(function(){
+					location.replace(root + '/home');
+				});
+			}else if(status == 3){
+				swal({text: "이미 종료된 축제입니다.", icon: "warning", button: "확인"})
+				.then(function(){
+					closeModal();
+					$('html').animate({scrollTop : 0}, 0);
+				});
+			}else if(status == 1 || status == 2){
+				if(inputValue != ''){
+					var inputNum = parseInt(inputValue);
+					if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 submit
+						$('#ticketInsert').submit();
+					}else{
+						$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
+						$('#headCount').focus();
+					}
 				}else{
 					$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
 					$('#headCount').focus();
-				}
-			}else{
-				$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
-				$('#headCount').focus();
+				}				
 			}
-		});		
+		});
 	}
 	
 	// id가 my_review인 요소가 존재할 경우 동작
@@ -573,11 +599,17 @@ function week_event(pageRoot){
 					var fesList = data.fesList;					// 축제 목록
 					//var fesImages = data.fesImages;				// 축제 이미지 목록
 					$('.default_list_2x_layout').empty();
-					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, pageRoot));
-						imageLoad(item.festivalCode, pageRoot);
-						//console.log(item.festivalCode);
-					});
+					if(fesList.length == 0){
+						var appendHTML = '<div class="no_result">';
+						appendHTML += '<img src="' + pageRoot + '/resources/img/mobile/festival_none.png" alt="none"></div>';
+						$('.default_list_2x_layout').append(appendHTML);
+					}else{
+						$.each(fesList, function(index, item){
+							$('.default_list_2x_layout').append(printFestivalCard(item, pageRoot));
+							imageLoad(item.festivalCode, pageRoot);
+							//console.log(item.festivalCode);
+						});
+					}
 					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){

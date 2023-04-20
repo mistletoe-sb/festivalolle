@@ -1289,7 +1289,8 @@ textarea::placeholder, input::placeholder {
 	background-color: #F15600;
 }
 #select_month {
-	width: 13vmin;
+	min-width: 13vmin;
+	max-width: 15vmin;
 	text-align-last: center;	/* 글자 가운데 정렬 */
 }
 #select_location {
