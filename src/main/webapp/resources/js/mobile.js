@@ -65,6 +65,13 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$('#searchSubmit').on('click', function(e){
+		e.preventDefault();
+		console.log('empty keyword');
+		if($.trim($('.search_input[name="keyword"]').val()) != ''){
+			$('#searchForm').submit();
+		}
+	});
 	// top메뉴 뒤로가기 버튼 이벤트 및 bottom 메뉴 클릭 효과 설정
 	var isDefaultBack = true;
 	switch(pageTitle){
@@ -106,7 +113,7 @@ $(document).ready(function(){
 	week_event(root);
 	
 	// 이미지 로드
-	imageLoad(root);
+	initImageLoad(root);
 	
 	// 메인 화면 카테고리별 축제 목록 출력(Ajax 요청)
 	if($('.default_horizontal_layout>.category_title').length){
@@ -124,7 +131,7 @@ $(document).ready(function(){
 				success: function(data){
 					// 응답 데이터 분류
 					var fesList = data.fesList;		// 축제 목록
-					var fesImages = data.fesImages;	// 축제 이미지 목록
+					//var fesImages = data.fesImages;	// 축제 이미지 목록
 					if(data.dataStatus == 'NORMAL_TRUE'){	// 조회된 데이터가 있는 경우
 						// 전체보기 클릭 시 이동할 URL(onclick 속성값)
 						var onClickAttr = "location.href='" + root + '/festival/list?category=' + category + '&title=' + $(item).children().children('h3').text() + "'";
@@ -139,7 +146,7 @@ $(document).ready(function(){
 						categoryContainer += '<div class="horizontal_empty"></div>';
 						// 축제 목록
 						$.each(fesList, function(i, fes){
-							categoryContainer += printFestivalCard(fes, fesImages[i], root);
+							categoryContainer += printFestivalCard(fes, root);
 						});
 						categoryContainer += '<div class="goto_list horizontal_goto" onclick="' + onClickAttr + '">';
 						categoryContainer += '<div class="icon_layout black_circle">';
@@ -155,6 +162,9 @@ $(document).ready(function(){
 						categoryContainer += '<div class="no_result"><img src="' + root + '/resources/img/mobile/festival_none.png" alt="none"></div></div>';
 						$(item).after(categoryContainer);
 					}
+					$.each(fesList, function(indexValue, fes){
+						imageLoad(fes.festivalCode, root);
+					});
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -185,7 +195,7 @@ $(document).ready(function(){
 					var weekData = data.weekData;				// 주차 정보(주차 시작일, 종료일 >> LocalDate[][])
 					var locationList = data.locationList;		// 선택한 월에 축제가 있는 지역 목록
 					var fesList = data.fesList;					// 축제 목록
-					var fesImages = data.fesImages;				// 축제 이미지 목록
+					//var fesImages = data.fesImages;				// 축제 이미지 목록
 					if(locationList != null){
 						// 데이터 출력할 요소 비우기
 						$('#week_menu').empty();
@@ -211,7 +221,8 @@ $(document).ready(function(){
 					}
 					$('.default_list_2x_layout').empty();
 					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], root));
+						$('.default_list_2x_layout').append(printFestivalCard(item, root));
+						imageLoad(item.festivalCode, root);
 					});
 					// 이벤트 바인딩
 					week_event(root);
@@ -241,10 +252,11 @@ $(document).ready(function(){
 				success: function(data){
 					// 응답 데이터 분류
 					var fesList = data.fesList;					// 축제 목록
-					var fesImages = data.fesImages;				// 축제 이미지 목록
+					//var fesImages = data.fesImages;				// 축제 이미지 목록
 					$('.default_list_2x_layout').empty();
 					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], root));
+						$('.default_list_2x_layout').append(printFestivalCard(item, root));
+						imageLoad(item.festivalCode, root);
 					});
 				},
 				error: function(){
@@ -455,9 +467,10 @@ $(document).ready(function(){
 								var dataClass = data.dataClass;
 								if(dataClass == 'festival'){		// 응답 데이터가 축제 목록일 경우
 									var fes = data.fesList;
-									var fesImages = data.fesImages;
+									//var fesImages = data.fesImages;
 									$.each(fes, function(index, item){
-										appendPoint.append(printFestivalCard(item, fesImages[index], root));
+										appendPoint.append(printFestivalCard(item, root));
+										imageLoad(item.festivalCode, root);
 										//console.log(item.festivalCode);
 										if(data.dataOption == 'bookmark'){	// 옵션이 북마크인 경우
 											var fesCard = $('.festival_card_container').last();
@@ -558,10 +571,11 @@ function week_event(pageRoot){
 				success: function(data){
 					// 응답 데이터 분류
 					var fesList = data.fesList;					// 축제 목록
-					var fesImages = data.fesImages;				// 축제 이미지 목록
+					//var fesImages = data.fesImages;				// 축제 이미지 목록
 					$('.default_list_2x_layout').empty();
 					$.each(fesList, function(index, item){
-						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], pageRoot));
+						$('.default_list_2x_layout').append(printFestivalCard(item, pageRoot));
+						imageLoad(item.festivalCode, pageRoot);
 						//console.log(item.festivalCode);
 					});
 					$('html').animate({scrollTop : 0}, 0);
@@ -587,17 +601,18 @@ function printBookmark(fesNum, item, pageRoot){
 }
 
 // 카드 형식(세로) 축제 정보 레이아웃 요소 생성
-function printFestivalCard(fes, img, pageRoot){
+function printFestivalCard(fes, pageRoot){
 	var appendHTML = '<div class="festival_card_container" onclick="location.href=';
 	appendHTML += "'" + pageRoot + '/festival/info?festivalCode=' + fes.festivalCode + "'" + '">';
 	appendHTML += '<input type="hidden" class="festival_code" value="' + fes.festivalCode + '">';
 	appendHTML += '<div class="card">';
 	appendHTML += '<div class="ratio">';
-	if(img != null){
+	/*if(img != null){
 		appendHTML += '<img src="data:image:jpg;base64,' + img + '" class="card-img-top" alt="' + fes.festivalCode + '">';
 	}else{
 		appendHTML += '<img src="' + pageRoot + '/resources/img/festest3.jpg" class="card-img-top" alt="no image">';
-	}
+	}*/
+	appendHTML += '<img src="' + pageRoot + '/resources/img/mobile/empty_image.png" class="card-img-top" alt="' + fes.festivalCode + '">';
 	appendHTML += '</div>';
 	appendHTML += '<div class="card-body">';
 	appendHTML += '<div class="festival_title">';
@@ -620,7 +635,7 @@ function printFestivalCard(fes, img, pageRoot){
 }
 
 // 주차 별 축제 일정 정보 레이아웃 요소 생성
-function printCalendar(month, weekData, weekDataImages, pageRoot){
+/*function printCalendar(month, weekData, weekDataImages, pageRoot){
 	var appendHTML = '';
 	$.each(weekData, function(index, item){
 		var images = weekDataImages[index];
@@ -643,7 +658,7 @@ function printCalendar(month, weekData, weekDataImages, pageRoot){
 		appendHTML += '</div>';
 	});
 	return appendHTML;
-}
+}*/
 
 // 북마크 여부 확인 요청
 function requestCheckBookmark(festivalCode, pageRoot){
@@ -1231,32 +1246,38 @@ function endLoading(){
 	$('.loading_img').attr('hidden', true);
 }
 
-function imageLoad(pageRoot){
+// 이미지 파일 Ajax 요청
+function imageLoad(festivalCode, pageRoot){
+	//console.log(festivalCode);
+	// AJAX 호출
+	$.ajax({
+		url: pageRoot + '/image',	// 요청 URL
+		type: 'GET',				// GET 방식으로 요청
+		data: {festivalCode: festivalCode},
+		dataType: 'text',
+		success: function(data){
+			var imageSelector = 'img[alt="' + festivalCode + '"]';
+			if(data != ''){
+				$(imageSelector).attr('src', data);
+			}else{
+				$(imageSelector).attr('src', pageRoot + '/resources/img/no_image.png');
+			}
+		},
+		error: function(){
+			// AJAX 요청이 실패한 경우 에러 처리
+			console.log('데이터를 불러오는데 실패했습니다.');
+		}
+	});
+}
+
+function initImageLoad(pageRoot){
 	//console.log('img load + ' + $('.festival_card_container .card-img-top, .recommend_img').length);
 	if($('.festival_card_container .card-img-top, .recommend_img').length){
 		var images = $('.card-img-top, .recommend_img');
 		// 각 요소 별 이미지 로드
 		$.each(images, function(index, item){
 			var festivalCode = $(item).attr('alt');
-			//console.log(festivalCode);
-			// AJAX 호출
-			$.ajax({
-				url: pageRoot + '/image',	// 요청 URL
-				type: 'GET',				// GET 방식으로 요청
-				data: {festivalCode: festivalCode},
-				dataType: 'text',
-				success: function(data){
-					if(data != ''){
-						$(item).attr('src', data);
-					}else{
-						$(item).attr('src', pageRoot + '/resources/img/festest3.jpg');
-					}
-				},
-				error: function(){
-					// AJAX 요청이 실패한 경우 에러 처리
-					console.log('데이터를 불러오는데 실패했습니다.');
-				}
-			});
+			imageLoad(festivalCode, pageRoot);
 		});
 	}
 }

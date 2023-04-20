@@ -67,12 +67,12 @@ public class FestivalMainController {
 		Map<String, Object> responseData = new HashMap<String, Object>();
 		// 목록이 비어있지 않으면 이미지 추출
 		if(defaultList != null && defaultList.size() != 0) {
-			List<byte[]> images = new ArrayList<byte[]>();
-			for(FestivalMainVO vo : defaultList) {
-				images.add(vo.getImage());
-			}
+//			List<byte[]> images = new ArrayList<byte[]>();
+//			for(FestivalMainVO vo : defaultList) {
+//				images.add(vo.getImage());
+//			}
 			responseData.put("fesList", defaultList);
-			responseData.put("fesImages", convertByteArrayToString(images));
+//			responseData.put("fesImages", convertByteArrayToString(images));
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
 		} else {
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
@@ -137,12 +137,12 @@ public class FestivalMainController {
 		}
 		// 목록이 비어있지 않으면 이미지 추출
 		if(festivalMainVOList != null && festivalMainVOList.size() != 0) {
-			List<byte[]> images = new ArrayList<byte[]>();
-			for(FestivalMainVO vo : festivalMainVOList) {
-				images.add(vo.getImage());
-			}
+//			List<byte[]> images = new ArrayList<byte[]>();
+//			for(FestivalMainVO vo : festivalMainVOList) {
+//				images.add(vo.getImage());
+//			}
 			responseData.put("fesList", festivalMainVOList);
-			responseData.put("fesImages", convertByteArrayToString(images));
+//			responseData.put("fesImages", convertByteArrayToString(images));
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
 		} else {
 			responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
@@ -166,12 +166,12 @@ public class FestivalMainController {
 			festivalMainVOList = festivalMainService.selectBookmarkList(loginUser.getMemberCode(), lastBookmarkCode, PageValue.PER_PAGE);
 			// 목록이 비어있지 않으면 이미지 추출
 			if(festivalMainVOList != null && festivalMainVOList.size() != 0) {
-				List<byte[]> images = new ArrayList<byte[]>();
-				for(FestivalMainVO vo : festivalMainVOList) {
-					images.add(vo.getImage());
-				}
+//				List<byte[]> images = new ArrayList<byte[]>();
+//				for(FestivalMainVO vo : festivalMainVOList) {
+//					images.add(vo.getImage());
+//				}
 				responseData.put("fesList", festivalMainVOList);
-				responseData.put("fesImages", convertByteArrayToString(images));
+//				responseData.put("fesImages", convertByteArrayToString(images));
 				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_TRUE);
 			} else {
 				responseData.put("dataStatus", AjaxResponseStatus.NORMAL_FALSE);
@@ -268,12 +268,12 @@ public class FestivalMainController {
 																				periodStart, periodEnd,
 																				location, 0, PageValue.PER_PAGE);
 		}
-		List<byte[]> images = new ArrayList<byte[]>();
-		for(FestivalMainVO vo : festivalMainVOList) {
-			images.add(vo.getImage());
-		}
+//		List<byte[]> images = new ArrayList<byte[]>();
+//		for(FestivalMainVO vo : festivalMainVOList) {
+//			images.add(vo.getImage());
+//		}
 		responseData.put("fesList", festivalMainVOList);
-		responseData.put("fesImages", convertByteArrayToString(images));
+//		responseData.put("fesImages", convertByteArrayToString(images));
 		return responseData;
 	}
 	
@@ -464,6 +464,7 @@ public class FestivalMainController {
 	}
 	
 	// 주차(week)별 축제 정보 추출
+	/*
 	public Map<Integer, List<FestivalMainVO>> getFestivalListEachWeek(List<FestivalMainVO> festivalMainVOList
 			, int month) {
 		// 선택한 달의 주차별 시작 및 종료일을 계산한 배열 획득
@@ -490,8 +491,10 @@ public class FestivalMainController {
 		}
 		return festivalListEachWeek;
 	}
+	*/
 	
 	// 주어진 기간 내에서 진행 중인 축제인지 판별하는 메서드
+	/*
 	public boolean checkInProgress(LocalDate[] festivalPeriod, LocalDate[] setPeriod) {
 		LocalDate setStart = setPeriod[0];					// 기간 시작일
 		LocalDate setEnd = setPeriod[1];					// 기간 종료일
@@ -505,6 +508,7 @@ public class FestivalMainController {
 			return false;
 		}
 	}
+	*/
 	
 	// 이미지 binary 배열을 string으로 변환하는 메서드(이미지가 여러 개인 경우를 고려하여 결과값을 String[]으로 반환)(util로 이동 고려)
 	public String[] convertByteArrayToString(List<byte[]> imageList) {
@@ -519,6 +523,7 @@ public class FestivalMainController {
 		return imageDataArray;
 	}
 	// 이미지 binary 데이터 변환(오버로딩)
+	/*
 	public Map<Integer, String[]> convertByteArrayToString(Map<Integer, List<byte[]>> imageList) {
 		Map<Integer, String[]> imageDataMap = new HashMap<Integer, String[]>();
 		for(Integer key : imageList.keySet()) {
@@ -535,8 +540,10 @@ public class FestivalMainController {
 		}
 		return imageDataMap;
 	}
+	*/
 	
 	// 주차 별 축제 이미지 binary 데이터 목록 추출
+	/*
 	public Map<Integer, List<byte[]>> getImageBinaryDataList(Map<Integer, List<FestivalMainVO>> weekData) {
 		// 주차 별 축제 이미지 목록 추출
 		Map<Integer, List<byte[]>> weekDataImages = new HashMap<Integer, List<byte[]>>();
@@ -549,4 +556,5 @@ public class FestivalMainController {
 		}
 		return weekDataImages;
 	}
+	*/
 }
