@@ -21,8 +21,8 @@ public class TicketService implements ITicketService {
 	}
 
 	@Override
-	public int totalBuyerCount(String titleListInput, String tableBoxInput, String buyerKeyword) {
-		return ticketRepository.totalBuyerCount(titleListInput, tableBoxInput, buyerKeyword); //구매자 목록의 행 수;
+	public int countBuyer(int organizationCode, int titleListInput, String tableBoxInput, String searchInput) {
+		return ticketRepository.countBuyer(organizationCode,titleListInput, tableBoxInput, searchInput); //구매자 목록의 행 수;
 	}
 
 

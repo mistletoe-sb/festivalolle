@@ -10,7 +10,7 @@ import com.joyous.festivalolle.festivalReview.model.V_ReviewListVO;
 
 public interface IFestivalReviewService {
 	
-	int totalFestivalReviewCount(int organizationCode, String radioInput, String titleListInput, String tableBoxInput, String reviewKeyword);  //축제리뷰 목록 출력
+	int countFestivalReview(int organizationCode, int radioInput, int titleListInput, String tableBoxInput, String searchInput);  //축제리뷰 목록 출력
 	List<V_ReviewListVO> selectBoard(Map<String,Object> map);			//페이징
 	List<V_ReviewListVO> festivalReviewList(V_ReviewListVO reviewVO); 	//축제리뷰 목록 출력	
 	V_ReviewListVO selectReview(int festivalReviewCode);				//특정 리뷰의 상세정보 출력-축제리뷰코드 기준 select

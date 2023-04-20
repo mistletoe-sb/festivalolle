@@ -13,7 +13,7 @@
 		<choose>
 			<when test='festivalCode != 0'>
 				WHERE ORGANIZATION_CODE = #{organizationCode}
-				 AND FESTIVAL_CODE = #{festivalCode}
+				AND FESTIVAL_CODE = #{festivalCode}
 			</when>
 			<otherwise>
 			    WHERE ORGANIZATION_CODE = #{organizationCode}
@@ -23,18 +23,29 @@
 	</select>
 	
 	<!-- 축제 리뷰 리스트 전체 수  -->
-	<select id="totalFestivalReviewCount" parameterType="int" resultType="int"> 
+	<select id="countFestivalReview" resultType="int"> 
 		<![CDATA[
-			SELECT * count FROM V_REVIEW_LIST 
-			WHERE organization_code = #{organizationCode}
+			SELECT count(*) FROM V_REVIEW_LIST 
+			WHERE organization_code = #{organizationCode} 
 		]]>
-		<if test= "reviewKeyword != null">
-			<![CDATA[
-				AND id LIKE '%'|| #{reviewKeyword} || '%'
-				OR content LIKE '%'|| #{reviewKeyword} || '%'
-				OR title LIKE '%'|| #{reviewKeyword} || '%'
-			]]>
-		</if>
+		<choose>
+		<when test="tableBoxInput == 'id'">
+			<![CDATA[AND id LIKE '%'|| #{searchInput} || '%']]>
+		</when>
+		<when test="tableBoxInput == 'content'">
+			<![CDATA[AND content LIKE '%'|| #{searchInput} || '%']]>
+		</when>
+		<when test="tableBoxInput == 'title'">
+			<![CDATA[AND title LIKE '%'|| #{searchInput} || '%']]>
+		</when>
+		<when test="titleListInput != ''">
+			<![CDATA[AND festival_code = #{titleListInput}]]>
+		</when>
+		<when test="radioInput != ''">
+			<![CDATA[AND status = #{radioInput}]]>
+		</when>
+		</choose>
+		<![CDATA[ORDER BY write_date DESC]]>	
 	</select>
 
 	<!-- 특정 1개의 축제 리뷰 - review_code 기준 -->
@@ -63,8 +74,8 @@
 		<!-- 리뷰 검색: 아이디, 내용, 축제명으로 검색  -->
 	<select id="searchReview" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[
-			SELECT * FROM V_REVIEW_LIST
-				WHERE organization_code = #{organizationCode}
+			SELECT * FROM V_REVIEW_LIST 
+				WHERE organization_code = #{organizationCode} 
 		]]>
 			<choose>
 				<when test="tableBox == 'id'">
@@ -106,33 +117,31 @@
 	<!-- 페이징 -->	
 	<select id="selectBoard" parameterType="Map" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
 		<![CDATA[	
-		SELECT * FROM 
-			(SELECT ROWNUM RN, A.* 
-			FROM 
-				(SELECT * 
-		        FROM V_REVIEW_LIST
-		        WHERE organization_code = #{organizationCode}
+		SELECT * FROM (
+			SELECT ROWNUM RN, A.* 
+			FROM ( 
+				SELECT * 
+		        FROM V_REVIEW_LIST 
+		        WHERE organization_code = #{organizationCode} 
 		 ]]>
 		<choose>
-			<when test="tableBox == 'id'">
-				<![CDATA[AND id LIKE '%'|| #{reviewKeyword} || '%']]>
+			<when test="tableBoxInput == 'id'">
+				<![CDATA[AND id LIKE '%'|| #{searchInput} || '%']]>
 			</when>
-			<when test="tableBox == 'content'">
-				<![CDATA[AND content LIKE '%'|| #{reviewKeyword} || '%']]>
+			<when test="tableBoxInput == 'content'">
+				<![CDATA[AND content LIKE '%'|| #{searchInput} || '%']]>
 			</when>
-			<when test="tableBox == 'title'">
-				<![CDATA[AND title LIKE '%'|| #{reviewKeyword} || '%']]>
+			<when test="tableBoxInput == 'title'">
+				<![CDATA[AND title LIKE '%'|| #{searchInput} || '%']]>
 			</when>
 			<when test="radioInput != ''">
-				<![CDATA[and status = #{radioInput}]]>
+				<![CDATA[AND status = #{radioInput}]]>
 			</when>
 			<when test="titleListInput != ''">
-				<![CDATA[and festival_code = #{buyerKeyword}]]>
+				<![CDATA[AND festival_code = #{titleListInput}]]>
 			</when>
 		</choose>
-		<![CDATA[
-			ORDER BY register_date DESC) A)WHERE RN BETWEEN #{start} AND #{end}
-		]]>
+		<![CDATA[ORDER BY write_date DESC)A)WHERE RN BETWEEN #{start} AND #{end}]]>
 	</select>	
 </mapper>
 	

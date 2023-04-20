@@ -14,9 +14,9 @@ public interface IFestivalReviewRepository {
 	
 	List<V_ReviewListVO> selectBoard(Map<String,Object> map); 			//페이징
 	List<V_ReviewListVO> festivalReviewList(V_ReviewListVO reviewVO); 	//축제리뷰 목록 출력
-	int totalFestivalReviewCount(
-			@Param("organizationCode") int organizationCode, @Param("radioInput") String radioInput, 
-			@Param("titleListInput") String titleListInput, @Param("tableBoxInput") String tableBoxInput, @Param("reviewKeyword") String reviewKeyword); //축제리뷰 목록 행 수
+	int countFestivalReview(
+			@Param("organizationCode") int organizationCode, @Param("radioInput") int radioInput, 
+			@Param("titleListInput") int titleListInput, @Param("tableBoxInput") String tableBoxInput, @Param("searchInput") String searchInput); //축제리뷰 목록 행 수
 	V_ReviewListVO selectReview(int festivalReviewCode);				//특정 리뷰의 상세정보 출력-축제리뷰코드 기준 select
 	List<V_ReviewListVO> selectReport(V_ReviewListVO reviewVO);			//신고된 리뷰 출력-리뷰상태 1 select
 	List<V_ReviewListVO> searchReview(

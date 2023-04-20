@@ -25,18 +25,26 @@
 	</select>
 	
 	<!-- 구매자 리스트 전체 수  -->
-	<select id="totalBuyerCount" parameterType="String" resultType="int"> 
+	<select id="countBuyer" resultType="int"> 
 		<![CDATA[
-			SELECT * count FROM  v_ticket_buyer_list 
+			SELECT count(*) FROM  v_ticket_buyer_list 
 			WHERE organization_code = #{organizationCode}
 		]]>
-		<if test= "buyerKeyword != null">
-			<![CDATA[
-				AND id LIKE '%'|| #{buyerKeyword} || '%'
-				OR name LIKE '%'|| #{buyerKeyword} || '%'
-				OR mobile LIKE '%'|| #{buyerKeyword} || '%'
-			]]>
-		</if>
+		<choose>
+			<when test="tableBoxInput == 'title'">
+				<![CDATA[ AND id LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="tableBoxInput == 'name'">
+				<![CDATA[ AND name LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="tableBoxInput == 'mobile'">
+				<![CDATA[ AND mobile LIKE '%'|| #{searchInput} || '%']]>
+			</when>
+			<when test="titleListInput != ''">
+				<![CDATA[and festival_code = #{titleListInput}]]>
+			</when>
+		</choose>
+			<![CDATA[ORDER BY purchase_time DESC]]>
 	</select>
 	
 	<!-- 구매자 검색: 아이디, 이름, 휴대폰번호로 검색  -->
@@ -45,7 +53,7 @@
 				SELECT ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
 				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
 				FROM V_TICKET_BUYER_LIST
-				WHERE organization_code = #{organizationCode}
+				WHERE organization_code = #{organizationCode} 
 		]]>
 			<choose>
 				<when test="tableBox == 'id'">
@@ -91,29 +99,30 @@
 	<!-- 페이징 -->	
 	<select id="selectBoard" parameterType="Map" resultType="com.joyous.festivalolle.ticket.model.V_ticketBuyerListVO">
 		<![CDATA[	
-		SELECT * FROM 
-			(SELECT ROWNUM RN, A.* 
-			FROM 
-				(SELECT * 
-		        FROM V_TICKET_BUYER_LIST
+		SELECT * FROM ( 
+			SELECT ROWNUM RN, A.* 
+			FROM ( 
+				select  ID, NAME, MOBILE, PURCHASE_TIME,TITLE, nvl(ENTRANCE_TIME, '-') AS ENTRANCE_TIME,
+				nvl(COUPON_USE_TIME, '-') AS COUPON_USE_TIME, FESTIVAL_CODE, ORGANIZATION_CODE
+				FROM V_TICKET_BUYER_LIST
 		        WHERE organization_code = #{organizationCode}
 		 ]]>
 		<choose>
 			<when test="tableBoxInput == 'id'">
-				<![CDATA[and id LIKE '%'|| #{buyerKeyword} || '%']]>
+				<![CDATA[AND id LIKE '%'|| #{searchInput} || '%']]>
 			</when>
 			<when test="tableBoxInput == 'name'">
-				<![CDATA[and name LIKE '%'|| #{buyerKeyword} || '%']]>
+				<![CDATA[AND name LIKE '%'|| #{searchInput} || '%']]>
 			</when>
-			<when test="tableBox == 'mobile'">
-				<![CDATA[AND mobile LIKE '%'|| #{buyerKeyword} || '%']]>
+			<when test="tableBoxInput == 'mobile'">
+				<![CDATA[AND mobile LIKE '%'|| #{searchInput} || '%']]>
 			</when>
 			<when test="titleListInput != ''">
-				<![CDATA[and festival_code = #{buyerKeyword}]]>
+				<![CDATA[AND festival_code = #{titleListInput}]]>
 			</when>
 		</choose>
 		<![CDATA[
-			ORDER BY register_date DESC) A)WHERE RN BETWEEN #{start} AND #{end}]]>
+			ORDER BY purchase_time DESC) A)WHERE RN BETWEEN #{start} AND #{end}]]>
 	</select>
 </mapper>
 	

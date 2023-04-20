@@ -70,10 +70,9 @@ public class FestivalReviewService implements IFestivalReviewService {
 
 
 	@Override
-	public int totalFestivalReviewCount(int organizationCode, String radioInput, String titleListInput,
-			String tableBoxInput, String reviewKeyword) {
+	public int countFestivalReview(int organizationCode, int radioInput, int titleListInput, String tableBoxInput, String searchInput) {
 
-		return reviewRepository.totalFestivalReviewCount(organizationCode, radioInput, titleListInput, tableBoxInput, reviewKeyword);
+		return reviewRepository.countFestivalReview(organizationCode, radioInput, titleListInput, tableBoxInput, searchInput);
 	}
 
 
