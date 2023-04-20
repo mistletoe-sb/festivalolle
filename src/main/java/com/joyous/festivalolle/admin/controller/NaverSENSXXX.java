@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class NaverSENS {
+public class NaverSENSXXX {
 	@SuppressWarnings("unchecked")
 	public void send_msg(String tel, String rand) {		//String tel, String rand
         // 호스트 URL

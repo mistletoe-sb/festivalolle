@@ -44,17 +44,14 @@ public interface IAdminService {
 	//3. 핸드폰 번호 중복 체크
 	int overlapChk(AdminVO adminVO);
 	
-	
-	
-	//시스템 관리자 adminlist 전체 수(Pagination)
-	//List<AdminVO>getList(AdminVO searchVO);
-	//int getListCnt(AdminVO searchVO);
-	
 	// adminlist 전체 수 총 갯수
 	public int countBoard(String keyword);
 
 	// 페이징 처리 게시글 조회
 	//public List<AdminVO> selectBoard(PagingVO vo);
 	public List<AdminVO> selectBoard(Map<String,Object> map);
+	
+	//계정 인증용 인증번호 저장
+	int insertVerifNum(String tel, String numStr);
 	
 }
