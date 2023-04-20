@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -163,9 +164,9 @@ public class FestivalReviewController {
 		    	}
 		   
 		      //페이징처리
-		  	  @GetMapping(value="/reviewpaging")	  
+		      @RequestMapping(value="/reviewpaging", method = {RequestMethod.GET, RequestMethod.POST})  
 		  	  @ResponseBody 
-		  	  public Map<String, Object>reviewPaging(HttpSession session, String nowPage, String cntPerPage, int radioInput, int titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
+		  	  public Map<String, Object>reviewPaging(HttpSession session, String nowPage, int radioInput, int titleListInput, String tableBoxInput, String searchInput, Locale locale) {
 		  		  
 		  		  AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		  		int organizationCode = adminVO.getOrganizationCode();
@@ -175,27 +176,27 @@ public class FestivalReviewController {
 		  				tableBoxInput, searchInput);
 				  logger.info("total:" + Integer.toString(total));
 
-		  		  
-		  		  if (nowPage == null && cntPerPage == null) {
+		  		  String cntPerPage = paging;
+		  		  if(nowPage == null) {
+		  			  nowPage = "1";
+		  		  }
+		  		  /*if (nowPage == null && cntPerPage == null) {
 		  		  		nowPage = "1";
 		  		  		cntPerPage = paging;
 		  		  	} else if (nowPage == null) {
 		  		  		nowPage = "1";
 		  		  	} else if (cntPerPage == null) { 
 		  		  		cntPerPage = paging;
-		  		  	}
-		  		  
-		  		  	
+		  		  	}*/
 		  		  
 		  		  logger.info("^ total"+total);
 		  		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
 		  		  logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
-		  		  	vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		  		PagingVO vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		  		  	//model.addAttribute("paging", vo);
 		  		  	//model.addAttribute("viewAll", adminService.selectBoard(vo));
 		  		  	//return "system/adminlist2";
-		  		  	
-		  		  
+
 		  		  //List<AdminVO> adminList = adminService.getAdminList();
 		  		  //adminList = adminService.adminSearch(keyword);
 		  		  	 
@@ -207,7 +208,6 @@ public class FestivalReviewController {
 		  		  map.put("tableBoxInput", tableBoxInput);
 		  		  map.put("searchInput", searchInput);
 		  		  
-		  		  
 		  		  List<V_ReviewListVO> viewAll = festivalReviewService.selectBoard(map);
 		  	      result.put("viewAll",  viewAll);
 		  	      result.put("startPage", vo.getStartPage());
@@ -216,9 +216,7 @@ public class FestivalReviewController {
 		  	      logger.info(Integer.toString(vo.getEndPage()));
 		  	      result.put("nowPage", vo.getNowPage());
 		  	      result.put("lastPage", vo.getLastPage());
-		  	
-		  	  
-		  	  
+		  	      
 		  		  return result; 
 		  	  }
 	        

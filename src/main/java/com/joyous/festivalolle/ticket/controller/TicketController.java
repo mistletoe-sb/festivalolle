@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.joyous.festivalolle.admin.model.AdminVO;
@@ -101,7 +102,7 @@ public class TicketController {
 	}
 	
 //	//페이징처리
-	  @GetMapping(value="/ticketpaging")	  
+	@RequestMapping(value="/ticketpaging", method = {RequestMethod.GET, RequestMethod.POST})
 	  @ResponseBody 
 	  public Map<String, Object>ticketPaging(HttpSession session, String nowPage, String cntPerPage,  int titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
 		  
@@ -121,8 +122,6 @@ public class TicketController {
 		  		cntPerPage = paging;
 		  	}
 		  
-		  	
-		  
 		  logger.info("^ total"+total);
 		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
 		  logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
@@ -131,7 +130,6 @@ public class TicketController {
 		  	//model.addAttribute("viewAll", adminService.selectBoard(vo));
 		  	//return "system/adminlist2";
 		  	
-		  
 		  //List<AdminVO> adminList = adminService.getAdminList();
 		  //adminList = adminService.adminSearch(keyword);
 		  	 
@@ -142,7 +140,6 @@ public class TicketController {
 		  map.put("tableBoxInput", tableBoxInput);
 		  map.put("searchInput", searchInput);
 		  
-		  
 		  List<V_ticketBuyerListVO> viewAll = ticketService.selectBoard(map);
 	      result.put("viewAll",  viewAll);
 	      result.put("startPage", vo.getStartPage());
@@ -152,8 +149,6 @@ public class TicketController {
 	      result.put("nowPage", vo.getNowPage());
 	      result.put("lastPage", vo.getLastPage());
 	
-	  
-	  
 		  return result; 
 	  }
     	
@@ -168,5 +163,4 @@ public class TicketController {
 		System.out.println("test");
         return "adminticket/test"; // 구매자 전체 리스트 출력
 	}
-
 }
