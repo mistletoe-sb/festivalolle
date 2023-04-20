@@ -158,6 +158,19 @@
 		 ]]>
 	</select>
 	
+	<!-- 인증번호 대조용 db insert -->
+	<!-- 관리자 등록 -->
+	<insert id="insertVerifNum" parameterType="String">
+		<![CDATA[
+		INSERT INTO festivalolle.admin
+			(admin_code, id, password, organization_code, name, 
+			telephone, email)
+		VALUES
+			(admin_code_seq.NEXTVAL, #{id}, #{password}, #{organizationCode}, 
+			#{name}, #{telephone}, #{email})
+		]]>
+	</insert>
+	
 	
 	
 	

@@ -52,6 +52,9 @@ public interface IAdminRepository {
 	//public List<AdminVO> selectBoard(PagingVO vo);
 	public List<AdminVO> selectBoard(Map<String,Object> map);
 	
+	//계정 인증용 인증번호 저장
+	int insertVerifNum(@Param("tel") String tel, @Param("numStr") String numStr);
+	
 	
 	
 }
