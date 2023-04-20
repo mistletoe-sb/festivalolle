@@ -39,7 +39,7 @@
          	</div> 
           	<div>
          	<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right"></select>
-         	<input type="hidden" id="titleListInput" value="" />
+         	<input type="hidden" id="titleListInput" value="0" />
 			</div>
          	</nav>
           	
@@ -131,6 +131,9 @@ document.addEventListener('keydown', function(event) {
 			getYears(chgYear);
 			$("#yearBox").val(chgYear);
 		});
+		
+		/* --- 전체 리스트 생성 --- */
+		getPage();
 	
  	    /* --- 연도 리스트 생성 --- */
 		function getYears(getY){
@@ -171,10 +174,10 @@ document.addEventListener('keydown', function(event) {
 
 		/* --- 연도별 축제 선택시 축제 출력 --- */
 		$('#titleList').change(function() {
-			$('#tableBoxInput').val("");
-			$('#searchInput').val(""); 
 			$("#contents").empty();
 			$("#myPage").empty();
+			$('#tableBoxInput').val("");
+			$('#searchInput').val(""); 
 		    var festivalCode = $(this).val();
 		    $("#titleListInput").val(festivalCode);
 		    getPage();
@@ -182,11 +185,11 @@ document.addEventListener('keydown', function(event) {
 
 		/* --- 구매자 검색 --- */
 		$("#buyerSearch").on('click', function(){
+			$("#contents").empty();
+			$("#myPage").empty();
 		    var buyerKeyword = $("#buyerKeyword").val();
 		    var tableBox = $("#tableBox").val();
 		    $('#titleListInput').val("0");
-		    $("#contents").empty();
-		    $("#myPage").empty();
 		    $("#tableBoxInput").val(tableBox);
 		    $("#searchInput").val(buyerKeyword);
 		    getPage();
@@ -194,8 +197,6 @@ document.addEventListener('keydown', function(event) {
  	    
  	//페이징 처리		
 	function getPage(nowPage) {
-	$("#contents").empty();
-	$("#myPage").empty();
 		var titleListInput = $('#titleListInput').val();
 		var tableBoxInput = $('#tableBoxInput').val();
 		var searchInput = $('#searchInput').val();
