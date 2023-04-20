@@ -151,7 +151,8 @@ $(document).ready(function(){
 					}else{	// 조회된 데이터가 없는 경우
 						var categoryContainer = '<div class="horizontal_container">';
 						categoryContainer += '<div class="horizontal_empty"></div>';
-						categoryContainer += '<div><h4>축제가 없습니다.</h4></div></div>';
+						//categoryContainer += '<div><h4>축제가 없습니다.</h4></div></div>';
+						categoryContainer += '<div class="no_result"><img src="' + root + '/resources/img/mobile/festival_none.png" alt="none"></div></div>';
 						$(item).after(categoryContainer);
 					}
 				},
@@ -275,13 +276,17 @@ $(document).ready(function(){
 	
 	// 입장권 구매 모달 창 이벤트 바인딩
 	if($('.ticket_modal_layout').length){
-		// 모달 창 close
-		$('.fadeout_bottom_click').on('click', function(){
+		// 구매 모달 창 닫는 함수 정의
+		function closeModal(){
 			$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
 			$('.ticket_modal_layout').css('bottom', '-55vmax');
 			$('#headCount').val('');
 			$('#paymentAmount').text('');
 			$(document).off('mouseup touchend');
+		}
+		// 모달 창 close
+		$('.fadeout_bottom_click').on('click', function(){
+			closeModal();
 		});
 		// 모달 창 open
 		$('#ticketModal').on('click', function(){
@@ -293,7 +298,7 @@ $(document).ready(function(){
 			$(document).on('mouseup touchend', function (e){
 				var container = $('.ticket_modal_layout');
 				if(container.has(e.target).length === 0){
-					$('.fadeout_bottom_click').click();
+					closeModal();
 				}
 			});
 		});
@@ -326,7 +331,8 @@ $(document).ready(function(){
 			if(inputValue != ''){
 				var inputNum = parseInt(inputValue);
 				if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 submit
-					$('#ticketInsert').submit();					
+					$('#ticketInsert').submit();
+					//closeModal();
 				}else{
 					$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
 					$('#headCount').focus();
@@ -401,7 +407,7 @@ $(document).ready(function(){
 						appendPoint = $('.default_list_layout');
 						break;*/
 					case '이번 주 HOT':
-					case '이 달의 축제':
+					case '축제 NOW':
 					case 'COMING SOON':
 						requestUrl = root + '/festival/list/more';
 						paramData = {'lastFestivalCode':$('.festival_code').last().val(), 'category':$('#category').val()};
@@ -558,6 +564,7 @@ function week_event(pageRoot){
 						$('.default_list_2x_layout').append(printFestivalCard(item, fesImages[index], pageRoot));
 						//console.log(item.festivalCode);
 					});
+					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -820,7 +827,7 @@ function printMyReview(myReview, pageRoot){
 			appendHTML += '</div>';
 			appendHTML += '<div class="review_btn_layout"><p class="card-text insert_review">등록</p>';
 		}else{		// 작성한 리뷰가 있는 상태 > 표시
-			appendHTML += '<div><p class="card-text">내가 쓴 리뷰</p></div>';
+			appendHTML += '<div class="review_name"><p class="card-text">내가 쓴 리뷰</p></div>';
 			appendHTML += '<div class="review_sub">';
 			appendHTML += '<div class="rating_layout">';
 			for(var i = 1; i <= myReview.rating; i++){
@@ -860,7 +867,7 @@ function printReview(item, pageRoot){
 	appendHTML += '<div class="card">';
 	appendHTML += '<div class="card-body">';
 	appendHTML += '<div class="review_body">';
-	appendHTML += '<div><p class="card-text">' + item.id + '</p></div>';
+	appendHTML += '<div class="review_name"><p class="card-text">' + item.id + '</p></div>';
 	appendHTML += '<div class="review_sub">';
 	appendHTML += '<div class="rating_layout">';
 	for(var i = 1; i <= item.rating; i++){
@@ -944,7 +951,7 @@ function review_btn_event(pageRoot){
 						dataType: 'json',
 						success: function(data){
 							if(data){
-								swal({text: "리뷰 등록이 완료되었습니다.", icon: "success", button: "확인"});
+								//swal({text: "리뷰 등록이 완료되었습니다.", icon: "success", button: "확인"});
 								requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
 								var prevCount = parseInt($('.review_count').text());	// 리뷰 등록 전 리뷰 수
 								var prevRating = parseFloat($('.rating_value').val());	// 리뷰 등록 전 평점
@@ -1023,43 +1030,48 @@ function review_btn_event(pageRoot){
 	// 리뷰 삭제 시
 	if($('.delete_review').length){
 		$('.delete_review').off('click').on('click', function(){
-			var festivalReviewCode = $(this).next().val();
-			var rating = $('img[alt="fill"]').length;
-			// AJAX 호출
-			$.ajax({
-				url: pageRoot + '/review/delete', 	// 요청 URL
-				type: 'POST', 				// POST 방식으로 요청
-				async: false,				// 동기 처리
-				data: {festivalReviewCode: festivalReviewCode},	// 서버로 보낼 데이터
-				dataType: 'json',
-				success: function(data){
-					if(data){
-						swal({text: "삭제가 완료되었습니다.", icon: "success", button: "확인"});
-						requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
-						var prevCount = parseInt($('.review_count').text());	// 리뷰 삭제 전 리뷰 수
-						var prevRating = parseFloat($('.rating_value').val());	// 리뷰 삭제 전 평점
-						var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
-						if(currentCount == 0){	// 리뷰 수가 0개가 된 경우
-							$('.rating_txt p').text('평점없음');
-							$('.rating_txt p').attr('class', 'card-text no_rating');
-							$('.rating_value').val(0.0);
-						}else{
-							var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
-							currentRating = currentRating.toFixed(1);
-							$('.rating_txt p').text(currentRating);
-							$('.rating_value').val(currentRating);
+			var el = $(this);
+			swal({text: "삭제하시겠습니까?", icon: "warning", buttons: ["취소","확인"]}).then(function(value){
+				if(value){
+					var festivalReviewCode = $(el).next().val();
+					var rating = $('img[alt="fill"]').length;
+					// AJAX 호출
+					$.ajax({
+						url: pageRoot + '/review/delete', 	// 요청 URL
+						type: 'POST', 				// POST 방식으로 요청
+						async: false,				// 동기 처리
+						data: {festivalReviewCode: festivalReviewCode},	// 서버로 보낼 데이터
+						dataType: 'json',
+						success: function(data){
+							if(data){
+								//swal({text: "삭제가 완료되었습니다.", icon: "success", button: "확인"});
+								requestMyReview(pageRoot);		// 내 리뷰 다시 조회(Ajax 요청)
+								var prevCount = parseInt($('.review_count').text());	// 리뷰 삭제 전 리뷰 수
+								var prevRating = parseFloat($('.rating_value').val());	// 리뷰 삭제 전 평점
+								var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
+								if(currentCount == 0){	// 리뷰 수가 0개가 된 경우
+									$('.rating_txt p').text('평점없음');
+									$('.rating_txt p').attr('class', 'card-text no_rating');
+									$('.rating_value').val(0.0);
+								}else{
+									var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
+									currentRating = currentRating.toFixed(1);
+									$('.rating_txt p').text(currentRating);
+									$('.rating_value').val(currentRating);
+								}
+								$('.review_count').text(currentCount);
+							}else{
+								console.log('리뷰 삭제에 실패했습니다.');
+								swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
+							}
+						},
+						error: function(){
+							// AJAX 요청이 실패한 경우 에러 처리
+							console.log('데이터를 불러오는데 실패했습니다.');
+							swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
 						}
-						$('.review_count').text(currentCount);
-					}else{
-						console.log('리뷰 삭제에 실패했습니다.');
-						swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
-					}
-				},
-				error: function(){
-					// AJAX 요청이 실패한 경우 에러 처리
-					console.log('데이터를 불러오는데 실패했습니다.');
-					swal({text: "리뷰가 정상적으로 삭제되지 못했습니다.", icon: "error", button: "확인"});
-				}
+					});
+				}else{}
 			});
 		});
 	}

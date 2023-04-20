@@ -43,19 +43,6 @@
 		]]>
 	</select>
 	
-	<!-- 축제 일정(월별, 지역별) 조회 -->
-	<!-- <select id="selectFestivalCalendarList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
-		<![CDATA[
-			SELECT * FROM festivalolle.v_festival_main 
-			WHERE status != 0
-			AND (start_date LIKE #{month} || '-__'
-            OR end_date LIKE #{month} || '-__')
-		]]>
-		<if test="location != null">
-            <![CDATA[AND state_name = #{location}]]>
-		</if>
-	</select> -->
-	
 	<!-- 해당 기간에 축제가 진행되는 지역 조회 -->
 	<select id="selectFestivalLocationList" resultType="string">
 		<![CDATA[
@@ -76,6 +63,11 @@
 				  FROM (SELECT festival_code, title, state_name, city_name, image, rating
 				  		FROM festivalolle.v_festival_main
 				  		WHERE status != 0
+		]]>
+		<if test="status != 4">
+			<![CDATA[	AND status = #{status}]]>
+		</if>
+		<![CDATA[
 			            AND(start_date < #{periodEnd})
 			            AND(end_date > #{periodStart})
 		]]>
@@ -171,10 +163,10 @@
 				  FROM (SELECT festival_code, title, state_name, city_name, image, rating
 						FROM festivalolle.v_festival_main 
 						WHERE status = 1
-						AND visitors != 0
+						AND purchasers != 0
 						AND(start_date < #{periodEnd})
 			            AND(end_date > #{periodStart})
-						ORDER BY visitors DESC) fes
+						ORDER BY purchasers DESC) fes
 				  )
 		]]>	
 			<where>
@@ -185,10 +177,10 @@
 									  FROM (SELECT festival_code
 											FROM festivalolle.v_festival_main 
 											WHERE status = 1
-											AND visitors != 0
+											AND purchasers != 0
 											AND(start_date < #{periodEnd})
 			            					AND(end_date > #{periodStart})
-											ORDER BY visitors DESC) f)
+											ORDER BY purchasers DESC) f)
 								WHERE festival_code = #{lastFestivalCode})
 					]]>
 				</if>

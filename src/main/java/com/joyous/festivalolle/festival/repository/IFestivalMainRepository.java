@@ -18,7 +18,8 @@ public interface IFestivalMainRepository {
 //	List<FestivalMainVO> selectFestivalCalendarList(@Param("month") String month);
 //	List<FestivalMainVO> selectFestivalCalendarList(@Param("month") String month, @Param("location") String location);
 	// 기간 및 지역 선택하여 축제 리스트 정보 조회
-	List<FestivalMainVO> selectFestivalScheduleList(@Param("periodStart") String periodStart,
+	List<FestivalMainVO> selectFestivalScheduleList(@Param("status") int status,
+													@Param("periodStart") String periodStart,
 													@Param("periodEnd") String periodEnd,
 													@Param("location") String location,
 													@Param("lastFestivalCode") int lastFestivalCode,
