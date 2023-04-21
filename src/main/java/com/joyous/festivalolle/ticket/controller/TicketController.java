@@ -151,16 +151,4 @@ public class TicketController {
 	
 		  return result; 
 	  }
-    	
-	//-------------------test controller-------------------------------------------
-	@GetMapping("/test")
-	public String getTest(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session){
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-		int organizationCode = adminVO.getOrganizationCode();
-		buyerListVO.setOrganizationCode(organizationCode);
-		List<V_ticketBuyerListVO> test = ticketService.ticketBuyerList(buyerListVO);
-		model.addAttribute("test", test);
-		System.out.println("test");
-        return "adminticket/test"; // 구매자 전체 리스트 출력
-	}
 }
