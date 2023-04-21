@@ -14,6 +14,7 @@
 					<div id="animCloud1" class="animCloud"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
 					<div id="animCloud2" class="animCloud animCloud_front"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
 					<div id="animCloud3" class="animCloud"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
+					<%-- <div id="animBaloon"><img src="<c:url value='/resources/img/mobile/olle_part.png'/>" alt="baloon"></div> --%>
 					<div id="animBaloon"><img src="<c:url value='/resources/img/mobile/olle_whole.png'/>" alt="baloon"></div>
 				</div>
 			</div>

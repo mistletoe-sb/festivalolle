@@ -180,15 +180,20 @@ textarea::placeholder, input::placeholder {
 #animCloud3{left: 123vmin;}
 #animBaloon {
 	top: -43vmax;
+	/* top: -23vmax; */
 	left: 0vmin;
 	position: absolute;
 	width: 100vmin;
 	height: 100vmax;
 	animation: baloon_anim 1.3s ease-in-out infinite alternate;
 }
+/* #animCloud img, #animBaloon img {
+	object-fit: contain !important;
+} */
 #animCloud img {
 	object-fit: contain !important;
 }
+
 /* 조회 결과 없음 레이아웃 */
 .no_result {
 	width: 100%;
