@@ -14,7 +14,7 @@ public class MemberService2 implements IMemberService2 {
 	
 	@Autowired
 	private IMemberRepository2 memberRepository2;
-	
+	//작성자: 이기쁨
 	//회원가입
 	public int joinMember(MemberVO memberVO) {
 		return memberRepository2.joinMember(memberVO);

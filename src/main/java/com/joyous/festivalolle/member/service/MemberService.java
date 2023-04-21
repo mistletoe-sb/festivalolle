@@ -81,7 +81,6 @@ public class MemberService implements IMemberService {
 	@Override
 	public int countMember(int memberCode, String password) {
 		int countMember = memberRepository.countMember2(memberCode, password);
-		
 		return countMember;
 	}
 
@@ -104,6 +103,20 @@ public class MemberService implements IMemberService {
 	@Override
 	public void updateStatus(int memberCode) {
 		memberRepository.updateStatus(memberCode);
-		
+	}
+	
+	//작성자: 이기쁨
+	//회원가입
+	@Override
+	public int joinMember(MemberVO memberVO) {
+		return memberRepository.joinMember(memberVO);
+	}
+
+	//회원가입 시 중복확인
+	//1. 아이디 중복 체크
+	//2. 핸드폰 번호 중복 체크
+	@Override
+	public int overlapChk(MemberVO memberVO) {
+		return  memberRepository.overlapChk(memberVO);
 	}
 }

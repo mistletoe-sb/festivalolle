@@ -8,7 +8,21 @@
 	</head>
 	<body>
 		<c:if test="${not empty isInit}">
-			<div id="festivalolle"><img src="<c:url value='/resources/img/festivalolle.png'/>" alt="festivalolle"></div>
+			<div id="festivalolle">
+				<div id="festivalolleAnim">
+					<img src="<c:url value='/resources/img/mobile/loading_background.png'/>" alt="background">
+					<div id="animCloud1" class="animCloud"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
+					<div id="animCloud2" class="animCloud animCloud_front"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
+					<div id="animCloud3" class="animCloud"><img src="<c:url value='/resources/img/mobile/cloud.png'/>" alt="cloud"></div>
+					<div id="animBaloon"><img src="<c:url value='/resources/img/mobile/olle_whole.png'/>" alt="baloon"></div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					var root = $('#rootContext').val();		// context root
+					history.replaceState({'history':'init'}, '', root + '/home');		// 초기 페이지로 이동
+				});
+			</script>
 		</c:if>
 		<%@ include file="mobilemenu/mobiletop.jsp"%>
 		<%-- 추천목록 출력할 레이아웃 --%>

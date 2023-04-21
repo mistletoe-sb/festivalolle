@@ -1,6 +1,5 @@
 package com.joyous.festivalolle.festival.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +20,11 @@ public class FestivalService implements IFestivalService {
 		return festivalRepository.selectFestivalList(organizationCode);
 	}
 
-	
 	@Override
 	public int countFestival(int organizationCode, String radioInput, String titleListInput, String tableBoxInput, String searchInput) {
 		return festivalRepository.countFestival(organizationCode, radioInput, titleListInput, tableBoxInput, searchInput);
 	}
-/*
+	/*
 	@Override
 	public int countTotalPage(int organizationCode, int pageLimit) {
 		int totalRecord = this.countFestival(organizationCode);
@@ -77,7 +75,6 @@ public class FestivalService implements IFestivalService {
 	public void updateFestival(FestivalVO vo) {
 		festivalRepository.updateFestival(vo);
 		
-
 	}
 
 	@Override
@@ -100,9 +97,4 @@ public class FestivalService implements IFestivalService {
 	public List<FestivalVO> selectFestivalSearch(int organizationCode,String festivalKeyword, String tableBox) {
 		return festivalRepository.selectFestivalSearch(organizationCode,festivalKeyword, tableBox);
 	}
-
-	
-
-
-
 }

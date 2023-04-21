@@ -1,14 +1,7 @@
 package com.joyous.festivalolle.festival.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,15 +12,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.omg.CORBA.portable.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,16 +26,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyous.festivalolle.admin.model.AdminVO;
 import com.joyous.festivalolle.admin.model.PagingVO;
 import com.joyous.festivalolle.festival.model.FestivalVO;
@@ -112,7 +96,6 @@ public class FestivalController {
 			List<FestivalVO> selectStatusFestivalList = festivalService.selectStatusFestivalList(vo);
 			return selectStatusFestivalList;	
 		}
-		
 	}
 
 /* =====================================================adminfestivalinfo====================================================== */		
@@ -161,11 +144,6 @@ public class FestivalController {
 	@PostMapping("/festivalinsert")
 	public String festivalInsert(FestivalVO vo, HttpSession session, Model model, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file) {
 		try {
-
-			
-			
-			
-			
 			//오늘날짜 yyyy-MM-dd로 생성
 			String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
 			 
@@ -184,17 +162,16 @@ public class FestivalController {
 			//조건문
 			if(startCompare > 0) {
 				vo.setStatus(2);//시작전
-			}else if(startCompare < 0) {//시작후
-				if (endCompare<0) {//끝난후
+			} else if(startCompare < 0) {//시작후
+				if(endCompare<0) {//끝난후
 					vo.setStatus(3);
 				}
 				else {//끝나기전
 					vo.setStatus(1);
 				}
-			}else {//축제 당일
+			} else {//축제 당일
 				vo.setStatus(1);
 			}
-
 
 			byte[] fileBytes = file.getBytes();
 
@@ -207,7 +184,7 @@ public class FestivalController {
 			vo.setAdminName(adminName);
 			festivalService.insertFestival(vo);
 			redirectAttributes.addFlashAttribute("message", "완료");
-		}catch(RuntimeException e) {
+		} catch(RuntimeException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -273,18 +250,16 @@ public class FestivalController {
 			if(startCompare > 0) {
 				vo.setStatus(2);
 
-			}else if(startCompare < 0) {
-				if (endCompare<0) {
+			} else if(startCompare < 0) {
+				if(endCompare<0) {
 					vo.setStatus(3);
 				}
 				else {
 					vo.setStatus(1);
 				}
-				
-			}else {
+			} else {
 				vo.setStatus(1);
 			}
-
 			
 			byte[] fileBytes = file.getBytes();
 
@@ -293,8 +268,6 @@ public class FestivalController {
 			String adminName = adminVO.getName();
 			vo.setFestivalCode(festivalCode);
 			vo.setOrganizationCode(organizationCode);
-			
-			
 			vo.setAdminName(adminName);
 
 			logger.info("^ file"+file.getSize());
@@ -311,16 +284,12 @@ public class FestivalController {
 					vo.setImage(fileBytes);
 					vo.setThumbnail(fileBytes);
 					festivalService.updateFestivalImage(vo);
-
 				}
-				
 			}
 			festivalService.updateFestival(vo);
 			
-			
-			
 			redirectAttributes.addFlashAttribute("message", "완료");
-		}catch(RuntimeException e) {
+		} catch(RuntimeException e) {
 			redirectAttributes.addFlashAttribute("message", e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -407,13 +376,12 @@ public class FestivalController {
 	    return new ResponseEntity<byte[]>(imgFile, headers, HttpStatus.OK);
 	}
 	
-	
 	/* =====================================================updateFestivalStatus====================================================== */	
 	@GetMapping("/updateFestivalStatus") 
 	void updateFestivalStatus(FestivalVO vo, @RequestParam("status") int status, @RequestParam("organizationCode") int organizationCode, @RequestParam("festivalCode") int festivalCode, @RequestParam("start") String start, @RequestParam("end") String end) throws ParseException {
 		vo.setOrganizationCode(organizationCode);
 		vo.setFestivalCode(festivalCode);
-		if (status == 0) {
+		if(status == 0) {
 			vo.setStatus(0);
 			festivalService.updateFestivalStatus(vo);
 		} else {
@@ -435,80 +403,67 @@ public class FestivalController {
 			//조건문
 			if(startCompare > 0) {
 				vo.setStatus(2);
-			}else if(startCompare < 0) {
+			} else if(startCompare < 0) {
 				if (endCompare<0) {
 					vo.setStatus(3);
 				}
 				else {
 					vo.setStatus(1);
 				}
-				
-			}else {
+			} else {
 				vo.setStatus(1);
 			}
-			
 			festivalService.updateFestivalStatus(vo);
 		}
 	}
 	
 	/* =====================================================festivallistpaging====================================================== */	
 
-	  //페이징처리
-	  @PostMapping(value="/festivallistpaging")	  
-	  @ResponseBody 
-	  public Map<String, Object> adminPaging(HttpSession session, String nowPage, String cntPerPage, String radioInput, String titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
-		  
-		  AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
-		int organizationCode = adminVO.getOrganizationCode();
-		  Map<String,Object> map = new HashMap<String,Object>();	//매퍼에 넘겨줄 map
-		  Map<String, Object> result = new HashMap<String, Object>();	//DB에서 검색해 온 결과 담아줄 result	 
-		  int total = festivalService.countFestival(organizationCode,radioInput, titleListInput, tableBoxInput, searchInput);
-		  
-		  
-		  if (nowPage == null && cntPerPage == null) {
-		  		nowPage = "1";
-		  		cntPerPage = paging;
-		  	} else if (nowPage == null) {
-		  		nowPage = "1";
-		  	} else if (cntPerPage == null) { 
-		  		cntPerPage = paging;
-		  	}
-		  
-		  	
-		  
-		  logger.info("^ total"+total);
-		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
-		  logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
-		  	vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		  	//model.addAttribute("paging", vo);
-		  	//model.addAttribute("viewAll", adminService.selectBoard(vo));
-		  	//return "system/adminlist2";
-		  	
-		  
-		  //List<AdminVO> adminList = adminService.getAdminList();
-		  //adminList = adminService.adminSearch(keyword);
-		  	 
-		  map.put("start", vo.getStart());
-		  map.put("end", vo.getEnd());
-		  map.put("organizationCode", organizationCode);
-		  map.put("radioInput", radioInput);
-		  map.put("titleListInput", titleListInput);
-		  map.put("tableBoxInput", tableBoxInput);
-		  map.put("searchInput", searchInput);
-		  
-		  
-		  List<FestivalVO> viewAll = festivalService.selectMapFestivalList(map);
-	      result.put("viewAll",  viewAll);
-	      result.put("startPage", vo.getStartPage());
-	      result.put("cntPerPage", vo.getCntPerPage());
-	      result.put("endPage", vo.getEndPage());
-	      logger.info(Integer.toString(vo.getEndPage()));
-	      result.put("nowPage", vo.getNowPage());
-	      result.put("lastPage", vo.getLastPage());
+	//페이징처리
+	@PostMapping(value="/festivallistpaging")	  
+	@ResponseBody 
+	public Map<String, Object> adminPaging(HttpSession session, String nowPage, String cntPerPage, String radioInput, String titleListInput, String tableBoxInput, String searchInput, PagingVO vo, Locale locale) {
 	
-	  
-	  
-		  return result; 
-	  }
+		AdminVO adminVO = (AdminVO) session.getAttribute(loginAdmin);
+		int organizationCode = adminVO.getOrganizationCode();
+		Map<String,Object> map = new HashMap<String,Object>();	//매퍼에 넘겨줄 map
+		Map<String, Object> result = new HashMap<String, Object>();	//DB에서 검색해 온 결과 담아줄 result	 
+		int total = festivalService.countFestival(organizationCode,radioInput, titleListInput, tableBoxInput, searchInput);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = paging;
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = paging;
+		}
+		logger.info("^ total"+total);
+		logger.info("^ nowPage"+Integer.parseInt(nowPage));
+		logger.info("^ cntPerPage"+Integer.parseInt(cntPerPage));
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		//model.addAttribute("paging", vo);
+		//model.addAttribute("viewAll", adminService.selectBoard(vo));
+		//return "system/adminlist2";
+		//List<AdminVO> adminList = adminService.getAdminList();
+		//adminList = adminService.adminSearch(keyword);
+  	 
+		map.put("start", vo.getStart());
+		map.put("end", vo.getEnd());
+		map.put("organizationCode", organizationCode);
+		map.put("radioInput", radioInput);
+		map.put("titleListInput", titleListInput);
+		map.put("tableBoxInput", tableBoxInput);
+		map.put("searchInput", searchInput);
+  
+		List<FestivalVO> viewAll = festivalService.selectMapFestivalList(map);
+		result.put("viewAll",  viewAll);
+		result.put("startPage", vo.getStartPage());
+		result.put("cntPerPage", vo.getCntPerPage());
+		result.put("endPage", vo.getEndPage());
+		logger.info(Integer.toString(vo.getEndPage()));
+		result.put("nowPage", vo.getNowPage());
+		result.put("lastPage", vo.getLastPage());
+		return result; 
+	}
 
 }
