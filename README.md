@@ -55,6 +55,8 @@ KOSA Final Project of Team Joyous
     
     + maven_reposit : maven repository cache 경로
     
+      + settings.xml : localRepository 경로 설정 파일
+    
     + workspace_joyous : workspace 경로
     
       + festivalolle
