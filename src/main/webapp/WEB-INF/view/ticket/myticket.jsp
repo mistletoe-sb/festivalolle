@@ -186,7 +186,11 @@
 			console.log(memberCode);
 			console.log(ticketCode);
 			
-			var url = "http://192.168.0.38:8080/festivalolle/qrreader/";
+			/*var url = "http://43.201.139.11:8080/festivalolle/qrreader/";*/
+			/*var url = $('#rootContext').val() +"/qrreader/";*/
+			var url = "http://43.201.139.11:8080" + $('#rootContext').val() +"/qrreader/";
+			
+			
 				url += memberCode + "/";
 				url += ticketCode;
 				
