@@ -1,8 +1,6 @@
 package com.joyous.festivalolle.festival.model;
 
-
 import lombok.Data;
-
 
 @Data
 public class FestivalVO {

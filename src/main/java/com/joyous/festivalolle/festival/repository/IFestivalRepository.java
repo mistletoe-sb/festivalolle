@@ -20,7 +20,7 @@ public interface IFestivalRepository {
 			@Param("organizationCode") int organizationCode,@Param("festivalKeyword") String festivalKeyword, 
 			@Param("tableBox") String tableBox);
 	FestivalVO selectFestivalInfo(FestivalVO vo);				// 축제 상세 정보
-	List<FestivalVO> selectYearFestival(FestivalVO vo);				// 축제 상세 정보
+	List<FestivalVO> selectYearFestival(FestivalVO vo);			// 축제 상세 정보
 	void insertFestival(FestivalVO vo);							// 축제 추가
 	void insertFestivalImage(FestivalVO vo);					// 이미지 추가
 	void updateFestival(FestivalVO vo);							// 축제 수정

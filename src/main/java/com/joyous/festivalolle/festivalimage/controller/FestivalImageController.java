@@ -21,20 +21,6 @@ public class FestivalImageController {
 	@Autowired
 	IFestivalImageService festivalImageService;		// 서비스 객체 주입
 	
-//	// 해당 축제 이미지 조회
-//	@GetMapping(value="/image/{festivalCode}")
-//	@ResponseBody
-//	public ResponseEntity<byte[]> selectFestivalImage(@PathVariable int festivalCode) {
-//		FestivalImageVO image = festivalImageService.selectFestivalImage(festivalCode);
-//		final HttpHeaders headers = new HttpHeaders();
-//		if(image != null) {
-//			logger.info("selectImage > 축제코드:" + image.getFestivalCode() + ", 파일명:" + image.getFileName());
-//			headers.setContentType(new MediaType("image", "jpg"));
-//			return new ResponseEntity<byte[]>(image.getImage(), headers, HttpStatus.OK);
-//		} else {
-//			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-//		}
-//	}
 	// 해당 축제 이미지 조회
 	@GetMapping(value="/image")
 	@ResponseBody

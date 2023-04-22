@@ -12,9 +12,6 @@ public interface IFestivalMainService {
 	List<FestivalMainVO> selectFestivalMainList(int lastFestivalCode,
 												int perPage);			// 홈화면의 축제 리스트 정보 조회
 	List<FestivalVO> selectFestialInfo(int festivalCode);				// 축제 상세 정보 조회
-	// 선택한 달의 지역 축제 리스트 정보 조회(지역 선택 안 할 시 해당 월의 전체 축제 리스트)
-//	List<FestivalMainVO> selectFestivalCalendarList(String month);
-//	List<FestivalMainVO> selectFestivalCalendarList(String month, String location);
 	// 기간 및 지역 선택하여 축제 리스트 정보 조회
 	List<FestivalMainVO> selectFestivalScheduleList(int status, String periodStart, String periodEnd,
 													String location, int lastFestivalCode, int perPage);

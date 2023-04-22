@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.joyous.festivalolle.admin.controller.NaverSENSXXX;
 import com.joyous.festivalolle.admin.controller.NaverSENS2;
 import com.joyous.festivalolle.admin.model.AdminVO;
-import com.joyous.festivalolle.admin.model.PagingVO;
 import com.joyous.festivalolle.admin.repository.IAdminRepository;
 
 @Service

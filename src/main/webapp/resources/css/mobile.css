@@ -89,12 +89,20 @@
 	}
 }
 /* 홈화면 로딩 이미지 애니메이션 */
-@keyframes now_loading {
+@keyframes cloud_anim {
 	from {
-		left: 0vmin;
+		transform: translateX(0%);
 	}
 	to {
-		left: -10vmin;
+		transform: translateX(-200%);
+	}
+}
+@keyframes baloon_anim {
+	from {
+		transform: translateY(0%);
+	}
+	to {
+		transform: translateY(-5%);
 	}
 }
 
@@ -144,13 +152,48 @@ textarea::placeholder, input::placeholder {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	overflow: visible;
 }
 #festivalolle img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
+#festivalolleAnim {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.animCloud {
+	position: absolute;
+	top: 18vmax;
+	width: 60vmin;
+	height: 60vmin;
+	animation: cloud_anim 13s linear infinite;
+}
+.animCloud_front {
+	z-index: 1;
+	top: 38vmax;
+}
+#animCloud1{left: -17vmin;}
+#animCloud2{left: 80vmin;}
+#animCloud3{left: 123vmin;}
+#animBaloon {
+	top: -43vmax;
+	/* top: -23vmax; */
+	left: 0vmin;
+	position: absolute;
+	width: 100vmin;
+	height: 100vmax;
+	animation: baloon_anim 1.3s ease-in-out infinite alternate;
+}
+/* #animCloud img, #animBaloon img {
+	object-fit: contain !important;
+} */
+#animCloud img {
+	object-fit: contain !important;
+}
+
 /* 조회 결과 없음 레이아웃 */
 .no_result {
 	width: 100%;

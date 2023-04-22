@@ -545,14 +545,10 @@ $(document).ready(function(){
 	});
 	// 홈 화면 로딩 이미지 이벤트
 	if($('#festivalolle').length){
-		//$('#festivalolle').css('animation', 'now_loading 2s linear');
 		setTimeout(function(){
 			$('#festivalolle').remove();			
-		}, 2000);
+		}, 3000);
 	}
-	/*$('#homeBtn').on('click', function(){
-		$('body').append('<div id="festivalolle"><img src="' + root + '/resources/img/festivalolle.png" alt="festivalolle"></div>');
-	});*/
 });
 
 // 축제 일정 화면 각 주차 별 목록 보기 이벤트 바인딩

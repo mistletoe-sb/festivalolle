@@ -21,4 +21,13 @@ public interface IMemberRepository {
 	void updateMember(MemberVO memberVO);
 	void updatePassword2(@Param("memberCode") int memberCode, @Param("password") String password);
 	void updateStatus(int memberCode);
+	
+	//=========================================================================================
+	//회원가입
+	int joinMember(MemberVO memberVO);
+	
+	//회원가입 시 중복확인
+	//1. 아이디 중복 체크
+	//2. 핸드폰 번호 중복 체크
+	int overlapChk(MemberVO memberVO);
 }	
