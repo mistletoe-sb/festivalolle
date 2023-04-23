@@ -47,7 +47,7 @@ KOSA Final Project of Team Joyous
 
   + joyous_labs
   
-    + adoptjdk_8u352b08 : JDK bin 경로
+    + adoptjdk_8u352b08 : JDK 경로
     
     + apache-tomcat-9.0.71 : local tomcat 경로(개발 및 테스트용)
     
