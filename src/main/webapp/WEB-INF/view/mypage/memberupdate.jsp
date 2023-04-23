@@ -52,16 +52,16 @@
 										<input type="text" class="form-control form-control-user" name="name" id="join_name" placeholder="이름을 입력 하세요." required pattern="[A-Za-z가-힣]+" value="${memberVO.name}">
 										<label class="ChkLabel" id="name_msg"></label>
 										<input id="name_reg_check" type="hidden" value="true">
-										<input id="name_overlap_check" type="hidden" value=""true"">
+										<input id="name_overlap_check" type="hidden" value="true">
 									</div>
 									<div class="mypagemenu" >
 										<input type="text" class="form-control form-control-user" id="join_telephone" name="mobile" placeholder="연락처를 입력하세요." type="tel" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required value="${memberVO.mobile}">
 										<label class="ChkLabel" id="phoneNumber_msg"></label>
-										<input id="phoneNumber_reg_check" type="hidden" value=""true"">
-										<input id="phoneNumber_overlap_check" type="hidden" value=""true"">	
+										<input id="phoneNumber_reg_check" type="hidden" value="true">
+										<input id="phoneNumber_overlap_check" type="hidden" value="true">	
 									</div>
 									<div class="mypagemenu" style=" bottom:2.0rem;">
-										<input type="submit" onclick="join_btn_action()" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="수정하기" />                       											
+										<input type="submit" id="join_btn" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="수정하기" />                       											
 									</div>
 								</form>
 							</div>
@@ -79,7 +79,7 @@
 				$('#phoneNumber_overlap_check').val("false");
 			} else if (!reg_phone.test(mobile)){
 				
-				$('#phoneNumber_msg').text("잘못된 전화번호 형식입니다.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
+				$('#phoneNumber_msg').text("OOO-OOOO-OOOO 형식으로 입력 해주세요.").css({"color": "#DC143C", "font-size": "13px","font-weight": "400" , " letter-spacing": "-0.2px", " line-height": "18px" , "margin": "6px 12px 4px" });
 				$('#phoneNumber_overlap_check').val("false");
 			} else if(reg_phone.test(mobile)) {	//이메일 올바른 형식일 경우
 				
@@ -145,27 +145,22 @@
 		
 		
 		//joinMember_btn
-		function join_btn_action(){
-			  $('#joinMember_btn').off("submit").on("submit", function(){	// 현재의 submit 이벤트 핸들러를 제거하고 새로 생성하여 function 등록
+			$("#join_btn").on("click", function(event) {
+				event.preventDefault();
 			    var phoneNumber_overlap_check = $('#phoneNumber_overlap_check').val();  		 	      
 			    var name_overlap_check = $('#name_overlap_check').val();
 			    				    
 			    if(name_overlap_check == 'false'){   
-			    	swal('인증실패!', "이름을 확인해주세요!", 'warning');
-			    	
-			    	return false;	
+			    	swal('입력 오류!', "이름을 확인해주세요!", 'warning');
 			    } else if (phoneNumber_overlap_check == 'false'){
-			    	swal('인증실패!', "전화번호를 확인 해주세요!", 'warning');
-			    	return false;	
+			    	swal('입력 오류!', "전화번호를 확인 해주세요!", 'warning');	
 			    } else {	
-				    	return true;
+			    	 swal('수정 완료!', "해당 정보로 프로필이 수정 됐습니다.!", 'success').then(function() {
+			 	    	$("#joinMember_btn").submit();
+			 		});
 			    }
-			    
-			    
-        		
-			    
+ 
 			  });
-			}
 		
 		
 		
