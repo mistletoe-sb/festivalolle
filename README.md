@@ -17,7 +17,7 @@ KOSA Final Project of Team Joyous
 
 + 이기쁨 : PM, Agile 방법 프로젝트 진행 및 관리, 사용자/관리자 화면 로그인 및 회원가입, QR 생성, 문자 인증, WAS 구축 및 프로젝트 배포
 
-+ 이수봉 : PL, 개발환경구성, DB 설계 및 구축, 축제정보 조회, 북마크/리뷰, 이미지 출력 비동기 처리, 모바일 UI/UX 구현, Scrolling Pagination
++ 이수봉 : PL, 개발환경구성, DB 설계 및 구축, 축제정보 조회, 북마크/리뷰, 이미지 출력 비동기 처리, 모바일 UI/UX 구현, Scrolling Pagination, 형상관리
 
 + 정재웅 : PA, Oracle Job Scheduler 생성, Pixso를 이용한 UI 디자인, Kakao Post Code API 이용, 관리자 화면 축제 관리, 사용자 마이페이지
 
