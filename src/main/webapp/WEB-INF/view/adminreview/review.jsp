@@ -231,6 +231,8 @@ $(document).ready(function() {
 		 
 		// 페이징 처리		
 		function getPage(nowPage) {
+			$("#contents").empty();
+        	$("#myPage").empty();
 			var radioInput = $('#radioInput').val();
 			var titleListInput = $('#titleListInput').val();
 			var tableBoxInput = $('#tableBoxInput').val();

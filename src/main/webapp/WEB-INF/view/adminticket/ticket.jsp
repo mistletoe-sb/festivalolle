@@ -197,6 +197,8 @@ document.addEventListener('keydown', function(event) {
  	    
  	//페이징 처리		
 	function getPage(nowPage) {
+		$("#contents").empty();
+    	$("#myPage").empty();
 		var titleListInput = $('#titleListInput').val();
 		var tableBoxInput = $('#tableBoxInput').val();
 		var searchInput = $('#searchInput').val();
