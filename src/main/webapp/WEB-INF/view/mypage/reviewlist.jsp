@@ -49,7 +49,7 @@
 										<h5 class="card-title" style="cursor: pointer;" onclick="location.href='<c:url value='/festival/info?festivalCode=${fes.festivalCode}'/>'">${fes.title}</h5>
 									</div>
 									<div style ="float:right;">
-										<p class="card-text" style="cursor: pointer;" onclick="location.href='<c:url value='/mypage/reviewdelect?festivalReviewCode=${fes.festivalReviewCode}'/>'">삭제</p>
+										<p class="card-text reviewdelect" style="cursor: pointer;" data-ReviewCode="${fes.festivalReviewCode}">삭제</p>
 									</div>
 								</div>
 								<div style ="clear:both;">
@@ -117,6 +117,13 @@
 	    	
 	    	 console.log(result);
 	    });
+	    
+	    $(".reviewdelect").on("click", function(event) {
+	    	var date = $(this).attr('data-ReviewCode');
+	  	    swal('리뷰 삭제!', "리뷰 삭제가 완료 됐습니다.!", 'success').then(function() {
+	  	    	location.href = "<c:url value='/mypage/reviewdelect?festivalReviewCode="+date+"'/>";
+	  		});
+	  	});
 
 
 
