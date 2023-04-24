@@ -200,10 +200,10 @@ public class MemberController {
 				model.addAttribute("ticketInfo", validatorVO);
 				return "ticket/couponvalidator";
 			} else {
-				return "redirect:/admin/login";			
+				return "redirect:/admin";			
 			}	
 		} else {
-			return "redirect:/admin/login";
+			return "redirect:/admin";
 		}
 	}
 	
@@ -224,18 +224,18 @@ public class MemberController {
 
 		return (ticketServiceMyticket.validateCoupon(ticketCode) == 1)? "ok":"fail";	
 	}
-	/*
+	
 	//관리자 티켓 확인 페이지
-	@GetMapping(value="/ticketvalidator")
+	@GetMapping(value="ticket/ticketvalidator")
 	public String ticketValidate(HttpSession session) {
-		return null;
+		return "ticket/ticketvalidator";
 	}
 	
 	//관리자 쿠폰 확인 페이지
-	@GetMapping(value="/couponvalidator")
+	@GetMapping(value="ticket/couponvalidator")
 	public String couponValidate(HttpSession session) {
-		return null;
+		return "ticket/couponvalidator";
 	}
-	*/
+	
 }
 
