@@ -49,9 +49,9 @@
 	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 		<thead class="text-center">
 			<tr>
-				<th>신고</th>
+				<th style="width: 60.666666px;">신고</th>
 				<th>아이디</th>
-				<th>내용</th>
+				<th style="width: 875.333334px;">내용</th>
 				<th>작성일시</th>
 				<th>축제명</th>
 			</tr>
