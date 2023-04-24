@@ -53,7 +53,7 @@
 										<label class="ChkLabel" id="pwchkMsg2"></label>
 									</div>
 									<div class="mypagemenu" style=" bottom:2.0rem;">
-										<input type="submit" onclick="join_btn_action()" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="수정하기" />                       											
+										<input type="submit" id="join_btn" class="btn btn-primary btn-user btn-block btn-primary-mobile" value="수정하기" />                       											
 									</div>
 								</form>
 							</div>
@@ -102,21 +102,20 @@ $('#join_pw').on('keyup',function(){
 })//비밀번호 입력 검사
 
 
-function join_btn_action(){
-	  $('#joinMember_btn').off("submit").on("submit", function(){	// 현재의 submit 이벤트 핸들러를 제거하고 새로 생성하여 function 등록
+$("#join_btn").on("click", function(event) {
+	event.preventDefault();
+	var pwchk2 = $('#pwchk2').val();  
+    				    
+    if(pwchk2 == 'false'){   
+    	swal('변경실패!', "비밀번호를 확인 해주세요!", 'warning');
+    } else {	
+    	 swal('비밀번호 변경 완료!!', "비밀번호 변경이 완료 됐습니다.", 'success').then(function() {
+ 	    	$("#joinMember_btn").submit();
+ 		});
+    }
 
-	    var pwchk2 = $('#pwchk2').val();  			 	      
-	    				    
-	    if (pwchk2 == 'false'){     
-	    	swal('인증실패!', "비밀번호를 확인 해주세요!", 'warning');
-	      	$('#pwchk').focus();  
-	    	
-	    	return false;	
-	    } else 
-		    	return true;
-	    }
-	  });
-	}
+  });
+
 
  
 </script>
