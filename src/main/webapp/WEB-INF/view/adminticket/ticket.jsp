@@ -134,6 +134,7 @@ document.addEventListener('keydown', function(event) {
 		
 		/* --- 전체 리스트 생성 --- */
 		getPage();
+ });
 	
  	    /* --- 연도 리스트 생성 --- */
 		function getYears(getY){
@@ -197,6 +198,8 @@ document.addEventListener('keydown', function(event) {
  	    
  	//페이징 처리		
 	function getPage(nowPage) {
+		$("#contents").empty();
+    	$("#myPage").empty();
 		var titleListInput = $('#titleListInput').val();
 		var tableBoxInput = $('#tableBoxInput').val();
 		var searchInput = $('#searchInput').val();
@@ -259,7 +262,6 @@ document.addEventListener('keydown', function(event) {
 					}//end error	
 				});			
 	 	}
- });
 </script>
 
 

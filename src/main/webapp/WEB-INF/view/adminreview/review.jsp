@@ -49,9 +49,9 @@
 	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 		<thead class="text-center">
 			<tr>
-				<th>신고</th>
+				<th style="width: 60.666666px;">신고</th>
 				<th>아이디</th>
-				<th>내용</th>
+				<th style="width: 875.333334px;">내용</th>
 				<th>작성일시</th>
 				<th>축제명</th>
 			</tr>
@@ -139,7 +139,7 @@ $(document).ready(function() {
 		});
 		
 		/* --- 전체 리스트 생성 --- */
-			getPage(1);
+			getPage();
 });
 
 		/* --- 연도 리스트 생성 --- */
@@ -231,6 +231,8 @@ $(document).ready(function() {
 		 
 		// 페이징 처리		
 		function getPage(nowPage) {
+			$("#contents").empty();
+        	$("#myPage").empty();
 			var radioInput = $('#radioInput').val();
 			var titleListInput = $('#titleListInput').val();
 			var tableBoxInput = $('#tableBoxInput').val();

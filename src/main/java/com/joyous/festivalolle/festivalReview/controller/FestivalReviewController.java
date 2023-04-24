@@ -166,7 +166,7 @@ public class FestivalReviewController {
 		      //페이징처리
 		      @RequestMapping(value="/reviewpaging", method = {RequestMethod.GET, RequestMethod.POST})  
 		  	  @ResponseBody 
-		  	  public Map<String, Object>reviewPaging(HttpSession session, String nowPage, int radioInput, int titleListInput, String tableBoxInput, String searchInput, Locale locale) {
+		  	  public Map<String, Object>reviewPaging(HttpSession session, String nowPage, String cntPerPage, int radioInput, int titleListInput, String tableBoxInput, String searchInput, Locale locale) {
 		  		  
 		  		  AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		  		int organizationCode = adminVO.getOrganizationCode();
@@ -176,18 +176,19 @@ public class FestivalReviewController {
 		  				tableBoxInput, searchInput);
 				  logger.info("total:" + Integer.toString(total));
 
-		  		  String cntPerPage = paging;
+		  		 /* String cntPerPage = paging;
 		  		  if(nowPage == null) {
 		  			  nowPage = "1";
-		  		  }
-		  		  /*if (nowPage == null && cntPerPage == null) {
-		  		  		nowPage = "1";
-		  		  		cntPerPage = paging;
-		  		  	} else if (nowPage == null) {
-		  		  		nowPage = "1";
-		  		  	} else if (cntPerPage == null) { 
-		  		  		cntPerPage = paging;
-		  		  	}*/
+		  		  }*/
+				  
+				  if (nowPage == null && cntPerPage == null) {
+				  		nowPage = "1";
+				  		cntPerPage = paging;
+				  	} else if (nowPage == null) {
+				  		nowPage = "1";
+				  	} else if (cntPerPage == null) { 
+				  		cntPerPage = paging;
+				  	}
 		  		  
 		  		  logger.info("^ total"+total);
 		  		  logger.info("^ nowPage"+Integer.parseInt(nowPage));
