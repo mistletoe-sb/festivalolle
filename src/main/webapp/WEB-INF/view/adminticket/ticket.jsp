@@ -134,6 +134,7 @@ document.addEventListener('keydown', function(event) {
 		
 		/* --- 전체 리스트 생성 --- */
 		getPage();
+ });
 	
  	    /* --- 연도 리스트 생성 --- */
 		function getYears(getY){
@@ -261,7 +262,6 @@ document.addEventListener('keydown', function(event) {
 					}//end error	
 				});			
 	 	}
- });
 </script>
 
 

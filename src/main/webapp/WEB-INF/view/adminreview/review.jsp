@@ -139,7 +139,7 @@ $(document).ready(function() {
 		});
 		
 		/* --- 전체 리스트 생성 --- */
-			getPage(1);
+			getPage();
 });
 
 		/* --- 연도 리스트 생성 --- */
