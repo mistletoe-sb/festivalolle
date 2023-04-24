@@ -109,6 +109,7 @@
 /* 공통 적용 */
 body {
 	position: relative;
+	min-height: 100vmin;
 	background: #F9F9F9;
 	font-family: 'noto-sans' !important;
 	font-weight: normal;
@@ -173,10 +174,10 @@ textarea::placeholder, input::placeholder {
 }
 .animCloud_front {
 	z-index: 1;
-	top: 38vmax;
+	top: 39vmax;
 }
 #animCloud1{left: -17vmin;}
-#animCloud2{left: 80vmin;}
+#animCloud2{left: 60vmin;}
 #animCloud3{left: 123vmin;}
 #animBaloon {
 	top: -43vmax;
@@ -753,8 +754,8 @@ textarea::placeholder, input::placeholder {
 	justify-content: center;
 }
 #placesList .item .kakaolink img {
-	width: 7.25vmin;
-	height: 7.25vmin;
+	width: 6.25vmin;
+	height: 6.25vmin;
 	object-fit: contain;
 }
 #placesList .food_info h5 {
@@ -812,7 +813,7 @@ textarea::placeholder, input::placeholder {
 	margin-right: 0.1875rem;
 }
 #review_info .card_rating {
-	width: 20%;
+	width: 30%;
 	font-size: 0.875rem;
 }
 
@@ -1021,6 +1022,8 @@ textarea::placeholder, input::placeholder {
 	display: inline-block;
 }
 .icon_layout img {
+	/* width: 80%;
+	height: 80%; */
 	object-fit: contain;
 }
 .icon_layout p {
@@ -1035,12 +1038,16 @@ textarea::placeholder, input::placeholder {
 .rating_img img {
 	width: 60%;
 	height: 60%;
-	vertical-align: top;
+	vertical-align: middle;
 	margin-top: 0.21875rem;
+}
+.rating_img i {
+	vertical-align: top;
+	margin-top: 0.28em;
 }
 .rating_txt {
 	display: flex;
-	max-width: 15vmin;
+	max-width: 15.5vmin;
 	min-width: 7.5vmin;
 	height: 100%;
 	margin-left: 0.7vmin;
@@ -1374,6 +1381,51 @@ textarea::placeholder, input::placeholder {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}
+
+/* 마이페이지 */
+.mypage_menu_layout {
+	width: 80%;
+	margin: auto;
+	padding-left: 0.875rem;
+}
+.mypage_menu {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 2.5rem;
+	margin-top: 0.6875rem;
+	border-bottom: 0.1rem solid #A9A9A9; 
+	padding-bottom: 0.6875rem;
+}
+.mypage_menu > div {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+.mypage_menu .icon_layout {
+	justify-content: center;
+	width: 8vmin;
+}
+.mypage_menu .icon_layout img {
+	width: 80%;
+	height: 80%;
+}
+.mypage_menu .icon_layout i {
+	font-size: 1.25rem;
+}
+.mypage_title {
+	width: 50% !important;
+	justify-content: start !important;
+}
+.mypage_title img {
+	width: 7vmin !important;
+	height: 100% !important;
+}
+.mypage_title span {
+	margin-left: 1rem;
+	font-size: 1.1875rem;
 }
 
 /* 폰트어썸 아이콘 색상 설정 */

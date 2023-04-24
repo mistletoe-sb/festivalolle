@@ -6,17 +6,17 @@
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 		<title>입장권 리스트</title>
 	<style>
-		    #preview-image {
+		    .card-thumbnail {
 		  		object-fit: cover;
 				width: 100%;
 				height: 100%;
+				border-top-left-radius: 1rem;
+				border-bottom-left-radius: 1rem;
 		}
 		
 .card-horizontal {
   display: flex;
   align-items: center;
-  border: 0.0625rem solid #ddd;
-  border-radius: 0.25rem;
 }
 
 .card-horizontal-image {
@@ -26,11 +26,11 @@
   border-radius: 0.25rem 0 0 0.25rem;
 }
 
-.card-horizontal-image img {
+/* .card-horizontal-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+} */
 
 .card-horizontal-content {
   flex: 1;
@@ -52,79 +52,41 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectTicketList}" varStatus="stat">
-			<div class="card mb-3" style="max-width: 33.75rem; ">
-				<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
-					<div class="endday" data-endDate="${fes.endDate}" data-entDate="${fes.entranceTime}" data-cpuDate="${fes.couponUseTime}" style="background-origin : padding-box">
-					</div>
-					<div class="card-horizontal-image">
-						<c:choose>
-							<c:when test="${fes.address == '1'}">
-								<th scope="col">
-									<img  id="preview-image" class="img-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
-								</th>
-							</c:when>
-							<c:otherwise>
-								<th scope="col">
-									<img id="preview-image" src="data:image:jpg;base64,${fes.address}" class="img-thumbnail" alt="...">
-								</th>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<div class="card-horizontal-content">
-						<h5 class="card-title">
-							${fes.title}
-						</h5>
-						<p class="card-text">
-							유효기간 : <br>${fes.startDate} ~ ${fes.endDate}
-						</p>
-						<p class="card-text">
-							<small class="text-muted">
-								구매 날짜 : ${fes.purchaseTime}<br>
-								구매 금액 : ${fes.fee * fes.headCount}원
-							</small>
-						</p>
-					</div>
-				</div>
-			
-<%-- 				<div class="card mb-3" style="max-width: 540px; cursor: pointer;" onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
-					<div class="row g-0" >
-						
-					
-						<div class="endday" data-endDate="${fes.endDate}" data-entDate="${fes.entranceTime}" data-cpuDate="${fes.couponUseTime}" style="background-origin : padding-box">
-
-
-						</div>
-						
-						<div class="col-md-4">
+				<div class="card" style="max-width: 33.75rem; margin-bottom: 0.5rem; border: 0.0625rem solid #DDDDDD;">
+					<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
+						<div class="endday" data-endDate="${fes.endDate}" data-entDate="${fes.entranceTime}" data-cpuDate="${fes.couponUseTime}" style="background-origin : padding-box"></div>
+						<div class="card-horizontal-image">
 							<c:choose>
 								<c:when test="${fes.address == '1'}">
 									<th scope="col">
-										<img  id="preview-image" class="img-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
+										<img class="card-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
 									</th>
 								</c:when>
 								<c:otherwise>
 									<th scope="col">
-										<img id="preview-image" src="data:image:jpg;base64,${fes.address}" class="img-thumbnail" alt="...">
+										<img class="card-thumbnail" src="data:image:jpg;base64,${fes.address}" alt="...">
 									</th>
 								</c:otherwise>
 							</c:choose>
-							
 						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<h5 class="card-title">${fes.title}</h5>
-								<p class="card-text">유효기간 : ${fes.startDate} ~ ${fes.endDate}</p>
-								<p class="card-text"><small class="text-muted">구매 날짜 : ${fes.purchaseTime}<br>
-																				구매 금액 : ${fes.fee * fes.headCount}원</small></p>
-							</div>
+						<div class="card-horizontal-content">
+							<h5 class="card-title">
+								${fes.title}
+							</h5>
+							<p class="card-text">
+								유효기간 : <br>${fes.startDate} ~ ${fes.endDate}
+							</p>
+							<p class="card-text">
+								<small class="text-muted">
+									구매 날짜 : <br>${fes.purchaseTime}<br>
+									구매 금액 : ${fes.fee * fes.headCount}원
+								</small>
+							</p>
 						</div>
 					</div>
-				</div> --%>
 				</div>
 			</c:forEach>
-			</div>
-		
-
+		</div>
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>
 
@@ -160,11 +122,11 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     	if(result == 0){
     		
     		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");
-    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; left : 0.3125rem;");
+    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
     		$(this).append(img);
     	} else if(result == 1){
     		img.setAttribute("src", "<c:url value='/resources/img/기간만료.png'/>");
-    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; left : 0.3125rem;");
+    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
     		$(this).append(img);
     	} else{
     		

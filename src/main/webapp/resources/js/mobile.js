@@ -1196,30 +1196,31 @@ function scrollPositionCheck(){
 			$('#selected_menu').attr('id', '');
 		}
 		$(element).attr('id', 'selected_menu');
-		console.log('this position');
+		//console.log('this position');
 	}
-	var scrolltop = $(window).scrollTop();		// Scroll Top
-	var margin_space = $(window).height()*0.13;
-	var menuPos = $('#menu').offset().top-margin_space;
+	var scrollTop = $(window).scrollTop();		// Scroll Top
+	var viewportHeight = $(window).height();	// viewport height
+	var scrollHeight = $(document).height();	// available scroll height
+	var margin_space = viewportHeight*0.3;
+	var margin_bottom = viewportHeight*0.08;
+	var menuPos = ($('#menu').offset().top*0.6)-margin_space;
 	var infoPos = $('#info').offset().top-margin_space;
 	var foodPos = $('#food').offset().top-margin_space;
 	var reviewPos = $('#review').offset().top-margin_space;
-	switch(scrolltop){
-		case 0:
-			selectedStyle($('.topIndex').parent('td'));
-			break;
-		case menuPos:
-			selectedStyle($('.menuIndex').parent('td'));
-			break;
-		case infoPos:
-			selectedStyle($('.infoIndex').parent('td'));
-			break;
-		case foodPos:
-			selectedStyle($('.foodIndex').parent('td'));
-			break;
-		case reviewPos:
-			selectedStyle($('.reviewIndex').parent('td'));
-			break;
+	if(scrollTop < menuPos){
+		selectedStyle($('.topIndex').parent('td'));		
+	}else if(scrollTop < infoPos){
+		selectedStyle($('.menuIndex').parent('td'));
+	}else if(scrollTop < foodPos){
+		selectedStyle($('.infoIndex').parent('td'));
+	}else if(scrollTop < reviewPos){
+		if(scrollTop + viewportHeight + margin_bottom < scrollHeight){
+			selectedStyle($('.foodIndex').parent('td'));			
+		}else{
+			selectedStyle($('.reviewIndex').parent('td'));			
+		}
+	}else{
+		selectedStyle($('.reviewIndex').parent('td'));
 	}
 }
 
