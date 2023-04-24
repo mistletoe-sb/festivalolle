@@ -45,7 +45,9 @@ input[type=radio]:checked#btnradio1+label:after {
     color: #fff !important;
     accent-color: red !important;
 } */
-
+.festival_radio > label {
+	margin-bottom: 0px;
+}
 
 </style>
 
@@ -109,27 +111,34 @@ input[type=radio]:checked#btnradio1+label:after {
 				</div>
                 <div class="table-responsive">
 
-	
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "">
-			  <label  for="btnradio1">전체</label>
-			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value = "0">
-			  <label  for="btnradio2">비공개</label>
-			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value = "1">
-			  <label  for="btnradio3">진행중</label>
-			    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value = "2">
-			  <label  for="btnradio4">진행예정</label>
-			    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value = "3">
-			  <label  for="btnradio5">진행완료</label>
-			
-				<input type="hidden" id="radioInput" value="" />
-
-			
-			
-	
-			<button style="float:right" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivalinsertform'/>'">축제 추가</button>
-			<div class="table-responsive" style = "height:43rem !important;">
+			<div style="width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;">
+				<div class="festival_radio" style="float:left; padding-top: 10px;">
+				  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value = "">
+				  <label  for="btnradio1">전체</label>
+				
+				  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value = "0">
+				  <label  for="btnradio2">비공개</label>
+				
+				  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value = "1">
+				  <label  for="btnradio3">진행중</label>
+				    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value = "2">
+				  <label  for="btnradio4">진행예정</label>
+				    <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value = "3">
+				  <label  for="btnradio5">진행완료</label>
+				
+					<input type="hidden" id="radioInput" value="" />
+				</div>
+				
+				
+				<div style="float:right;">
+				  <button style="float:right;" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivalinsertform'/>'">축제 추가</button>
+				</div>
+			</div>
+			<div class="table-responsive" style = "margin-top:0.5rem; height:43rem !important;">
 			<table class="table-bordered" id="dataTable" style="text-align:center; width:100%;  cellspacing:0" >
 		            <thead style="text-align:center">
 		              <tr>

@@ -27,7 +27,7 @@ width: 31.25rem;
                 </div>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
 					<input type="submit" class="btn btn-primary submit-button" value='저장하기'>
-					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
+					<input style="margin-left : 0.4rem;" type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 				</div>
             </div>
 		<form id="my-form" action = "<c:url value='/admin/adminfestivalupdate?festivalCode=${adminfestivalinfo.festivalCode}'/>" method="post" enctype="multipart/form-data">
@@ -41,7 +41,7 @@ width: 31.25rem;
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				
-				<th scope="col"><button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+				<th scope="col"><button style="margin-bottom : 0.625rem" type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 				<input type="text" class="form-control" id="sample6_address" name="address" placeholder="주소"  value="${adminfestivalinfo.address}">
 				<input type="hidden" class="form-control" id="sample6_postcode" placeholder="우편번호" >
 				<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목">
@@ -58,7 +58,7 @@ width: 31.25rem;
 						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" required value="${adminfestivalinfo.startDate}">
 					</div>
-					<div style ="float:left;">
+					<div style ="float:left; margin-left : 0.625rem;">
 						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required value="${adminfestivalinfo.endDate}">
 					</div>
@@ -118,7 +118,7 @@ width: 31.25rem;
 			
 			<div class="d-grid gap-2 d-md-block" style ="float:right;">
 				<input type="submit" class="btn btn-primary submit-button" value='저장하기' >
-				<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
+				<input style="margin-left : 0.4rem;" type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/adminfestivalinfo?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='상세정보'>
 			</div>
 
 		        

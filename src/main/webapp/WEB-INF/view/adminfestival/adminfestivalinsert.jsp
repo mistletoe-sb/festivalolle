@@ -17,7 +17,7 @@ width: 31.25rem;
                 <h6 class="m-0 font-weight-bold text-primary">축제 등록</h6>
                 <div class="d-grid gap-2 d-md-block" style ="float:right;">
 					<input type="submit" class="btn btn-primary submit-button" value='등록하기'>
-					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
+					<input style="margin-left : 0.4rem;"type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
             </div>
 		<form id="my-form" action = "<c:url value='/admin/festivalinsert'/>" method="post" enctype="multipart/form-data">
@@ -31,7 +31,7 @@ width: 31.25rem;
 			<tr>
 				<th scope="col"><label for="exampleFormControlInput1" class="form-label">주소</label></th>
 				<th scope="col">
-					<div >
+					<div style="margin-bottom : 0.625rem">
 						<button type="button" class="btn btn-outline-primary" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
 					</div>
 					<div >
@@ -54,7 +54,7 @@ width: 31.25rem;
 						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
 					</div>
-					<div style ="float:left;">
+					<div style ="float:left; margin-left : 0.625rem">
 						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required >
 					</div>
@@ -93,7 +93,7 @@ width: 31.25rem;
 			<fieldset>
 				<div class="d-grid gap-2 d-md-block" style ="float:right;">
 					<input type="submit" class="btn btn-primary submit-button" value='등록하기'>
-					<input type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
+					<input style="margin-left : 0.4rem;" type="submit" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록' >
 				</div>
 			</fieldset>
 			

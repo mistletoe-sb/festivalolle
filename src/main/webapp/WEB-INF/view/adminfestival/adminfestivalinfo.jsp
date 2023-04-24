@@ -14,7 +14,7 @@
                 	<h6 class="m-0 font-weight-bold text-primary" >상세정보</h6>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                <div id="nadasim" style ="float:right;">
+                <div id="nadasim" style ="float:right; margin-left : 0.4rem;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
 							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn' class='btn btn-secondary' >비공개 취소</button>
@@ -24,10 +24,10 @@
 						</c:otherwise>
 						
 					</c:choose>	
-				</div>
+				</div >
 					<div style ="float:right;">
 						<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
-						<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+						<input style="margin-left : 0.4rem;" type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
 	                </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
 </div>
 			<fieldset>
 			 <div class="d-grid gap-2 d-md-block" style ="margin-right : 1.25rem">
-                <div id="nadasim1" style ="float:right;">
+                <div id="nadasim1" style ="float:right; margin-left : 0.4rem;">
 					<c:choose>
 						<c:when test="${adminfestivalinfo.status == '0'}">
 							<button style ="margin-left : 0.25rem" type='button' id='gonggaebtn1' class='btn btn-secondary' >비공개 취소</button>
@@ -118,7 +118,7 @@
 				</div>
 					<div style ="float:right;">
 						<input type="button" class="btn btn-primary"  onclick="location.href='<c:url value='/admin/adminfestivalupdateform?festivalCode=${adminfestivalinfo.festivalCode}'/>'" value='수정하기'>
-						<input type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
+						<input style="margin-left : 0.4rem;" type="button" class="btn btn-primary" onclick="location.href='<c:url value='/admin/festivallist'/>'" value='축제목록'>
 	                </div>
                 </div>
 		    </fieldset>
