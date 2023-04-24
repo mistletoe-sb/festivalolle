@@ -126,7 +126,7 @@
 			});*/
 		</script>
 	
-		<script>
+		<!-- <script>
 		$.getJSON('http://jsonip.appspot.com/?callback=?',
 	        function(data){
 	          console.log(data.ip);
@@ -142,7 +142,7 @@
 		      }
 		    );
 		  });
-		</script>
+		</script> -->
 	
 		<script>
 		// 브라우저마다 prefix가 달라 아래와 같이 처리한다.
