@@ -1430,14 +1430,14 @@ textarea::placeholder, input::placeholder {
 
 /* QR 입장권 페이지 */
 .myticket p {
-	margin-bottom: 0px;
+	margin-bottom: 0.125rem;
 }
 .ticket_sub {
 	display: flow-root;
 }
 .ticket_sub_txt {
 	float: left;
-	width: 50%;
+	min-width: 40%;
 }
 
 /* 폰트어썸 아이콘 색상 설정 */
