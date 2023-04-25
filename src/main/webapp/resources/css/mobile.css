@@ -1428,6 +1428,18 @@ textarea::placeholder, input::placeholder {
 	font-size: 1.1875rem;
 }
 
+/* QR 입장권 페이지 */
+.myticket p {
+	margin-bottom: 0px;
+}
+.ticket_sub {
+	display: flow-root;
+}
+.ticket_sub_txt {
+	float: left;
+	width: 50%;
+}
+
 /* 폰트어썸 아이콘 색상 설정 */
 .bottom_menu i {
 	color: #848484;
