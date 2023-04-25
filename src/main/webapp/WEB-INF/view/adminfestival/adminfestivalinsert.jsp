@@ -54,7 +54,7 @@ width: 31.25rem;
 						<label for="exampleFormControlInput1" class="form-label">시작일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="startDate" name="startDate" placeholder="시작일자 입력하세요" >
 					</div>
-					<div style ="float:left; margin-left : 0.625rem">
+					<div style ="float:left; margin-left : 0.625rem;">
 						<label for="exampleFormControlInput1" class="form-label">종료일자</label>
 						<input style="width:18.75rem;" type="date" class="form-control" id="endDate" name="endDate" placeholder="종료일자 입력하세요" required >
 					</div>

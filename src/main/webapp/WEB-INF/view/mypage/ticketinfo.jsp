@@ -76,7 +76,7 @@
 									
 									<p class="card-text" style ="font-size:0.9rem">
 										입장권 사용 일자 : ${adminfestivalinfo.entranceTime}<br>
-										할인권 사용 일자 : ${adminfestivalinfo.couponUseTime}<br>
+										쿠폰 사용 일자 : ${adminfestivalinfo.couponUseTime}<br>
 									</p>
 								</div>
 								<div >
@@ -105,13 +105,13 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
   var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
   var result = ""; // 결과값 받을 변수 선언
   console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
-  if (betweenTimeDay <= 0) { // 사용 완료
-    result = 0;
-  } else if (betweenTimeDay > 0) { // 기간 만료
-    result = 1;
-  } else {
-    result = 2;
-  } 
+  if (((entDateParam != "미사용") && (cpuDateParam != "미사용"))) { // 사용 완료
+	    result = 0;
+	  } else if (((entDateParam == "미사용") || (cpuDateParam == "미사용")) && (betweenTimeDay >= 0)) { // 기간 만료
+	    result = 1;
+	  } else {
+	    result = 2;
+	  } 
   
   
 
@@ -125,7 +125,7 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
 
     	var result = endToday(endDateParam, entDateParam, cpuDateParam);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
     	console.log(result)
-    	if(result == 0){
+    	if(result == 2){
     		$(this).append('<input type="button" style="background-color:#F15600; border-color:#F15600;" id="btn-ent" class="btn btn-primary btn-sm" value="입장권" onclick="location.href='+"'<c:url value='/myticket'/>'"+'" />' );
 
     	} else if(result == 1){
