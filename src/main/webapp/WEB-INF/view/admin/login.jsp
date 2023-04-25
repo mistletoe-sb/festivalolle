@@ -46,11 +46,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">축제올래 관리자</h1>
                                     </div>
                                     <hr>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
+                                    
                                     <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
                                     		
 	                                        <div class="form-group">
@@ -70,10 +66,7 @@
                                         
                                        
                                     </form>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
+                                    
                                     <hr>
                                     
                                     <div class="text-center">
