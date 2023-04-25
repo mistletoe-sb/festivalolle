@@ -146,7 +146,7 @@
 			<div class="mypage_menu" onclick="location.href='<c:url value='/logout'/>'">
 				<div class="icon_layout mypage_title">
 					<img src="<c:url value='/resources/img/icon/logout.png'/>" alt="mypage">
-					<span>회원정보</span>
+					<span>로그아웃</span>
 				</div>
 				<div class="icon_layout">
 					<i class="fa-solid fa-angle-right"></i>
