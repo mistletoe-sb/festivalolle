@@ -38,19 +38,19 @@ public class TicketControllerMyticket {
 		MemberVO memberVO = (MemberVO)session.getAttribute("loginUser");
 		if (memberVO != null) {
 			List<TicketVOmyticket> myticketList = ticketServiceMyticket.getMyCurrentTicket(memberVO.getMemberCode());
-			List<String> myticketImages = new ArrayList<String>();
-			
+			//List<String> myticketImages = new ArrayList<String>();
+			/*
 			for(TicketVOmyticket myticketVO : myticketList) {	
 				if(myticketVO.getImage() != null) {
 					myticketImages.add(Base64.getEncoder().encodeToString(myticketVO.getImage()));
 				} else {
 					myticketImages.add(null);
 				}
-			}
+			}*/
 			
 			//현재 사용 가능한 이용권과 이미지 model에 담음
 			model.addAttribute("myticketList", myticketList);
-			model.addAttribute("myticketImages", myticketImages);
+			//model.addAttribute("myticketImages", myticketImages);
 			
 			return "ticket/myticket";
 		} else {

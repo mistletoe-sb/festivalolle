@@ -41,12 +41,14 @@
 													<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-img-top" alt="${ticket.festivalCode}">
 												</div>
 												<div class="card-body myticket-content">
-													<div class="myticket ticket_title">
+													<div class="myticket ticket_title" onclick="location.href='<c:url value="/festival/info?festivalCode=${ticket.festivalCode}"/>'">
 														<div class="myticket festival_title">							
 															<p class="card-text">${ticket.title}</p>
 														</div>	
-														<div class="myticket">							
+														<div class="myticket ticket_sub">							
 															<p class="card-text">유효기간: ${ticket.startDate} ~ ${ticket.endDate}</p>
+															<p class="card-text ticket_sub_txt">입장인원: ${ticket.headCount} 명</p>
+															<p class="card-text ticket_sub_txt">할인쿠폰: ${ticket.couponAmount} 원</p>
 														</div>
 														<input class="ticketCode" type="hidden" value="${ticket.ticketCode}"/>
 													</div>
@@ -77,11 +79,13 @@
 												</div>
 												<div class="card-body myticket-content">
 													<div class="myticket ticket_title">
-														<div class="myticket festival_title">						
+														<div class="myticket festival_title" onclick="location.href='<c:url value="/festival/info?festivalCode=${ticket.festivalCode}"/>'">					
 															<p class="card-text">${ticket.title}</p>
 														</div>
-														<div class="myticket">							
+														<div class="myticket ticket_sub">							
 															<p class="card-text">유효기간: ${ticket.startDate} ~ ${ticket.endDate}</p>
+															<p class="card-text ticket_sub_txt">입장인원: ${ticket.headCount} 명</p>
+															<p class="card-text ticket_sub_txt">할인쿠폰: ${ticket.couponAmount} 원</p>
 														</div>
 														<input class="ticketCode" type="hidden" value="${ticket.ticketCode}"/>
 													</div>
