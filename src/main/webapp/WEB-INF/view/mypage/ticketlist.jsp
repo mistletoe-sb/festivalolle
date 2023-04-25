@@ -6,6 +6,9 @@
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
 		<title>입장권 리스트</title>
 	<style>
+	.review_card_container{
+		padding: 0vmax 5vmin !important;
+	}
 		    .card-thumbnail {
 		  		object-fit: cover;
 				width: 100%;
@@ -20,10 +23,12 @@
 }
 
 .card-horizontal-image {
-  width: 8.75rem;
+  min-width: 38vmin;
+  max-width: 38vmin;
   height: 13.125rem;
   overflow: hidden;
-  border-radius: 0.25rem 0 0 0.25rem;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
 }
 
 /* .card-horizontal-image img {
@@ -35,22 +40,32 @@
 .card-horizontal-content {
   flex: 1;
   padding: 0.625rem;
+  width: 50vmin;
+  height: 13.125rem;
 }
 
 .card-horizontal-content h5 {
   font-size: 1.25rem;
   margin-bottom: 0.625rem;
+  width: 100%;
 }
 
 .card-horizontal-content p {
-  font-size: 1rem;
-  color: #777;
+  font-size: 0.875rem;
+  color: #777777;
+}
+.stamp_style {
+	width: 6rem;
+	position: absolute;
+	top: 0.5125rem;
+	right: 0.5125rem;
+	rotate: -25deg;
 }
 	</style>
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
+		<div class="container-fluid review_card_container" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectTicketList}" varStatus="stat">
 				<div class="card" style="max-width: 33.75rem; margin-bottom: 0.5rem; border: 0.0625rem solid #DDDDDD;">
 					<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
@@ -70,17 +85,17 @@
 							</c:choose>
 						</div>
 						<div class="card-horizontal-content">
-							<h5 class="card-title">
+							<h5 class="card-title text-truncate">
 								${fes.title}
 							</h5>
 							<p class="card-text">
 								유효기간 : <br>${fes.startDate} ~ ${fes.endDate}
 							</p>
 							<p class="card-text">
-								<small class="text-muted">
-									구매 날짜 : <br>${fes.purchaseTime}<br>
+								<!-- <small class="text-muted"> -->
+									구매 날짜 : <br>${fes.purchaseTime}<br><br>
 									구매 금액 : ${fes.fee * fes.headCount}원
-								</small>
+								<!-- </small> -->
 							</p>
 						</div>
 					</div>
@@ -122,11 +137,11 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
     	if(result == 0){
     		
     		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");
-    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
+    		img.setAttribute("class","stamp_style");
     		$(this).append(img);
     	} else if(result == 1){
     		img.setAttribute("src", "<c:url value='/resources/img/기간만료.png'/>");
-    		img.setAttribute("style","width: 5rem; position: absolute; top : 0.3125rem; right : 0.3125rem;");
+    		img.setAttribute("class","stamp_style");
     		$(this).append(img);
     	} else{
     		
