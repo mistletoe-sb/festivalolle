@@ -272,7 +272,7 @@
 					<div class="modal_body_content">
 						<div class="modal_body_content_title">입장인원</div>
 						<div class="modal_body_content_main">
-							<input type="number" id="headCount" placeholder="1~99" name="headCount" min="1" max="99">
+							<input type="number" id="headCount" name="headCount" min="1" max="99">
 						</div>
 						<div class="modal_body_content_sub">명</div>					
 					</div>
