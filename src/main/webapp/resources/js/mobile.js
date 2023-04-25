@@ -316,6 +316,7 @@ $(document).ready(function(){
 		$('#ticketModal').on('click', function(){
 			$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
 			$('.ticket_modal_layout').css('bottom', '8vmax');
+			$('#headCountHint').text('');
 			$('#headCount').val('1');
 			$('#paymentAmount').text($('#fee').val());
 			$('#headCount').focus();

@@ -53,6 +53,7 @@
 			AND(start_date < #{periodEnd})
 			AND(end_date > #{periodStart})
 			GROUP BY state_name
+			ORDER BY state_name
 		]]>
 	</select>
 	
@@ -185,7 +186,10 @@
 								WHERE festival_code = #{lastFestivalCode})
 					]]>
 				</if>
-				<![CDATA[AND ROWNUM <= #{perPage}]]>
+				<![CDATA[
+					AND rnum <= 10
+					AND ROWNUM <= #{perPage}
+				]]>
 			</where>
 	</select>
 </mapper>

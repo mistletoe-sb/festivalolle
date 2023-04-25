@@ -47,10 +47,6 @@
                                     </div>
                                     <hr>
                                     <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
                                     <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
                                     		
 	                                        <div class="form-group">
