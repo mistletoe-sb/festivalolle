@@ -107,67 +107,66 @@
 
 
 
-
-
-
-
-
-
-
-
-<div class="container-fluid">    
-<!-- DataTales Example -->
-	<div class="card shadow mb-4">
-	    <div class="card-header py-3">
-	        <h6 class="m-0 font-weight-bold text-primary">${ticketInfo.title}</h6>
-	    </div>
-	    <div class="card-body">
-	        <div class="table-responsive">
-	            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-	                <tbody> 
-					   <tr>
-						   <td>성명</td>
-						   <td>${ticketInfo.name}</td>
-					   </tr>
-					   <tr>
-						   <td>입장 인원</td>
-						   <td>${ticketInfo.headCount}</td>
-					   </tr>
-					   <tr>
-						   <td>휴대폰</td>
-						   <td>${ticketInfo.mobile}</td>
-					   </tr>
-	                </tbody>
-	            </table>
-	            <div id="entrance_div">
-		            <a href="#" class="btn btn-primary btn-icon-split" id="entrance_button">
-	                    <span class="icon text-white-50">
-	                        <i class="fas fa-check"></i>
-	                    </span>
-	                    <span class="text">입장 확인</span>
-	                </a>
-                </div>
-                <div id="complete_div" hidden="true">
-	                <a href="#" class="btn btn-secondary btn-icon-split">
-	                    <span class="icon text-white-50">
-	                        <i class="fas fa-check"></i>
-	                    </span>
-	                    <span class="text">사용 완료</span>
-	                </a>
-                </div>
-	            	            
-	        </div>
-	    </div>
+				<div class="container-fluid">    
+				<!-- DataTales Example -->
+				
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+					        <h6 class="m-0 font-weight-bold text-primary">검표원 입장 확인</h6>
+					    </div>
+					</div>
+					<div class="card shadow mb-4">
+					    <div class="card-header py-3">
+					        <h6 class="m-0 font-weight-bold text-primary">${ticketInfo.title}</h6>
+					    </div>
+					    <div class="card-body">
+					        <div class="table-responsive">
+					            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					                <tbody> 
+									   <tr>
+										   <td>성명</td>
+										   <td>${ticketInfo.name}</td>
+									   </tr>
+									   <tr>
+										   <td>입장 인원</td>
+										   <td>${ticketInfo.headCount}</td>
+									   </tr>
+									   <tr>
+										   <td>휴대폰</td>
+										   <td>${ticketInfo.mobile}</td>
+									   </tr>
+					                </tbody>
+					            </table>
+					            <div id="entrance_div">
+						            <a href="#" class="btn btn-primary btn-icon-split" id="entrance_button">
+					                    <span class="icon text-white-50">
+					                        <i class="fas fa-check"></i>
+					                    </span>
+					                    <span class="text">입장 확인</span>
+					                </a>
+				                </div>
+				                <div id="complete_div" hidden="true">
+					                <a href="#" class="btn btn-secondary btn-icon-split">
+					                    <span class="icon text-white-50">
+					                        <i class="fas fa-check"></i>
+					                    </span>
+					                    <span class="text">사용 완료</span>
+					                </a>
+				                </div>
+					            	            
+					        </div>
+					    </div>
+					</div>			
+				</div>
+			</div>
+		</div>
 	</div>
-
-
-</div>
 
 <script>
 
 
 	$('#entrance_button').on('click', function(){		
-		var ticketCode = ${ticketInfo.ticketCode};		
+		var ticketCode = ${ticketInfo.ticketCode}	
 		$.ajax({
 			url: "<c:url value='/ticket/entrance'/>",
 			type: "post",
@@ -177,7 +176,7 @@
 				if(data == 'ok'){
 					$('#entrance_div').attr('hidden', true);
 					$('#complete_div').attr('hidden', false);					
-					//alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
+									
 				} else {
 					alert("사용 불가");
 				}//end if
