@@ -9,7 +9,7 @@
 	
 	<!-- 축제 리뷰 전체 리스트 출력 -->
 	 <select id="festivalReviewList" parameterType="int" resultType="com.joyous.festivalolle.festivalReview.model.V_ReviewListVO">
-		SELECT DISTINCT STATUS, FESTIVAL_REVIEW_CODE, FESTIVAL_CODE, 
+		SELECT STATUS, FESTIVAL_REVIEW_CODE, FESTIVAL_CODE, 
     	MEMBER_CODE, ID, CONTENT, WRITE_DATE, TITLE, ORGANIZATION_CODE 
 		FROM V_REVIEW_LIST 
 		<choose>

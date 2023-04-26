@@ -192,7 +192,7 @@ function splitTag(event) {
 	    var usedTags = []; // 이미 사용된 태그를 담는 배열
 
 	    // split한 각 태그들을 검증해서 가공
-	    if (checkTagCount(tagList)) {
+	//    if (checkTagCount(tagList)) {
 	      for (x of tagList) {
 	        if ((x.indexOf('#') != 0) && (x.length > 0)) { // 1글자 이상이고, 맨 첫글자가 #이 아니면,addTag(tag)
 	          var tag = '#' + x;
@@ -210,7 +210,7 @@ function splitTag(event) {
 	          }
 	        }
 	      }
-	    }
+	//    }
 	    
 	//    $('#tags').val(tags); // 새로 가공된 내용을 출력
 	 	$('#tags').val(tags.trim());
@@ -252,7 +252,7 @@ return true;
 }
 
 //태그 수 제한
-const MAX_TAG_COUNT = 10;
+ const MAX_TAG_COUNT = 10;
 
 function checkTagCount(tagList) {
 if (tagList.length > MAX_TAG_COUNT) {
