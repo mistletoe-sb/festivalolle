@@ -26,7 +26,7 @@
                 <input type="hidden" id="tableBoxInput" value="" />
              </div>
              <div class="input-group" style ="float:left;  height:100%;">
-             	<input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:100%;">
+             	<input type="text" class="form-control bg-light border-0 small" id="reviewKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:100%;">
              </div>
              <div class="input-group-append" style ="float:left;  margin:0;">
              	<button class="btn btn-primary" type="button" id="reviewSearch">
