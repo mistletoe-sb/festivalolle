@@ -24,11 +24,11 @@
 						<td colspan="3">${reviewList.title}</td>
 					</tr>
 					<tr>
-						<th>신고상태</th>
+						<th>리뷰상태</th>
 						<td colspan="4">
 							<c:choose>
-								<c:when test="${reviewList.status == 1}">신고된 리뷰</c:when>
-								<c:when test="${reviewList.status == 2}">블라인드된 리뷰</c:when>
+								<c:when test="${reviewList.status == 1}">신고</c:when>
+								<c:when test="${reviewList.status == 2}">블라인드</c:when>
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
 						</td>
