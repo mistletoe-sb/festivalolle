@@ -6,12 +6,24 @@ $(document).ready(function(){
 	var pageTitle = $('title').text();			// 페이지 타이틀
 	$('.page_title > p').text(pageTitle);		// 페이지 제목을 top메뉴에 출력
 	
+	if($('#return_back').length){
+		$('#return_back').on('click',function(){
+			history.back();
+		});
+	}
+	
 	// 페이지 이동 시 로딩 시작
 	$(window).on('beforeunload', function(){
 		$('.loading_img').css('top', '0px');
 		$('.loading_img').css('height', '100%');
 		$('.loading_img').css('background-color', '#FFFFFF99');
-		$('.loading_img').attr('hidden', false);		
+		$('.loading_img').attr('hidden', false);
+		setTimeout(function(){
+			$('.loading_img').css('bottom', '8.5vmax');
+			$('.loading_img').css('height', '5vmax');
+			$('.loading_img').css('background-color', 'none');
+			$('.loading_img').attr('hidden', true);
+		}, 8000);
 		//$('html').scrollTop(0);
 	});
 	// 페이지 로드 완료 시 로딩 종료
@@ -232,6 +244,7 @@ $(document).ready(function(){
 					}
 					// 이벤트 바인딩
 					week_event(root);
+					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -270,6 +283,7 @@ $(document).ready(function(){
 							imageLoad(item.festivalCode, root);
 						});
 					}
+					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -304,8 +318,8 @@ $(document).ready(function(){
 		function closeModal(){
 			$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
 			$('.ticket_modal_layout').css('bottom', '-55vmax');
-			$('#headCount').val('');
-			$('#paymentAmount').text('');
+			//$('#headCount').val('');
+			//$('#paymentAmount').text('');
 			$(document).off('mouseup touchend');
 		}
 		// 모달 창 close
@@ -369,8 +383,16 @@ $(document).ready(function(){
 			}else if(status == 1 || status == 2){
 				if(inputValue != ''){
 					var inputNum = parseInt(inputValue);
-					if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 submit
-						$('#ticketInsert').submit();
+					if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 구매 확인 창 팝업
+						closeModal();
+						var checkText = '입장 인원 : ' + inputNum + '명\n' + '결제 금액 : ' + $('#paymentAmount').text() + '원\n'
+						swal({title: "결제 정보 확인", text: checkText,
+							icon: "info", buttons: ["취소","결제"]})
+						.then(function(value){
+							if(value){
+								$('#ticketInsert').submit();								
+							}
+						});
 					}else{
 						$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
 						$('#headCount').focus();
@@ -1318,8 +1340,8 @@ function imageLoad(festivalCode, pageRoot){
 
 function initImageLoad(pageRoot){
 	//console.log('img load + ' + $('.festival_card_container .card-img-top, .recommend_img').length);
-	if($('.festival_card_container .card-img-top, .recommend_img').length){
-		var images = $('.card-img-top, .recommend_img');
+	if($('.festival_card_container .card-img-top, .recommend_img, .card-horizontal-image .card-thumbnail').length){
+		var images = $('.card-img-top, .recommend_img, .card-thumbnail');
 		// 각 요소 별 이미지 로드
 		$.each(images, function(index, item){
 			var festivalCode = $(item).attr('alt');

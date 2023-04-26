@@ -257,7 +257,7 @@ textarea::placeholder, input::placeholder {
 /* 메인 화면 카테고리 별 기본 레이아웃(수평 방향 레이아웃) */
 .default_horizontal_layout {
 	width: 100%;
-	height: 55vmax;
+	/* height: 55vmax; */
 }
 .category_title, .horizontal_empty {
 	margin-left: 4.15vmin;
@@ -280,7 +280,7 @@ textarea::placeholder, input::placeholder {
 .horizontal_container {
 	overflow-x: overlay;
 	width: 100vmin;
-	height: 47.7vmax;
+	/* height: 47.7vmax; */
 	display: flex;
 }
 .goto_list {
@@ -1438,6 +1438,22 @@ textarea::placeholder, input::placeholder {
 .ticket_sub_txt {
 	float: left;
 	min-width: 40%;
+}
+
+/* 서비스 관련 문의 연락처 디자인 */
+#sysTel {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: 0px;
+	text-align: center;
+	font-size: 0.8rem;
+}
+/* 에러페이지 버튼 디자인 */
+#return_back {
+	margin-top: 1rem;
+	border-radius: 2rem;
+	height: 3rem;
 }
 
 /* 폰트어썸 아이콘 색상 설정 */

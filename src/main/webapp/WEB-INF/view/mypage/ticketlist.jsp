@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>입장권 리스트</title>
+		<title>구매내역</title>
 	<style>
 	.review_card_container{
 		padding: 0vmax 5vmin !important;
@@ -71,18 +71,7 @@
 					<div class="card-horizontal" style="cursor: pointer; max-width: 33.75rem; " onclick="location.href='<c:url value='/mypage/ticketinfo?ticketCode=${fes.ticketCode}'/>'">
 						<div class="endday" data-endDate="${fes.endDate}" data-entDate="${fes.entranceTime}" data-cpuDate="${fes.couponUseTime}" style="background-origin : padding-box"></div>
 						<div class="card-horizontal-image">
-							<c:choose>
-								<c:when test="${fes.address == '1'}">
-									<th scope="col">
-										<img class="card-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
-									</th>
-								</c:when>
-								<c:otherwise>
-									<th scope="col">
-										<img class="card-thumbnail" src="data:image:jpg;base64,${fes.address}" alt="...">
-									</th>
-								</c:otherwise>
-							</c:choose>
+							<img src="<c:url value='/resources/img/mobile/empty_image.png'/>" class="card-thumbnail" alt="${fes.festivalCode}">
 						</div>
 						<div class="card-horizontal-content">
 							<h5 class="card-title text-truncate">
@@ -92,10 +81,10 @@
 								유효기간 : <br>${fes.startDate} ~ ${fes.endDate}
 							</p>
 							<p class="card-text">
-								<!-- <small class="text-muted"> -->
-									구매 날짜 : <br>${fes.purchaseTime}<br><br>
-									구매 금액 : ${fes.fee * fes.headCount}원
-								<!-- </small> -->
+								구매 날짜 : <br>${fes.purchaseTime}
+							</p>
+							<p class="card-text">
+								구매 금액 : ${fes.fee * fes.headCount}원
 							</p>
 						</div>
 					</div>
@@ -112,7 +101,7 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
   var endDate = new Date(endDateParam); // 입력된 날짜
   var betweenTimeDay = Math.floor((today - endDate) / (1000 * 60 * 60 * 24)); // 일자로 계산
   var result = ""; // 결과값 받을 변수 선언
-  console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
+  //console.log(today+'/'+endDate+'/'+entDateParam+'/'+cpuDateParam+'/'+betweenTimeDay);
   if (((entDateParam != 0) && (cpuDateParam != 0))) { // 사용 완료
     result = 0;
   } else if (((entDateParam == 0) || (cpuDateParam == 0)) && (betweenTimeDay >= 0)) { // 기간 만료
@@ -133,7 +122,7 @@ function endToday(endDateParam, entDateParam, cpuDateParam) {
 
     	var result = endToday(endDateParam, entDateParam, cpuDateParam);//받아온 데이터를 함수 돌려 가공한 데이터 받아오기
     	var img = document.createElement("img");
-    	console.log(result)
+    	//console.log(result)
     	if(result == 0){
     		
     		img.setAttribute("src", "<c:url value='/resources/img/사용완료.png'/>");

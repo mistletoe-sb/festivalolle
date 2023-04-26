@@ -93,7 +93,7 @@
 											<img src="data:image:jpg;base64,${img}" class="d-block w-100 img_layout" alt="loading failed">
 										</c:when>
 										<c:otherwise>
-											<img src="<c:url value='/resources/img/festest3.jpg'/>" class="d-block w-100 img_layout" alt="no image">
+											<img src="<c:url value='/resources/img/no_image.png'/>" class="d-block w-100 img_layout" alt="no image">
 										</c:otherwise>
 									</c:choose>
 								</div>
@@ -179,7 +179,7 @@
 						</tr>
 						<tr>
 							<th scope="row"><i class="fa-solid fa-phone fes_tel"></i></th>
-							<td>${fesInfo[0].telephone}</td>
+							<td><a href="tel:${fesInfo[0].telephone}">${fesInfo[0].telephone}</a></td>
 						</tr>
 					</table>
 				</div>
