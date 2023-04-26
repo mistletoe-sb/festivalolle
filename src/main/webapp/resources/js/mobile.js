@@ -317,8 +317,8 @@ $(document).ready(function(){
 			$('.ticket_modal_layout').css('animation', 'fadein_frombottom 1s ease-out');
 			$('.ticket_modal_layout').css('bottom', '8vmax');
 			$('#headCountHint').text('');
-			$('#headCount').val('1');
-			$('#paymentAmount').text($('#fee').val());
+			$('#headCount').val('');
+			$('#paymentAmount').text('0');
 			$('#headCount').focus();
 			$(document).on('mouseup touchend', function (e){
 				var container = $('.ticket_modal_layout');
@@ -1037,7 +1037,9 @@ function review_btn_event(pageRoot){
 	// 리뷰 신고 시 이벤트
 	if($('.report_review').length){
 		$('.report_review').off('click').on('click', function(){
-			var festivalReviewCode = $(this).next().val();
+			var el = $(this);
+			var festivalReviewCode = $(el).next().val();
+			var rating = $(el).closest('.review_card_container').find('.fill_star').length;
 			// AJAX 호출
 			$.ajax({
 				url: pageRoot + '/review/report', 	// 요청 URL
@@ -1050,6 +1052,20 @@ function review_btn_event(pageRoot){
 						function(){
 							// NORMAL_TRUE 시
 							swal({text: "신고 처리되었습니다.", icon: "success", button: "확인"});
+							var prevCount = parseInt($('.review_count').text());	// 리뷰 삭제 전 리뷰 수
+							var prevRating = parseFloat($('.rating_value').val());	// 리뷰 삭제 전 평점
+							var currentCount = prevCount - 1;			// 리뷰 삭제 후 리뷰 수
+							if(currentCount == 0){	// 리뷰 수가 0개가 된 경우
+								$('.rating_txt p').text('평점없음');
+								$('.rating_txt p').attr('class', 'card-text no_rating');
+								$('.rating_value').val(0.0);
+							}else{
+								var currentRating = parseFloat(((prevCount * prevRating) - rating), 1)/currentCount;
+								currentRating = currentRating.toFixed(1);
+								$('.rating_txt p').text(currentRating);
+								$('.rating_value').val(currentRating);
+							}
+							$('.review_count').text(currentCount);
 							$(this).closest('.review_card_container').remove();		// 해당 리뷰 숨김
 						}.bind(this),
 						function(){
@@ -1078,7 +1094,7 @@ function review_btn_event(pageRoot){
 			swal({text: "삭제하시겠습니까?", icon: "warning", buttons: ["취소","확인"]}).then(function(value){
 				if(value){
 					var festivalReviewCode = $(el).next().val();
-					var rating = $('img[alt="fill"]').length;
+					var rating = $(el).closest('.review_card_container').find('.fill_star').length;
 					// AJAX 호출
 					$.ajax({
 						url: pageRoot + '/review/delete', 	// 요청 URL

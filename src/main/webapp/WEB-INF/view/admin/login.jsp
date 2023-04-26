@@ -13,7 +13,7 @@
     <meta name="author" content="">
 
     <title>관리자 로그인</title>
-
+	<link rel="icon" href="<c:url value='/resources/img/favicon.ico'/>" type="image/x-icon" sizes="16x16">
     <!-- Custom fonts for this template-->
     <link href="<c:url value='/resources/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
     <link
@@ -24,6 +24,11 @@
     <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<style>
+		.bg-login-image {
+			background: #FFFFFF !important;
+		}
+	</style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -39,13 +44,16 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                            	<img src="<c:url value='/resources/img/festivalolle.png'/>">
+                            </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">축제올래 관리자</h1>
                                     </div>
                                     <hr>
+
                                     <br>
                                     <form class="user" action="<c:url value='/admin'/>" method="post" name="loginfrm">
                                     		
@@ -66,10 +74,7 @@
                                         
                                        
                                     </form>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
+                                    
                                     <hr>
                                     
                                     <div class="text-center">

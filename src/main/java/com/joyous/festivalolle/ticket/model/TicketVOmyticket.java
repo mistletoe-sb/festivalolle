@@ -14,5 +14,6 @@ public class TicketVOmyticket {
 	private String startDate;
 	private String endDate;
 	private int status;
-	private byte[] image;
+	private int headCount;
+	private int couponAmount;
 }
