@@ -12,11 +12,13 @@
 		<h6 class="m-0 font-weight-bold text-primary">리뷰 리스트</h6>
 	</div>
 	<div class="card-body">
+	<div>
 	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 		<!-- Topbar Search -->
+		<div style="display:flex; height:2.5rem;">
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-             <div class="input-group" style ="float:left;  height:100%;">
-               <select id="tableBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="height:100%;">
+            <div class="input-group" style ="width:100px; float:left; height:100%; ">
+               <select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="height:100%;">
                  <option value="id">아이디</option>
                  <option value="content">리뷰내용</option>
                  <option value="title">축제명</option>
@@ -24,7 +26,7 @@
                 <input type="hidden" id="tableBoxInput" value="" />
              </div>
              <div class="input-group" style ="float:left;  height:100%;">
-             	<input type="text" class="form-control bg-light border-0 small" id="reviewKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2">
+             	<input type="text" class="form-control bg-light border-0 small" id="festivalKeyword" placeholder="검색" aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:100%;">
              </div>
              <div class="input-group-append" style ="float:left;  margin:0;">
              	<button class="btn btn-primary" type="button" id="reviewSearch">
@@ -33,14 +35,22 @@
              </div>
              <input type="hidden" id="searchInput" value="" />
           	</form>
-          	<div>
-         		<select id="yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="right"></select>
-         	</div> 
-          	<div>
-         		<select name="titleList" id="titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style="right"></select>
-         		<input type="hidden" id="titleListInput" value="0" />
+          </div>
+          <div  style=" display:flex; height:2.5rem;">
+          <div class="input-group" style ="width:100px; float:left; height:100%; ">
+				<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="height:100%;"></select>
+         </div> 
+		<div style="display:flex; height:2.5rem;">
+			<div class="input-group" style ="width:100px; float:left; height:100%;">
+				<div style ="float:right;">
+		         	<select name="titleList" id="titleList"  class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;"></select>
+		         	<input type="hidden" id="titleListInput" value="0" />
+		        </div>
 			</div>
-         	</nav>
+			</div>
+			</div>
+      </nav>
+      </div>
  	<div class="table-responsive">	
 	
 	<input type="radio" name="sort" id="radioBtn1" autocomplete="off" checked="checked" value = "0" >전체
@@ -141,7 +151,6 @@ $(document).ready(function() {
 		/* --- 전체 리스트 생성 --- */
 			getPage();
 });
-
 		/* --- 연도 리스트 생성 --- */
 		function getYears(getY){
 			//기존 option을 삭제

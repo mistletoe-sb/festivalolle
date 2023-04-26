@@ -96,15 +96,15 @@ input[type=radio]:checked#btnradio1+label:after {
 					
 					<div  style=" display:flex; height:2.5rem;">
 					<div style ="float:right;">
-						<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:6.25rem;">
-						
-						</select>
+						<select id= "yearBox" class="form-control bg-light border-0 small"aria-label="Default select example" style="height:100%;"></select>
 					</div>
+						<div style="display:flex; height:2.5rem;">
 						<div style ="float:right;">
 							<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;">
 							
 							</select>
 							<input type="hidden" id="titleListInput" value="" />
+						</div>
 						</div>
 						</div>
 					</nav>
