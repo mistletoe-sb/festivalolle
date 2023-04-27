@@ -81,13 +81,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="<c:url value='/admin/ticket/list'/>">
                     <i class="fas fa-fw fa-table" id="festialList"></i>
-                    <span>티켓 구매</span></a>
+                    <span>티켓 구매자 관리</span></a>
             </li>
             
             <li class="nav-item">
                 <a class="nav-link" href="<c:url value='/admin/review/list'/>">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>사용자 리뷰</span></a>
+                    <span>사용자 리뷰 관리</span></a>
             </li>
             
             <!-- <li class="nav-item">
