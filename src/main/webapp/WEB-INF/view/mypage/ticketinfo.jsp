@@ -50,12 +50,13 @@
 						<div class="col-md-8">
 							<div class="card-body card-horizontal-content">
 								<div class = "layout_bottom_line">
-									<div id="title-btn" style ="width:100%;">
+									<div id="title-btn" style ="width:100%; height:2rem;">
 										<div style ="float:left;">
-											<h5  class="card-title" style="cursor: pointer;" ><b>${adminfestivalinfo.title}</b></h5>
+											<h5  class="card-title" style="cursor: pointer;" ><b style="vertical-align:middle;">${adminfestivalinfo.title}</b></h5>
 										</div>
-										<div class="icon" style="float:right;">
-											<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
+										<div class="icon" style="float:right; height:100%; display:flex; align-items:center;">
+											<%-- <img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket"> --%>
+											<i class="fa-solid fa-angle-right" style="font-size: 1.1875rem;"></i>
 										</div>
 										
 									</div>

@@ -40,7 +40,7 @@
 				<div id="fes_title">
 					<h3>${fesInfo[0].title}</h3>
 				</div>
-				<div id="fes_status">
+				<div id="fes_status_${fesInfo[0].status}">
 					<button id="fesStat_${fesInfo[0].status}" class="btn btn-secondary d-day_info">${statusMsg}</button>
 				</div>
 			</div>

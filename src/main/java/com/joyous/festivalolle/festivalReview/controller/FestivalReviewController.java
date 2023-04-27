@@ -28,7 +28,7 @@ import com.joyous.festivalolle.festivalReview.service.FestivalReviewService;
 
 
 //작성자: 이혜성
-//축제리뷰 리스트 VO
+//축제리뷰 리스트
 
 @Controller
 @RequestMapping("/admin/review")
@@ -42,25 +42,28 @@ public class FestivalReviewController {
 		private String paging = "10";
 		
 		@GetMapping("/list")
-		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session, String festivalCode){
+		public String ReviewList(V_ReviewListVO reviewVO, Model model, HttpSession session,
+								@RequestParam(value="festivalCode", required = false, defaultValue = "0") String festivalCode){
 			 AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-			    	if(festivalCode == null) {
-				    int organizationCode = adminVO.getOrganizationCode();
-				    reviewVO.setOrganizationCode(organizationCode);
-				    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
-				    model.addAttribute("reviewList", reviewList);
-				    logger.info("reviewList1:" + reviewList);
-				    System.out.println("reviewList1");
+			    	if(festivalCode.equals("0")) {
+//				    int organizationCode = adminVO.getOrganizationCode();
+//				    reviewVO.setOrganizationCode(organizationCode);
+//				    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+//				    model.addAttribute("reviewList", reviewList);
+//				    //logger.info("reviewList1:" + reviewList);
+//				    logger.info("reviewList1");
+			    		model.addAttribute("festivalCode", 0);
 				    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode x
 				    }else {
-				    	int organizationCode = adminVO.getOrganizationCode();
-					    reviewVO.setOrganizationCode(organizationCode);
-					    reviewVO.setFestivalCode(Integer.parseInt(festivalCode));
-					    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
-					    model.addAttribute("reviewList", reviewList);
-					    logger.info("reviewList2:" + reviewList);
-					    System.out.println("reviewList2");
-					    	return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode o
+//				    	int organizationCode = adminVO.getOrganizationCode();
+//					    reviewVO.setOrganizationCode(organizationCode);
+//					    reviewVO.setFestivalCode(Integer.parseInt(festivalCode));
+//					    List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
+//					    model.addAttribute("reviewList", reviewList);
+//					    //logger.info("reviewList2:" + reviewList);
+//					    logger.info("reviewList2");
+				    	model.addAttribute("festivalCode", Integer.parseInt(festivalCode));
+					    return "adminreview/review"; //전체 리뷰 리스트 출력: festivalCode o
 				    }
 		}//리뷰 리스트 페이지-기본 출력: 전체리뷰
 		
@@ -72,8 +75,8 @@ public class FestivalReviewController {
 			 reviewVO.setOrganizationCode(organizationCode);
 			List<V_ReviewListVO> reviewList = festivalReviewService.festivalReviewList(reviewVO);
 			model.addAttribute("reviewList", reviewList);
-			logger.info("reviewList3:" + reviewList);
-			System.out.println("reviewList");
+			//logger.info("reviewList3:" + reviewList);
+			logger.info("reviewList");
 	        return reviewList;
 		}//리뷰 전체 리스트 출력
 		
@@ -85,7 +88,7 @@ public class FestivalReviewController {
 			 reviewVO.setOrganizationCode(organizationCode);
 			List<V_ReviewListVO> reportList = festivalReviewService.selectReport(reviewVO);
 			model.addAttribute("reportList", reportList);
-			logger.info("reportList:" + reportList);
+			//logger.info("reportList:" + reportList);
 			return reportList;
 		}//신고된 리뷰 리스트 출력
 	        
@@ -96,7 +99,7 @@ public class FestivalReviewController {
 	    		reviewVO.setOrganizationCode(organizationCode);
 	          V_ReviewListVO reviewList = festivalReviewService.selectReview(festivalReviewCode);
 	          model.addAttribute("reviewList", reviewList);
-	          logger.info("reviewList4:" + reviewList);
+	          //logger.info("reviewList4:" + reviewList);
 	          return "adminreview/reviewdetail";
 		}//특정한 1개 리뷰만 출력 - 축제리뷰코드 기준 각 항목의 링크로 이동.
 	        
@@ -107,7 +110,7 @@ public class FestivalReviewController {
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setNormal(festivalReviewCode);
 			    logger.info("setNormal:" + Integer.toString(festivalReviewCode));
-			    System.out.println("setNormal");
+			    logger.info("setNormal");
 			    return "redirect:./detail?festivalReviewCode=" + festivalReviewCode;
 			}//신고철회 처리
 
@@ -118,7 +121,7 @@ public class FestivalReviewController {
 				reviewVO.setOrganizationCode(organizationCode);
 			    festivalReviewService.setBlind(festivalReviewCode);
 			    logger.info("setBlind:" + Integer.toString(festivalReviewCode));
-			    System.out.println("setBlind");
+			    logger.info("setBlind");
 			    return "redirect:./detail?festivalReviewCode=" + festivalReviewCode;
 			}// 블라인드 처리
 	        
@@ -130,8 +133,8 @@ public class FestivalReviewController {
 				int organizationCode = adminVO.getOrganizationCode();
 				reviewVO.setOrganizationCode(organizationCode);
 		    	List<V_ReviewListVO> reviewList = festivalReviewService.searchReview(organizationCode, reviewKeyword, tableBox);
-		    	logger.info("reviewList5:" + reviewList);
-		    	System.out.println("search");
+		    	//logger.info("reviewList5:" + reviewList);
+		    	logger.info("search");
 		        return reviewList; 
 		        }//구매자 리스트 출력
 		        
@@ -143,11 +146,11 @@ public class FestivalReviewController {
 					reviewVO.setOrganizationCode(organizationCode);
 		    		String titleyear2 = titleyear + "%";
 		    		logger.info("titleyear2:" + titleyear2);
-		    		System.out.println(titleyear2);
+		    		logger.info(titleyear2);
 		    		reviewVO.setOrganizationCode(organizationCode);
 		    		reviewVO.setWriteDate(titleyear2);
 		    			List<V_ReviewListVO> selectYearTitleList = festivalReviewService.selectYearTitleList(reviewVO);
-		    			logger.info("selectYearTitleList1:" + selectYearTitleList);
+		    			//logger.info("selectYearTitleList1:" + selectYearTitleList);
 		    			return selectYearTitleList;	
 		    	}
 		    	
@@ -159,7 +162,7 @@ public class FestivalReviewController {
 					reviewVO.setOrganizationCode(organizationCode);
 		    		reviewVO.setFestivalCode(festivalCode);
 		    			List<V_ReviewListVO> selectYearTitleList = festivalReviewService.selectYearReview(reviewVO);
-		    			 logger.info("selectYearTitleList2:" + selectYearTitleList);
+		    			//logger.info("selectYearTitleList2:" + selectYearTitleList);
 		    			return selectYearTitleList;	
 		    	}
 		   

@@ -16,8 +16,7 @@
 			decode(entrance_time,null,'0', '1') entrance_time,
 			decode(coupon_Use_Time,null,'0', '1')coupon_Use_Time,
 			id,password,name,mobile,birth,gender,status,
-			title,address,start_Date,end_Date,
-			image,thumbnail
+			title,address,start_Date,end_Date
 			FROM v_ticket_mypage
 			where MEMBER_CODE = #{memberCode}
 		]]>
