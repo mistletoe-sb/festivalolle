@@ -12,6 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    
 
 
     <title>시스템 관리자</title>
@@ -50,7 +51,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-car-side"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">축 제 올 래</div>
             </a>

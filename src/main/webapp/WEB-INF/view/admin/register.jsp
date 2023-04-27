@@ -21,6 +21,7 @@
 
     <!-- Custom styles for this template-->
     <link href="<c:url value='/resources/css/sb-admin-2.min.css'/>" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -189,8 +190,12 @@
 					console.log(data);
 					if(data == 'ok'){
 						//window.location.replace("<c:url value='/admin/login'/>");
-						window.location.href = "<c:url value='/admin'/>";
-						alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");					
+						swal('', "가입 신청이 완료되었습니다. 승인을 기다려주세요.", 'success').then(function(){
+							window.location.href = "<c:url value='/admin'/>";
+						})
+						
+						
+						/* alert("가입 신청이 완료되었습니다. 승인을 기다려주세요.");		 */			
 					} else {
 						alert("신청 불가");
 					}//end if

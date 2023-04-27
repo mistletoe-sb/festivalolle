@@ -160,7 +160,7 @@
     </div>
     <!-- adminDetail Modal 끝-->
     
-    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
  	<script>   
 	 	$(document).ready(function() {
 			getPage();
@@ -215,7 +215,8 @@
 				}//end error														
 			})//end 기관코드ajax	
 	    })
-
+		
+	   
 		//승인처리
 		$('#adminApproval').on('click', function(){
 			var id = $('#adminId').text();
@@ -228,8 +229,13 @@
 					//$('#organization_code').val(data);	
 
 					if(data == 'ok'){
-						alert(id + "계정 승인 완료");
-						window.location.replace("<c:url value='/system/adminlist'/>");
+						/* alert(id + "계정 승인 완료"); */
+						swal('', "계정 승인 완료.", 'success').then(function() {
+							window.location.replace("<c:url value='/system/adminlist'/>");
+							
+						})
+						 /* swal('입력 오류!', "태그는 자 이하여야 합니다.", 'warning'); */
+						/* window.location.replace("<c:url value='/system/adminlist'/>"); */
 					} else {
 						alert("이미 승인 처리된 계정입니다.");
 					}
@@ -476,7 +482,7 @@
 	</script>
 
 
-    
+   
 
 
 

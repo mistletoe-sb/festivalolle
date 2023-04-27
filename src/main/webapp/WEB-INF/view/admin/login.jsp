@@ -79,7 +79,7 @@
                                     
                                     <div class="text-center">
                                    		<a class="small" href="<c:url value='/admin/findid'/>">아이디를 잊으셨나요?</a><br>
-                                        <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br>
+                                        <%-- <a class="small" href="<c:url value='/admin/forgotpassword'/>">비밀번호를 잊으셨나요?</a><br> --%>
                               			<a class="small" href="<c:url value='/admin/toregister'/>">관리자 등록</a>          
                                     </div>
                                    
@@ -95,6 +95,7 @@
 
     </div>
     
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
  	 //로그인 실행
 	$('#adminLogin-btn').click(function(){
@@ -136,7 +137,7 @@
 
 
 
-
+	
     <!-- Bootstrap core JavaScript-->
     <script src="<c:url value='/resources/vendor/jquery/jquery.min.js'/>"></script>
     <script src="<c:url value='/resources/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
