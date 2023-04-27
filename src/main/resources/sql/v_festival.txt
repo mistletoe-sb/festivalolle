@@ -1,0 +1,26 @@
+-- 축제 상세 정보 표시할 뷰 생성
+CREATE OR REPLACE VIEW v_festival
+AS SELECT 
+fes.festival_code AS festival_code, 
+title, state_name, city_name, 
+fes.address AS address, 
+start_date, end_date, fee, url, 
+fes.organization_code AS organization_code, 
+telephone, admin_name, detail, tags, 
+register_date, fes.status AS status,
+festival_image_code, file_name, image, thumbnail,
+NVL(rating, 0) AS rating, 
+NVL(review_count, 0) AS review_count,
+organization_name
+FROM festivalolle.festival fes
+JOIN festivalolle.organization org
+ON fes.organization_code = org.organization_code
+LEFT OUTER JOIN
+(SELECT festival_code, ROUND(AVG(rating),1) AS rating,
+COUNT(festival_review_code) AS review_count
+FROM festivalolle.festival_review
+WHERE status = 0
+GROUP BY festival_code) fr 
+ON fr.festival_code = fes.festival_code
+LEFT OUTER JOIN festivalolle.festival_image i
+ON fes.festival_code = i.festival_code;

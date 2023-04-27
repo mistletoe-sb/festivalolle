@@ -187,9 +187,26 @@
 					]]>
 				</if>
 				<![CDATA[
-					AND rnum <= 10
+					AND rnum < 10
 					AND ROWNUM <= #{perPage}
 				]]>
 			</where>
+	</select>
+	
+	<!-- 이번주 HOT 축제 목록 조회 -->
+	<select id="selectFestivalHotAllList" resultType="com.joyous.festivalolle.festival.model.FestivalMainVO">
+		<![CDATA[
+			SELECT festival_code, title, state_name, city_name, rating
+			FROM (SELECT ROWNUM rnum, fes.* 
+				  FROM (SELECT festival_code, title, state_name, city_name, rating
+						FROM festivalolle.v_festival_main 
+						WHERE status = 1
+						AND purchasers != 0
+						AND(start_date < #{periodEnd})
+			            AND(end_date > #{periodStart})
+						ORDER BY purchasers DESC) fes
+				  )
+			WHERE rnum <= 10
+		]]>	
 	</select>
 </mapper>

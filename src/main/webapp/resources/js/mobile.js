@@ -507,7 +507,7 @@ $(document).ready(function(){
 						paramData = {'lastFestivalCode':$('.festival_code').last().val()};
 						appendPoint = $('.default_list_layout');
 						break;*/
-					case '이번 주 HOT':
+					//case '이번 주 HOT':
 					case '축제 NOW':
 					case 'COMING SOON':
 						requestUrl = root + '/festival/list/more';
@@ -565,7 +565,7 @@ $(document).ready(function(){
 									$.each(fes, function(index, item){
 										appendPoint.append(printFestivalCard(item, root));
 										imageLoad(item.festivalCode, root);
-										//console.log(item.festivalCode);
+										console.log(item.festivalCode);
 										if(data.dataOption == 'bookmark'){	// 옵션이 북마크인 경우
 											var fesCard = $('.festival_card_container').last();
 											// 북마크 이미지 삽입

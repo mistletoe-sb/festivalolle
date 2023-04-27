@@ -1,0 +1,5 @@
+CREATE OR REPLACE VIEW FESTIVALOLLE.V_MYTICKET AS 
+  SELECT   t.ticket_code, t.member_code, t.festival_code, t.entrance_time, 
+	t.coupon_use_time, f.title, f.start_date, f.end_date, f.status,t.head_count, t.coupon_amount     
+FROM        ticket t JOIN festival f
+ON          (t.festival_code = f.festival_code);

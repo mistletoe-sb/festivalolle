@@ -1,0 +1,15 @@
+CREATE OR REPLACE VIEW v_review_list AS
+SELECT
+        festival_review.FESTIVAL_REVIEW_CODE AS FESTIVAL_REVIEW_CODE,
+        festival_review.status AS status,
+        festival_review.festival_code as festival_code,
+        festival_review.member_code,
+        member.id AS id,
+        festival_review.content AS content,
+        festival_review.write_date AS write_date,
+        festival.title AS title,
+        festival.organization_code AS organization_code
+    FROM
+        festival_review
+        JOIN member ON festival_review.member_code = member.member_code
+        JOIN festival ON festival_review.festival_code = festival.festival_code

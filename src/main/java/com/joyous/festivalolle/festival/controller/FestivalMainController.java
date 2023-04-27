@@ -77,8 +77,15 @@ public class FestivalMainController {
 	@GetMapping(value="/festival/list")
 	public String selectFestivalList(@RequestParam(value="category") int category, 
 									@RequestParam(value="title") String title, Model model) {
+		List<FestivalMainVO> defaultList = null;
 		// 해당 카테고리의 축제 목록 조회
-		List<FestivalMainVO> defaultList = selectFestivalListByCategory(category, 0, PageValue.PER_PAGE);
+		if(category == 1) {
+			LocalDate startDayOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).minusDays(1);		// 이번 주의 첫날 계산(일요일)
+			LocalDate endDayOfWeek = startDayOfWeek.plusDays(6);								// 이번 주의 마지막날 계산(토요일)
+			defaultList = festivalMainService.selectFestivalHotAllList(startDayOfWeek.toString(), endDayOfWeek.toString());
+		} else {
+			defaultList = selectFestivalListByCategory(category, 0, PageValue.PER_PAGE);
+		}
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("defaultList", defaultList);
 		model.addAttribute("title", title);
