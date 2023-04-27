@@ -87,7 +87,7 @@ public class MemberController {
 		logger.info("세션 파기 전", locale);
 		session.invalidate();
 		//logger.info("세션 파기 후", locale);
-		return "redirect:/login";
+		return "redirect:/home";
 	}
 	
 	//마이페이지 화면

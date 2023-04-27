@@ -1,6 +1,5 @@
 package com.joyous.festivalolle.ticket.controller;
 
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -36,22 +35,22 @@ public class MypageTicketController {
 		List<TicketVO> selectTicketList = mypageTicketService.selectTicketList(memberCode);
 		
 
-		byte[] getImage;
-		String img;
+//		byte[] getImage;
+//		String img;
 
 		
-		for(int i=0; i <selectTicketList.size(); i++) {
-			getImage = selectTicketList.get(i).getImage();
-			if(getImage ==null) {
-				img = "1";
-			} else {
-				img = Base64.getEncoder().encodeToString(getImage);
-			}
-			
-			
-			//byte[] getImage = vo.getImage();
-			selectTicketList.get(i).setAddress(img);
-		}
+//		for(int i=0; i <selectTicketList.size(); i++) {
+//			getImage = selectTicketList.get(i).getImage();
+//			if(getImage ==null) {
+//				img = "1";
+//			} else {
+//				img = Base64.getEncoder().encodeToString(getImage);
+//			}
+//			
+//			
+//			//byte[] getImage = vo.getImage();
+//			selectTicketList.get(i).setAddress(img);
+//		}
 		
 		model.addAttribute("selectTicketList", selectTicketList);
 		

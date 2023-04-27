@@ -4,13 +4,15 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>구매 내역</title>
+		<title>상세 내역</title>
 		<style>
 			    #preview-image {
 			  		object-fit: cover;
 					width: 100%;
 					height: 100%;
-					}
+					border-radius: inherit;
+					padding: 0px;
+				}
 
 				.layout_bottom_line {
 					margin-bottom: 1rem;
@@ -34,26 +36,27 @@
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
 		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 				<div class="card mb-3" style="max-width: 33.75rem; ">
-					<div class="row g-0">
-						<div class="col-md-4">
+					<div class="row g-0" style="border-radius: inherit">
+						<div class="col-md-4" style="border-top-left-radius: inherit; border-top-right-radius: inherit">
 							<c:choose>
 								<c:when test="${img == '1'}">
-										<img id="preview-image" class="img-thumbnail" src="<c:url value='/resources/img/null_png.png'/>">
+										<img id="preview-image" class="img-thumbnail" src="<c:url value='/resources/img/no_image.png'/>">
 								</c:when>
 								<c:otherwise>
-										<img id="preview-image"  class="img-thumbnail" src="data:image:jpg;base64,${img}"/ aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+										<img id="preview-image"  class="img-thumbnail" src="data:image:jpg;base64,${img}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 								</c:otherwise>
 							</c:choose>
 						</div>
 						<div class="col-md-8">
 							<div class="card-body card-horizontal-content">
 								<div class = "layout_bottom_line">
-									<div id="title-btn" style ="width:100%;">
+									<div id="title-btn" style ="width:100%; height:2rem;">
 										<div style ="float:left;">
-											<h5  class="card-title" style="cursor: pointer;" ><b>${adminfestivalinfo.title}</b></h5>
+											<h5  class="card-title" style="cursor: pointer;" ><b style="vertical-align:middle;">${adminfestivalinfo.title}</b></h5>
 										</div>
-										<div class="icon" style="float:right;">
-											<img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket">
+										<div class="icon" style="float:right; height:100%; display:flex; align-items:center;">
+											<%-- <img class="mypageimg2" src="<c:url value='/resources/img/icon/arrow.png'/>" alt="ticket"> --%>
+											<i class="fa-solid fa-angle-right" style="font-size: 1.1875rem;"></i>
 										</div>
 										
 									</div>

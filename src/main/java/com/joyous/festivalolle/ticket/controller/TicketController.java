@@ -40,24 +40,27 @@ public class TicketController {
 	private String paging = "10";
 
 	@GetMapping("/list")
-	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session, String festivalCode){
+	public String getBuyerList(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session,
+							@RequestParam(value="festivalCode", required = false, defaultValue = "0") String festivalCode){
 		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-	    	if(festivalCode == null) {
-	    		int organizationCode = adminVO.getOrganizationCode();
-				buyerListVO.setOrganizationCode(organizationCode);
-				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
-				model.addAttribute("ticketList", ticketList);
-				logger.info("ticketList1:" + ticketList);
-				System.out.println("ticketList1"); 
+	    	if(festivalCode.equals("0")) {
+//	    		int organizationCode = adminVO.getOrganizationCode();
+//				buyerListVO.setOrganizationCode(organizationCode);
+//				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
+//				model.addAttribute("ticketList", ticketList);
+//				//logger.info("ticketList1:" + ticketList);
+//				logger.info("ticketList1"); 
+	    		model.addAttribute("festivalCode", 0);
 					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode x
 			}else {
-				int organizationCode = adminVO.getOrganizationCode();
-				buyerListVO.setOrganizationCode(organizationCode);
-				buyerListVO.setFestivalCode(Integer.parseInt(festivalCode));
-				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
-				model.addAttribute("ticketList", ticketList);
-				logger.info("ticketList2:" + ticketList);
-				System.out.println("ticketList2");
+//				int organizationCode = adminVO.getOrganizationCode();
+//				buyerListVO.setOrganizationCode(organizationCode);
+//				buyerListVO.setFestivalCode(Integer.parseInt(festivalCode));
+//				List<V_ticketBuyerListVO> ticketList = ticketService.ticketBuyerList(buyerListVO);
+//				model.addAttribute("ticketList", ticketList);
+//				//logger.info("ticketList2:" + ticketList);
+//				logger.info("ticketList2");
+				model.addAttribute("festivalCode", Integer.parseInt(festivalCode));
 					return "adminticket/ticket"; // 구매자 전체 리스트 출력: festivalCode o
 			}
 	}
@@ -69,8 +72,8 @@ public class TicketController {
     	AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
 		int organizationCode = adminVO.getOrganizationCode();
     	List<V_ticketBuyerListVO> ticketList = ticketService.searchBuyer(organizationCode, buyerKeyword, tableBox);
-    	logger.info("ticketList:" + ticketList);
-    	System.out.println("search");
+    	//logger.info("ticketList:" + ticketList);
+    	logger.info("search");
         return ticketList; //구매자 리스트 출력
     }
     
@@ -81,11 +84,11 @@ public class TicketController {
 		int organizationCode = adminVO.getOrganizationCode();
 		buyerListVO.setOrganizationCode(organizationCode);
 		String titleyear2 = titleyear + "%";
-		System.out.println(titleyear2);
+		logger.info(titleyear2);
 		buyerListVO.setOrganizationCode(organizationCode);
 		buyerListVO.setPurchaseTime(titleyear2);
 			List<V_ticketBuyerListVO> selectYearTitleList = ticketService.selectYearTitleList(buyerListVO);
-			logger.info("selectYearTitleList:" + selectYearTitleList);
+			//logger.info("selectYearTitleList:" + selectYearTitleList);
 			return selectYearTitleList;	
 	}
 	
@@ -97,7 +100,7 @@ public class TicketController {
 			buyerListVO.setOrganizationCode(organizationCode);
 			buyerListVO.setFestivalCode(festivalCode);
 			List<V_ticketBuyerListVO> selectYearBuyer = ticketService.selectYearBuyer(buyerListVO);
-			logger.info("selectYearBuyer:" + selectYearBuyer);
+			//logger.info("selectYearBuyer:" + selectYearBuyer);
 			return selectYearBuyer;	
 	}
 	
@@ -151,16 +154,4 @@ public class TicketController {
 	
 		  return result; 
 	  }
-    	
-	//-------------------test controller-------------------------------------------
-	@GetMapping("/test")
-	public String getTest(V_ticketBuyerListVO buyerListVO, Model model, HttpSession session){
-		AdminVO adminVO = (AdminVO) session.getAttribute("loginAdmin");
-		int organizationCode = adminVO.getOrganizationCode();
-		buyerListVO.setOrganizationCode(organizationCode);
-		List<V_ticketBuyerListVO> test = ticketService.ticketBuyerList(buyerListVO);
-		model.addAttribute("test", test);
-		System.out.println("test");
-        return "adminticket/test"; // 구매자 전체 리스트 출력
-	}
 }

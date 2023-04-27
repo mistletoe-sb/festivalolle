@@ -13,7 +13,9 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var root = $('#rootContext').val();		// context root
-				location.replace(root + '/init');		// 초기 페이지로 이동
+				setTimeout(function(){
+					location.replace(root + '/init');		// 초기 페이지로 이동
+				}, 1000);
 			});
 		</script>
 	</body>

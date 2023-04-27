@@ -1,0 +1,6 @@
+-- system 계정에서 실행
+
+DROP USER festivalolle CASCADE; -- 계정 삭제
+
+CREATE USER festivalolle IDENTIFIED BY olle; -- 계정 생성
+GRANT DBA TO festivalolle; -- 롤 부여

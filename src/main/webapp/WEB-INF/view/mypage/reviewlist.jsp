@@ -4,8 +4,11 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>리뷰 리스트</title>
+		<title>나의 리뷰</title>
 		<style type="text/css">
+			/* .review_card_container{
+				padding: 0vmax 5vmin !important;
+			} */
 			.star-ratings {
 			  color: #aaa9a9; 
 			  position: relative;
@@ -38,7 +41,8 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
-		<div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
+		<div id="mypageReviewLayout" class="default_list_layout"></div>
+		<%-- <div class="container-fluid review_card_container card-body" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectReviewtList}" varStatus="stat">
 				<div class="card mb-3" style="max-width: 33.75rem; " >
 					<div class="row g-0">
@@ -84,7 +88,7 @@
 					</div>
 				</div>
 			</c:forEach>
-		</div>
+		</div> --%>
 
 		<%@ include file="../mobilemenu/mobilebottom.jsp"%>
 	</body>

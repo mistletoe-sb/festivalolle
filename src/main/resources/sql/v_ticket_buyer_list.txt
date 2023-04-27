@@ -1,0 +1,9 @@
+CREATE OR REPLACE VIEW v_ticket_buyer_list AS
+SELECT
+	member.id as id, member.name as name, member.mobile as mobile,
+	ticket.purchase_time as purchase_time, ticket.entrance_time as entrance_time, 	ticket.coupon_use_time as coupon_use_time,
+	festival.organization_code AS organization_code, festival.title as title, festival.festival_code as festival_code
+    FROM
+	ticket
+	JOIN member ON ticket.member_code = member.member_code
+	JOIN festival ON ticket.festival_code = festival.festival_code

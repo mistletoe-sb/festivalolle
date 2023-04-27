@@ -24,4 +24,6 @@ public interface IFestivalMainService {
 	// 이번주 HOT 축제 조회
 	List<FestivalMainVO> selectFestivalHotList(String periodStart, String periodEnd,
 											int lastFestivalCode, int perPage);
+	// 이번주 HOT 축제 전체 조회
+	List<FestivalMainVO> selectFestivalHotAllList(String periodStart, String periodEnd);
 }

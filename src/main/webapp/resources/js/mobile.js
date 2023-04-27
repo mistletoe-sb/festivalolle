@@ -6,12 +6,24 @@ $(document).ready(function(){
 	var pageTitle = $('title').text();			// 페이지 타이틀
 	$('.page_title > p').text(pageTitle);		// 페이지 제목을 top메뉴에 출력
 	
+	if($('#return_back').length){
+		$('#return_back').on('click',function(){
+			history.back();
+		});
+	}
+	
 	// 페이지 이동 시 로딩 시작
 	$(window).on('beforeunload', function(){
 		$('.loading_img').css('top', '0px');
 		$('.loading_img').css('height', '100%');
 		$('.loading_img').css('background-color', '#FFFFFF99');
-		$('.loading_img').attr('hidden', false);		
+		$('.loading_img').attr('hidden', false);
+		setTimeout(function(){
+			$('.loading_img').css('bottom', '8.5vmax');
+			$('.loading_img').css('height', '5vmax');
+			$('.loading_img').css('background-color', 'none');
+			$('.loading_img').attr('hidden', true);
+		}, 8000);
 		//$('html').scrollTop(0);
 	});
 	// 페이지 로드 완료 시 로딩 종료
@@ -94,6 +106,10 @@ $(document).ready(function(){
 		case '로그인':
 		case '마이페이지':
 			$('#mypageQuick').attr('class', 'selected_bottom_menu');
+			break;
+		case '회원정보':
+			isDefaultBack = false;
+			location.replace(root + '/mypage');
 			break;
 		default:
 			break;
@@ -232,6 +248,7 @@ $(document).ready(function(){
 					}
 					// 이벤트 바인딩
 					week_event(root);
+					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -270,6 +287,7 @@ $(document).ready(function(){
 							imageLoad(item.festivalCode, root);
 						});
 					}
+					$('html').animate({scrollTop : 0}, 0);
 				},
 				error: function(){
 					// AJAX 요청이 실패한 경우 에러 처리
@@ -304,8 +322,8 @@ $(document).ready(function(){
 		function closeModal(){
 			$('.ticket_modal_layout').css('animation', 'fadeout_tobottom 1s ease-out');
 			$('.ticket_modal_layout').css('bottom', '-55vmax');
-			$('#headCount').val('');
-			$('#paymentAmount').text('');
+			//$('#headCount').val('');
+			//$('#paymentAmount').text('');
 			$(document).off('mouseup touchend');
 		}
 		// 모달 창 close
@@ -369,8 +387,16 @@ $(document).ready(function(){
 			}else if(status == 1 || status == 2){
 				if(inputValue != ''){
 					var inputNum = parseInt(inputValue);
-					if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 submit
-						$('#ticketInsert').submit();
+					if(inputNum < 100 && inputNum > 0){	// 범위 내인 경우 구매 확인 창 팝업
+						closeModal();
+						var checkText = '입장 인원 : ' + inputNum + '명\n' + '결제 금액 : ' + $('#paymentAmount').text() + '원\n'
+						swal({title: "결제 정보 확인", text: checkText,
+							icon: "info", buttons: ["취소","결제"]})
+						.then(function(value){
+							if(value){
+								$('#ticketInsert').submit();								
+							}
+						});
 					}else{
 						$('#headCountHint').text('입장인원은 1~99명까지 입력 가능합니다.');
 						$('#headCount').focus();
@@ -390,8 +416,8 @@ $(document).ready(function(){
 	}
 	
 	// 축제 리뷰 초기 로딩
+	var isReviewAlreadyInitLoad = false;
 	if($('.review_list_layout').length){
-		var isReviewAlreadyInitLoad = false;
 		$(window).on('scroll',function(){
 			if(checkVisible($('#review')) && !isReviewAlreadyInitLoad){
 				var paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':'0'}
@@ -423,6 +449,42 @@ $(document).ready(function(){
 		});		
 	}
 	
+	// 나의 리뷰 초기 로딩
+	if($('#mypageReviewLayout').length){
+		var paramData = {'lastReviewCode':'0'}
+		// AJAX 호출
+		$.ajax({
+			url: root + '/mypage/reviewlist/more',	// 요청 URL
+			type: 'POST', 						// POST 방식으로 요청
+			contentType: 'application/json',	// Json 타입으로 데이터 전송
+			data: JSON.stringify(paramData),	// 서버로 보낼 데이터
+			dataType: 'json',
+			success: function(data){
+				var reviewList = data.festivalReviewList;
+				if(data.dataStatus == 'NORMAL_TRUE'){							
+					// 리뷰 목록 출력
+					$.each(reviewList, function(index, item){
+						$('#mypageReviewLayout').append(printMypageReview(item, root));
+					});
+					// 이벤트 바인딩
+					review_btn_event(root);
+				}else if(data.dataStatus == 'NOT_SESSION'){
+					console.log('lost session');
+					location.replace(root + '/login');
+				}else{
+					console.log('불러올 데이터가 없습니다.');
+				}
+				if(reviewList.length == 0){
+					$('#mypageReviewLayout').append('<div class="no_result">작성한 리뷰가 없습니다.</div>');
+				}
+			},
+			error: function(){
+				// AJAX 요청이 실패한 경우 에러 처리
+				console.log('데이터를 불러오는데 실패했습니다.');
+			}
+		});
+	}
+	
 	// 스크롤이 바닥에 다다를 시 페이징 목록 Ajax 요청
 	var isMoreData = true;	// 불러올 데이터가 더 있는지 여부
 	var isAjaxPossible = true;	// Ajax 통신 가능한 상태인지(중복 데이터 로딩 방지)
@@ -445,7 +507,7 @@ $(document).ready(function(){
 						paramData = {'lastFestivalCode':$('.festival_code').last().val()};
 						appendPoint = $('.default_list_layout');
 						break;*/
-					case '이번 주 HOT':
+					//case '이번 주 HOT':
 					case '축제 NOW':
 					case 'COMING SOON':
 						requestUrl = root + '/festival/list/more';
@@ -470,6 +532,11 @@ $(document).ready(function(){
 						requestUrl = root + '/bookmark/list/more';
 						paramData = {'lastBookmarkCode':$('.bookmark_code').last().val()};
 						appendPoint = $('.default_list_2x_layout');
+						break;
+					case '나의 리뷰':
+						requestUrl = root + '/mypage/reviewlist/more';
+						paramData = {'lastReviewCode':$('.review_code').last().val()};
+						appendPoint = $('#mypageReviewLayout');
 						break;
 					default:
 						isAjaxPossible = false;
@@ -498,7 +565,7 @@ $(document).ready(function(){
 									$.each(fes, function(index, item){
 										appendPoint.append(printFestivalCard(item, root));
 										imageLoad(item.festivalCode, root);
-										//console.log(item.festivalCode);
+										console.log(item.festivalCode);
 										if(data.dataOption == 'bookmark'){	// 옵션이 북마크인 경우
 											var fesCard = $('.festival_card_container').last();
 											// 북마크 이미지 삽입
@@ -515,7 +582,11 @@ $(document).ready(function(){
 								}else if(dataClass == 'review'){	// 응답 데이터가 리뷰 목록일 경우
 									var review = data.festivalReviewList;
 									$.each(review, function(index, item){
-										appendPoint.append(printReview(item, root));
+										if(data.dataOption == 'mypage'){	// 옵션이 마이페이지인 경우
+											appendPoint.append(printMypageReview(item, root));
+										}else{
+											appendPoint.append(printReview(item, root));											
+										}
 										//console.log(item.festivalReviewCode);
 									});
 									review_btn_event(root);	// 리뷰 버튼 이벤트 바인딩
@@ -524,6 +595,10 @@ $(document).ready(function(){
 										isMoreData = false;
 									}
 								}
+							}else if(data.dataStatus == 'NOT_SESSION'){
+								console.log('lost session');
+								isMoreData = false;
+								location.replace(root + '/login');
 							}else{
 								console.log('불러올 목록이 없습니다.');
 								isMoreData = false;
@@ -662,32 +737,6 @@ function printFestivalCard(fes, pageRoot){
 	appendHTML += '</div></div></div></div></div></div>';
 	return appendHTML;
 }
-
-// 주차 별 축제 일정 정보 레이아웃 요소 생성
-/*function printCalendar(month, weekData, weekDataImages, pageRoot){
-	var appendHTML = '';
-	$.each(weekData, function(index, item){
-		var images = weekDataImages[index];
-		if(index == 1){
-			appendHTML += '<input class="folding_active" type="hidden" value="active">';
-		}else{
-			appendHTML += '<input class="folding_active" type="hidden" value="hide">';
-		}
-		appendHTML += '<div class="week_bar">';
-		appendHTML += '<h3>' + month + '월 ' + index + '주</h3>';
-		appendHTML += '</div>';
-		if(index == 1){
-			appendHTML += '<div class="default_list_layout folding_space">';
-		}else{
-			appendHTML += '<div class="default_list_layout folding_space" hidden="true">';
-		}
-		$.each(item, function(i, fes){
-			appendHTML += printFestivalCard(fes, images[i], pageRoot);
-		});
-		appendHTML += '</div>';
-	});
-	return appendHTML;
-}*/
 
 // 북마크 여부 확인 요청
 function requestCheckBookmark(festivalCode, pageRoot){
@@ -932,6 +981,44 @@ function printReview(item, pageRoot){
 	appendHTML += '<div class="multi_line_text"><p class="review_content">' + item.content + '</p></div>';
 	appendHTML += '</div>';
 	appendHTML += '<div class="review_btn_layout"><p class="card-text report_review">신고</p>';
+	appendHTML += '<input type="hidden" class="review_code" value="' + item.festivalReviewCode + '">';
+	appendHTML += '</div></div></div></div>';
+		
+	return appendHTML;
+}
+
+// 나의 리뷰(마이페이지) 레이아웃 요소 생성
+function printMypageReview(item, pageRoot){
+	var appendHTML = '';
+	appendHTML += '<div class="review_card_container">';
+	appendHTML += '<div class="card">';
+	appendHTML += '<div class="card-body">';
+	appendHTML += '<div class="review_body">';
+	appendHTML += '<div class="review_name"><p class="card-text">' + item.title + '</p></div>';
+	appendHTML += '<div class="review_sub">';
+	appendHTML += '<div class="rating_layout">';
+	for(var i = 1; i <= item.rating; i++){
+		appendHTML += '<div class="icon_layout rating_img">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+		appendHTML += '<i class="fa-solid fa-star fill_star"></i>';		
+		appendHTML += '</div>';
+	}
+	for(var j = item.rating + 1; j <= 5; j++){
+		appendHTML += '<div class="icon_layout rating_img">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+		appendHTML += '<i class="fa-solid fa-star empty_star"></i>';
+		appendHTML += '</div>';
+	}
+	appendHTML += '</div>';
+	appendHTML += '<div class="day_for_write"><p>' + timeForToday(item.writeDate) + '</p></div>';
+	appendHTML += '</div>';
+	if(item.status != 2){	// 정상 표시되는 리뷰 + 신고된 리뷰(블라인드 처리되기 전)
+		appendHTML += '<div class="multi_line_text"><p class="review_content">' + item.content + '</p></div>';
+	}else{		// 블라인드 처리된 리뷰
+		appendHTML += '<div class="multi_line_text"><p class="review_blind">블라인드 처리된 리뷰입니다.</p></div>';
+	}
+	appendHTML += '</div>';
+	appendHTML += '<div class="review_btn_layout"><p class="card-text delete_review">삭제</p>';
 	appendHTML += '<input type="hidden" class="review_code" value="' + item.festivalReviewCode + '">';
 	appendHTML += '</div></div></div></div>';
 		
@@ -1252,8 +1339,8 @@ function checkVisible(checkElement){
 }
 
 // Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
-function ajaxResponseExecuteFull(data, trueCallback, falseCallback, errorCallback, notSessionCallback){
-	switch(data){
+function ajaxResponseExecuteFull(dataStatus, trueCallback, falseCallback, errorCallback, notSessionCallback){
+	switch(dataStatus){
 		case 'NORMAL_TRUE':
 			trueCallback();
 			break;
@@ -1269,8 +1356,8 @@ function ajaxResponseExecuteFull(data, trueCallback, falseCallback, errorCallbac
 	}
 }
 // Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
-function ajaxResponseExecuteTriple(data, trueCallback, errorCallback, notSessionCallback){
-	switch(data){
+function ajaxResponseExecuteTriple(dataStatus, trueCallback, errorCallback, notSessionCallback){
+	switch(dataStatus){
 		case 'NORMAL_TRUE':
 			trueCallback();
 			break;
@@ -1318,8 +1405,8 @@ function imageLoad(festivalCode, pageRoot){
 
 function initImageLoad(pageRoot){
 	//console.log('img load + ' + $('.festival_card_container .card-img-top, .recommend_img').length);
-	if($('.festival_card_container .card-img-top, .recommend_img').length){
-		var images = $('.card-img-top, .recommend_img');
+	if($('.festival_card_container .card-img-top, .recommend_img, .card-horizontal-image .card-thumbnail').length){
+		var images = $('.card-img-top, .recommend_img, .card-thumbnail');
 		// 각 요소 별 이미지 로드
 		$.each(images, function(index, item){
 			var festivalCode = $(item).attr('alt');

@@ -1,0 +1,44 @@
+-- 축제 목록에 표시할 데이터를 담는 뷰 생성
+-- 축제정보 : festival_code, title, state_name, city_name, start_date, end_date, status
+-- 축제 이미지 : file_name, image, thumbnail
+-- 평균 평점 : rating
+-- 이용객 수, 구매자 수 : visitors, purchasers
+
+CREATE OR REPLACE VIEW v_festival_main
+AS SELECT fes.festival_code AS festival_code,
+title, state_name, city_name, 
+start_date, end_date, register_date, status, 
+file_name, image,
+NVL(rating, 0) AS rating, visitors, purchasers
+FROM 
+festivalolle.festival fes
+LEFT OUTER JOIN
+(SELECT f.festival_code AS festival_code,
+NVL(visitors, 0) AS visitors,
+NVL(purchasers, 0) AS purchasers
+FROM festivalolle.festival f
+LEFT OUTER JOIN
+(SELECT festival_code, COUNT(NVL2(entrance_time,head_count,0)) AS visitors,
+SUM(NVL2(purchase_time,head_count,0)) AS purchasers
+FROM festivalolle.ticket
+GROUP BY festival_code) t
+ON t.festival_code = f.festival_code) fv
+ON fes.festival_code = fv.festival_code
+LEFT OUTER JOIN
+(SELECT festival_code, ROUND(AVG(rating),1) AS rating
+FROM festivalolle.festival_review
+WHERE status = 0
+GROUP BY festival_code) fr 
+ON fes.festival_code = fr.festival_code
+LEFT OUTER JOIN
+(SELECT fi_left.festival_code AS festival_code,
+file_name, image, thumbnail
+FROM
+(SELECT gfi.festival_code AS festival_code,
+MIN(gfi.festival_image_code) AS festival_image_code
+FROM festivalolle.festival_image gfi
+GROUP BY gfi.festival_code) fi_left
+JOIN
+festivalolle.festival_image fi_right
+ON fi_left.festival_image_code = fi_right.festival_image_code) fi 
+ON fes.festival_code = fi.festival_code;

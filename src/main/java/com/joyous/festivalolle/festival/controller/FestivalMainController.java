@@ -77,8 +77,15 @@ public class FestivalMainController {
 	@GetMapping(value="/festival/list")
 	public String selectFestivalList(@RequestParam(value="category") int category, 
 									@RequestParam(value="title") String title, Model model) {
+		List<FestivalMainVO> defaultList = null;
 		// 해당 카테고리의 축제 목록 조회
-		List<FestivalMainVO> defaultList = selectFestivalListByCategory(category, 0, PageValue.PER_PAGE);
+		if(category == 1) {
+			LocalDate startDayOfWeek = LocalDate.now().with(DayOfWeek.MONDAY).minusDays(1);		// 이번 주의 첫날 계산(일요일)
+			LocalDate endDayOfWeek = startDayOfWeek.plusDays(6);								// 이번 주의 마지막날 계산(토요일)
+			defaultList = festivalMainService.selectFestivalHotAllList(startDayOfWeek.toString(), endDayOfWeek.toString());
+		} else {
+			defaultList = selectFestivalListByCategory(category, 0, PageValue.PER_PAGE);
+		}
 		// 뷰에 표시할 데이터를 model 통해 전달
 		model.addAttribute("defaultList", defaultList);
 		model.addAttribute("title", title);
@@ -189,9 +196,6 @@ public class FestivalMainController {
 		int week = 0;							// 현재 주차
 		LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
 		
-		LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
-		LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
-		
 		// 현재 주차 계산
 		for(int i = 0; i < weekData.length; i++) {
 			if(today.compareTo(weekData[i][0]) >= 0 && today.compareTo(weekData[i][1]) <= 0) {
@@ -202,8 +206,8 @@ public class FestivalMainController {
 		
 		// 지역 목록
 		model.addAttribute("locationList", 
-				festivalMainService.selectFestivalLocationList(startDayOfMonth.toString(),
-															endDayOfMonth.toString()));
+				festivalMainService.selectFestivalLocationList(weekData[week][0].toString(),
+															weekData[week][1].toString()));
 		// 표시할 축제 목록
 		model.addAttribute("defaultList",
 				festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
@@ -229,7 +233,6 @@ public class FestivalMainController {
 		// 조회한 축제 목록(지역 선택 안 할 경우 전체 지역 선택으로 간주)
 		if(location.equals("지역")) {
 			LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
-			
 			LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
 			LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
 			festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),

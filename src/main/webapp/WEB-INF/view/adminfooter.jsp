@@ -5,7 +5,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy;  축제올래 2023</span>
+                        <span>Copyright &copy;  축제올래 2023<br><br>서비스 관련 문의 : 010-3736-3907</span>
                     </div>
                 </div>
             </footer>

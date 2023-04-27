@@ -40,4 +40,7 @@ public interface IFestivalMainRepository {
 											@Param("periodEnd") String periodEnd,
 											@Param("lastFestivalCode") int lastFestivalCode,
 											@Param("perPage") int perPage);
+	// 이번주 HOT 축제 전체 조회
+	List<FestivalMainVO> selectFestivalHotAllList(@Param("periodStart") String periodStart,
+											@Param("periodEnd") String periodEnd);
 }

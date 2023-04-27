@@ -48,7 +48,13 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
+                                비밀번호 찾기는 제공하지 않고 있습니다.<br><br>
+								비밀번호를 분실하신 경우<br>하단의 연락처로 직접 문의 바랍니다.
+								<br><br>
+								서비스 관련 문의 : 010-3736-3907
+                                <%--
                                     <div class="text-center">
+                                     
                                         <h1 class="h4 text-gray-900 mb-2">비밀번호를 잊으셨나요?</h1>
                                         <p class="mb-4">아래에 전화번호를 입력하세요.
                                             비밀번호를 재설정할 수 있는 링크를 보내드립니다!</p>
@@ -115,12 +121,12 @@
                                     <div class="text-center">
                                         <a class="small" href="<c:url value='/admin'/>">이미 계정을 가지고 계신가요? 로그인하세요!</a>
                                     </div>
+                                    --%>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div> 
             </div>
 
         </div>

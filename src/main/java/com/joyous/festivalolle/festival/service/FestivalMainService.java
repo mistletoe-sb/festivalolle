@@ -68,4 +68,9 @@ public class FestivalMainService implements IFestivalMainService {
 		return festivalMainRepository.selectFestivalHotList(periodStart, periodEnd, lastFestivalCode, perPage);
 	}
 
+	@Override
+	public List<FestivalMainVO> selectFestivalHotAllList(String periodStart, String periodEnd) {
+		return festivalMainRepository.selectFestivalHotAllList(periodStart, periodEnd);
+	}
+
 }

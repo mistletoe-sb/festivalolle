@@ -257,7 +257,7 @@ textarea::placeholder, input::placeholder {
 /* 메인 화면 카테고리 별 기본 레이아웃(수평 방향 레이아웃) */
 .default_horizontal_layout {
 	width: 100%;
-	height: 55vmax;
+	/* height: 55vmax; */
 }
 .category_title, .horizontal_empty {
 	margin-left: 4.15vmin;
@@ -280,7 +280,7 @@ textarea::placeholder, input::placeholder {
 .horizontal_container {
 	overflow-x: overlay;
 	width: 100vmin;
-	height: 47.7vmax;
+	/* height: 47.7vmax; */
 	display: flex;
 }
 .goto_list {
@@ -303,7 +303,7 @@ textarea::placeholder, input::placeholder {
 }
 .horizontal_goto {
 	min-width: 16vmin;
-	height: 100%;
+	/* height: 100%; */
 	flex-direction: column;
 }
 .horizontal_goto p {
@@ -325,7 +325,8 @@ textarea::placeholder, input::placeholder {
 	display: flex;
 	align-items: center;
 	width: 100%;
-	height: 2.92vmax;
+	height: auto;
+	min-height: 2.92vmax;
 	padding: 0vmin 4.15vmin;
 	margin: 4.05vmax 0vmin 1.35vmax 0vmin;
 }
@@ -357,7 +358,7 @@ textarea::placeholder, input::placeholder {
 	border: none;
 	border-radius: 1rem;
 	width: 0.25rem;
-	height: 85%;
+	height: 2.617745vmax;
 	margin-top: 0.03125rem;
 	margin-right: 0.125rem;
 }
@@ -386,7 +387,7 @@ textarea::placeholder, input::placeholder {
 }
 .d-day_info {
 	display: inline-block;
-	height: 100%;
+	height: 3.0797vmax;
 	font-size: 0.8125rem;
 	font-weight: 600 !important;
 	padding: 0.0225rem 0.5rem !important;
@@ -398,7 +399,8 @@ textarea::placeholder, input::placeholder {
 }
 #fes_info_title {
 	display: flex;
-	height: 3.0797vmax;
+	height: auto;
+	min-height: 3.0797vmax;
 	align-items: center;
 	margin-bottom: 0.7vmax;
 /* 	margin-bottom: 1.5vmax; */
@@ -415,7 +417,23 @@ textarea::placeholder, input::placeholder {
 	align-items: center;
 	margin-right: 3.3vmin;
 }
-#fes_status {
+#fes_status_1 {
+	display: flex;
+	min-width: 16vmin;
+	max-width: 34vmin;
+	height: 100%;
+	text-align: left;
+	align-items: center;
+}
+#fes_status_2 {
+	display: flex;
+	min-width: 15vmin;
+	max-width: 34vmin;
+	height: 100%;
+	text-align: left;
+	align-items: center;
+}
+#fes_status_3 {
 	display: flex;
 	min-width: 12vmin;
 	max-width: 34vmin;
@@ -1430,14 +1448,35 @@ textarea::placeholder, input::placeholder {
 
 /* QR 입장권 페이지 */
 .myticket p {
-	margin-bottom: 0px;
+	margin-bottom: 0.125rem;
 }
 .ticket_sub {
 	display: flow-root;
 }
 .ticket_sub_txt {
 	float: left;
-	width: 50%;
+	min-width: 40%;
+}
+
+/* 나의 리뷰 페이지 레이아웃 */
+#mypageReviewLayout {
+	padding: 0vmin 5vmin;
+}
+
+/* 서비스 관련 문의 연락처 디자인 */
+#sysTel {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: 0px;
+	text-align: center;
+	font-size: 0.8rem;
+}
+/* 에러페이지 버튼 디자인 */
+#return_back {
+	margin-top: 1rem;
+	border-radius: 2rem;
+	height: 3rem;
 }
 
 /* 폰트어썸 아이콘 색상 설정 */

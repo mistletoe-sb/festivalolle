@@ -1,0 +1,17 @@
+-- 축제 리뷰 표시에 사용하는 뷰 생성
+-- 축제 리뷰, 회원, 축제 테이블 JOIN
+CREATE OR REPLACE VIEW v_festival_review
+AS SELECT festival_review_code,
+rev.member_code AS member_code,
+rev.festival_code AS festival_code,
+write_date, content,
+rating, rev.status AS status, 
+mem.id AS id, 
+fes.title AS title, 
+fes.organization_code AS organization_code
+FROM 
+festivalolle.festival_review rev
+JOIN festivalolle.festival fes
+ON rev.festival_code = fes.festival_code
+JOIN festivalolle.member mem
+ON rev.member_code = mem.member_code;

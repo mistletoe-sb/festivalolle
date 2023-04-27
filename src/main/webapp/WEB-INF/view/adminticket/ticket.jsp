@@ -9,11 +9,13 @@
 	<div class="card-header py-3">
 		<h6 class="m-0 font-weight-bold text-primary">구매자 리스트</h6>
 	</div>
-	<div class="card-body"> 
+	<div class="card-body">
+	<div> 
 	<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 		<!-- Topbar Search -->
+		<div style="display:flex; height:2.5rem;">
           <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-             <div class="input-group" style ="float:left;">
+            <div class="input-group" style ="width:100px; float:left; height:100%; ">
                <select id= "tableBox" class="form-control bg-light border-0 small" aria-label="Default select example">
                  <option value="id">아이디</option>
                  <option value="name">이름</option>
@@ -21,41 +23,49 @@
                  </select>
                  <input type="hidden" id="tableBoxInput" value="" />
                    </div>
-                   <div style ="float:left;">
-                   <div style ="float:left;">
+                    <div class="input-group" style ="float:left;  height:100%;">
                      <input type="text" class="form-control bg-light border-0 small" id="buyerKeyword" placeholder="검색"
-                     aria-label="Search" aria-describedby="basic-addon2">
+                     aria-label="Search" aria-describedby="basic-addon2" style ="margin:0; width:12.5rem; height:100%;">
                    </div>
                     <input type="hidden" id="searchInput" value="" />
-                    <div class="input-group-append" style ="float:left;">
+                    <div class="input-group-append" style ="float:left;  margin:0;">
                       <button class="btn btn-primary" type="button" id="buyerSearch">
                       	<i class="fas fa-search fa-sm"></i>
                       </button>
                     </div>
-                  </div>
           	</form>
-          	<div>
-         		<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right"></select>
-         	</div> 
-          	<div>
-         	<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="right"></select>
-         	<input type="hidden" id="titleListInput" value="0" />
+          	</div>
+          	<div  style=" display:flex; height:2.5rem;">
+	          	<div class="input-group" style ="width:100px; float:left; height:100%; ">
+	         		<select id= "yearBox" class="form-control bg-light border-0 small" aria-label="Default select example" style="height:100%;"></select>
+	         	</div> 
+          		<div style="display:flex; height:2.5rem;">
+					<div class="input-group" style ="width:100px; float:left; height:100%; ">
+						<div style ="float:right;">
+		         			<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;"></select>
+		         			<c:choose>
+				         		<c:when test="${empty festivalCode}"><input type="hidden" id="titleListInput" value="0" /></c:when>
+				         		<c:otherwise><input type="hidden" id="titleListInput" value="${festivalCode}" /></c:otherwise>
+				         	</c:choose>
+						</div>
+					</div>
+				</div>
 			</div>
-         	</nav>
-          	
-		 	<div class="table-responsive">
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-					<thead class="text-center">
-						<tr>
+       	</nav>
+    	</div>
+		<div class="table-responsive">
+			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<thead class="text-center">
+					<tr>
 		
-							<th>아이디</th>
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>구매일시</th>
-							<th>입장일시</th>
-							<th>쿠폰사용일시</th>
-							<th>축제명</th>
-						</tr>
+						<th>아이디</th>
+						<th>이름</th>
+						<th>전화번호</th>
+						<th>구매일시</th>
+						<th>입장일시</th>
+						<th>쿠폰사용일시</th>
+						<th>축제명</th>
+					</tr>
 					</thead>
 					<tbody class="text-center" id="contents">
 						<c:forEach items="${ticketList}" var="ticketList">
@@ -106,7 +116,7 @@ document.addEventListener('keydown', function(event) {
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-        		$("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+        		$("#titleList").append('<option value="0" selected> 축제를 선택 해주세요. </option>');
             	$.each(data, function(index, item) {
             	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });
@@ -161,7 +171,7 @@ document.addEventListener('keydown', function(event) {
  	            data: { titleyear: titleyear }, // 서버로 보낼 데이터
  	            dataType: "json",
  	           success: function(data) {
- 	              $("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+ 	              $("#titleList").append('<option value="0"> 축제를 선택 해주세요. </option>');
  	              $.each(data, function(index, ticketList) {
  	                 $("#titleList").append("<option value='" +ticketList.festivalCode+ "'>" +ticketList.title + "</option>");
  	               });
