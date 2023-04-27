@@ -43,7 +43,10 @@
 					<div class="input-group" style ="width:100px; float:left; height:100%; ">
 						<div style ="float:right;">
 		         			<select name = "titleList" id = "titleList" class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;"></select>
-		         			<input type="hidden" id="titleListInput" value="0" />
+		         			<c:choose>
+				         		<c:when test="${empty festivalCode}"><input type="hidden" id="titleListInput" value="0" /></c:when>
+				         		<c:otherwise><input type="hidden" id="titleListInput" value="${festivalCode}" /></c:otherwise>
+				         	</c:choose>
 						</div>
 					</div>
 				</div>
@@ -113,7 +116,7 @@ document.addEventListener('keydown', function(event) {
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-        		$("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+        		$("#titleList").append('<option value="0" selected> 축제를 선택 해주세요. </option>');
             	$.each(data, function(index, item) {
             	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });
@@ -168,7 +171,7 @@ document.addEventListener('keydown', function(event) {
  	            data: { titleyear: titleyear }, // 서버로 보낼 데이터
  	            dataType: "json",
  	           success: function(data) {
- 	              $("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+ 	              $("#titleList").append('<option value="0"> 축제를 선택 해주세요. </option>');
  	              $.each(data, function(index, ticketList) {
  	                 $("#titleList").append("<option value='" +ticketList.festivalCode+ "'>" +ticketList.title + "</option>");
  	               });

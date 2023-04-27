@@ -4,8 +4,11 @@
 <html>
 	<head>
 		<%@ include file="../mobilemenu/mobileinclude.jsp"%>
-		<title>리뷰 리스트</title>
+		<title>나의 리뷰</title>
 		<style type="text/css">
+			.review_card_container{
+				padding: 0vmax 5vmin !important;
+			}
 			.star-ratings {
 			  color: #aaa9a9; 
 			  position: relative;

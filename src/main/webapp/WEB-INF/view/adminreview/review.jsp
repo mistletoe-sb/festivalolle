@@ -44,7 +44,10 @@
 			<div class="input-group" style ="width:100px; float:left; height:100%;">
 				<div style ="float:right;">
 		         	<select name="titleList" id="titleList"  class="form-control bg-light border-0 small" aria-label="Default select example" style ="float:right; width:15.625rem;"></select>
-		         	<input type="hidden" id="titleListInput" value="0" />
+		         	<c:choose>
+		         		<c:when test="${empty festivalCode}"><input type="hidden" id="titleListInput" value="0" /></c:when>
+		         		<c:otherwise><input type="hidden" id="titleListInput" value="${festivalCode}" /></c:otherwise>
+		         	</c:choose>
 		        </div>
 			</div>
 			</div>
@@ -67,7 +70,7 @@
 			</tr>
 		</thead>
 		<tbody class="text-center" id="contents">
-			<c:forEach items="${reviewList}" var="reviewList">
+			<%-- <c:forEach items="${reviewList}" var="reviewList">
 				<tr>
 				<c:set var = "status" value = "${reviewList.status}"/>		
 					<c:choose>
@@ -83,7 +86,7 @@
 					<td>${reviewList.writeDate}</td>
 					<td>${reviewList.title}</td>
 				</tr>
-			</c:forEach>
+			</c:forEach> --%>
 		</tbody>
 	</table>
 	</div>
@@ -121,7 +124,7 @@ $(document).ready(function() {
         data: { titleyear: titleyear }, // 서버로 보낼 데이터
         dataType: "json",
         success: function(data) {
-        		$("#titleList").append("<option selected> 축제를 선택 해주세요. </option>");
+        		$("#titleList").append('<option value="0" selected> 축제를 선택 해주세요. </option>');
             	$.each(data, function(index, item) {
             	$("#titleList").append("<option value='" +item.festivalCode+ "'>" +item.title + "</option>");
             });
@@ -149,7 +152,7 @@ $(document).ready(function() {
 		});
 		
 		/* --- 전체 리스트 생성 --- */
-			getPage();
+		getPage();
 });
 		/* --- 연도 리스트 생성 --- */
 		function getYears(getY){
@@ -176,7 +179,7 @@ $(document).ready(function() {
 		        data: { titleyear: titleyear }, // 서버로 보낼 데이터
 		        dataType: "json",
 		        success: function(data) {
-		        	$("#titleList").append("<option > 축제를 선택 해주세요. </option>");
+		        	$("#titleList").append('<option value="0"> 축제를 선택 해주세요. </option>');
 		        	$.each(data, function(index, reviewList) {
 		        	$("#titleList").append("<option value='" +reviewList.festivalCode+ "'>" +reviewList.title + "</option>");
 		            });

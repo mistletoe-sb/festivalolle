@@ -189,9 +189,6 @@ public class FestivalMainController {
 		int week = 0;							// 현재 주차
 		LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
 		
-		LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
-		LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
-		
 		// 현재 주차 계산
 		for(int i = 0; i < weekData.length; i++) {
 			if(today.compareTo(weekData[i][0]) >= 0 && today.compareTo(weekData[i][1]) <= 0) {
@@ -202,8 +199,8 @@ public class FestivalMainController {
 		
 		// 지역 목록
 		model.addAttribute("locationList", 
-				festivalMainService.selectFestivalLocationList(startDayOfMonth.toString(),
-															endDayOfMonth.toString()));
+				festivalMainService.selectFestivalLocationList(weekData[week][0].toString(),
+															weekData[week][1].toString()));
 		// 표시할 축제 목록
 		model.addAttribute("defaultList",
 				festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),
@@ -229,7 +226,6 @@ public class FestivalMainController {
 		// 조회한 축제 목록(지역 선택 안 할 경우 전체 지역 선택으로 간주)
 		if(location.equals("지역")) {
 			LocalDate[][] weekData = getWeekOfMonth(month);	// 현재 월의 주차 정보 계산
-			
 			LocalDate startDayOfMonth = weekData[0][0];					// 해당 월의 첫 날
 			LocalDate endDayOfMonth = weekData[weekData.length - 1][1];	// 해당 월의 마지막 날
 			festivalMainVOList = festivalMainService.selectFestivalScheduleList(FestivalStatus.NOT_HIDE.ordinal(),

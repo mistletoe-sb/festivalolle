@@ -45,10 +45,10 @@
 										</form>
 										
 										<div class="text-center">	
-											<a class="small a-mobile" href="./findid">아이디 찾기</a>
+											<a class="small a-mobile" href="<c:url value='/findid'/>">아이디 찾기</a>
 										</div>
 										<div class="text-center">
-											<a class="small a-mobile" href="./findpw">비밀번호 변경</a>
+											<a class="small a-mobile" href="<c:url value='/findpw'/>">비밀번호 변경</a>
 										</div>
 										<div class="text-center">
 											<a class="small a-mobile" href="<c:url value='/join'/>">회원 가입</a>
@@ -111,7 +111,7 @@
 						data: {id: id, password: password},
 						success: function(data){
 							if(data == 'ok'){
-								window.location.replace("/festivalolle/home");																				
+								window.location.replace("<c:url value='/home'/>");																				
 							} else {
 								$('#loginAlert').modal();
 								swal('', "아이디, 비밀번호를 확인해주세요.", 'warning');
