@@ -1,0 +1,218 @@
+-- festivalolle 계정에서 실행
+
+-- 테이블 삭제
+DROP TABLE member CASCADE CONSTRAINTS PURGE;
+DROP TABLE festival CASCADE CONSTRAINTS PURGE;
+DROP TABLE ticket CASCADE CONSTRAINTS PURGE;
+DROP TABLE festival_review CASCADE CONSTRAINTS PURGE;
+DROP TABLE bookmark CASCADE CONSTRAINTS PURGE;
+DROP TABLE festival_image CASCADE CONSTRAINTS PURGE;
+DROP TABLE admin CASCADE CONSTRAINTS PURGE;
+DROP TABLE organization CASCADE CONSTRAINTS PURGE;
+
+-- 시퀀스 삭제
+DROP SEQUENCE member_code_seq;
+DROP SEQUENCE festival_code_seq;
+DROP SEQUENCE ticket_code_seq;
+DROP SEQUENCE festival_review_code_seq;
+DROP SEQUENCE bookmark_code_seq;
+DROP SEQUENCE festival_image_code_seq;
+DROP SEQUENCE admin_code_seq;
+DROP SEQUENCE organization_code_seq;
+
+-- 회원 테이블 생성
+CREATE TABLE member(
+	member_code NUMBER(13,0), -- 회원 코드
+	id VARCHAR2(50), -- 아이디
+	password VARCHAR2(50), -- 비밀번호
+	name VARCHAR2(50), -- 이름
+	mobile VARCHAR2(50), -- 휴대폰번호(000-0000-0000형식)
+	birth VARCHAR2(50), -- 생년월일
+	gender NUMBER(1,0), -- 성별(남성은 1, 여성은 2)
+	status NUMBER(1,0) DEFAULT 0 -- 회원 상태(가입 상태는 0, 탈퇴 상태는 1)
+);
+-- 회원 테이블 제약조건 지정
+ALTER TABLE member MODIFY member_code CONSTRAINT MEM_MEM_CODE_PK PRIMARY KEY;
+ALTER TABLE member MODIFY id CONSTRAINT MEM_ID_NN NOT NULL;
+ALTER TABLE member MODIFY id CONSTRAINT MEM_ID_UK UNIQUE;
+ALTER TABLE member MODIFY password CONSTRAINT MEM_PW_NN NOT NULL;
+ALTER TABLE member MODIFY name CONSTRAINT MEM_NAME_NN NOT NULL;
+ALTER TABLE member MODIFY mobile CONSTRAINT MEM_MOBILE_NN NOT NULL;
+ALTER TABLE member MODIFY mobile CONSTRAINT MEM_MOBILE_UK UNIQUE;
+ALTER TABLE member MODIFY gender CONSTRAINT MEM_GENDER_CK CHECK(gender IN(1,2));
+ALTER TABLE member MODIFY status CONSTRAINT MEM_STAT_NN NOT NULL;
+ALTER TABLE member MODIFY status CONSTRAINT MEM_STAT_CK CHECK(status IN(0,1));
+
+-- 축제 테이블 생성
+CREATE TABLE festival(
+	festival_code NUMBER(13,0), -- 축제 코드
+	title VARCHAR2(4000), -- 축제명
+	state_name VARCHAR2(200), -- 지역명(시/도 단위, API 활용해서 값 가져옴)
+	city_name VARCHAR2(200), -- 지역명(시/군/구 단위, API 활용해서 값 가져옴)
+	address VARCHAR2(4000), -- 상세주소
+	start_date VARCHAR2(50), -- 시작일자
+	end_date VARCHAR2(50), -- 종료일자(입장권 사용기한으로도 사용)
+	fee NUMBER(10,0), -- 입장료
+	url VARCHAR2(4000), -- 홈페이지 URL
+	organization_code NUMBER(13,0), -- 기관 코드
+	telephone VARCHAR2(50), -- 전화번호
+	admin_name VARCHAR2(50), -- 담당자명
+	detail VARCHAR2(4000), -- 상세설명
+	tags VARCHAR2(4000), -- 태그(공백으로 태그끼리 구분)
+	register_date VARCHAR2(50) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD'), -- 등록일자
+	status NUMBER(1,0) -- 축제 상태(숨김 상태 0, 진행중 1, 진행예정 2, 완료 3)
+);
+-- 축제 테이블 제약조건 지정
+ALTER TABLE festival MODIFY festival_code CONSTRAINT FES_FES_CODE_PK PRIMARY KEY;
+ALTER TABLE festival MODIFY title CONSTRAINT FES_TITLE_NN NOT NULL;
+ALTER TABLE festival MODIFY state_name CONSTRAINT FES_STATE_NAME_NN NOT NULL;
+ALTER TABLE festival MODIFY city_name CONSTRAINT FES_CITY_NAME_NN NOT NULL;
+ALTER TABLE festival MODIFY address CONSTRAINT FES_ADDRESS_NN NOT NULL;
+ALTER TABLE festival MODIFY start_date CONSTRAINT FES_START_DATE_NN NOT NULL;
+ALTER TABLE festival MODIFY end_date CONSTRAINT FES_END_DATE_NN NOT NULL;
+ALTER TABLE festival MODIFY fee CONSTRAINT FES_FEE_NN NOT NULL;
+ALTER TABLE festival MODIFY organization_code CONSTRAINT FES_ORG_CODE_NN NOT NULL;
+ALTER TABLE festival MODIFY admin_name CONSTRAINT FES_ADM_NAME_NN NOT NULL;
+ALTER TABLE festival MODIFY register_date CONSTRAINT FES_REGISTER_DATE_NN NOT NULL;
+ALTER TABLE festival MODIFY status CONSTRAINT FES_STAT_NN NOT NULL;
+ALTER TABLE festival MODIFY status CONSTRAINT FES_STAT_CK CHECK(status BETWEEN 0 AND 3);
+
+-- 입장권 테이블 생성
+CREATE TABLE ticket(
+	ticket_code NUMBER(13,0), -- 입장권 코드
+	member_code NUMBER(13,0), -- 회원 코드
+	festival_code NUMBER(13,0), -- 축제 코드
+	head_count NUMBER(2,0) DEFAULT 1, -- 사용인원(1~99)
+	fee NUMBER(10,0), -- 입장료(해당 축제의 fee 값을 그대로 이용)
+	coupon_amount NUMBER(10,0), -- 쿠폰금액(0,1500,3000,5000원)
+	purchase_time VARCHAR2(50) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), -- 구매일시(초 단위까지)
+	payment_time VARCHAR2(50), -- 결제일시(초 단위까지)
+	entrance_time VARCHAR2(50), -- 입장일시(초 단위까지)
+	coupon_use_time VARCHAR2(50) -- 쿠폰사용일시(초 단위까지)
+);
+-- 입장권 테이블 제약조건 지정
+ALTER TABLE ticket MODIFY ticket_code CONSTRAINT TIC_TIC_CODE_PK PRIMARY KEY;
+ALTER TABLE ticket MODIFY member_code CONSTRAINT TIC_MEM_CODE_NN NOT NULL;
+ALTER TABLE ticket MODIFY festival_code CONSTRAINT TIC_FES_CODE_NN NOT NULL;
+ALTER TABLE ticket MODIFY head_count CONSTRAINT TIC_HEAD_CNT_NN NOT NULL;
+ALTER TABLE ticket MODIFY head_count CONSTRAINT TIC_HEAD_CNT_CK CHECK(head_count BETWEEN 1 AND 99);
+ALTER TABLE ticket MODIFY fee CONSTRAINT TIC_FEE_NN NOT NULL;
+ALTER TABLE ticket MODIFY coupon_amount CONSTRAINT TIC_COUP_AMOUNT_CK CHECK(coupon_amount IN(0,1500,3000,5000));
+ALTER TABLE ticket MODIFY purchase_time CONSTRAINT TIC_PURCHASE_TIME_NN NOT NULL;
+
+-- 축제 리뷰 테이블 생성
+CREATE TABLE festival_review(
+	festival_review_code NUMBER(13,0), -- 축제 리뷰 코드
+	member_code NUMBER(13,0), -- 회원 코드
+	festival_code NUMBER(13,0), -- 축제 코드
+	write_date VARCHAR2(50) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD'), -- 작성일자
+	content VARCHAR2(4000), -- 내용
+	rating NUMBER(1,0), -- 평점(1,2,3,4,5 중 하나의 값)
+	status NUMBER(1,0) DEFAULT 0 -- 리뷰 상태(정상 상태 0, 신고 상태 1, 블라인드 처리 상태 2)
+);
+-- 축제 리뷰 테이블 제약조건 지정
+ALTER TABLE festival_review MODIFY festival_review_code CONSTRAINT FES_REV_FES_REV_CODE_PK PRIMARY KEY;
+ALTER TABLE festival_review MODIFY member_code CONSTRAINT FES_REV_MEM_CODE_NN NOT NULL;
+ALTER TABLE festival_review MODIFY festival_code CONSTRAINT FES_REV_FES_CODE_NN NOT NULL;
+ALTER TABLE festival_review MODIFY write_date CONSTRAINT FES_REV_WRITE_DATE_NN NOT NULL;
+ALTER TABLE festival_review MODIFY rating CONSTRAINT FES_REV_RATING_NN NOT NULL;
+ALTER TABLE festival_review MODIFY rating CONSTRAINT FES_REV_RATING_CK CHECK(rating BETWEEN 1 AND 5);
+ALTER TABLE festival_review MODIFY status CONSTRAINT FES_REV_STAT_NN NOT NULL;
+ALTER TABLE festival_review MODIFY status CONSTRAINT FES_REV_STAT_CK CHECK(status IN(0,1,2));
+
+-- 북마크 테이블 생성
+CREATE TABLE bookmark(
+	bookmark_code NUMBER(13,0), -- 북마크 코드
+	member_code NUMBER(13,0), -- 회원 코드
+	festival_code NUMBER(13,0) -- 축제 코드
+);
+-- 북마크 테이블 제약조건 지정
+ALTER TABLE bookmark MODIFY bookmark_code CONSTRAINT BOO_BOO_CODE_PK PRIMARY KEY;
+ALTER TABLE bookmark MODIFY member_code CONSTRAINT BOO_MEM_CODE_NN NOT NULL;
+ALTER TABLE bookmark MODIFY festival_code CONSTRAINT BOO_FES_CODE_NN NOT NULL;
+
+-- 축제 이미지 테이블 생성
+CREATE TABLE festival_image(
+	festival_image_code NUMBER(13,0), -- 축제 이미지 코드
+	festival_code NUMBER(13,0), -- 축제 코드
+	file_name VARCHAR2(4000), -- 이미지 파일명
+	image BLOB, -- 이미지 원본
+	thumbnail BLOB -- 이미지 썸네일
+);
+-- 축제 이미지 테이블 제약조건 지정
+ALTER TABLE festival_image MODIFY festival_image_code CONSTRAINT FES_IMA_FES_IMA_CODE_PK PRIMARY KEY;
+ALTER TABLE festival_image MODIFY festival_code CONSTRAINT FES_IMA_FES_CODE_NN NOT NULL;
+ALTER TABLE festival_image MODIFY file_name CONSTRAINT FES_IMA_FILE_NAME_NN NOT NULL;
+ALTER TABLE festival_image MODIFY file_name CONSTRAINT FES_IMA_FILE_NAME_UK UNIQUE;
+
+-- 관리자 테이블 생성
+CREATE TABLE admin(
+   admin_code NUMBER(13,0), -- 관리자 코드
+   id VARCHAR2(50), -- 아이디
+   password VARCHAR2(50), -- 비밀번호
+   organization_code NUMBER(13,0), -- 기관 코드
+   name VARCHAR2(50), -- 관리자명
+   telephone VARCHAR2(50), -- 연락처
+   email VARCHAR2(200), -- 이메일
+   request_time VARCHAR2(50) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), -- 요청 일시
+   approve_time VARCHAR2(50), -- 승인 일시
+   status NUMBER(1,0) DEFAULT 1 -- 관리자 상태(서비스 관리자 0, 가입 요청 상태 1, 가입 승인 상태 2)
+);
+-- 관리자 테이블 제약조건 지정
+ALTER TABLE admin MODIFY admin_code CONSTRAINT ADM_ADM_CODE_PK PRIMARY KEY;
+ALTER TABLE admin MODIFY id CONSTRAINT ADM_ID_NN NOT NULL;
+ALTER TABLE admin MODIFY id CONSTRAINT ADM_ID_UK UNIQUE;
+ALTER TABLE admin MODIFY password CONSTRAINT ADM_PW_NN NOT NULL;
+ALTER TABLE admin MODIFY organization_code CONSTRAINT ADM_ORG_CODE_NN NOT NULL;
+ALTER TABLE admin MODIFY name CONSTRAINT ADM_NAME_NN NOT NULL;
+ALTER TABLE admin MODIFY telephone CONSTRAINT ADM_TEL_NN NOT NULL;
+ALTER TABLE admin MODIFY telephone CONSTRAINT ADM_TEL_UK UNIQUE;
+ALTER TABLE admin MODIFY email CONSTRAINT ADM_EMAIL_NN NOT NULL;
+ALTER TABLE admin MODIFY email CONSTRAINT ADM_EMAIL_UK UNIQUE;
+ALTER TABLE admin MODIFY request_time CONSTRAINT ADM_REQ_TIME_NN NOT NULL;
+ALTER TABLE admin MODIFY status CONSTRAINT ADM_STAT_NN NOT NULL;
+ALTER TABLE admin MODIFY status CONSTRAINT ADM_STAT_CK CHECK(status BETWEEN 0 AND 4);
+
+-- 기관 테이블 생성
+CREATE TABLE organization(
+   organization_code NUMBER(13,0), -- 기관 코드
+   organization_name VARCHAR2(200), -- 기관명
+   address VARCHAR2(4000) -- 상세주소
+);
+-- 기관 테이블 제약조건 지정
+ALTER TABLE organization MODIFY organization_code CONSTRAINT ORG_ORG_CODE_PK PRIMARY KEY;
+ALTER TABLE organization MODIFY organization_name CONSTRAINT ORG_ORG_NAME_NN NOT NULL;
+ALTER TABLE organization MODIFY organization_name CONSTRAINT ORG_ORG_NAME_UK UNIQUE;
+ALTER TABLE organization MODIFY address CONSTRAINT ORG_ADDRESS_NN NOT NULL;
+
+-- 다중 Column UK 지정
+ALTER TABLE festival_review ADD CONSTRAINT FES_REV_MEM_CODE_FES_CODE_UK UNIQUE(member_code, festival_code);
+ALTER TABLE bookmark ADD CONSTRAINT BOO_MEM_CODE_FES_CODE_UK UNIQUE(member_code, festival_code);
+
+-- 외래키 지정
+ALTER TABLE festival MODIFY organization_code CONSTRAINT fes_org_code_fk REFERENCES organization(organization_code);
+
+ALTER TABLE ticket MODIFY member_code CONSTRAINT tic_mem_code_fk REFERENCES member(member_code);
+ALTER TABLE ticket MODIFY festival_code CONSTRAINT tic_fes_code_fk REFERENCES festival(festival_code);
+
+ALTER TABLE festival_review MODIFY member_code CONSTRAINT fes_rev_mem_code_fk REFERENCES member(member_code);
+ALTER TABLE festival_review MODIFY festival_code CONSTRAINT fes_rev_fes_code_fk REFERENCES festival(festival_code);
+
+ALTER TABLE bookmark MODIFY member_code CONSTRAINT boo_mem_code_fk REFERENCES member(member_code);
+ALTER TABLE bookmark MODIFY festival_code CONSTRAINT boo_fes_code_fk REFERENCES festival(festival_code);
+
+ALTER TABLE festival_image MODIFY festival_code CONSTRAINT fes_ima_fes_code_fk REFERENCES festival(festival_code);
+
+ALTER TABLE admin MODIFY organization_code CONSTRAINT adm_org_code_fk REFERENCES organization(organization_code);
+
+-- 시퀀스 생성
+CREATE SEQUENCE member_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE festival_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE ticket_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE festival_review_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE bookmark_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE festival_image_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE admin_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+CREATE SEQUENCE organization_code_seq START WITH 1 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+SELECT * FROM TAB;

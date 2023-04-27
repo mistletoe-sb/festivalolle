@@ -1,0 +1,7 @@
+CREATE OR REPLACE VIEW v_ticketvalidate AS
+SELECT t.ticket_code, t.member_code, t.festival_code, f.title, m.name, m.mobile, 
+t.head_count, t.coupon_amount, t.entrance_time, t.coupon_use_time
+FROM		ticket t JOIN festival f
+ON		(t.festival_code =  f.festival_code)
+JOIN		member m
+ON		(t.member_code = m.member_code)

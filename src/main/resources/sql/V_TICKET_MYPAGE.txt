@@ -1,0 +1,8 @@
+CREATE OR REPLACE VIEW v_ticket_mypage AS
+SELECT t.ticket_code, t.member_code, t.festival_code, t.head_count, t.fee, t.coupon_amount, t.purchase_time, t.payment_time, t.entrance_time, t.coupon_use_time, m.id, m.password, m.name, m.mobile, m.birth, m.gender, f.status, f.title, f.address, f.start_date, f.end_date, i.image, i.thumbnail
+FROM ((ticket t join member m
+ON t.member_code = m.member_code)
+join festival f
+on t.festival_code = f.festival_code)
+join festival_image i
+on t.festival_code = i.festival_code

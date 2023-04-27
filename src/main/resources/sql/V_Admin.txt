@@ -1,0 +1,7 @@
+CREATE OR REPLACE VIEW v_admin
+AS
+SELECT   a.admin_code, a.id, a.password, a.organization_code, 
+            a.name, a.telephone, a.email, a.request_time, 
+            a.approve_time, a.status, o.organization_name, o.address
+FROM        admin a JOIN organization o
+ON          (a.organization_code = o.organization_code)
