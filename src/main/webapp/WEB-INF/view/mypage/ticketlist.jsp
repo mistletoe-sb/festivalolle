@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -65,6 +66,11 @@
 	</head>
 	<body>
 		<%@ include file="../mobilemenu/mobiletop.jsp"%>
+		<c:if test="${fn:length(selectTicketList) == 0}">
+			<div id="mypageTicketLayout" class="default_list_layout">
+				<div class="no_result">구매한 티켓이 없습니다.</div>
+			</div>
+		</c:if>
 		<div class="container-fluid review_card_container" style="margin-top : 0.5rem;">
 			<c:forEach var="fes" items="${selectTicketList}" varStatus="stat">
 				<div class="card" style="max-width: 33.75rem; margin-bottom: 0.5rem; border: 0.0625rem solid #DDDDDD;">
