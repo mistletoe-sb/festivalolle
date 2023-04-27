@@ -1458,6 +1458,11 @@ textarea::placeholder, input::placeholder {
 	min-width: 40%;
 }
 
+/* 나의 리뷰 페이지 레이아웃 */
+#mypageReviewLayout {
+	padding: 0vmin 5vmin;
+}
+
 /* 서비스 관련 문의 연락처 디자인 */
 #sysTel {
 	position: absolute;

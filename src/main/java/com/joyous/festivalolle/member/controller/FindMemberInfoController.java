@@ -68,7 +68,7 @@ public class FindMemberInfoController {
 	    String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
 	    MemberVO resultPw = memberService.updatePassword(password, id);
 	    model.addAttribute("resultPw", resultPw);
-	    return "redirect:/login";
+	    return "redirect:/home";
 	}//비밀번호 변경
 	
 	@GetMapping(value="/withdrawal")
@@ -109,7 +109,7 @@ public class FindMemberInfoController {
 		String id = (String)session.getAttribute("id"); // session에서 id 값 꺼냄
 		MemberVO resultPw = memberService.updatePassword(password, id);
 		model.addAttribute("resultPw", resultPw);
-		return "redirect:/login";
+		return "redirect:/home";
 	}//비밀번호 변경
 	
 
@@ -167,7 +167,7 @@ public class FindMemberInfoController {
 			String password = vo.getPassword();
 			memberService.updatePassword(memberCode,password);
 			session.invalidate();
-			return "redirect:/login";
+			return "redirect:/home";
 		}
 		
 		//=============================================================================================	
@@ -183,7 +183,7 @@ public class FindMemberInfoController {
 			int memberCode = memberVO.getMemberCode();
 			memberService.updateStatus(memberCode);
 			session.invalidate();
-			return "redirect:/login";
+			return "redirect:/home";
 		}
 	
 }

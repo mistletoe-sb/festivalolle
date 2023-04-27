@@ -107,6 +107,10 @@ $(document).ready(function(){
 		case '마이페이지':
 			$('#mypageQuick').attr('class', 'selected_bottom_menu');
 			break;
+		case '회원정보':
+			isDefaultBack = false;
+			location.replace(root + '/mypage');
+			break;
 		default:
 			break;
 	}
@@ -412,8 +416,8 @@ $(document).ready(function(){
 	}
 	
 	// 축제 리뷰 초기 로딩
+	var isReviewAlreadyInitLoad = false;
 	if($('.review_list_layout').length){
-		var isReviewAlreadyInitLoad = false;
 		$(window).on('scroll',function(){
 			if(checkVisible($('#review')) && !isReviewAlreadyInitLoad){
 				var paramData = {'festivalCode':$('.fes_code').val(), 'lastReviewCode':'0'}
@@ -443,6 +447,42 @@ $(document).ready(function(){
 				isReviewAlreadyInitLoad = true;
 			}
 		});		
+	}
+	
+	// 나의 리뷰 초기 로딩
+	if($('#mypageReviewLayout').length){
+		var paramData = {'lastReviewCode':'0'}
+		// AJAX 호출
+		$.ajax({
+			url: root + '/mypage/reviewlist/more',	// 요청 URL
+			type: 'POST', 						// POST 방식으로 요청
+			contentType: 'application/json',	// Json 타입으로 데이터 전송
+			data: JSON.stringify(paramData),	// 서버로 보낼 데이터
+			dataType: 'json',
+			success: function(data){
+				var reviewList = data.festivalReviewList;
+				if(data.dataStatus == 'NORMAL_TRUE'){							
+					// 리뷰 목록 출력
+					$.each(reviewList, function(index, item){
+						$('#mypageReviewLayout').append(printMypageReview(item, root));
+					});
+					// 이벤트 바인딩
+					review_btn_event(root);
+				}else if(data.dataStatus == 'NOT_SESSION'){
+					console.log('lost session');
+					location.replace(root + '/login');
+				}else{
+					console.log('불러올 데이터가 없습니다.');
+				}
+				if(reviewList.length == 0){
+					$('#mypageReviewLayout').append('<div class="no_result">작성한 리뷰가 없습니다.</div>');
+				}
+			},
+			error: function(){
+				// AJAX 요청이 실패한 경우 에러 처리
+				console.log('데이터를 불러오는데 실패했습니다.');
+			}
+		});
 	}
 	
 	// 스크롤이 바닥에 다다를 시 페이징 목록 Ajax 요청
@@ -493,6 +533,11 @@ $(document).ready(function(){
 						paramData = {'lastBookmarkCode':$('.bookmark_code').last().val()};
 						appendPoint = $('.default_list_2x_layout');
 						break;
+					case '나의 리뷰':
+						requestUrl = root + '/mypage/reviewlist/more';
+						paramData = {'lastReviewCode':$('.review_code').last().val()};
+						appendPoint = $('#mypageReviewLayout');
+						break;
 					default:
 						isAjaxPossible = false;
 						break;
@@ -537,7 +582,11 @@ $(document).ready(function(){
 								}else if(dataClass == 'review'){	// 응답 데이터가 리뷰 목록일 경우
 									var review = data.festivalReviewList;
 									$.each(review, function(index, item){
-										appendPoint.append(printReview(item, root));
+										if(data.dataOption == 'mypage'){	// 옵션이 마이페이지인 경우
+											appendPoint.append(printMypageReview(item, root));
+										}else{
+											appendPoint.append(printReview(item, root));											
+										}
 										//console.log(item.festivalReviewCode);
 									});
 									review_btn_event(root);	// 리뷰 버튼 이벤트 바인딩
@@ -546,6 +595,10 @@ $(document).ready(function(){
 										isMoreData = false;
 									}
 								}
+							}else if(data.dataStatus == 'NOT_SESSION'){
+								console.log('lost session');
+								isMoreData = false;
+								location.replace(root + '/login');
 							}else{
 								console.log('불러올 목록이 없습니다.');
 								isMoreData = false;
@@ -684,32 +737,6 @@ function printFestivalCard(fes, pageRoot){
 	appendHTML += '</div></div></div></div></div></div>';
 	return appendHTML;
 }
-
-// 주차 별 축제 일정 정보 레이아웃 요소 생성
-/*function printCalendar(month, weekData, weekDataImages, pageRoot){
-	var appendHTML = '';
-	$.each(weekData, function(index, item){
-		var images = weekDataImages[index];
-		if(index == 1){
-			appendHTML += '<input class="folding_active" type="hidden" value="active">';
-		}else{
-			appendHTML += '<input class="folding_active" type="hidden" value="hide">';
-		}
-		appendHTML += '<div class="week_bar">';
-		appendHTML += '<h3>' + month + '월 ' + index + '주</h3>';
-		appendHTML += '</div>';
-		if(index == 1){
-			appendHTML += '<div class="default_list_layout folding_space">';
-		}else{
-			appendHTML += '<div class="default_list_layout folding_space" hidden="true">';
-		}
-		$.each(item, function(i, fes){
-			appendHTML += printFestivalCard(fes, images[i], pageRoot);
-		});
-		appendHTML += '</div>';
-	});
-	return appendHTML;
-}*/
 
 // 북마크 여부 확인 요청
 function requestCheckBookmark(festivalCode, pageRoot){
@@ -954,6 +981,44 @@ function printReview(item, pageRoot){
 	appendHTML += '<div class="multi_line_text"><p class="review_content">' + item.content + '</p></div>';
 	appendHTML += '</div>';
 	appendHTML += '<div class="review_btn_layout"><p class="card-text report_review">신고</p>';
+	appendHTML += '<input type="hidden" class="review_code" value="' + item.festivalReviewCode + '">';
+	appendHTML += '</div></div></div></div>';
+		
+	return appendHTML;
+}
+
+// 나의 리뷰(마이페이지) 레이아웃 요소 생성
+function printMypageReview(item, pageRoot){
+	var appendHTML = '';
+	appendHTML += '<div class="review_card_container">';
+	appendHTML += '<div class="card">';
+	appendHTML += '<div class="card-body">';
+	appendHTML += '<div class="review_body">';
+	appendHTML += '<div class="review_name"><p class="card-text">' + item.title + '</p></div>';
+	appendHTML += '<div class="review_sub">';
+	appendHTML += '<div class="rating_layout">';
+	for(var i = 1; i <= item.rating; i++){
+		appendHTML += '<div class="icon_layout rating_img">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon.png" alt="' + i + '">';
+		appendHTML += '<i class="fa-solid fa-star fill_star"></i>';		
+		appendHTML += '</div>';
+	}
+	for(var j = item.rating + 1; j <= 5; j++){
+		appendHTML += '<div class="icon_layout rating_img">';
+		//appendHTML += '<img src="' + pageRoot + '/resources/img/icon/rating_icon_empty.png" alt="' + j + '">';
+		appendHTML += '<i class="fa-solid fa-star empty_star"></i>';
+		appendHTML += '</div>';
+	}
+	appendHTML += '</div>';
+	appendHTML += '<div class="day_for_write"><p>' + timeForToday(item.writeDate) + '</p></div>';
+	appendHTML += '</div>';
+	if(item.status != 2){	// 정상 표시되는 리뷰 + 신고된 리뷰(블라인드 처리되기 전)
+		appendHTML += '<div class="multi_line_text"><p class="review_content">' + item.content + '</p></div>';
+	}else{		// 블라인드 처리된 리뷰
+		appendHTML += '<div class="multi_line_text"><p class="review_blind">블라인드 처리된 리뷰입니다.</p></div>';
+	}
+	appendHTML += '</div>';
+	appendHTML += '<div class="review_btn_layout"><p class="card-text delete_review">삭제</p>';
 	appendHTML += '<input type="hidden" class="review_code" value="' + item.festivalReviewCode + '">';
 	appendHTML += '</div></div></div></div>';
 		
@@ -1274,8 +1339,8 @@ function checkVisible(checkElement){
 }
 
 // Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
-function ajaxResponseExecuteFull(data, trueCallback, falseCallback, errorCallback, notSessionCallback){
-	switch(data){
+function ajaxResponseExecuteFull(dataStatus, trueCallback, falseCallback, errorCallback, notSessionCallback){
+	switch(dataStatus){
 		case 'NORMAL_TRUE':
 			trueCallback();
 			break;
@@ -1291,8 +1356,8 @@ function ajaxResponseExecuteFull(data, trueCallback, falseCallback, errorCallbac
 	}
 }
 // Ajax 응답 데이터에 따라 선택적으로 함수 실행하는 함수
-function ajaxResponseExecuteTriple(data, trueCallback, errorCallback, notSessionCallback){
-	switch(data){
+function ajaxResponseExecuteTriple(dataStatus, trueCallback, errorCallback, notSessionCallback){
+	switch(dataStatus){
 		case 'NORMAL_TRUE':
 			trueCallback();
 			break;

@@ -85,6 +85,7 @@
                                     <input type="text" class="form-control form-control-user" id="organization_name"
                                         placeholder="기관명" list="organizationSearch" autocomplete="off" required>
                                     <datalist id="organizationSearch">
+                                    	<%--
                                     	<option value="서울특별시청"/>
                                     	<option value="부산광역시청"/>
                                     	<option value="대구광역시동인청사"/>
@@ -95,7 +96,8 @@
                                     	<option value="세종특별자치시청"/>
                                     	<option value="경기도청"/>
                                     	<option value="경기도북부청사"/>
-                                    	<option value="강원도청"/>                                         
+                                    	<option value="강원도청"/> 
+                                    	--%>                                        
                                     </datalist>
                                         
                                     
@@ -135,6 +137,25 @@
 
 
 	<script>
+	$(document).ready(function(){
+		var requestUrl = "<c:url value='/organization/namelist'/>"
+		// AJAX 호출
+		$.ajax({
+			url: requestUrl,				// 요청 URL
+			type: 'GET', 					// GET 방식으로 요청
+			dataType: 'json',
+			success: function(data){
+				$.each(data, function(index, item){
+					$('#organizationSearch').append('<option value="' + item + '"/>');
+				});
+			},
+			error: function(){
+				// AJAX 요청이 실패한 경우 에러 처리
+				console.log('데이터를 불러오는데 실패했습니다.');
+			}
+		});
+	});
+	
 	/* 관리자 등록 신청 */
 	$("#registerAdmin").click(function(){	
 		var register_id = $('#register_id').val();
