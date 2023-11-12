@@ -59,15 +59,4 @@ KOSA Final Project of Team Joyous
     
     + workspace_joyous : workspace 경로
     
-      + festivalolle
-  
-## 사용 방법
-
-본 프로젝트는 Amazon EC2에 tomcat 서버를 구축하여 프로젝트 war 파일을 배포한 상태이므로
-
-아래 url로 접속 가능합니다.
-
-
-+ 모바일 홈페이지 - http://fesolle.kro.kr:8080/festivalolle
-
-+ 관리자 페이지 - http://fesolle.kro.kr:8080/festivalolle/admin 
+      + festivalolle 
