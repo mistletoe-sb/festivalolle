@@ -371,7 +371,7 @@ $(document).ready(function(){
 		// 입장권 생성
 		$('#ticket_submit').on('click', function(){
 			var inputValue = $('#headCount').val();	// 입력된 값
-			var status = $('#fes_status>button').attr('id').replace('fesStat_','');
+			var status = $('#fes_info_title>div:last-child>button').attr('id').replace('fesStat_','');
 			//console.log(status);
 			if(status == 0){
 				swal({text: "비공개 처리된 축제입니다.\n구매를 취소하고, 홈화면으로 이동합니다.", icon: "warning", button: "확인"})
